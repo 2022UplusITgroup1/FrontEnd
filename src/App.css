@@ -1,0 +1,15 @@
+body {
+  overflow: auto;
+  width: 100%;
+  background-color: #fff;
+  font-family: "nskr", -apple-system, "droid sans fallback",
+    "Apple SD Gothic Neo", "AppleGothic", "Malgun Gothic", "맑은 고딕", Dotum,
+    "돋움", sans-serif;
+  font-weight: 100;
+  color: #000;
+  line-height: 1.5;
+  letter-spacing: -0.02em;
+  word-break: keep-all;
+  word-wrap: break-word;
+  -webkit-font-smoothing: antialiased;
+}
