@@ -10,6 +10,7 @@
   display: flex;
   word-wrap: break-word;
   flex-wrap: nowrap;
+  justify-content: space-between;
 }
 
 .Options {
@@ -18,4 +19,10 @@
 }
 
 .ItemList {
+  width: 100%;
+}
+
+.RecentlyViewed {
+  float: right;
+  width: 200px;
 }

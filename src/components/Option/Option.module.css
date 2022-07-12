@@ -1,0 +1,15 @@
+.Container {
+}
+
+.RatePlan > :last-child {
+}
+
+.MoreBtn {
+  width: 70%;
+  cursor: pointer;
+}
+
+.Modal {
+  width: 100%;
+  height: 800px;
+}

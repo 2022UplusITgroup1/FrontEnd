@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from "./Product.module.css";
-import { Box, Image } from "@chakra-ui/react";
+import { Link } from "react-router-dom";
+import { Box, Image, Button } from "@chakra-ui/react";
 
 function Product() {
   const property = {
@@ -16,42 +17,51 @@ function Product() {
     rating: 4,
   };
   return (
-    <div className={styles.Container}>
-      <Box maxW="sm" borderWidth="1px" borderRadius="lg" overflow="hidden">
-        <Image
-          className={styles.ProductImg}
-          src={property.imageUrl}
-          alt={property.imageAlt}
-        />
+    <Box
+      className={styles.Container}
+      maxW="sm"
+      borderWidth="1px"
+      borderRadius="lg"
+      overflow="hidden"
+    >
+      <Link to="/detail" style={{ textDecoration: "none" }}>
+        <Box className={styles.BoxTop}>
+          <Box className={styles.ImgBox}>
+            <Image
+              className={styles.ProductImg}
+              src={property.imageUrl}
+              alt={property.imageAlt}
+            />
+          </Box>
+          <Box className={styles.ProductTitle}>{property.title}</Box>
+          <Box className={styles.ProductSubTitle}>{property.subTitle}</Box>
+        </Box>
+      </Link>
 
-        <Box p="6">
-          <Box
-            mt="1"
-            fontWeight="bold"
-            fontSize="large"
-            lineHeight="tight"
-            noOfLines={1}
-          >
-            {property.title}
-          </Box>
-          <Box fontSize="x-small">{property.subTitle}</Box>
-          <Box>
-            <Box fontSize="small">휴대폰 월 {property.phone}원</Box>
-            <Box fontSize="small">통신료 월 {property.communication}원</Box>
-          </Box>
-          <Box fontWeight="bold">
-            월 {property.formattedPrice}
-            <Box as="span" color="gray.600" fontSize="sm">
-              원
+      <Box className={styles.BoxBottom} p="6">
+        <Link to="/detail" style={{ textDecoration: "none" }}>
+          <Box className={styles.Price}>
+            <Box className={styles.PriceTxt}>휴대폰 월 {property.phone}원</Box>
+            <Box className={styles.PriceTxt}>
+              통신료 월 {property.communication}원
+            </Box>
+            <Box className={styles.MonthPrice}>
+              월 {property.formattedPrice}원
             </Box>
           </Box>
+        </Link>
 
-          <Box display="flex" mt="2" alignItems="center">
-            버튼
-          </Box>
+        <Box
+          className={styles.Button}
+          display="flex"
+          mt="2"
+          alignItems="center"
+        >
+          <Button className={styles.CompareBtn}>비교하기</Button>
+          <Button className={styles.OrderBtn}>주문하기</Button>
         </Box>
       </Box>
-    </div>
+    </Box>
   );
 }
 

@@ -1,7 +1,8 @@
 import React from "react";
 import styles from "./List.module.css";
-import Option from "../../components/Option";
+import Option from "../../components/Option/Option";
 import ProductList from "../../components/ProductList/ProductList";
+import RecentlyViewed from "../../components/RecentlyViewed/RecentlyViewed";
 
 function List({ category }) {
   return (
@@ -16,6 +17,9 @@ function List({ category }) {
           </div>
           <div className={styles.ItemList}>
             <ProductList category={category} />
+          </div>
+          <div className={styles.RecentlyViewed}>
+            <RecentlyViewed />
           </div>
         </div>
       </div>
