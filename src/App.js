@@ -1,9 +1,9 @@
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import Layout from "./components/Layout/Layout";
-import Main from "./pages/Main";
-import List from "./pages/List";
-import Detail from "./pages/Detail";
-import Order from "./pages/Order";
+import Main from "./pages/Main/Main";
+import List from "./pages/List/List";
+import Detail from "./pages/Detail/Detail";
+import Order from "./pages/Order/Order";
 import "./App.css";
 
 function App() {

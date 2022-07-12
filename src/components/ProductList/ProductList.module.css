@@ -1,0 +1,11 @@
+.InfoArea {
+  width: 100%;
+  min-height: 48px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.ProductList {
+  display: flex;
+  flex-wrap: wrap;
+}
