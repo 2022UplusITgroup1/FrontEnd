@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Route } from "react-router-dom";
-import Header from "./components/Header";
+import Layout from "./components/Layout/Layout";
 import Main from "./pages/Main";
 import "./App.css";
 
@@ -7,8 +7,9 @@ function App() {
   return (
     <div>
       <Router>
-        <Header />
-        <Route exact path="/" component={Main} />
+        <Layout>
+          <Route exact path="/" component={Main} />
+        </Layout>
       </Router>
     </div>
   );

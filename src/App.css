@@ -12,4 +12,5 @@ body {
   word-break: keep-all;
   word-wrap: break-word;
   -webkit-font-smoothing: antialiased;
+  height: 100%;
 }
