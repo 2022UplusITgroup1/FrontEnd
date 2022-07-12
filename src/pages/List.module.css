@@ -1,0 +1,21 @@
+.Container {
+  width: 1440px;
+  margin: 0 auto;
+}
+
+.Title {
+}
+
+.List {
+  display: flex;
+  word-wrap: break-word;
+  flex-wrap: nowrap;
+}
+
+.Options {
+  width: 240px;
+  margin-right: 32px;
+}
+
+.ItemList {
+}
