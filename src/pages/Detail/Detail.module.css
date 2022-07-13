@@ -1,0 +1,121 @@
+.Container {
+  width: 100%;
+  margin: 0;
+  min-width: 1440px;
+}
+
+.Information {
+  width: 1440px px;
+  margin: 0 auto;
+  height: 620px;
+}
+
+.ProductImg {
+  height: 620px;
+  width: 856px;
+  text-align: center;
+  position: sticky;
+  float: left;
+}
+
+.MainImg {
+}
+
+.PreviewImgs {
+  position: relative;
+  margin-top: 30px;
+  margin-left: 255px;
+  width: 370px px;
+  margin: 0 auto;
+}
+.PreviewBtn {
+  display: inline-block;
+  cursor: pointer;
+}
+.PreviewImg {
+  width: 100px;
+}
+
+/* */
+
+.ProductInfo {
+  margin-left: 875px;
+  margin-top: 32px;
+}
+
+.PriceInfo {
+  position: relative;
+  margin-top: 16px;
+  border-radius: 14px;
+  overflow: hidden;
+  background: #f5f5f5;
+  padding: 16px 40px;
+}
+
+/* 주문 버튼 */
+
+.InfoBtn {
+  display: flex;
+  margin-top: 32px;
+  justify-content: center;
+  position: relative;
+  vertical-align: middle;
+}
+
+.OrderBtn {
+  width: 276px;
+  min-width: auto;
+  padding: 0;
+  cursor: pointer;
+  color: #fff;
+  background-color: #e6007e;
+  height: 56px;
+  font-size: 18px;
+  border-radius: 28px;
+  font-weight: 400;
+}
+
+/* 주문 상세 */
+.OrderDetail {
+  position: relative;
+  margin-top: 48px;
+  border-top: 1px solid #ddd;
+}
+
+.OrderInfo {
+  margin: 0 auto;
+  padding-top: 40px;
+  padding-right: 384px;
+  width: 1440px;
+  min-height: 900px;
+}
+
+.InfoTable {
+  position: relative;
+  margin: 0;
+  table-layout: fixed;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+/* 상품 정보 컴포넌트 */
+.ProductDetail {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  margin-left: 380px;
+  padding: 24px 32px;
+  width: 342px;
+}
+
+/*
+
+  left: 1125px;
+  top: 112px;
+  max-height: calc(100% - 180px);
+  display: flex;
+  flex-direction: column;
+  z-index: 100;
+  margin-left: 0;
+  padding-right: 32px !important;
+*/
