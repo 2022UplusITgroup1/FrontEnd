@@ -1,0 +1,44 @@
+.Container {
+  display: flex;
+  margin: 0 auto;
+  width: 1440px;
+  margin-top: 48px !important;
+}
+
+.OrderInfo {
+  width: 1056px;
+}
+
+.Input {
+  display: block;
+  margin-bottom: 30px;
+}
+
+.Input > Input {
+  margin-left: 10px;
+}
+
+.Input > Button {
+}
+
+.OrderBtn {
+  width: 276px;
+  min-width: auto;
+  padding: 0;
+  cursor: pointer;
+  color: #fff;
+  background-color: #e6007e;
+  height: 56px;
+  font-size: 18px;
+  border-radius: 28px;
+  font-weight: 400;
+  border: none;
+}
+
+.OrderInfo {
+  width: 80%;
+}
+
+.ProductInfo {
+  float: right;
+}

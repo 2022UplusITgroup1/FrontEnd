@@ -13,8 +13,9 @@ function Product() {
     phone: "0",
     communication: "55,000",
     formattedPrice: "55,000",
-    reviewCount: 34,
-    rating: 4,
+    color: "라이트 블루",
+    capacity: "128GB",
+    joinType: "기기변경",
   };
   return (
     <Box

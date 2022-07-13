@@ -5,10 +5,11 @@ import List from "./pages/List/List";
 import Detail from "./pages/Detail/Detail";
 import Order from "./pages/Order/Order";
 import "./App.css";
+import { ChakraProvider } from "@chakra-ui/react";
 
 function App() {
   return (
-    <div>
+    <ChakraProvider>
       <Router>
         <Layout>
           <Route exact path="/" component={Main} />
@@ -26,7 +27,7 @@ function App() {
           <Route exact path="/order" component={Order} />
         </Layout>
       </Router>
-    </div>
+    </ChakraProvider>
   );
 }
 
