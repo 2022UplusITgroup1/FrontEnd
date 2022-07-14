@@ -33,7 +33,7 @@ function RecentlyViewed() {
           </Box>
         </GridItem>
         <Link to="/detail">
-          <GridItem pl="1" bg="pink.300" area={"img"}>
+          <GridItem pl="1" area={"img"}>
             <Box className={styles.ImgBox}>
               <Image
                 className={styles.ProductImg}

@@ -6,7 +6,7 @@ import { Select } from "@chakra-ui/react";
 function ProductList({ category }) {
   return (
     <div>
-      <div className={styles.InfoArea}>
+      <div className={styles.Container}>
         {/* 전체 개수 & 정렬 */}
         <div>전체 32건</div>
         <div className={styles.SelectSort}>

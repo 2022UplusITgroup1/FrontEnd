@@ -10,28 +10,15 @@ import {
   RadioGroup,
   Stack,
   Button,
-  useDisclosure,
-} from "@chakra-ui/react";
-import {
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
-  ModalBody,
-  ModalCloseButton,
 } from "@chakra-ui/react";
 import styles from "./Option.module.css";
 
 function Option({ category }) {
-  const [modalOpen, setModalOpen] = useState(false);
-  const [value, setValue] = useState("1");
-  const openModal = () => {
-    setModalOpen(true);
-  };
-  const closeModal = () => {
-    setModalOpen(false);
-  };
+  //const { isOpen, onOpen, onClose } = useDisclosure();
+  const [planValue, setPlanValue] = useState("1");
+  const [discountValue, setDiscountValue] = useState("1");
+  const [maniValue, setManiValue] = useState("1");
+  const [storageValue, setStorageValue] = useState("1");
   return (
     <div className={styles.Container}>
       <Accordion defaultIndex={[0]} allowMultiple>
@@ -45,15 +32,13 @@ function Option({ category }) {
             </AccordionButton>
           </h2>
           <AccordionPanel pb={4}>
-            <RadioGroup onChange={setValue} value={value}>
+            <RadioGroup onChange={setPlanValue} value={planValue}>
               <Stack className={styles.RatePlan}>
                 <Radio value="1">가장 알맞은 요금제</Radio>
                 <Radio value="2">5G 프리미어 에센셜</Radio>
                 <Radio value="3">5G 슬림+</Radio>
                 <Radio value="4">5G 다이렉트 37.5</Radio>
-                <Button className={styles.MoreBtn} onClick={openModal}>
-                  더 많은 요금제 보기
-                </Button>
+                <Button className={styles.MoreBtn}>더 많은 요금제 보기</Button>
               </Stack>
             </RadioGroup>
           </AccordionPanel>
@@ -69,7 +54,7 @@ function Option({ category }) {
             </AccordionButton>
           </h2>
           <AccordionPanel pb={4}>
-            <RadioGroup onChange={setValue} value={value}>
+            <RadioGroup onChange={setDiscountValue} value={discountValue}>
               <Stack>
                 <Radio value="1">추천</Radio>
                 <Radio value="2">공시지원금</Radio>
@@ -90,7 +75,7 @@ function Option({ category }) {
             </AccordionButton>
           </h2>
           <AccordionPanel pb={4}>
-            <RadioGroup onChange={setValue} value={value}>
+            <RadioGroup onChange={setManiValue} value={maniValue}>
               <Stack>
                 <Radio value="1">전체</Radio>
                 <Radio value="2">삼성</Radio>
@@ -111,7 +96,7 @@ function Option({ category }) {
             </AccordionButton>
           </h2>
           <AccordionPanel pb={4}>
-            <RadioGroup onChange={setValue} value={value}>
+            <RadioGroup onChange={setStorageValue} value={storageValue}>
               <Stack>
                 <Radio value="1">전체</Radio>
                 <Radio value="2">1TB</Radio>

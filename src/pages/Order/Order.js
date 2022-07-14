@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styles from "./Order.module.css";
-import ProductDetail from "../../components/ProductDetail/ProductDetail";
+import OrderDetail from "../../components/OrderDetail/OrderDetail";
 import { Input, Button } from "@chakra-ui/react";
 
 function Order() {
@@ -33,8 +33,8 @@ function Order() {
   return (
     <div className={styles.Container}>
       <div className={styles.OrderInfo}>
-        <form onSubmit={onSubmit}>
-          <h2>가입자 정보</h2>
+        <div className={styles.OrderInfoTitle}>가입자 정보</div>
+        <form className={styles.InputInfo} onSubmit={onSubmit}>
           <label htmlFor="inputName" className={styles.Input}>
             이름
             <Input
@@ -75,13 +75,15 @@ function Order() {
               onChange={onAddressChange}
             />
           </label>
-          <Button className={styles.OrderBtn} type="submit">
-            주문하기
-          </Button>
+          <div className={styles.OrderBtnContainer}>
+            <Button className={styles.OrderBtn} type="submit">
+              주문하기
+            </Button>
+          </div>
         </form>
       </div>
       <div className={styles.ProductInfo}>
-        <ProductDetail property={property} />
+        <OrderDetail property={property} />
       </div>
     </div>
   );

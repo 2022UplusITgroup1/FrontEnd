@@ -1,9 +1,16 @@
 .Container {
-  width: 1440px;
+  width: 1640px;
   margin: 0 auto;
+  display: flex;
+  padding-bottom: 120px;
+  margin: 0 auto;
+  margin-top: 50px;
 }
 
 .Title {
+  font-size: larger;
+  font-weight:bold;
+  margin-bottom: 20px;
 }
 
 .List {
@@ -19,7 +26,7 @@
 }
 
 .ItemList {
-  width: 100%;
+  width: 1168px;
 }
 
 .RecentlyViewed {

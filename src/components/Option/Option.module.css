@@ -1,11 +1,11 @@
 .Container {
+  width: 220px;
 }
 
 .RatePlan > :last-child {
 }
 
 .MoreBtn {
-  width: 70%;
   cursor: pointer;
 }
 

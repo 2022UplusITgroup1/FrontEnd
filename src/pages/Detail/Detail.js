@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styles from "./Detail.module.css";
 import ProductDetail from "../../components/ProductDetail/ProductDetail";
 import { Link } from "react-router-dom";
+import {ButtonGroup, Button, Stack} from "@chakra-ui/react";
 
 function Detail() {
   const property = {
@@ -24,6 +25,7 @@ function Detail() {
     "https://image.lguplus.com/static/pc-contents/images/prdv/20220616-074546-105-6upl4lWx.jpg",
   ];
   const [idx, setIdx] = useState(0);
+  const [value, setValue] = useState('1');
   const test = (e) => {
     setIdx(e.target.id);
   };
@@ -32,7 +34,7 @@ function Detail() {
       <div className={styles.Information}>
         <div className={styles.ProductImg}>
           <div className={styles.MainImg}>
-            <img src={imgUrls[Number(idx)]} alt="PRODUCT" />
+            <img className={styles.MainImg} src={imgUrls[Number(idx)]} alt="PRODUCT" />
           </div>
           <div className={styles.PreviewImgs}>
             {imgUrls.map((url, i) => (
@@ -49,25 +51,33 @@ function Detail() {
           </div>
         </div>
         <div className={styles.ProductInfo}>
-          <h2>{property.title}</h2>
+          <div className={styles.ProductName}>{property.title}</div>
           <div className={styles.ProductColor}>
-            <strong>색상</strong>
+          <div className={styles.ProductColorTitle}>색상</div>
             <span>{property.color}</span>
             <div className={styles.ColorBtn}>{/* 색상 버튼 */}</div>
           </div>
           <div className={styles.Capacity}>
-            <strong>저장공간</strong>
+          <div className={styles.CapacityTitle}>저장공간</div>
             {/* 저장공간 선택 */}
+                <Button value='1'>{property.capacity}</Button>
           </div>
           <div>
             <br />
           </div>
           <div className={styles.JoinType}>
-            <strong>가입유형</strong>
+            <div className={styles.JoinTypeTitle}>가입유형</div>
             {/* 가입유형 선택 - radio */}
+            <ButtonGroup onChange={setValue} value={value}>
+              <Stack direction='row'>
+                <Button value='1'>기기변경</Button>
+                <Button value='2'>번호이동</Button>
+                <Button value='3'>신규가입</Button>
+              </Stack>
+            </ButtonGroup>
           </div>
           <div className={styles.PriceInfo}>
-            <strong>월 {property.formattedPrice}원</strong>
+            <div className={styles.TotalPrice}>월 {property.formattedPrice}원</div>
             <div>{property.subTitle}</div>
             {/* 가격 정보 - dl & dt */}
           </div>
@@ -81,15 +91,11 @@ function Detail() {
       </div>
       <div className={styles.OrderDetail}>
         <div className={styles.OrderInfo}>
-          <h2>주문 상세</h2>
+          <div className={styles.OrderInfoTitle}>주문 상세</div>
           {/* 주문 상세 - table */}
           <div className={styles.InfoTable}>
             <table>
               <tbody>
-                <tr>
-                  <th>배송방법</th>
-                  <td>우체국 택배</td>
-                </tr>
                 <tr>
                   <th>요금제</th>
                   <td>추천 요금제</td>

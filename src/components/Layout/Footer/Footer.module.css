@@ -1,6 +1,6 @@
 .Container {
   position: relative;
-  height: 112px;
+  height: 220px;
   top: 0;
   left: 0;
   z-index: 200;
@@ -8,7 +8,7 @@
   padding-top: 75px;
   background: #2d2926;
   margin: 0 auto;
-  height: 160px;
+  padding-bottom: 30px;
 }
 
 .AddressInfo {
@@ -17,6 +17,7 @@
   letter-spacing: -0.04em;
   white-space: nowrap;
   line-height: 24px;
+  margin-left: 70px;
 }
 
 .CopyrightInfo {
@@ -25,5 +26,5 @@
   letter-spacing: -0.04em;
   white-space: nowrap;
   line-height: 24px;
-  margin-bottom: 30px;
+  margin-left: 70px;
 }

@@ -58,8 +58,9 @@ function Product() {
           mt="2"
           alignItems="center"
         >
-          <Button className={styles.CompareBtn}>비교하기</Button>
-          <Button className={styles.OrderBtn}>주문하기</Button>
+          <Button className={styles.CompareBtn} borderRadius='50px' >비교하기</Button>
+          <Link to="/detail" style={{ textDecoration: "none" }}>
+          <Button className={styles.OrderBtn} borderRadius='50px' >주문하기</Button></Link>
         </Box>
       </Box>
     </Box>

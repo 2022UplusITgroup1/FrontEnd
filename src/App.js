@@ -6,6 +6,7 @@ import Detail from "./pages/Detail/Detail";
 import Order from "./pages/Order/Order";
 import "./App.css";
 import { ChakraProvider } from "@chakra-ui/react";
+import Modal from "react-modal";
 
 function App() {
   return (
@@ -30,5 +31,7 @@ function App() {
     </ChakraProvider>
   );
 }
+
+Modal.setAppElement("#root");
 
 export default App;

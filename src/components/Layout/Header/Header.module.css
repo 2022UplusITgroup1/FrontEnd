@@ -28,6 +28,7 @@
   height: 24px;
   background: url(https://image.lguplus.com/static/pc-static/common/images/indv-biz/base/sprites-common.svg)
     0 0 no-repeat;
+  margin-left: 70px;
 }
 
 /* Navigation */
@@ -43,6 +44,7 @@
   display: flex;
   align-items: center;
   width: 1440px;
+  margin-left: 50px;
 }
 
 .HeaderMenuNav {
@@ -57,12 +59,13 @@ border-bottom: 2px solid #e6007e;
 .NavItem {
   float: left;
   text-decoration: none;
-  font-weight: 400;
+  font-weight: 700;
   display: block;
   height: 56px;
   line-height: 56px;
   white-space: nowrap;
   padding-right: 20px;
+  padding-left: 20px;
 }
 
 .HeaderMenuContents {

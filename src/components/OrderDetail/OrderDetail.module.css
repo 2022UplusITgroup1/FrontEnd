@@ -4,6 +4,12 @@
   background: #f5f5f5;
 }
 
+.MainImg {
+  display: inline;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
 .TitleInfo {
   font-size: x-large;
   font-weight: bold;
