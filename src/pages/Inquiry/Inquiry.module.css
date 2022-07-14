@@ -7,17 +7,17 @@
   margin: 0 auto;
 }
 
-.OrderInfo {
+.InquiryInfo {
   width: 1056px;
 }
 
-.OrderInfoTitle {
+.InquiryInfoTitle {
   font-size: x-large;
   font-weight: bold;
   margin-bottom: 50px;
 }
 
-.InputInfo {
+.InquiryInfoInput {
   width: 1056px;
   font-size: larger;
 }
@@ -28,11 +28,11 @@
   font-weight: bold;
 }
 
-.OrderBtnContainer {
+.InquiryBtnContainer {
   text-align: center;
 }
 
-.OrderBtn {
+.InquiryBtn {
   width: 276px;
   min-width: auto;
   padding: 0;

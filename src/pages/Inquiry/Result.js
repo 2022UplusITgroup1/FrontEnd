@@ -17,6 +17,7 @@ function Result() {
     capacity: "128GB",
     joinType: "기기변경",
   };
+
   return (
     <div className={styles.Container}>
       <div className={styles.ResultInfo}>

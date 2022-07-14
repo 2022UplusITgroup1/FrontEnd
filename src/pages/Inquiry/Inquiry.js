@@ -10,11 +10,12 @@ function Inquiry() {
   const onNameChange = (e) => setName(e.target.value);
   const onNumberChange = (e) => setNumber(e.target.value);
   const onOrderNumChange = (e) => setOrderNum(e.target.value);
+
   return (
     <div className={styles.Container}>
-      <div className={styles.OrderInfo}>
-        <div className={styles.OrderInfoTitle}>주문 조회</div>
-        <div className={styles.InputInfo}>
+      <div className={styles.InquiryInfo}>
+        <div className={styles.InquiryInfoTitle}>주문 조회</div>
+        <div className={styles.InquiryInfoInput}>
           <label htmlFor="inputName" className={styles.Input}>
             이름
             <Input
@@ -45,9 +46,9 @@ function Inquiry() {
               onChange={onOrderNumChange}
             />
           </label>
-          <div className={styles.OrderBtnContainer}>
+          <div className={styles.InquiryBtnContainer}>
             <Link to="/inquiry-result">
-              <Button className={styles.OrderBtn}>조회하기</Button>
+              <Button className={styles.InquiryBtn}>조회하기</Button>
             </Link>
           </div>
         </div>

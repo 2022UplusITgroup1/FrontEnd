@@ -54,7 +54,7 @@ function RecentlyViewed() {
           </GridItem>
         </Link>
         <GridItem pl="1" area={"total"}>
-          <Box className={styles.TotalBtn} bg="gray" p={4} color="white">
+          <Box className={styles.TotalBtn} bg="silver" p={4} color="white">
             전체보기
           </Box>
         </GridItem>
