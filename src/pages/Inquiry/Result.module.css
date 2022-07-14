@@ -1,0 +1,67 @@
+.Container {
+  display: flex;
+  margin: 0 auto;
+  width: 1440px;
+  margin-top: 48px !important;
+  margin-left: 70px;
+  margin: 0 auto;
+}
+
+.OrderInfo {
+  width: 1056px;
+}
+
+.OrderInfoTitle {
+  font-size: x-large;
+  font-weight: bold;
+  margin-bottom: 50px;
+}
+
+.InputInfo {
+  width: 900px;
+}
+
+.Info {
+  margin-bottom: 30px;
+}
+
+.MainImg {
+  width: 200px;
+}
+
+.Title {
+  display: block;
+  margin-bottom: 30px;
+  font-weight: bold;
+}
+
+.ContentTitle {
+  font-size: large;
+  font-weight: bold;
+}
+
+.OrderBtnContainer {
+  text-align: center;
+}
+
+.OrderBtn {
+  width: 276px;
+  min-width: auto;
+  padding: 0;
+  cursor: pointer;
+  color: #fff;
+  background-color: #e6007e;
+  height: 56px;
+  font-size: 18px;
+  border-radius: 28px;
+  font-weight: 400;
+  border: none;
+  margin-top: 50px;
+}
+
+.OrderInfo {
+}
+
+.ProductInfo {
+  float: right;
+}

@@ -45,10 +45,24 @@
   align-items: center;
   width: 1440px;
   margin-left: 50px;
+  justify-content: space-between;
 }
 
 .HeaderMenuNav {
   height: 56px;
+}
+
+.HeaderLeftMenu {
+}
+
+.HeaderRightMenu {
+  display: flex;
+  float: right;
+}
+
+.NavIcon {
+  width: 50px;
+  cursor: pointer;
 }
 
 /*
