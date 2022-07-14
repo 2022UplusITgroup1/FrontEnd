@@ -22,7 +22,9 @@ function Header() {
           </div>
           <div className={styles.HeaderRightMenu}>
             {/* 검색 & 주문 조회 */}
-            <FiSearch size="30" className={styles.NavIcon} />
+            <Link to="/search">
+              <FiSearch size="30" className={styles.NavIcon} />
+            </Link>
             <Link to="/inquiry">
               <FiInbox size="30" className={styles.NavIcon} />
             </Link>

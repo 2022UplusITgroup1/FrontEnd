@@ -1,7 +1,7 @@
 .Container {
   display: flex;
   margin: 0 auto;
-  width: 1440px;
+  justify-content: center;
   margin-top: 48px !important;
   margin-left: 70px;
   margin: 0 auto;
@@ -18,7 +18,8 @@
 }
 
 .InputInfo {
-  width: 900px;
+  width: 1056px;
+  font-size: larger;
 }
 
 .Input {
@@ -44,11 +45,4 @@
   font-weight: 400;
   border: none;
   margin-top: 50px;
-}
-
-.OrderInfo {
-}
-
-.ProductInfo {
-  float: right;
 }

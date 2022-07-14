@@ -8,6 +8,10 @@
 }
 
 .OrderInfo {
+  width: 100%;
+}
+
+.UserInfo {
   width: 1056px;
 }
 
@@ -25,6 +29,7 @@
   display: block;
   margin-bottom: 30px;
   font-weight: bold;
+  font-size: large;
 }
 
 .OrderBtnContainer {
@@ -44,9 +49,6 @@
   font-weight: 400;
   border: none;
   margin-top: 50px;
-}
-
-.OrderInfo {
 }
 
 .ProductInfo {

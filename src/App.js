@@ -9,7 +9,8 @@ import "./App.css";
 import { ChakraProvider } from "@chakra-ui/react";
 import Modal from "react-modal";
 import Result from "./pages/Inquiry/Result";
-// test by 장원령
+import Search from "./pages/Search/Search";
+
 function App() {
   return (
     <ChakraProvider>
@@ -28,6 +29,7 @@ function App() {
           />
           <Route exact path="/detail" component={Detail} />
           <Route exact path="/order" component={Order} />
+          <Route exact path="/search" component={Search} />
           <Route exact path="/inquiry" component={Inquiry} />
           <Route exact path="/inquiry-result" component={Result} />
         </Layout>

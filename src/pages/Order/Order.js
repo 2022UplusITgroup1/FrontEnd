@@ -34,7 +34,7 @@ function Order() {
     <div className={styles.Container}>
       <div className={styles.OrderInfo}>
         <div className={styles.OrderInfoTitle}>가입자 정보</div>
-        <form className={styles.InputInfo} onSubmit={onSubmit}>
+        <form className={styles.UserInfo} onSubmit={onSubmit}>
           <label htmlFor="inputName" className={styles.Input}>
             이름
             <Input

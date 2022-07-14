@@ -1,0 +1,46 @@
+.Container {
+  margin: 0 auto;
+  width: 1440px;
+  margin-top: 48px !important;
+  margin-left: 70px;
+  margin: 0 auto;
+}
+
+.Title {
+  font-size: x-large;
+  font-weight: bold;
+  margin-bottom: 50px;
+}
+
+.SearchContainer {
+  width: 100%;
+  margin-bottom: 50px;
+}
+
+.Input {
+  width: 100%;
+}
+
+.noResult {
+  display: block;
+  text-align: center;
+}
+
+.noResultAlert {
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.noResultAlertIcon {
+}
+
+.ResultTitle {
+  margin-bottom: 20px;
+  font-size: larger;
+  font-weight: bold;
+}
+
+.ResultSubTitle {
+  font-size: smaller;
+}

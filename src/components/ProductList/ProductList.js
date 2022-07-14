@@ -8,7 +8,9 @@ function ProductList({ category }) {
     <div>
       <div className={styles.Container}>
         {/* 전체 개수 & 정렬 */}
-        <div>전체 32건</div>
+        <div className={styles.TotalCount}>
+          <div className={styles.TotalCountTxt}>전체 32건</div>
+        </div>
         <div className={styles.SelectSort}>
           <Select variant="flushed" placeholder="최근 출시된 상품 순">
             <option value="option1">정상가가 낮은 순</option>

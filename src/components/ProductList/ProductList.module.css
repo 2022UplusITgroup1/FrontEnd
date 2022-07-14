@@ -10,5 +10,14 @@
   flex-wrap: wrap;
 }
 
+.TotalCount {
+  padding-top: 10px;
+}
+
+.TotalCountTxt {
+  font-size: large;
+  font-weight: 400;
+}
+
 .SelectSort {
 }
