@@ -10,6 +10,7 @@ import { ChakraProvider } from "@chakra-ui/react";
 import Modal from "react-modal";
 import Result from "./pages/Inquiry/Result";
 import Search from "./pages/Search/Search";
+import OrderResult from "./pages/Order/OrderResult";
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
           <Route exact path="/search" component={Search} />
           <Route exact path="/inquiry" component={Inquiry} />
           <Route exact path="/inquiry-result" component={Result} />
+          <Route exact path="/order-result" component={OrderResult} />
         </Layout>
       </Router>
     </ChakraProvider>

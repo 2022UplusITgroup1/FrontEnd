@@ -10,11 +10,19 @@ import {
   RadioGroup,
   Stack,
   Button,
+  useDisclosure,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
 } from "@chakra-ui/react";
 import styles from "./Option.module.css";
 
 function Option({ category }) {
-  //const { isOpen, onOpen, onClose } = useDisclosure();
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const [planValue, setPlanValue] = useState("1");
   const [discountValue, setDiscountValue] = useState("1");
   const [maniValue, setManiValue] = useState("1");
@@ -38,7 +46,20 @@ function Option({ category }) {
                 <Radio value="2">5G 프리미어 에센셜</Radio>
                 <Radio value="3">5G 슬림+</Radio>
                 <Radio value="4">5G 다이렉트 37.5</Radio>
-                <Button className={styles.MoreBtn}>더 많은 요금제 보기</Button>
+                <Button className={styles.MoreBtn} onClick={onOpen}>
+                  더 많은 요금제 보기
+                </Button>
+                <Modal onClose={onClose} isOpen={isOpen} isCentered>
+                  <ModalOverlay />
+                  <ModalContent>
+                    <ModalHeader>전체 요금제</ModalHeader>
+                    <ModalCloseButton />
+                    <ModalBody>요금제 리스트</ModalBody>
+                    <ModalFooter>
+                      <Button onClick={onClose}>Close</Button>
+                    </ModalFooter>
+                  </ModalContent>
+                </Modal>
               </Stack>
             </RadioGroup>
           </AccordionPanel>

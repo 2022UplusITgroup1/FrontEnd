@@ -2,8 +2,20 @@ import React, { useState } from "react";
 import styles from "./Order.module.css";
 import OrderDetail from "../../components/OrderDetail/OrderDetail";
 import { Input, Button } from "@chakra-ui/react";
+import {
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+  useDisclosure,
+} from "@chakra-ui/react";
+import { Link } from "react-router-dom";
 
 function Order() {
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const [name, setName] = useState("");
   const [number, setNumber] = useState("");
   const [email, setEmail] = useState("");
@@ -15,7 +27,6 @@ function Order() {
   const onSubmit = (e) => {
     e.preventDefault();
     console.log(name, number, email, address);
-    alert("주문이 완료되었습니다");
   };
   const property = {
     imageUrl:
@@ -76,9 +87,11 @@ function Order() {
             />
           </label>
           <div className={styles.OrderBtnContainer}>
-            <Button className={styles.OrderBtn} type="submit">
-              주문하기
-            </Button>
+            <Link to="/order-result">
+              <Button className={styles.OrderBtn} type="submit">
+                주문하기
+              </Button>
+            </Link>
           </div>
         </form>
       </div>
