@@ -9,7 +9,7 @@ import "./App.css";
 import { ChakraProvider } from "@chakra-ui/react";
 import Modal from "react-modal";
 import Result from "./pages/Inquiry/Result";
-
+// test by 장원령
 function App() {
   return (
     <ChakraProvider>
