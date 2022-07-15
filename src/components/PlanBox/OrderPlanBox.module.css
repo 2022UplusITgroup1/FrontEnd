@@ -1,0 +1,62 @@
+.OrderPlanContainer {
+}
+
+.OrderPlanContainerStack {
+}
+
+.OrderPlanInfoContainer {
+  position: relative;
+  overflow: hidden;
+  background: white;
+  width: 100%;
+}
+
+.OrderPlanItemContainer {
+}
+
+.OrderPlanItem {
+  border: 1px solid #ddd;
+  margin-bottom: 10px;
+  padding-top: 10px;
+  cursor: pointer;
+  border-radius: 10px;
+}
+
+.OrderPlanInfo {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+}
+
+.OrderPlanMain {
+  float: left;
+  flex: 1 1 40%;
+  padding-left: 20px;
+}
+
+.OrderPlanName {
+  font-size: large;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.OrderPlanPrice {
+  font-size: x-large;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.OrderPlanDetail {
+  width: 560px;
+  display: flex;
+  float: right;
+  flex: 1 1 40%;
+}
+
+.OrderPlanDetailItem {
+  padding: 10px;
+  font-size: xx-large;
+  flex: 1 1 40%;
+  text-align: center;
+}

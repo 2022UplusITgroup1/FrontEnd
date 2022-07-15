@@ -184,7 +184,7 @@ function Option({ data }) {
               <Stack className={styles.PlanContainerStack}>
                 {data.map((plan, i) => {
                   return (
-                    <div className={styles.PlanItemContainer}>
+                    <div className={styles.PlanItemContainer} key={i}>
                       <div className={styles.PlanInfoContainer} key={i}>
                         <Radio className={styles.PlanItem} value={i} size="lg">
                           <div className={styles.PlanInfo}>
@@ -206,7 +206,7 @@ function Option({ data }) {
                                 {plan.voice}분
                               </div>
                               <div className={styles.PlanDetailItem}>
-                                {plan.message}개
+                                {plan.message}건
                               </div>
                             </div>
                           </div>

@@ -2,11 +2,13 @@ import React, { useState } from "react";
 import styles from "./Detail.module.css";
 import ProductDetail from "../../components/ProductDetail/ProductDetail";
 import { Link } from "react-router-dom";
-import {ButtonGroup, Button, Stack} from "@chakra-ui/react";
-import {useParams} from "react-router-dom";
+import { ButtonGroup, Button, Stack } from "@chakra-ui/react";
+import { useParams } from "react-router-dom";
+import OrderPlanBox from "../../components/PlanBox/OrderPlanBox";
+import SamplePlanData from "../../SamplePlanData.json";
 
 function Detail() {
-  const {ph_code} = useParams();
+  const { ph_code } = useParams();
   const property = {
     imageUrl:
       "https://image.lguplus.com/static/pc-contents/images/prdv/20220616-073051-526-l4VusvGl.jpg",
@@ -27,7 +29,7 @@ function Detail() {
     "https://image.lguplus.com/static/pc-contents/images/prdv/20220616-074546-105-6upl4lWx.jpg",
   ];
   const [idx, setIdx] = useState(0);
-  const [value, setValue] = useState('1');
+  const [value, setValue] = useState("1");
   const test = (e) => {
     setIdx(e.target.id);
   };
@@ -36,7 +38,11 @@ function Detail() {
       <div className={styles.Information}>
         <div className={styles.ProductImg}>
           <div className={styles.MainImg}>
-            <img className={styles.MainImg} src={imgUrls[Number(idx)]} alt="PRODUCT" />
+            <img
+              className={styles.MainImg}
+              src={imgUrls[Number(idx)]}
+              alt="PRODUCT"
+            />
           </div>
           <div className={styles.PreviewImgs}>
             {imgUrls.map((url, i) => (
@@ -55,14 +61,14 @@ function Detail() {
         <div className={styles.ProductInfo}>
           <div className={styles.ProductName}>{property.title}</div>
           <div className={styles.ProductColor}>
-          <div className={styles.ProductColorTitle}>색상</div>
+            <div className={styles.ProductColorTitle}>색상</div>
             <span>{property.color}</span>
             <div className={styles.ColorBtn}>{/* 색상 버튼 */}</div>
           </div>
           <div className={styles.Capacity}>
-          <div className={styles.CapacityTitle}>저장공간</div>
+            <div className={styles.CapacityTitle}>저장공간</div>
             {/* 저장공간 선택 */}
-                <Button value='1'>{property.capacity}</Button>
+            <Button value="1">{property.capacity}</Button>
           </div>
           <div>
             <br />
@@ -71,15 +77,17 @@ function Detail() {
             <div className={styles.JoinTypeTitle}>가입유형</div>
             {/* 가입유형 선택 - radio */}
             <ButtonGroup onChange={setValue} value={value}>
-              <Stack direction='row'>
-                <Button value='1'>기기변경</Button>
-                <Button value='2'>번호이동</Button>
-                <Button value='3'>신규가입</Button>
+              <Stack direction="row">
+                <Button value="1">기기변경</Button>
+                <Button value="2">번호이동</Button>
+                <Button value="3">신규가입</Button>
               </Stack>
             </ButtonGroup>
           </div>
           <div className={styles.PriceInfo}>
-            <div className={styles.TotalPrice}>월 {property.formattedPrice}원</div>
+            <div className={styles.TotalPrice}>
+              월 {property.formattedPrice}원
+            </div>
             <div>{property.subTitle}</div>
             {/* 가격 정보 - dl & dt */}
           </div>
@@ -95,16 +103,49 @@ function Detail() {
         <div className={styles.OrderInfo}>
           <div className={styles.OrderInfoTitle}>주문 상세</div>
           {/* 주문 상세 - table */}
-          <div className={styles.InfoTable}>
-            <table>
-              <tbody>
-                <tr>
-                  <th>요금제</th>
-                  <td>추천 요금제</td>
+          <div className={styles.OrderInfoTableContainer}>
+            <table className={styles.OrderInfoTable}>
+              <tbody className={styles.OrderInfoTbody}>
+                <tr className={styles.OrderInfoTr}>
+                  <th className={styles.OrderInfoTh}>요금제</th>
+                  <td className={styles.OrderInfoTd}>
+                    <div className={styles.OrderInfoTdHeader}>
+                      <div className={styles.OrderInfoTdTitle}>추천 요금제</div>
+                      <div className={styles.OrderInfoTdBtn}>
+                        다른 요금제 선택 ❯
+                      </div>
+                    </div>
+                    <OrderPlanBox data={SamplePlanData} />
+                  </td>
                 </tr>
-                <tr>
-                  <th>할인유형</th>
-                  <td>공시지원금</td>
+                <tr className={styles.OrderInfoTr}>
+                  <th className={styles.OrderInfoTh}>
+                    <div className={styles.OrderInfoThTitle}>
+                      할인유형
+                      <br />
+                      할부기간
+                    </div>
+                    <div className={styles.OrderInfoThDetail}>
+                      할인유형과 할부기간을 선택해주세요.
+                    </div>
+                  </th>
+                  <td className={styles.OrderInfoTd}>
+                    <div className={styles.OrderInfoTdItem}>
+                      <div className={styles.OrderInfoTdHeader}>
+                        <div className={styles.OrderInfoTdTitle}>할인 유형</div>
+                        <div className={styles.OrderInfoTdBtn}>
+                          자세히 보기 ❯
+                        </div>
+                      </div>
+                      <div className={styles.OrderInfoTdBody}></div>
+                    </div>
+                    <div className={styles.OrderInfoTdItem}>
+                      <div className={styles.OrderInfoTdHeader}>
+                        <div className={styles.OrderInfoTdTitle}>할부기간</div>
+                      </div>
+                      <div className={styles.OrderInfoTdBody}></div>
+                    </div>
+                  </td>
                 </tr>
               </tbody>
             </table>
