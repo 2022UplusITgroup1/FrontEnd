@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./Detail.module.css";
 import ProductDetail from "../../components/ProductDetail/ProductDetail";
 import { Link } from "react-router-dom";
@@ -6,28 +6,59 @@ import { ButtonGroup, Button, Stack } from "@chakra-ui/react";
 import { useParams } from "react-router-dom";
 import OrderPlanBox from "../../components/PlanBox/OrderPlanBox";
 import SamplePlanData from "../../SamplePlanData.json";
+import SampleDetailData from "../../SampleDetailData.json";
+import axios from "axios";
 
 function Detail() {
-  const { ph_code } = useParams();
-  const property = {
-    imageUrl:
-      "https://image.lguplus.com/static/pc-contents/images/prdv/20220616-073051-526-l4VusvGl.jpg",
-    imageAlt: "Galaxy Buddy 2",
-    title: "Galaxy Buddy 2",
-    subTitle: "5G 라이트+ | 공시지원금",
-    phone: "0",
-    communication: "55,000",
-    formattedPrice: "55,000",
-    color: "라이트 블루",
-    capacity: "128GB",
-    joinType: "기기변경",
-  };
-  const imgUrls = [
-    "https://image.lguplus.com/static/pc-contents/images/prdv/20220616-074546-107-EpOJVZKV.jpg",
-    "https://image.lguplus.com/static/pc-contents/images/prdv/20220616-074546-105-5XFcEWAn.jpg",
-    "https://image.lguplus.com/static/pc-contents/images/prdv/20220616-074546-123-xI98LvJp.jpg",
-    "https://image.lguplus.com/static/pc-contents/images/prdv/20220616-074546-105-6upl4lWx.jpg",
-  ];
+  //pl_code/:ph_code/:color/:dc_type
+  const { pl_code, ph_code, color, dc_type } = useParams();
+  const DETAIL_URL = `${process.env.REACT_APP_PRODUCT_SERVICE_API_URL}/detail?pl_code=${pl_code}&ph_code=${ph_code}&color=${color}&dc_type=${dc_type}`;
+  const [data, setData] = useState([]);
+  const [imgPaths, setImgPaths] = useState([]);
+  const [totalPrice, setTotalPrice] = useState("0");
+  const [phonePrice, setPhonePrice] = useState("0");
+  const [planPrice, setPlanPrice] = useState("0");
+  const [originalPrice, setOriginalPrice] = useState("0");
+  useEffect(() => {
+    /* 
+    axios
+      .get(`${DETAIL_URL}`)
+      .then((response) => {
+        console.log(response.data);
+        const productData = {
+          ...response.data,
+          price: response.data.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","),
+        };
+        setData(productData);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    */
+    console.log(pl_code, ph_code, color, dc_type);
+    setImgPaths(
+      SampleDetailData["images"].map((d) => {
+        return d["imgPath"];
+      })
+    );
+    console.log(imgPaths);
+    setPhonePrice(
+      SampleDetailData["phone"]["price"]
+        .toString()
+        .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+    );
+    setPlanPrice(
+      SampleDetailData["plan"]["price"]
+        .toString()
+        .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+    );
+    setTotalPrice(
+      (SampleDetailData["phone"]["price"] + SampleDetailData["plan"]["price"])
+        .toString()
+        .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+    );
+  }, []);
+
   const [idx, setIdx] = useState(0);
   const [value, setValue] = useState("1");
   const test = (e) => {
@@ -40,12 +71,13 @@ function Detail() {
           <div className={styles.MainImg}>
             <img
               className={styles.MainImg}
-              src={imgUrls[Number(idx)]}
-              alt="PRODUCT"
+              //src={imgUrls[Number(idx)]}
+              src={SampleDetailData["images"][Number(idx)]["imgPath"]}
+              alt={SampleDetailData["images"][Number(idx)]["imgPos"]}
             />
           </div>
           <div className={styles.PreviewImgs}>
-            {imgUrls.map((url, i) => (
+            {imgPaths.map((url, i) => (
               <button className={styles.PreviewBtn} onClick={test} key={i}>
                 <img
                   className={styles.PreviewImg}
@@ -59,16 +91,20 @@ function Detail() {
           </div>
         </div>
         <div className={styles.ProductInfo}>
-          <div className={styles.ProductName}>{property.title}</div>
+          <div className={styles.ProductName}>
+            {SampleDetailData["phone"]["name"]}
+          </div>
           <div className={styles.ProductColor}>
             <div className={styles.ProductColorTitle}>색상</div>
-            <span>{property.color}</span>
+            <span>{SampleDetailData["phone"]["color"]}</span>
             <div className={styles.ColorBtn}>{/* 색상 버튼 */}</div>
           </div>
           <div className={styles.Capacity}>
             <div className={styles.CapacityTitle}>저장공간</div>
             {/* 저장공간 선택 */}
-            <Button value="1">{property.capacity}</Button>
+            <Button value="1">
+              {SampleDetailData["phone"]["storage"]["capability"]}GB
+            </Button>
           </div>
           <div>
             <br />
@@ -85,10 +121,15 @@ function Detail() {
             </ButtonGroup>
           </div>
           <div className={styles.PriceInfo}>
-            <div className={styles.TotalPrice}>
-              월 {property.formattedPrice}원
+            <div className={styles.TotalPrice}>월 {totalPrice}원</div>
+            <div className={styles.SubTitle}>
+              {SampleDetailData["plan"]["name"]} |{" "}
+              {SampleDetailData["phone"]["discountType"]} 기준
             </div>
-            <div>{property.subTitle}</div>
+            <div>
+              핸드폰 {phonePrice} 원 | 통신료 {planPrice} 원 | 정상가{" "}
+              {originalPrice} 원
+            </div>
             {/* 가격 정보 - dl & dt */}
           </div>
           <div className={styles.InfoBtn}>
@@ -153,7 +194,7 @@ function Detail() {
         </div>
         <div className={styles.ProductDetail}>
           {/* 상품 정보 컴포넌트 */}
-          <ProductDetail property={property} />
+          {/*<ProductDetail property={SampleDetailData} /> */}
         </div>
       </div>
     </div>
@@ -161,3 +202,12 @@ function Detail() {
 }
 
 export default Detail;
+
+/*
+  const imgUrls = [
+    "https://image.lguplus.com/static/pc-contents/images/prdv/20220616-074546-107-EpOJVZKV.jpg",
+    "https://image.lguplus.com/static/pc-contents/images/prdv/20220616-074546-105-5XFcEWAn.jpg",
+    "https://image.lguplus.com/static/pc-contents/images/prdv/20220616-074546-123-xI98LvJp.jpg",
+    "https://image.lguplus.com/static/pc-contents/images/prdv/20220616-074546-105-6upl4lWx.jpg",
+  ];
+*/

@@ -7,22 +7,21 @@ import SampleData from "../../SampleData.json";
 import SamplePlanData from "../../SamplePlanData.json";
 import axios from "axios";
 
-const PRODUCT_API_URL = `http://52.78.238.139:8000/product/phone?net_sp=`;
-// http://52.78.238.139:54421/order/my?name=%EC%95%84%EC%9D%B4%EC%9C%A0&phone_number=01012340001&order_number=202207132210570001
+const PRODUCT_API_URL = `${process.env.REACT_APP_PRODUCT_SERVICE_API_URL}net_sp=`;
 
 function List({ category }) {
   const [data, setData] = useState([]);
   useEffect(() => {
-    console.log(PRODUCT_API_URL);
+    /*
     axios
-      .get(`${PRODUCT_API_URL}${category}`, {}, { withCredentials: true })
+      .get(`${PRODUCT_API_URL}${category}`)
       .then((response) => {
         console.log(response.data);
         setData(response.data);
       })
       .catch((err) => {
         console.log(err);
-      });
+      });*/
   }, []);
 
   return (

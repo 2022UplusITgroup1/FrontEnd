@@ -28,12 +28,16 @@ function App() {
             path="/4g-phone"
             component={() => <List category="4G" />}
           />
-          <Route exact path="/detail/:ph_code" component={Detail} />
-          <Route exact path="/order" component={Order} />
-          <Route exact path="/search" component={Search} />
-          <Route exact path="/inquiry" component={Inquiry} />
-          <Route exact path="/inquiry-result" component={Result} />
-          <Route exact path="/order-result" component={OrderResult} />
+          <Route
+            exact
+            path="/mobile/detail/:pl_code/:ph_code/:color/:dc_type"
+            component={Detail}
+          />
+          <Route exact path="/mobile/order" component={Order} />
+          <Route exact path="/mobile/search" component={Search} />
+          <Route exact path="/mobile/inquiry" component={Inquiry} />
+          <Route exact path="/mobile/inquiry-result" component={Result} />
+          <Route exact path="/mobile/order-result" component={OrderResult} />
         </Layout>
       </Router>
     </ChakraProvider>
