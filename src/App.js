@@ -28,7 +28,7 @@ function App() {
             path="/4g-phone"
             component={() => <List category="4G" />}
           />
-          <Route exact path="/detail" component={Detail} />
+          <Route exact path="/detail/:ph_code" component={Detail} />
           <Route exact path="/order" component={Order} />
           <Route exact path="/search" component={Search} />
           <Route exact path="/inquiry" component={Inquiry} />

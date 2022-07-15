@@ -3,6 +3,8 @@ import styles from "./List.module.css";
 import Option from "../../components/Option/Option";
 import ProductList from "../../components/ProductList/ProductList";
 import RecentlyViewed from "../../components/RecentlyViewed/RecentlyViewed";
+import SampleData from "../../SampleData.json";
+import SamplePlanData from "../../SamplePlanData.json";
 
 function List({ category }) {
   return (
@@ -13,10 +15,10 @@ function List({ category }) {
         </div>
         <div className={styles.List}>
           <div className={styles.Options}>
-            <Option category={category} />
+            <Option data={SamplePlanData} />
           </div>
           <div className={styles.ItemList}>
-            <ProductList category={category} />
+            <ProductList data={SampleData} />
           </div>
           <div className={styles.RecentlyViewed}>
             <RecentlyViewed />

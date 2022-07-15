@@ -3,8 +3,10 @@ import styles from "./Detail.module.css";
 import ProductDetail from "../../components/ProductDetail/ProductDetail";
 import { Link } from "react-router-dom";
 import {ButtonGroup, Button, Stack} from "@chakra-ui/react";
+import {useParams} from "react-router-dom";
 
 function Detail() {
+  const {ph_code} = useParams();
   const property = {
     imageUrl:
       "https://image.lguplus.com/static/pc-contents/images/prdv/20220616-073051-526-l4VusvGl.jpg",

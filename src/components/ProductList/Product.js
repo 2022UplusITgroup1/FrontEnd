@@ -3,20 +3,13 @@ import styles from "./Product.module.css";
 import { Link } from "react-router-dom";
 import { Box, Image, Button } from "@chakra-ui/react";
 
-function Product() {
-  const property = {
-    imageUrl:
-      "https://image.lguplus.com/static/pc-contents/images/prdv/20220616-073051-526-l4VusvGl.jpg",
-    imageAlt: "Galaxy Buddy 2",
-    title: "Galaxy Buddy 2",
-    subTitle: "5G 라이트+ | 공시지원금",
-    phone: "0",
-    communication: "55,000",
-    formattedPrice: "55,000",
-    color: "라이트 블루",
-    capacity: "128GB",
-    joinType: "기기변경",
-  };
+function Product({data}) {
+  const productData = {
+    code: data.code,
+    name: data.name,
+    imgThumbnail: data.imgThumbnail,
+    price: data.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+  }
   return (
     <Box
       className={styles.Container}
@@ -25,29 +18,29 @@ function Product() {
       borderRadius="lg"
       overflow="hidden"
     >
-      <Link to="/detail" style={{ textDecoration: "none" }}>
+      <Link to={`/detail/${data.code}`} style={{ textDecoration: "none" }}>
         <Box className={styles.BoxTop}>
           <Box className={styles.ImgBox}>
             <Image
               className={styles.ProductImg}
-              src={property.imageUrl}
-              alt={property.imageAlt}
+              src={productData.imgThumbnail}
+              alt={productData.name}
             />
           </Box>
-          <Box className={styles.ProductTitle}>{property.title}</Box>
-          <Box className={styles.ProductSubTitle}>{property.subTitle}</Box>
+          <Box className={styles.ProductTitle}>{productData.name}</Box>
+          <Box className={styles.ProductSubTitle}>요금제 정보</Box>
         </Box>
       </Link>
 
       <Box className={styles.BoxBottom} p="6">
-        <Link to="/detail" style={{ textDecoration: "none" }}>
+        <Link to={`/detail/${productData.code}`} style={{ textDecoration: "none" }}>
           <Box className={styles.Price}>
-            <Box className={styles.PriceTxt}>휴대폰 월 {property.phone}원</Box>
+            <Box className={styles.PriceTxt}>휴대폰 월 {productData.price}원</Box>
             <Box className={styles.PriceTxt}>
-              통신료 월 {property.communication}원
+              통신료 월 {productData.price}원
             </Box>
             <Box className={styles.MonthPrice}>
-              월 {property.formattedPrice}원
+              월 {productData.price}원
             </Box>
           </Box>
         </Link>
@@ -59,7 +52,7 @@ function Product() {
           alignItems="center"
         >
           <Button className={styles.CompareBtn} borderRadius='50px' >비교하기</Button>
-          <Link to="/detail" style={{ textDecoration: "none" }}>
+          <Link to={`/detail/${productData.code}`} style={{ textDecoration: "none" }}>
           <Button className={styles.OrderBtn} borderRadius='50px' >주문하기</Button></Link>
         </Box>
       </Box>

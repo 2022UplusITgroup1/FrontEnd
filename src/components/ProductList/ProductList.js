@@ -3,7 +3,7 @@ import styles from "./ProductList.module.css";
 import Product from "./Product";
 import { Select } from "@chakra-ui/react";
 
-function ProductList({ category }) {
+function ProductList({ data }) {
   const [isSelect, setIsSelect] = useState("0");
   const onSelectChange = (e) => {
     setIsSelect(e.target.value);
@@ -28,8 +28,9 @@ function ProductList({ category }) {
       </div>
       <div className={styles.ProductList}>
         {/* 상품 리스트 */}
-        <Product />
-        <Product />
+        {data.map((product, i) => {
+          return (<Product data={product} key={i} />);
+        })}
       </div>
     </div>
   );

@@ -46,7 +46,7 @@ function RecentlyViewed() {
             최근 본 상품
           </Box>
         </GridItem>
-        <Link to="/detail">
+        <Link to="/detail/1">
           <GridItem pl="1" area={"img"}>
             <Box className={styles.ImgBox}>
               <Image
