@@ -45,6 +45,8 @@ function Option({ plan }) {
   const [brandValue, setBrandValue] = useState("0");
   const [storageValue, setStorageValue] = useState("0");
   const [sortValue, setSotrValue] = useState("0");
+  const [isAdditional, setIsAdditional] = useState(0);
+  let planPreviewList = plan.slice(0, 3);
 
   const onApplyPlan = () => {
     onChangePlanValue(planModalValue);
@@ -71,7 +73,7 @@ function Option({ plan }) {
     setSotrValue(e.target.value);
   };
   useEffect(() => {
-    // 렌더링 될 때마다 초기화
+    // 초기 렌더링 시, 초기화
     // 페이지를 이동해도 유지하고 싶다면 초기화 X + useSelector 값 이용
     dispatch(resetData());
   }, []);
@@ -82,17 +84,20 @@ function Option({ plan }) {
     setTotalPlanValue(value);
   };
   const createPlanPreview = () => {
-    const planPreviewList = [];
+    const previewList = [];
     let len = 3;
     if (plan.length < 3) len = plan.length;
     for (let i = 0; i < len; i++) {
-      planPreviewList.push(
+      previewList.push(
         <Radio value={plan[i].code} key={i}>
           {plan[i].name}
         </Radio>
       );
     }
-    return planPreviewList;
+    return previewList;
+  };
+  const findSelectPlan = (value) => {
+    return plan.find((p) => p.code === value);
   };
 
   return (
@@ -111,6 +116,14 @@ function Option({ plan }) {
             <RadioGroup onChange={onChangePlanValue} value={planValue}>
               <Stack className={styles.RatePlan}>
                 <Radio value="0">가장 알맞은 요금제</Radio>
+                {planValue !== "0" &&
+                  !planPreviewList.includes(findSelectPlan(planValue)) && (
+                    <div className={styles.AdditionalPlan}>
+                      <Radio value={planValue}>
+                        {findSelectPlan(planValue).name}
+                      </Radio>
+                    </div>
+                  )}
                 {createPlanPreview()}
                 <Button className={styles.MoreBtn} onClick={onOpen}>
                   더 많은 요금제 보기
