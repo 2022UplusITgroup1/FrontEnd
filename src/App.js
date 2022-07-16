@@ -20,20 +20,24 @@ function App() {
           <Route exact path="/" component={Main} />
           <Route
             exact
-            path="/5g-phone"
+            path="/mobile/5g-phone"
             component={() => <List category="5G" />}
           />
           <Route
             exact
-            path="/4g-phone"
+            path="/mobile/4g-phone"
             component={() => <List category="4G" />}
           />
-          <Route exact path="/detail/:ph_code" component={Detail} />
-          <Route exact path="/order" component={Order} />
-          <Route exact path="/search" component={Search} />
-          <Route exact path="/inquiry" component={Inquiry} />
-          <Route exact path="/inquiry-result" component={Result} />
-          <Route exact path="/order-result" component={OrderResult} />
+          <Route
+            exact
+            path="/mobile/detail/:pl_code/:ph_code/:color/:dc_type"
+            component={Detail}
+          />
+          <Route exact path="/mobile/order" component={Order} />
+          <Route exact path="/mobile/search" component={Search} />
+          <Route exact path="/mobile/inquiry" component={Inquiry} />
+          <Route exact path="/mobile/inquiry-result" component={Result} />
+          <Route exact path="/mobile/order-result" component={OrderResult} />
         </Layout>
       </Router>
     </ChakraProvider>
@@ -43,3 +47,4 @@ function App() {
 Modal.setAppElement("#root");
 
 export default App;
+

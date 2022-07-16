@@ -1,0 +1,50 @@
+{
+  "phone": {
+    "storage": {
+      "capability": 256
+    },
+    "brand": {
+      "name": "삼성"
+    },
+    "code": "SM-F711N",
+    "name": "갤럭시 Z 플립3",
+    "imgThumbnail": "https://image.lguplus.com/common/images/hphn/product/SM-A536N/list/ushop_SM-A536N_AB_A20220317160344524.jpg",
+    "networkSupport": "5G",
+    "discountType": 2,
+    "color": "black",
+    "price": 1254000,
+    "sales": 0
+  },
+  "plan": {
+    "code": "LUP0001",
+    "name": "5G 프리미어 에센셜",
+    "networkSupport": "5G",
+    "data": 300,
+    "message": 1050,
+    "voice": 600,
+    "price": 85000,
+    "shareData": 50
+  },
+  "images": [
+    {
+      "imgPath": "https://image.lguplus.com/static/pc-contents/images/prdv/20220616-074546-107-EpOJVZKV.jpg",
+      "imgName": "Galaxy_Z_Flip_3_1.jpg",
+      "imgPos": "front"
+    },
+    {
+      "imgPath": "https://image.lguplus.com/static/pc-contents/images/prdv/20220616-074546-105-5XFcEWAn.jpg",
+      "imgName": "Galaxy_Z_Flip_3_2.jpg",
+      "imgPos": "zoom"
+    },
+    {
+      "imgPath": "https://image.lguplus.com/static/pc-contents/images/prdv/20220616-074546-123-xI98LvJp.jpg",
+      "imgName": "Galaxy_Z_Flip_3_3.jpg",
+      "imgPos": "side"
+    },
+    {
+      "imgPath": "https://image.lguplus.com/static/pc-contents/images/prdv/20220616-074546-105-6upl4lWx.jpg",
+      "imgName": "Galaxy_Z_Flip_3_4.jpg",
+      "imgPos": "back"
+    }
+  ]
+}

@@ -1,13 +1,14 @@
-.Container {
+.ListContainer {
   width: 1640px;
   margin: 0 auto;
   display: flex;
   padding-bottom: 120px;
   margin: 0 auto;
   margin-top: 50px;
+  min-width: 1440px;
 }
 
-.Title {
+.ListTitle {
   font-size: x-large;
   font-weight: bold;
   margin-bottom: 20px;
@@ -20,13 +21,13 @@
   justify-content: space-between;
 }
 
-.Options {
+.ListOption {
   width: 240px;
   margin-right: 32px;
   margin-top: 10px;
 }
 
-.ItemList {
+.ListItem {
   width: 1168px;
 }
 

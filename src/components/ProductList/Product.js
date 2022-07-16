@@ -1,15 +1,29 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./Product.module.css";
 import { Link } from "react-router-dom";
 import { Box, Image, Button } from "@chakra-ui/react";
+import convertNumber from "../../utils/convertNumber";
+import calcMonthPrice from "../../utils/calcMonthPrice";
+import calcDiscountPrice from "../../utils/calcDiscountPrice";
+import { useSelector } from "react-redux";
 
-function Product({data}) {
-  const productData = {
-    code: data.code,
-    name: data.name,
-    imgThumbnail: data.imgThumbnail,
-    price: data.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+function Product({ product, plans }) {
+  const DETAIL_URL = `/mobile/detail/${product.brand["name"]}/${product.code}/${product.color}/${product.discountType}`;
+
+  const options = useSelector((state) => state.changeOptionReducer);
+  //console.log(options);
+
+  let plan = [];
+  if (options.planValue === "0") {
+    plan = plans[0];
+  } else {
+    plan = plans.find((p) => p.code === options.planValue);
   }
+
+  const prices = calcMonthPrice(product.price, plan.price);
+  const nowPrice = calcDiscountPrice(options.discountValue, prices);
+  //console.log(nowPrice);
+
   return (
     <Box
       className={styles.Container}
@@ -18,29 +32,34 @@ function Product({data}) {
       borderRadius="lg"
       overflow="hidden"
     >
-      <Link to={`/detail/${data.code}`} style={{ textDecoration: "none" }}>
+      <Link to={DETAIL_URL} style={{ textDecoration: "none" }}>
         <Box className={styles.BoxTop}>
           <Box className={styles.ImgBox}>
             <Image
               className={styles.ProductImg}
-              src={productData.imgThumbnail}
-              alt={productData.name}
+              src={product.imgThumbnail}
+              alt={product.name}
             />
           </Box>
-          <Box className={styles.ProductTitle}>{productData.name}</Box>
-          <Box className={styles.ProductSubTitle}>요금제 정보</Box>
+          <Box className={styles.ProductTitle}>{product.name}</Box>
+          <Box className={styles.ProductSubTitle}>
+            {plan.name}
+            <div className={styles.ProductDiscountType}>{nowPrice.name}</div>
+          </Box>
         </Box>
       </Link>
 
       <Box className={styles.BoxBottom} p="6">
-        <Link to={`/detail/${productData.code}`} style={{ textDecoration: "none" }}>
+        <Link to={DETAIL_URL} style={{ textDecoration: "none" }}>
           <Box className={styles.Price}>
-            <Box className={styles.PriceTxt}>휴대폰 월 {productData.price}원</Box>
             <Box className={styles.PriceTxt}>
-              통신료 월 {productData.price}원
+              휴대폰 월 {convertNumber(nowPrice.phone)}원
+            </Box>
+            <Box className={styles.PriceTxt}>
+              통신료 월 {convertNumber(nowPrice.plan)}원
             </Box>
             <Box className={styles.MonthPrice}>
-              월 {productData.price}원
+              월 {convertNumber(nowPrice.total)}원
             </Box>
           </Box>
         </Link>
@@ -51,9 +70,14 @@ function Product({data}) {
           mt="2"
           alignItems="center"
         >
-          <Button className={styles.CompareBtn} borderRadius='50px' >비교하기</Button>
-          <Link to={`/detail/${productData.code}`} style={{ textDecoration: "none" }}>
-          <Button className={styles.OrderBtn} borderRadius='50px' >주문하기</Button></Link>
+          <Button className={styles.CompareBtn} borderRadius="50px">
+            비교하기
+          </Button>
+          <Link to={DETAIL_URL} style={{ textDecoration: "none" }}>
+            <Button className={styles.OrderBtn} borderRadius="50px">
+              주문하기
+            </Button>
+          </Link>
         </Box>
       </Box>
     </Box>

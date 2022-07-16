@@ -4,6 +4,8 @@
   min-width: 1440px;
 }
 
+/* ---------- 상세 정보 섹션 ---------- */
+
 .Information {
   width: 1440px px;
   margin: 0 auto;
@@ -11,6 +13,8 @@
   margin-left: 70px;
   margin-right: 200px;
 }
+
+/* ----- 상품 이미지 섹션 ----- */
 
 .ProductImg {
   height: 620px;
@@ -38,7 +42,7 @@
   width: 100px;
 }
 
-/* */
+/* ----- 상품 정보 섹션 ----- */
 
 .ProductInfo {
   margin-left: 875px;
@@ -85,7 +89,7 @@
   margin-bottom: 10px;
 }
 
-/* 주문 버튼 */
+/* ----- 주문 버튼 ----- */
 
 .InfoBtn {
   display: flex;
@@ -109,7 +113,8 @@
   border: none;
 }
 
-/* 주문 상세 */
+/* ---------- 주문 상세 섹션 ---------- */
+
 .OrderDetail {
   position: relative;
   margin-top: 48px;
@@ -130,15 +135,61 @@
   margin-bottom: 50px;
 }
 
-.InfoTable {
-  position: relative;
-  margin: 0;
-  table-layout: fixed;
+.OrderInfoTableContainer {
+  width: 100%;
+}
+
+.OrderInfoTable {
+  width: 100%;
+}
+
+.OrderInfoTbody {
   display: flex;
   flex-wrap: wrap;
 }
 
-/* 상품 정보 컴포넌트 */
+.OrderInfoTr {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 50px;
+}
+
+.OrderInfoTh {
+  width: 210px;
+  text-align: left;
+}
+
+.OrderInfoTd {
+  flex: 1 1 40%;
+}
+
+.OrderInfoTdHeader {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.OrderInfoTdTitle {
+  margin-bottom: 20px;
+}
+
+.OrderInfoTdBtn {
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.OrderInfoThTitle {
+  margin-bottom: 10px;
+}
+
+.OrderInfoThDetail {
+  font-weight: 100;
+  font-size: small;
+}
+
+/* ---------- 상품 정보 컴포넌트 ----------*/
+
 .ProductDetail {
   position: absolute;
   top: 0;
@@ -147,15 +198,3 @@
   padding: 24px 32px;
   width: 342px;
 }
-
-/*
-
-  left: 1125px;
-  top: 112px;
-  max-height: calc(100% - 180px);
-  display: flex;
-  flex-direction: column;
-  z-index: 100;
-  margin-left: 0;
-  padding-right: 32px !important;
-*/
