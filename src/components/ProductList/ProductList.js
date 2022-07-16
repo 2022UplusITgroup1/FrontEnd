@@ -20,6 +20,10 @@ function ProductList({ product, plan }) {
   if (options.brandValue === "0") selectedProduct = product;
   //console.log(selectedProduct);
 
+  selectedProduct = selectedProduct.filter(
+    (p) => p["storage"]["capability"] >= Number(options.storageValue)
+  );
+
   return (
     <div className={styles.Container}>
       <div className={styles.Header}>

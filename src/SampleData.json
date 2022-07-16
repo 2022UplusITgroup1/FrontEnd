@@ -1,40 +1,40 @@
 [
   {
-      "storage": {
-          "capability": 128
-      },
-      "brand": {
-          "name": "애플"
-      },
-      "code": "A2783-256",
-      "name": "iPhone SE 256GB 3세대",
-      "imgThumbnail": "https://image.lguplus.com/common/images/hphn/product/A2633-256/list/ushop_A2633-256_20_A20210928164843211.jpg",
-      "networkSupport": "5G",
-      "discountType": 1,
-      "color": "red",
-      "price": 799700
-  },
-  {
-      "storage": {
-          "capability": 256
-      },
-      "brand": {
-          "name": "삼성"
-      },
-      "code": "SM-F711N",
-      "name": "갤럭시 Z 플립3",
-      "imgThumbnail": "https://image.lguplus.com/common/images/hphn/product/SM-A536N/list/ushop_SM-A536N_AB_A20220317160344524.jpg",
-      "networkSupport": "5G",
-      "discountType": 2,
-      "color": "black",
-      "price": 1254000
+    "storage": {
+      "capability": 128
+    },
+    "brand": {
+      "name": "애플"
+    },
+    "code": "A2783-256",
+    "name": "iPhone SE 256GB 3세대",
+    "imgThumbnail": "https://image.lguplus.com/common/images/hphn/product/A2633-256/list/ushop_A2633-256_20_A20210928164843211.jpg",
+    "networkSupport": "5G",
+    "discountType": 1,
+    "color": "red",
+    "price": 799700
   },
   {
     "storage": {
-        "capability": 64
+      "capability": 256
     },
     "brand": {
-        "name": "애플"
+      "name": "삼성"
+    },
+    "code": "SM-F711N",
+    "name": "갤럭시 Z 플립3",
+    "imgThumbnail": "https://image.lguplus.com/common/images/hphn/product/SM-A536N/list/ushop_SM-A536N_AB_A20220317160344524.jpg",
+    "networkSupport": "5G",
+    "discountType": 2,
+    "color": "black",
+    "price": 1254000
+  },
+  {
+    "storage": {
+      "capability": 64
+    },
+    "brand": {
+      "name": "애플"
     },
     "code": "A2783-642",
     "name": "iPhone SE 64GB 3세대",
@@ -43,13 +43,13 @@
     "discountType": 3,
     "color": "silver",
     "price": 900000
-},
-{
+  },
+  {
     "storage": {
-        "capability": 128
+      "capability": 513
     },
     "brand": {
-        "name": "삼성"
+      "name": "삼성"
     },
     "code": "SM-F711N",
     "name": "Galaxy Buddy 2",
@@ -58,13 +58,13 @@
     "discountType": 0,
     "color": "blue",
     "price": 1867000
-},
-{
+  },
+  {
     "storage": {
-        "capability": 256
+      "capability": 256
     },
     "brand": {
-        "name": "애플"
+      "name": "애플"
     },
     "code": "A2783-875",
     "name": "iPhone XS 256GB",
@@ -73,13 +73,13 @@
     "discountType": 1,
     "color": "pink",
     "price": 502700
-},
-{
+  },
+  {
     "storage": {
-        "capability": 64
+      "capability": 64000
     },
     "brand": {
-        "name": "삼성"
+      "name": "삼성"
     },
     "code": "SM-F733N",
     "name": "갤럭시 S22+",
@@ -88,5 +88,5 @@
     "discountType": 2,
     "color": "yellow",
     "price": 2843000
-}
+  }
 ]

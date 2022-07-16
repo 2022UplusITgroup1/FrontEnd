@@ -169,9 +169,9 @@ function Option({ plan }) {
             <RadioGroup onChange={onChangeStorageValue} value={storageValue}>
               <Stack>
                 <Radio value="0">전체</Radio>
-                <Radio value="1">1TB</Radio>
-                <Radio value="2">512GB 이상</Radio>
-                <Radio value="3">256GB</Radio>
+                <Radio value="1000">1TB</Radio>
+                <Radio value="512">512GB 이상</Radio>
+                <Radio value="256">256GB</Radio>
               </Stack>
             </RadioGroup>
           </AccordionPanel>
