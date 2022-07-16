@@ -5,21 +5,21 @@ import { Box, Image, Button } from "@chakra-ui/react";
 import convertNumber from "../../utils/convertNumber";
 import calcMonthPrice from "../../utils/calcMonthPrice";
 import calcDiscountPrice from "../../utils/calcDiscountPrice";
-import {useSelector} from "react-redux";
+import { useSelector } from "react-redux";
 
 function Product({ product, plans }) {
   const DETAIL_URL = `/mobile/detail/${product.brand["name"]}/${product.code}/${product.color}/${product.discountType}`;
 
-  const options = useSelector(state => state.changeOptionReducer);
+  const options = useSelector((state) => state.changeOptionReducer);
   //console.log(options);
-  
+
   let plan = [];
-  if(options.planValue === '0') {
+  if (options.planValue === "0") {
     plan = plans[0];
   } else {
-    plan = plans.find(p => p.code === options.planValue);
+    plan = plans.find((p) => p.code === options.planValue);
   }
-  
+
   const prices = calcMonthPrice(product.price, plan.price);
   const nowPrice = calcDiscountPrice(options.discountValue, prices);
   //console.log(nowPrice);
@@ -44,9 +44,7 @@ function Product({ product, plans }) {
           <Box className={styles.ProductTitle}>{product.name}</Box>
           <Box className={styles.ProductSubTitle}>
             {plan.name}
-            <div className={styles.ProductDiscountType}>
-              {nowPrice.name}
-            </div>
+            <div className={styles.ProductDiscountType}>{nowPrice.name}</div>
           </Box>
         </Box>
       </Link>
@@ -60,7 +58,9 @@ function Product({ product, plans }) {
             <Box className={styles.PriceTxt}>
               통신료 월 {convertNumber(nowPrice.plan)}원
             </Box>
-            <Box className={styles.MonthPrice}>월 {convertNumber(nowPrice.total)}원</Box>
+            <Box className={styles.MonthPrice}>
+              월 {convertNumber(nowPrice.total)}원
+            </Box>
           </Box>
         </Link>
 

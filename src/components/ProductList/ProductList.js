@@ -2,13 +2,23 @@ import React, { useState } from "react";
 import styles from "./ProductList.module.css";
 import Product from "./Product";
 import { Select } from "@chakra-ui/react";
-import {useSelector} from "react-redux";
+import { useSelector } from "react-redux";
+import mapBrandName from "../../utils/mapBrandName";
 
 function ProductList({ product, plan }) {
   const [isSelect, setIsSelect] = useState(0);
   const onSelectChange = (e) => {
     setIsSelect(e.target.value);
   };
+
+  const options = useSelector((state) => state.changeOptionReducer);
+  //console.log(options);
+
+  let selectedProduct = product.filter(
+    (p) => p["brand"]["name"] === mapBrandName(options.brandValue)
+  );
+  if (options.brandValue === "0") selectedProduct = product;
+  //console.log(selectedProduct);
 
   return (
     <div className={styles.Container}>
@@ -28,11 +38,13 @@ function ProductList({ product, plan }) {
           </Select>
         </div>
       </div>
-      <div className={styles.ProductList}>
-        {/* 상품 리스트 */}
-        {product.map((p, i) => {
-          return <Product product={p} plans={plan} key={i} />;
-        })}
+      <div className={styles.ProductListContainer}>
+        <div className={styles.ProductList}>
+          {/* 상품 리스트 */}
+          {selectedProduct.map((p, i) => {
+            return <Product product={p} plans={plan} key={i} />;
+          })}
+        </div>
       </div>
     </div>
   );
