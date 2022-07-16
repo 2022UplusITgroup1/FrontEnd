@@ -1,6 +1,6 @@
 import styles from "./ModalPlanBox.module.css";
 import { Box, Radio, RadioGroup, Stack } from "@chakra-ui/react";
-import convertPrice from "../../utils/convertPrice";
+import convertNumber from "../../utils/convertNumber";
 
 function ModalPlanBox({ plan, i }) {
   return (
@@ -11,14 +11,14 @@ function ModalPlanBox({ plan, i }) {
             <div className={styles.PlanInfo}>
               <div className={styles.PlanMain}>
                 <div className={styles.PlanName}>{plan.name}</div>
-                <div className={styles.PlanPrice}>{convertPrice(plan.price)}원</div>
+                <div className={styles.PlanPrice}>{convertNumber(plan.price)}원</div>
               </div>
 
               <div className={styles.PlanDetail}>
-                <div className={styles.PlanDetailItem}>{plan.data}GB</div>
-                <div className={styles.PlanDetailItem}>{plan.shareData}GB</div>
-                <div className={styles.PlanDetailItem}>{plan.voice}분</div>
-                <div className={styles.PlanDetailItem}>{plan.message}건</div>
+                <div className={styles.PlanDetailItem}>{convertNumber(plan.data)}GB</div>
+                <div className={styles.PlanDetailItem}>{convertNumber(plan.shareData)}GB</div>
+                <div className={styles.PlanDetailItem}>{convertNumber(plan.voice)}분</div>
+                <div className={styles.PlanDetailItem}>{convertNumber(plan.message)}건</div>
               </div>
             </div>
           </Radio>

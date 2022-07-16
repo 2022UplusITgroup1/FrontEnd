@@ -5,7 +5,7 @@ const initialState = {
     discountValue: '0',
     brandValue: '0',
     storageValue: '0',
-    sortValue: '0' 
+    sortValue: '0'
 };
 
 function changeOptionReducer(state = initialState, action) {

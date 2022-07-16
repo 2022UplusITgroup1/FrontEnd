@@ -6,7 +6,7 @@ import {
   ModalHeader, ModalFooter, ModalBody,
   ModalCloseButton, useDisclosure,
 } from "@chakra-ui/react";
-import convertPrice from "../../utils/convertPrice";
+import convertNumber from "../../utils/convertNumber";
 
 function RecentlyViewed() {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -60,7 +60,7 @@ function RecentlyViewed() {
           >
             {property.title}
             <br />
-            {convertPrice(property.total)} 원
+            {convertNumber(property.total)} 원
           </GridItem>
         </Link>
         <GridItem pl="1" area={"total"}>

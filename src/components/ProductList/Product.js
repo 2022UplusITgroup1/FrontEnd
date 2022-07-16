@@ -1,11 +1,28 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./Product.module.css";
 import { Link } from "react-router-dom";
 import { Box, Image, Button } from "@chakra-ui/react";
-import convertPrice from "../../utils/convertPrice";
+import convertNumber from "../../utils/convertNumber";
+import calcMonthPrice from "../../utils/calcMonthPrice";
+import calcDiscountPrice from "../../utils/calcDiscountPrice";
+import {useSelector} from "react-redux";
 
-function Product({ product }) {
+function Product({ product, plans }) {
   const DETAIL_URL = `/mobile/detail/${product.brand["name"]}/${product.code}/${product.color}/${product.discountType}`;
+
+  const options = useSelector(state => state.changeOptionReducer);
+  //console.log(options);
+  
+  let plan = [];
+  if(options.planValue === '0') {
+    plan = plans[0];
+  } else {
+    plan = plans.find(p => p.code === options.planValue);
+  }
+  
+  const prices = calcMonthPrice(product.price, plan.price);
+  const nowPrice = calcDiscountPrice(options.discountValue, prices);
+  //console.log(nowPrice);
 
   return (
     <Box
@@ -25,7 +42,12 @@ function Product({ product }) {
             />
           </Box>
           <Box className={styles.ProductTitle}>{product.name}</Box>
-          <Box className={styles.ProductSubTitle}>요금제 정보</Box>
+          <Box className={styles.ProductSubTitle}>
+            {plan.name}
+            <div className={styles.ProductDiscountType}>
+              {nowPrice.name}
+            </div>
+          </Box>
         </Box>
       </Link>
 
@@ -33,12 +55,12 @@ function Product({ product }) {
         <Link to={DETAIL_URL} style={{ textDecoration: "none" }}>
           <Box className={styles.Price}>
             <Box className={styles.PriceTxt}>
-              휴대폰 월 {convertPrice(product.price)}원
+              휴대폰 월 {convertNumber(nowPrice.phone)}원
             </Box>
             <Box className={styles.PriceTxt}>
-              통신료 월 {convertPrice(product.price)}원
+              통신료 월 {convertNumber(nowPrice.plan)}원
             </Box>
-            <Box className={styles.MonthPrice}>월 {convertPrice(product.price)}원</Box>
+            <Box className={styles.MonthPrice}>월 {convertNumber(nowPrice.total)}원</Box>
           </Box>
         </Link>
 

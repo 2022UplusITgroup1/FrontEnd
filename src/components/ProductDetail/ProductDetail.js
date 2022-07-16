@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./ProductDetail.module.css";
 import { Link } from "react-router-dom";
-import convertPrice from "../../utils/convertPrice";
+import convertNumber from "../../utils/convertNumber";
 
 function ProductDetail({ property }) {
   return (
@@ -26,7 +26,7 @@ function ProductDetail({ property }) {
             <strong>월 통신료</strong>
             <span>0 원</span>
             <div className={styles.TotalPrice}>
-              월 납부금액 {convertPrice(property["totalPrice"])} 원
+              월 납부금액 {convertNumber(property["totalPrice"])} 원
             </div>
           </div>
         </div>

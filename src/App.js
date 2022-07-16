@@ -20,12 +20,12 @@ function App() {
           <Route exact path="/" component={Main} />
           <Route
             exact
-            path="/5g-phone"
+            path="/mobile/5g-phone"
             component={() => <List category="5G" />}
           />
           <Route
             exact
-            path="/4g-phone"
+            path="/mobile/4g-phone"
             component={() => <List category="4G" />}
           />
           <Route

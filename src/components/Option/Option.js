@@ -3,18 +3,18 @@ import styles from "./Option.module.css";
 import { Accordion, AccordionItem, AccordionButton, AccordionPanel, AccordionIcon, } from "@chakra-ui/react";
 import { Box, Button, Stack, Radio, RadioGroup, Select, } from "@chakra-ui/react";
 import { useDisclosure, Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, } from "@chakra-ui/react";
-import convertPrice from "../../utils/convertPrice";
+import convertNumber from "../../utils/convertNumber";
 import {useSelector, useDispatch} from "react-redux";
 import {changePlan, changeDiscount, changeBrand, changeStorage, changeProductSort, resetData } from "../../actions";
 
 function Option({ plan }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const dispatch = useDispatch();
-  const [planValue, setPlanValue] = useState("0");
-  const [discountValue, setDiscountValue] = useState("0");
-  const [brandValue, setBrandValue] = useState("0");
-  const [storageValue, setStorageValue] = useState("0");
-  const [sortValue, setSotrValue] = useState("0");
+  const [planValue, setPlanValue] = useState('0');
+  const [discountValue, setDiscountValue] = useState('0');
+  const [brandValue, setBrandValue] = useState('0');
+  const [storageValue, setStorageValue] = useState('0');
+  const [sortValue, setSotrValue] = useState('0');
   const onChangePlanValue = (value) => {
     dispatch(changePlan(value));
     setPlanValue(value);
@@ -75,7 +75,7 @@ function Option({ plan }) {
           <AccordionPanel pb={4}>
             <RadioGroup onChange={onChangePlanValue} value={planValue}>
               <Stack className={styles.RatePlan}>
-                <Radio value="0">가장 알맞은 요금제</Radio>
+                <Radio value='0'>가장 알맞은 요금제</Radio>
                 {createPlanPreview()}
                 <Button className={styles.MoreBtn} onClick={onOpen}>
                   더 많은 요금제 보기
@@ -97,10 +97,10 @@ function Option({ plan }) {
           <AccordionPanel pb={4}>
             <RadioGroup onChange={onChangeDiscountValue} value={discountValue}>
               <Stack>
-                <Radio value="0">추천</Radio>
-                <Radio value="1">공시지원금</Radio>
-                <Radio value="2">선택약정24개월</Radio>
-                <Radio value="3">선택약정12개월</Radio>
+                <Radio value='0'>추천</Radio>
+                <Radio value='1'>공시지원금</Radio>
+                <Radio value='2'>선택약정24개월</Radio>
+                <Radio value='3'>선택약정12개월</Radio>
               </Stack>
             </RadioGroup>
           </AccordionPanel>
@@ -118,10 +118,10 @@ function Option({ plan }) {
           <AccordionPanel pb={4}>
             <RadioGroup onChange={onChangeBrandValue} value={brandValue}>
               <Stack>
-                <Radio value="0">전체</Radio>
-                <Radio value="1">삼성</Radio>
-                <Radio value="2">애플</Radio>
-                <Radio value="3">기타</Radio>
+                <Radio value='0'>전체</Radio>
+                <Radio value='1'>삼성</Radio>
+                <Radio value='2'>애플</Radio>
+                <Radio value='3'>기타</Radio>
               </Stack>
             </RadioGroup>
           </AccordionPanel>
@@ -139,10 +139,10 @@ function Option({ plan }) {
           <AccordionPanel pb={4}>
             <RadioGroup onChange={onChangeStorageValue} value={storageValue}>
               <Stack>
-                <Radio value="0">전체</Radio>
-                <Radio value="1">1TB</Radio>
-                <Radio value="2">512GB 이상</Radio>
-                <Radio value="3">256GB</Radio>
+                <Radio value='0'>전체</Radio>
+                <Radio value='1'>1TB</Radio>
+                <Radio value='2'>512GB 이상</Radio>
+                <Radio value='3'>256GB</Radio>
               </Stack>
             </RadioGroup>
           </AccordionPanel>
@@ -164,10 +164,10 @@ function Option({ plan }) {
             <div className={styles.HeaderSortContainer}>
               <div className={styles.HeaderSelectSort}>
                 <Select value={sortValue} onChange={onChangeSortValue}>
-                  <option value="0">많은 데이터 사용량 순</option>
-                  <option value="1">적은 데이터 사용량 순</option>
-                  <option value="2">높은 가격 순</option>
-                  <option value="3">낮은 가격 순</option>
+                  <option value='0'>많은 데이터 사용량 순</option>
+                  <option value='1'>적은 데이터 사용량 순</option>
+                  <option value='2'>높은 가격 순</option>
+                  <option value='3'>낮은 가격 순</option>
                 </Select>
               </div>
             </div>
@@ -199,22 +199,22 @@ function Option({ plan }) {
                             <div className={styles.PlanMain}>
                               <div className={styles.PlanName}>{p.name}</div>
                               <div className={styles.PlanPrice}>
-                                {convertPrice(p.price)}원
+                                {convertNumber(p.price)}원
                               </div>
                             </div>
 
                             <div className={styles.PlanDetail}>
                               <div className={styles.PlanDetailItem}>
-                                {p.data}GB
+                                {convertNumber(p.data)}GB
                               </div>
                               <div className={styles.PlanDetailItem}>
-                                {p.shareData}GB
+                                {convertNumber(p.shareData)}GB
                               </div>
                               <div className={styles.PlanDetailItem}>
-                                {p.voice}분
+                                {convertNumber(p.voice)}분
                               </div>
                               <div className={styles.PlanDetailItem}>
-                                {p.message}건
+                                {convertNumber(p.message)}건
                               </div>
                             </div>
                           </div>

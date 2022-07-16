@@ -14,7 +14,7 @@ export function changePlan(data) {
 }
 
 export function changeDiscount(data) {
-  //console.log(data);
+  console.log("changeDiscount: " + data);
   return {
     type: CHANGE_DISCOUNT,
     discountValue: data
@@ -22,7 +22,7 @@ export function changeDiscount(data) {
 }
 
 export function changeBrand(data) {
-    //console.log(data);
+    console.log("changeBrand: " + data);
     return {
         type: CHANGE_BRAND,
         brandValue: data
@@ -30,7 +30,7 @@ export function changeBrand(data) {
   }
   
 export function changeStorage(data) {
-    //console.log(data);
+    console.log("changeStorage: " + data);
     return {
       type: CHANGE_STORAGE,
       storageValue: data
@@ -38,7 +38,7 @@ export function changeStorage(data) {
   }
 
 export function changeProductSort(data) {
-    //console.log(data);
+    console.log("changeProductSort: " + data);
     return {
         type: CHANGE_PRODUCT_SORT,
         sortValue: data

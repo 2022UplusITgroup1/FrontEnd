@@ -1,7 +1,7 @@
 import styles from "./OrderPlanBox.module.css";
 import { Box, Radio, RadioGroup, Stack, useStatStyles } from "@chakra-ui/react";
 import { useState } from "react";
-import convertPrice from "../../utils/convertPrice";
+import convertNumber from "../../utils/convertNumber";
 
 function OrderPlanBox({ data }) {
   const [planValue, setPlanValue] = useState(0);
@@ -24,19 +24,19 @@ function OrderPlanBox({ data }) {
           <div className={styles.OrderPlanInfo}>
             <div className={styles.OrderPlanMain}>
               <div className={styles.OrderPlanName}>{data[i].name}</div>
-              <div className={styles.OrderPlanPrice}>{convertPrice(data[i].price)}원</div>
+              <div className={styles.OrderPlanPrice}>{convertNumber(data[i].price)}원</div>
             </div>
 
             <div className={styles.OrderPlanDetail}>
-              <div className={styles.OrderPlanDetailItem}>{data[i].data}GB</div>
+              <div className={styles.OrderPlanDetailItem}>{convertNumber(data[i].data)}GB</div>
               <div className={styles.OrderPlanDetailItem}>
-                {data[i].shareData}GB
+                {convertNumber(data[i].shareData)}GB
               </div>
               <div className={styles.OrderPlanDetailItem}>
-                {data[i].voice}분
+                {convertNumber(data[i].voice)}분
               </div>
               <div className={styles.OrderPlanDetailItem}>
-                {data[i].message}건
+                {convertNumber(data[i].message)}건
               </div>
             </div>
           </div>
