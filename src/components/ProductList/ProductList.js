@@ -2,15 +2,20 @@ import React, { useState } from "react";
 import styles from "./ProductList.module.css";
 import Product from "./Product";
 import { Select } from "@chakra-ui/react";
+import {useSelector} from "react-redux";
 
-function ProductList({ data }) {
+function ProductList({ product, plan }) {
   const [isSelect, setIsSelect] = useState("0");
   const onSelectChange = (e) => {
     setIsSelect(e.target.value);
   };
+  const options = useSelector(state => state.changeOptionReducer);
+  console.log(options);
+  
+
   return (
-    <div>
-      <div className={styles.Container}>
+    <div className={styles.Container}>
+      <div className={styles.Header}>
         {/* 전체 개수 & 정렬 */}
         <div className={styles.TotalCount}>
           <div className={styles.TotalCountTxt}>전체 32건</div>
@@ -28,8 +33,8 @@ function ProductList({ data }) {
       </div>
       <div className={styles.ProductList}>
         {/* 상품 리스트 */}
-        {data.map((product, i) => {
-          return (<Product data={product} key={i} />);
+        {product.map((p, i) => {
+          return <Product product={p} options={options} key={i} />;
         })}
       </div>
     </div>

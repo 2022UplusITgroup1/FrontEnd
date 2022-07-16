@@ -1,11 +1,9 @@
 import { combineReducers } from "redux";
 
-import addsubReducer from "./addsub";
-import countingReducer from "./counting";
+import changeOptionReducer from "./changeOptionReducer";
 
 const reducer = combineReducers({
-  value: addsubReducer,
-  count: countingReducer,
+  changeOptionReducer,
 });
 
 export default reducer;

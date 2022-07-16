@@ -2,14 +2,10 @@ import React, { useState } from "react";
 import styles from "./Product.module.css";
 import { Link } from "react-router-dom";
 import { Box, Image, Button } from "@chakra-ui/react";
+import convertPrice from "../../utils/convertPrice";
 
-function Product({ data }) {
-  const productData = {
-    ...data,
-    price: data.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","),
-  };
-
-  const DETAIL_URL = `/mobile/detail/${productData.brand["name"]}/${productData.code}/${productData.color}/${productData.discountType}`;
+function Product({ product }) {
+  const DETAIL_URL = `/mobile/detail/${product.brand["name"]}/${product.code}/${product.color}/${product.discountType}`;
 
   return (
     <Box
@@ -24,11 +20,11 @@ function Product({ data }) {
           <Box className={styles.ImgBox}>
             <Image
               className={styles.ProductImg}
-              src={productData.imgThumbnail}
-              alt={productData.name}
+              src={product.imgThumbnail}
+              alt={product.name}
             />
           </Box>
-          <Box className={styles.ProductTitle}>{productData.name}</Box>
+          <Box className={styles.ProductTitle}>{product.name}</Box>
           <Box className={styles.ProductSubTitle}>요금제 정보</Box>
         </Box>
       </Link>
@@ -37,12 +33,12 @@ function Product({ data }) {
         <Link to={DETAIL_URL} style={{ textDecoration: "none" }}>
           <Box className={styles.Price}>
             <Box className={styles.PriceTxt}>
-              휴대폰 월 {productData.price}원
+              휴대폰 월 {convertPrice(product.price)}원
             </Box>
             <Box className={styles.PriceTxt}>
-              통신료 월 {productData.price}원
+              통신료 월 {convertPrice(product.price)}원
             </Box>
-            <Box className={styles.MonthPrice}>월 {productData.price}원</Box>
+            <Box className={styles.MonthPrice}>월 {convertPrice(product.price)}원</Box>
           </Box>
         </Link>
 

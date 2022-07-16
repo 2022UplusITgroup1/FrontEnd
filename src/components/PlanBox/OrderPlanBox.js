@@ -1,6 +1,7 @@
 import styles from "./OrderPlanBox.module.css";
 import { Box, Radio, RadioGroup, Stack, useStatStyles } from "@chakra-ui/react";
 import { useState } from "react";
+import convertPrice from "../../utils/convertPrice";
 
 function OrderPlanBox({ data }) {
   const [planValue, setPlanValue] = useState(0);
@@ -23,7 +24,7 @@ function OrderPlanBox({ data }) {
           <div className={styles.OrderPlanInfo}>
             <div className={styles.OrderPlanMain}>
               <div className={styles.OrderPlanName}>{data[i].name}</div>
-              <div className={styles.OrderPlanPrice}>{data[i].price}원</div>
+              <div className={styles.OrderPlanPrice}>{convertPrice(data[i].price)}원</div>
             </div>
 
             <div className={styles.OrderPlanDetail}>

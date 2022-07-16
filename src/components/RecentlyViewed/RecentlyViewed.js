@@ -2,15 +2,11 @@ import { Link } from "react-router-dom";
 import { Grid, GridItem, Box, Image, Button } from "@chakra-ui/react";
 import styles from "./RecentlyViewed.module.css";
 import {
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
-  ModalBody,
-  ModalCloseButton,
-  useDisclosure,
+  Modal, ModalOverlay, ModalContent,
+  ModalHeader, ModalFooter, ModalBody,
+  ModalCloseButton, useDisclosure,
 } from "@chakra-ui/react";
+import convertPrice from "../../utils/convertPrice";
 
 function RecentlyViewed() {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -24,8 +20,8 @@ function RecentlyViewed() {
     title: "Galaxy Buddy 2",
     subTitle: "5G 라이트+ | 공시지원금",
     phone: "0",
-    communication: "55,000",
-    formattedPrice: "55,000",
+    plan: "55000",
+    total: "55000",
     reviewCount: 34,
     rating: 4,
   };
@@ -64,7 +60,7 @@ function RecentlyViewed() {
           >
             {property.title}
             <br />
-            {property.communication}
+            {convertPrice(property.total)} 원
           </GridItem>
         </Link>
         <GridItem pl="1" area={"total"}>
