@@ -40,10 +40,16 @@ function Option({ plan }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const dispatch = useDispatch();
   const [planValue, setPlanValue] = useState("0");
+  const [planModalValue, setPlanModalValue] = useState("0");
   const [discountValue, setDiscountValue] = useState("0");
   const [brandValue, setBrandValue] = useState("0");
   const [storageValue, setStorageValue] = useState("0");
   const [sortValue, setSotrValue] = useState("0");
+
+  const onApplyPlan = () => {
+    onChangePlanValue(planModalValue);
+    onClose();
+  };
   const onChangePlanValue = (value) => {
     dispatch(changePlan(value));
     setPlanValue(value);
@@ -214,8 +220,8 @@ function Option({ plan }) {
           </div>
           <ModalBody className={styles.ModalBody}>
             <RadioGroup
-              onChange={setTotalPlanValue}
-              value={totalPlanValue}
+              onChange={setPlanModalValue}
+              value={planModalValue}
               className={styles.PlanContainer}
             >
               <Stack className={styles.PlanContainerStack}>
@@ -223,7 +229,11 @@ function Option({ plan }) {
                   return (
                     <div className={styles.PlanItemContainer} key={i}>
                       <div className={styles.PlanInfoContainer} key={i}>
-                        <Radio className={styles.PlanItem} value={i} size="lg">
+                        <Radio
+                          className={styles.PlanItem}
+                          value={p.code}
+                          size="lg"
+                        >
                           <div className={styles.PlanInfo}>
                             <div className={styles.PlanMain}>
                               <div className={styles.PlanName}>{p.name}</div>
@@ -271,7 +281,7 @@ function Option({ plan }) {
               <Button onClick={onClose} className={styles.FooterCancelBtn}>
                 취소
               </Button>
-              <Button onClick={onClose} className={styles.FooterApplyBtn}>
+              <Button onClick={onApplyPlan} className={styles.FooterApplyBtn}>
                 적용
               </Button>
             </div>
@@ -281,27 +291,6 @@ function Option({ plan }) {
     </div>
   );
 }
-
-/*
-function mapStateToProps(state) {
-  return {
-    planValue: state.planValue,
-    discountValue: state.discountValue,
-    brandValue: state.brandValue,
-    storageValue: state.storageValue,
-    sortValue: state.sortValue,
-  };
-};
-
-function mapDispatchToProps(dispatch) {
-  return {
-    onClick(data) {
-      dispatch()
-    }
-  }
-}
-
-//Option = connect(mapStateToProps, null)(Option);*/
 
 export default Option;
 
