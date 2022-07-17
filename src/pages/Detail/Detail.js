@@ -158,6 +158,11 @@ function Detail() {
     setJoinType(v);
   };
 
+  // 할인 유형
+  const onChangeDiscountValue = (value) => {
+    setDiscountValue(value);
+  };
+
   // 초기 세팅
   useEffect(() => {
     /* axios GET
@@ -358,15 +363,27 @@ function Detail() {
                               <div className={styles.OrderPlanDetail}>
                                 <div className={styles.OrderPlanDetailItem}>
                                   {convertNumber(Number(plan.data))}GB
+                                  <div className={styles.OrderPlanDetailHeader}>
+                                    데이터
+                                  </div>
                                 </div>
                                 <div className={styles.OrderPlanDetailItem}>
                                   {convertNumber(Number(plan.shareData))}GB
+                                  <div className={styles.OrderPlanDetailHeader}>
+                                    나눠쓰기
+                                  </div>
                                 </div>
                                 <div className={styles.OrderPlanDetailItem}>
                                   {convertNumber(Number(plan.voice))}분
+                                  <div className={styles.OrderPlanDetailHeader}>
+                                    음성통화
+                                  </div>
                                 </div>
                                 <div className={styles.OrderPlanDetailItem}>
                                   {convertNumber(Number(plan.message))}건
+                                  <div className={styles.OrderPlanDetailHeader}>
+                                    메세지
+                                  </div>
                                 </div>
                               </div>
                             </div>
@@ -395,7 +412,75 @@ function Detail() {
                           자세히 보기 ❯
                         </div>
                       </div>
-                      <div className={styles.OrderInfoTdBody}></div>
+                      <div className={styles.OrderInfoTdBody}>
+                        <RadioGroup
+                          onChange={onChangeDiscountValue}
+                          value={discountValue}
+                          className={styles.OrderInfoTdInner}
+                        >
+                          <div
+                            className={styles.OrderInfoTdLeftContainer}
+                            style={{
+                              borderColor:
+                                discountValue === "1" ? "#000" : "#ddd",
+                            }}
+                          >
+                            <Radio
+                              opacity={0}
+                              value="1"
+                              onClick={(e) => setDiscountValue("1")}
+                            >
+                              <div className={styles.OrderInfoTdLeft}>
+                                {/* 공시지원금 */}
+                                <div>
+                                  <div>공시지원금</div>
+                                  <div>휴대폰 가격 1회 할인</div>
+                                </div>
+                                <div className={styles.PublicPrice}>
+                                  총 -
+                                  {convertNumber(
+                                    Number(data["phone"]["price"] * 0.3)
+                                  )}{" "}
+                                  원
+                                </div>
+                              </div>
+                            </Radio>
+                          </div>
+                          <div
+                            className={styles.OrderInfoTdRightContainer}
+                            style={{
+                              borderColor:
+                                discountValue !== "1" ? "#000" : "#ddd",
+                            }}
+                          >
+                            <div className={styles.OrderInfoTdRight}>
+                              {/* 선택약정할인 */}
+                              <div>선택약정할인</div>
+                              <div>통신요금 25% 할인</div>
+                              <div className={styles.SelectPlan}>
+                                <Radio value="2">24개월 할인</Radio>
+                                <span className={styles.SelectPlanPrice}>
+                                  총 -
+                                  {convertNumber(
+                                    Number(plan.price * 24 * 0.25)
+                                  )}{" "}
+                                  원
+                                </span>
+                              </div>
+                              <div className={styles.SelectPlan}>
+                                <Radio value="3">12개월 할인</Radio>
+                                <span className={styles.SelectPlanPrice}>
+                                  총 -
+                                  {convertNumber(
+                                    Number(plan.price * 12 * 0.25)
+                                  )}{" "}
+                                  원
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                        </RadioGroup>
+                      </div>
                     </div>
                     <div className={styles.OrderInfoTdItem}>
                       <div className={styles.OrderInfoTdHeader}>
