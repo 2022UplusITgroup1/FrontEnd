@@ -29,7 +29,9 @@ function ProductList({ product, plan }) {
       <div className={styles.Header}>
         {/* 전체 개수 & 정렬 */}
         <div className={styles.TotalCount}>
-          <div className={styles.TotalCountTxt}>전체 32건</div>
+          <div className={styles.TotalCountTxt}>
+            전체 {selectedProduct.length}건
+          </div>
         </div>
         <div className={styles.SelectSort}>
           <Select variant="flushed" value={isSelect} onChange={onSelectChange}>
