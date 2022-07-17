@@ -2,16 +2,17 @@
   width: 100%;
   margin: 0;
   min-width: 1440px;
+  padding-left: 70px;
+  padding-right: 70px;
 }
 
 /* ---------- 상세 정보 섹션 ---------- */
 
 .Information {
-  width: 1440px px;
+  width: 1440px;
   margin: 0 auto;
   height: 620px;
-  margin-left: 70px;
-  margin-right: 200px;
+  margin-bottom: 100px;
 }
 
 /* ----- 상품 이미지 섹션 ----- */
@@ -47,12 +48,17 @@
 .ProductInfo {
   margin-left: 875px;
   margin-top: 32px;
+  width: 500px;
 }
 
 .ProductName {
   font-size: xx-large;
   font-weight: bolder;
   margin-bottom: 20px;
+}
+
+.ProductColorTitleContainer {
+  display: flex;
 }
 
 .ProductColor {
@@ -62,6 +68,24 @@
 .ProductColorTitle {
   font-weight: bold;
   margin-bottom: 10px;
+  margin-right: 10px;
+}
+
+.ColorBtnContainer {
+}
+
+.ColorBtn {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 2px solid #909090;
+  cursor: pointer;
+}
+
+.ColorBtnInner {
+  display: block;
+  height: 100%;
+  border-radius: 50%;
 }
 
 .CapacityTitle {
@@ -69,10 +93,35 @@
   margin-bottom: 10px;
 }
 
+.CapacityBtn {
+  width: 160px;
+  border: 2px solid #000 !important;
+  border-radius: 6px;
+  min-height: 48px;
+  cursor: default;
+}
+
+.JoinTypeBtn {
+  width: 160px;
+  border: 2px solid #ddd;
+  border-radius: 6px;
+  min-height: 48px;
+}
+
+.JoinTypeBtnSpan {
+}
+
+.JoinType {
+  margin-bottom: 50px;
+  width: 100%;
+}
+
 .JoinTypeTitle {
   font-weight: bold;
   margin-bottom: 10px;
 }
+
+/* --- 가격 --- */
 
 .PriceInfo {
   position: relative;
@@ -86,7 +135,28 @@
 .TotalPrice {
   font-size: x-large;
   font-weight: bold;
+}
+
+.SubTitle {
   margin-bottom: 10px;
+}
+
+.PriceDetail {
+  display: flex;
+  flex-wrap: wrap;
+  font-size: 15px;
+}
+
+.PriceDetailDT {
+  width: 88px;
+  margin-bottom: 4px;
+  font-weight: lighter;
+}
+
+.PriceDetailDD {
+  width: 320px;
+  margin-bottom: 4px;
+  color: #000;
 }
 
 /* ----- 주문 버튼 ----- */
@@ -197,4 +267,359 @@
   margin-left: 380px;
   padding: 24px 32px;
   width: 342px;
+}
+
+/* ---------- 주문 상세 - 요금제 ----------*/
+
+.OrderPlanContainer {
+}
+
+.OrderPlanContainerStack {
+}
+
+.OrderPlanInfoContainer {
+  position: relative;
+  overflow: hidden;
+  background: white;
+  width: 100%;
+}
+
+.OrderPlanItemContainer {
+}
+
+.OrderPlanItem {
+  border: 2px solid #000;
+  margin-bottom: 10px;
+  padding-top: 10px;
+  cursor: pointer;
+  border-radius: 10px;
+}
+
+.OrderPlanInfo {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  align-items: center;
+}
+
+.OrderPlanMain {
+  float: left;
+  flex: 1 1 40%;
+  padding-left: 20px;
+}
+
+.OrderPlanName {
+  font-size: large;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.OrderPlanPrice {
+  font-size: x-large;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.OrderPlanDetail {
+  width: 560px;
+  display: flex;
+  float: right;
+  flex: 1 1 40%;
+}
+
+.OrderPlanDetailItem {
+  padding: 10px;
+  font-size: xx-large;
+  flex: 1 1 40%;
+  text-align: center;
+}
+
+.OrderPlanDetailHeader {
+  font-size: 12px;
+  color: #666;
+}
+
+/* ---------- 할인유형 & 할부기간 ----------*/
+.OrderInfoTdBody {
+  width: 100%;
+}
+
+.OrderInfoTdItem {
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+.OrderInfoTdInner {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.OrderInfoTdLeftContainer {
+  flex-wrap: 1 1 40%;
+  border: 2px solid #ddd;
+  margin-bottom: 10px;
+  padding-top: 10px;
+  cursor: pointer;
+  border-radius: 10px;
+  width: 220px;
+  margin-right: 8px;
+}
+
+.OrderInfoTdLeft {
+  padding: 10px;
+  align-items: center;
+  height: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  align-content: space-between;
+}
+
+.PublicPrice {
+  margin-top: 35px;
+  margin-left: 47px;
+}
+
+.OrderInfoTdRightContainer {
+  width: 70%;
+  flex-wrap: 1 1 40%;
+  border: 2px solid #ddd;
+  margin-bottom: 10px;
+  padding-top: 10px;
+  cursor: pointer;
+  border-radius: 10px;
+}
+
+.OrderInfoTdRight {
+  padding: 10px;
+}
+
+.SelectPlan {
+  display: flex;
+  justify-content: space-between;
+  margin: 5px;
+  margin-top: 10px;
+}
+
+.SelectPlanPrice {
+  margin-right: 10px;
+}
+
+/* ---------- 요금제 모달 ----------*/
+
+.Modal {
+  /*width: 100%;*/
+  /*min-height: calc(100% - 3.5rem);*/
+  width: 1320px;
+}
+
+.ModalHeader {
+  background-color: #f5f5f5;
+  border-radius: 10px 10px 0 0;
+}
+
+.ModalBody {
+  max-height: calc(100vh - 430px);
+  background: #f5f5f5;
+  overflow-y: auto;
+}
+
+.ModalContent {
+  min-width: 1320px;
+}
+
+.HeaderMenu {
+  position: relative;
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+  background: #fff;
+  text-align: center;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.HeaderSortContainer {
+  width: 100%;
+  display: flex;
+  justify-content: right;
+  margin-top: 10px;
+  padding-right: 40px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+.HeaderSelectSort {
+  width: 220px;
+}
+
+.HeaderMenuNav {
+  width: 1256px;
+  height: 56px;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  text-align: center;
+}
+
+.HeaderLeftMenu {
+  flex: 1 1 40%;
+  text-align: center;
+  padding-left: 300px;
+}
+
+.HeaderRightMenu {
+  display: flex;
+  flex: 1 1 40%;
+  text-align: center;
+  justify-content: space-evenly;
+}
+
+.NavIcon {
+  width: 50px;
+  cursor: pointer;
+}
+
+/*
+color: #e6007e;
+border-bottom: 2px solid #e6007e;
+*/
+
+.NavItem {
+  float: left;
+  text-decoration: none;
+  display: block;
+  height: 56px;
+  line-height: 56px;
+  white-space: nowrap;
+  padding-right: 20px;
+  padding-left: 20px;
+}
+
+.HeaderMenuContents {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+}
+
+.PlanContainer {
+}
+
+.PlanContainerStack {
+}
+
+.PlanInfoContainer {
+  position: relative;
+  margin-top: 16px;
+  margin-bottom: 16px;
+  border-radius: 14px;
+  overflow: hidden;
+  background: white;
+  padding: 16px 40px;
+  width: 1256px;
+  padding: 24px 48px 24px 34px;
+}
+
+.PlanItemContainer {
+}
+
+.PlanItem {
+}
+
+.PlanInfo {
+  width: 1180px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.PlanMain {
+  float: left;
+  flex: 1 1 40%;
+  padding-left: 20px;
+}
+
+.PlanName {
+  font-size: large;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.PlanPrice {
+  font-size: x-large;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.PlanDetail {
+  width: 560px;
+  display: flex;
+  float: right;
+  flex: 1 1 40%;
+}
+
+.PlanDetailItem {
+  padding: 10px;
+  font-size: xx-large;
+  flex: 1 1 40%;
+  text-align: center;
+}
+
+/* Modal Footer */
+
+.ModalFooter {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 24px 64px 32px;
+  border-top: 1px solid #ddd;
+}
+
+.FooterInfo {
+  width: 100%;
+  margin-bottom: 24px;
+}
+
+FooterInfoUL {
+}
+
+.FooterInfoLI {
+  font-size: small;
+  color: #666;
+  list-style: none;
+  margin-top: 4px;
+}
+
+.FooterBtnContainer {
+  width: 100%;
+  text-align: center;
+}
+
+.FooterCancelBtn {
+  width: 140px;
+  padding: 0;
+  cursor: pointer;
+  height: 40px;
+  font-size: 18px;
+  border-radius: 28px;
+  font-weight: 400;
+  border: 1px;
+  border-style: solid;
+  border-color: lightgray;
+  margin-right: 10px;
+  background-color: white;
+}
+
+.FooterApplyBtn {
+  width: 140px;
+  padding: 0;
+  cursor: pointer;
+  color: #fff;
+  background-color: #e6007e;
+  height: 40px;
+  font-size: 18px;
+  border-radius: 28px;
+  font-weight: 400;
+  border: none;
 }

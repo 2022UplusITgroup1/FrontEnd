@@ -4,9 +4,11 @@ import { useState } from "react";
 import convertNumber from "../../utils/convertNumber";
 
 function OrderPlanBox({ data }) {
+  console.log(data);
   const [planValue, setPlanValue] = useState(0);
-  const onPlanValueChange = (v) => {
-    setPlanValue(v);
+  const onPlanValueChange = (e) => {
+    console.log(e.target.value);
+    setPlanValue(e.target.value);
   };
   const createPlanPreview = () => {
     const planPreviewList = [];
@@ -24,11 +26,15 @@ function OrderPlanBox({ data }) {
           <div className={styles.OrderPlanInfo}>
             <div className={styles.OrderPlanMain}>
               <div className={styles.OrderPlanName}>{data[i].name}</div>
-              <div className={styles.OrderPlanPrice}>{convertNumber(data[i].price)}원</div>
+              <div className={styles.OrderPlanPrice}>
+                {convertNumber(data[i].price)}원
+              </div>
             </div>
 
             <div className={styles.OrderPlanDetail}>
-              <div className={styles.OrderPlanDetailItem}>{convertNumber(data[i].data)}GB</div>
+              <div className={styles.OrderPlanDetailItem}>
+                {convertNumber(data[i].data)}GB
+              </div>
               <div className={styles.OrderPlanDetailItem}>
                 {convertNumber(data[i].shareData)}GB
               </div>

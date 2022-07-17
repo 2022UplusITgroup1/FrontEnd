@@ -55,6 +55,7 @@ function Option({ plan }) {
   const onChangePlanValue = (value) => {
     dispatch(changePlan(value));
     setPlanValue(value);
+    setPlanModalValue(value);
   };
   const onChangeDiscountValue = (value) => {
     dispatch(changeDiscount(value));
@@ -78,11 +79,6 @@ function Option({ plan }) {
     dispatch(resetData());
   }, []);
 
-  const [totalPlanValue, setTotalPlanValue] = useState(0);
-  const onTotalPlanValueChange = (value) => {
-    console.log(value);
-    setTotalPlanValue(value);
-  };
   const createPlanPreview = () => {
     const previewList = [];
     let len = 3;

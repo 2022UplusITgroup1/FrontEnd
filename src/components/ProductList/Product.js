@@ -7,11 +7,10 @@ import calcMonthPrice from "../../utils/calcMonthPrice";
 import calcDiscountPrice from "../../utils/calcDiscountPrice";
 import { useSelector } from "react-redux";
 
-function Product({ product, plans }) {
-  const DETAIL_URL = `/mobile/detail/${product.brand["name"]}/${product.code}/${product.color}/${product.discountType}`;
-
+function Product({ product, plans, category }) {
   const options = useSelector((state) => state.changeOptionReducer);
   //console.log(options);
+  const [detailURL, setDetailURL] = useState("");
 
   let plan = [];
   if (options.planValue === "0") {
@@ -24,6 +23,12 @@ function Product({ product, plans }) {
   const nowPrice = calcDiscountPrice(options.discountValue, prices);
   //console.log(nowPrice);
 
+  useEffect(() => {
+    setDetailURL(
+      `/mobile/detail/${category}/${plan.code}/${product.code}/${product.color}/${product.discountType}`
+    );
+  }, [options]);
+
   return (
     <Box
       className={styles.Container}
@@ -32,7 +37,7 @@ function Product({ product, plans }) {
       borderRadius="lg"
       overflow="hidden"
     >
-      <Link to={DETAIL_URL} style={{ textDecoration: "none" }}>
+      <Link to={detailURL} style={{ textDecoration: "none" }}>
         <Box className={styles.BoxTop}>
           <Box className={styles.ImgBox}>
             <Image
@@ -50,7 +55,7 @@ function Product({ product, plans }) {
       </Link>
 
       <Box className={styles.BoxBottom} p="6">
-        <Link to={DETAIL_URL} style={{ textDecoration: "none" }}>
+        <Link to={detailURL} style={{ textDecoration: "none" }}>
           <Box className={styles.Price}>
             <Box className={styles.PriceTxt}>
               휴대폰 월 {convertNumber(nowPrice.phone)}원
@@ -73,7 +78,7 @@ function Product({ product, plans }) {
           <Button className={styles.CompareBtn} borderRadius="50px">
             비교하기
           </Button>
-          <Link to={DETAIL_URL} style={{ textDecoration: "none" }}>
+          <Link to={detailURL} style={{ textDecoration: "none" }}>
             <Button className={styles.OrderBtn} borderRadius="50px">
               주문하기
             </Button>

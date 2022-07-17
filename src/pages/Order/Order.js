@@ -87,7 +87,7 @@ function Order() {
             />
           </label>
           <div className={styles.OrderBtnContainer}>
-            <Link to="/order-result">
+            <Link to="/mobile/order-result">
               <Button className={styles.OrderBtn} type="submit">
                 주문하기
               </Button>

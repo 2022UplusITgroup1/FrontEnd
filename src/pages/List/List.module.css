@@ -1,16 +1,21 @@
 .ListContainer {
   width: 1640px;
-  margin: 0 auto;
   display: flex;
   padding-bottom: 120px;
   margin: 0 auto;
-  margin-top: 50px;
+  justify-content: center;
+}
+
+.ListContents {
+  margin-left: 50px;
+  margin-right: 50px;
   min-width: 1440px;
 }
 
 .ListTitle {
   font-size: x-large;
   font-weight: bold;
+  margin-top: 50px;
   margin-bottom: 20px;
 }
 

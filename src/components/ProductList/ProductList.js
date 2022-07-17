@@ -4,8 +4,9 @@ import Product from "./Product";
 import { Select } from "@chakra-ui/react";
 import { useSelector } from "react-redux";
 import mapBrandName from "../../utils/mapBrandName";
+import { FiAlertCircle } from "react-icons/fi";
 
-function ProductList({ product, plan }) {
+function ProductList({ product, plan, category }) {
   const [isSelect, setIsSelect] = useState(0);
   const onSelectChange = (e) => {
     setIsSelect(e.target.value);
@@ -20,16 +21,27 @@ function ProductList({ product, plan }) {
   if (options.brandValue === "0") selectedProduct = product;
   //console.log(selectedProduct);
 
-  selectedProduct = selectedProduct.filter(
-    (p) => p["storage"]["capability"] >= Number(options.storageValue)
-  );
+  if (
+    Number(options.storageValue) === 512 ||
+    Number(options.storageValue) === 0
+  ) {
+    selectedProduct = selectedProduct.filter(
+      (p) => p["storage"]["capability"] >= Number(options.storageValue)
+    );
+  } else {
+    selectedProduct = selectedProduct.filter(
+      (p) => p["storage"]["capability"] === Number(options.storageValue)
+    );
+  }
 
   return (
     <div className={styles.Container}>
       <div className={styles.Header}>
         {/* 전체 개수 & 정렬 */}
         <div className={styles.TotalCount}>
-          <div className={styles.TotalCountTxt}>전체 32건</div>
+          <div className={styles.TotalCountTxt}>
+            전체 {selectedProduct.length}건
+          </div>
         </div>
         <div className={styles.SelectSort}>
           <Select variant="flushed" value={isSelect} onChange={onSelectChange}>
@@ -43,11 +55,36 @@ function ProductList({ product, plan }) {
         </div>
       </div>
       <div className={styles.ProductListContainer}>
-        <div className={styles.ProductList}>
+        <div className={styles.ProductListContent}>
           {/* 상품 리스트 */}
-          {selectedProduct.map((p, i) => {
-            return <Product product={p} plans={plan} key={i} />;
-          })}
+          <div className={styles.ProductList}>
+            {selectedProduct.length > 0 &&
+              selectedProduct.map((p, i) => {
+                return (
+                  <Product
+                    product={p}
+                    plans={plan}
+                    category={category}
+                    key={i}
+                  />
+                );
+              })}
+          </div>
+          {selectedProduct.length === 0 && (
+            <div className={styles.NoProductListContainer}>
+              <div className={styles.NoProductList}>
+                <div className={styles.NoProductListAlert}>
+                  <FiAlertCircle size="80" color="lightgray" />
+                </div>
+                <div className={styles.NoProductListTxt}>
+                  선택하신 조건에 맞는 상품이 없습니다.
+                </div>
+                <div className={styles.NoProductListTxt}>
+                  다른 조건을 선택해 주세요.
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>
