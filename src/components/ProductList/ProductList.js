@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 import mapBrandName from "../../utils/mapBrandName";
 import { FiAlertCircle } from "react-icons/fi";
 
-function ProductList({ product, plan }) {
+function ProductList({ product, plan, category }) {
   const [isSelect, setIsSelect] = useState(0);
   const onSelectChange = (e) => {
     setIsSelect(e.target.value);
@@ -60,7 +60,14 @@ function ProductList({ product, plan }) {
           <div className={styles.ProductList}>
             {selectedProduct.length > 0 &&
               selectedProduct.map((p, i) => {
-                return <Product product={p} plans={plan} key={i} />;
+                return (
+                  <Product
+                    product={p}
+                    plans={plan}
+                    category={category}
+                    key={i}
+                  />
+                );
               })}
           </div>
           {selectedProduct.length === 0 && (

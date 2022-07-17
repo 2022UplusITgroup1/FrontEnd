@@ -47,7 +47,7 @@ function Inquiry() {
             />
           </label>
           <div className={styles.InquiryBtnContainer}>
-            <Link to="/inquiry-result">
+            <Link to="/mobile/inquiry-result">
               <Button className={styles.InquiryBtn}>조회하기</Button>
             </Link>
           </div>

@@ -8,55 +8,100 @@ import OrderPlanBox from "../../components/PlanBox/OrderPlanBox";
 import SamplePlanData from "../../SamplePlanData.json";
 import SampleDetailData from "../../SampleDetailData.json";
 import axios from "axios";
+import convertNumber from "../../utils/convertNumber";
+import calcMonthPrice from "../../utils/calcMonthPrice";
+import calcDiscountPrice from "../../utils/calcDiscountPrice";
+import mapDiscountType from "../../utils/mapDiscountType";
+
+// Detail 정보 & Plan 전체 정보 필요
 
 function Detail() {
-  //pl_code/:ph_code/:color/:dc_type
-  const { pl_code, ph_code, color, dc_type } = useParams();
+  //net_sp/:pl_code/:ph_code/:color/:dc_type
+  const { net_sp, pl_code, ph_code, color, dc_type } = useParams();
   const DETAIL_URL = `${process.env.REACT_APP_PRODUCT_SERVICE_API_URL}/detail?pl_code=${pl_code}&ph_code=${ph_code}&color=${color}&dc_type=${dc_type}`;
-  const [data, setData] = useState([]);
+  const PLAN_API_URL = `${process.env.REACT_APP_PRODUCT_SERVICE_API_URL}/plan?net_sp=`;
+
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  const [data, setData] = useState(SampleDetailData);
+  const [plans, setPlans] = useState(SamplePlanData);
+
+  const [plan, setPlan] = useState([]);
   const [imgPaths, setImgPaths] = useState([]);
+  const [planValue, setPlanValue] = useState(pl_code);
+  const [discountValue, setDiscountValue] = useState(dc_type);
+
   const [totalPrice, setTotalPrice] = useState("0");
   const [phonePrice, setPhonePrice] = useState("0");
   const [planPrice, setPlanPrice] = useState("0");
   const [originalPrice, setOriginalPrice] = useState("0");
+
+  const [prices, setPrices] = useState([]);
+  const [nowPrice, setNowPrice] = useState([]);
+
+  //const prices = calcMonthPrice(data["phone"]["price"], data["plan"]["price"]);
+  //const nowPrice = calcDiscountPrice(data["phone"]["discountValue"], prices);
+
+  const fetchProductDetail = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      const response = await axios.get(`${DETAIL_URL}`);
+      setData(response.data);
+    } catch (e) {
+      console.log(e);
+      setError(e);
+    }
+    setLoading(false);
+  };
+
+  const fetchPlan = async (category) => {
+    try {
+      setLoading(true);
+      setError(null);
+      const response = await axios.get(`${PLAN_API_URL}${net_sp}`);
+      setPlan(response.data);
+    } catch (e) {
+      console.log(e);
+      setError(e);
+    }
+    setLoading(false);
+  };
+
+  const findSelectPlan = (value) => {
+    return plans.find((p) => p.code === value);
+  };
+
   useEffect(() => {
-    /* 
-    axios
-      .get(`${DETAIL_URL}`)
-      .then((response) => {
-        console.log(response.data);
-        const productData = {
-          ...response.data,
-          price: response.data.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","),
-        };
-        setData(productData);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    console.log(planValue, discountValue);
+    const nowPlan = findSelectPlan(planValue);
+    setPlan(nowPlan);
+    const nowPlanPrice = calcMonthPrice(
+      data["phone"]["price"],
+      nowPlan["price"]
+    );
+    setPrices(nowPlanPrice);
+    //console.log(nowPlanPrice);
+    setNowPrice(calcDiscountPrice(discountValue, nowPlanPrice));
+    //console.log(calcDiscountPrice(discountValue, nowPlanPrice));
+  }, [planValue, discountValue]);
+
+  useEffect(() => {
+    /* axios GET
+    fetchProductDetail();
+    fetchPlan(data["phone"]["networkSupport"]);
     */
-    console.log(pl_code, ph_code, color, dc_type);
-    setImgPaths(
-      SampleDetailData["images"].map((d) => {
-        return d["imgPath"];
-      })
+
+    const nowPlan = findSelectPlan(planValue);
+    setPlan(nowPlan);
+    const nowPlanPrice = calcMonthPrice(
+      data["phone"]["price"],
+      nowPlan["price"]
     );
-    console.log(imgPaths);
-    setPhonePrice(
-      SampleDetailData["phone"]["price"]
-        .toString()
-        .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-    );
-    setPlanPrice(
-      SampleDetailData["plan"]["price"]
-        .toString()
-        .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-    );
-    setTotalPrice(
-      (SampleDetailData["phone"]["price"] + SampleDetailData["plan"]["price"])
-        .toString()
-        .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-    );
+    //console.log(nowPlanPrice);
+    setPrices(nowPlanPrice);
+    setNowPrice(calcDiscountPrice(discountValue, nowPlanPrice));
   }, []);
 
   const [idx, setIdx] = useState(0);
@@ -64,6 +109,11 @@ function Detail() {
   const test = (e) => {
     setIdx(e.target.id);
   };
+
+  if (loading) return <div>loading...</div>;
+  if (error) return <div>Error!</div>;
+  if (!data) return null;
+
   return (
     <div className={styles.Container}>
       <div className={styles.Information}>
@@ -72,8 +122,8 @@ function Detail() {
             <img
               className={styles.MainImg}
               //src={imgUrls[Number(idx)]}
-              src={SampleDetailData["images"][Number(idx)]["imgPath"]}
-              alt={SampleDetailData["images"][Number(idx)]["imgPos"]}
+              src={data["images"][Number(idx)]["imgPath"]}
+              alt={data["images"][Number(idx)]["imgPos"]}
             />
           </div>
           <div className={styles.PreviewImgs}>
@@ -91,19 +141,17 @@ function Detail() {
           </div>
         </div>
         <div className={styles.ProductInfo}>
-          <div className={styles.ProductName}>
-            {SampleDetailData["phone"]["name"]}
-          </div>
+          <div className={styles.ProductName}>{data["phone"]["name"]}</div>
           <div className={styles.ProductColor}>
             <div className={styles.ProductColorTitle}>색상</div>
-            <span>{SampleDetailData["phone"]["color"]}</span>
+            <span>{data["phone"]["color"]}</span>
             <div className={styles.ColorBtn}>{/* 색상 버튼 */}</div>
           </div>
           <div className={styles.Capacity}>
             <div className={styles.CapacityTitle}>저장공간</div>
             {/* 저장공간 선택 */}
             <Button value="1">
-              {SampleDetailData["phone"]["storage"]["capability"]}GB
+              {convertNumber(data["phone"]["storage"]["capability"])}GB
             </Button>
           </div>
           <div>
@@ -121,14 +169,17 @@ function Detail() {
             </ButtonGroup>
           </div>
           <div className={styles.PriceInfo}>
-            <div className={styles.TotalPrice}>월 {totalPrice}원</div>
+            <div className={styles.TotalPrice}>
+              월 {nowPrice && convertNumber(Number(nowPrice.total))}원
+            </div>
             <div className={styles.SubTitle}>
-              {SampleDetailData["plan"]["name"]} |{" "}
-              {SampleDetailData["phone"]["discountType"]} 기준
+              {data["plan"]["name"]} | {mapDiscountType(Number(discountValue))}{" "}
+              기준
             </div>
             <div>
-              핸드폰 {phonePrice} 원 | 통신료 {planPrice} 원 | 정상가{" "}
-              {originalPrice} 원
+              핸드폰 {convertNumber(Number(nowPrice.phone))} 원 | 통신료{" "}
+              {convertNumber(Number(nowPrice.plan))} 원 | 정상가{" "}
+              {convertNumber(Number(prices["original"]["total"]))} 원
             </div>
             {/* 가격 정보 - dl & dt */}
           </div>

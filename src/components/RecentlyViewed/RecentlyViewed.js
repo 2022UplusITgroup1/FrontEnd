@@ -2,13 +2,20 @@ import { Link } from "react-router-dom";
 import { Grid, GridItem, Box, Image, Button } from "@chakra-ui/react";
 import styles from "./RecentlyViewed.module.css";
 import {
-  Modal, ModalOverlay, ModalContent,
-  ModalHeader, ModalFooter, ModalBody,
-  ModalCloseButton, useDisclosure,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+  useDisclosure,
 } from "@chakra-ui/react";
 import convertNumber from "../../utils/convertNumber";
 
-function RecentlyViewed() {
+function RecentlyViewed({ product }) {
+  //const DETAIL_URL = `/mobile/detail/${product.brand["name"]}/${product.code}/${product.color}/${product.discountType}`;
+
   const { isOpen, onOpen, onClose } = useDisclosure();
   const onOrderClose = (e) => {
     onClose();

@@ -30,7 +30,7 @@ function App() {
           />
           <Route
             exact
-            path="/mobile/detail/:pl_code/:ph_code/:color/:dc_type"
+            path="/mobile/detail/:net_sp/:pl_code/:ph_code/:color/:dc_type"
             component={Detail}
           />
           <Route exact path="/mobile/order" component={Order} />
@@ -47,4 +47,3 @@ function App() {
 Modal.setAppElement("#root");
 
 export default App;
-

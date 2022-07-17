@@ -41,11 +41,16 @@
 }
 
 .HeaderMenuInner {
+  margin: 0 auto;
+  min-width: 1550px;
+}
+.HeaderMenuNavContainer {
   display: flex;
   align-items: center;
   margin-left: 50px;
   margin-right: 50px;
   justify-content: space-between;
+  min-width: 1550px;
 }
 
 .HeaderMenuNav {
@@ -53,6 +58,7 @@
 }
 
 .HeaderLeftMenu {
+  float: left;
 }
 
 .HeaderRightMenu {
