@@ -2,16 +2,17 @@
   width: 100%;
   margin: 0;
   min-width: 1440px;
+  padding-left: 70px;
+  padding-right: 70px;
 }
 
 /* ---------- 상세 정보 섹션 ---------- */
 
 .Information {
-  width: 1440px px;
+  width: 1440px;
   margin: 0 auto;
   height: 620px;
-  margin-left: 70px;
-  margin-right: 200px;
+  margin-bottom: 100px;
 }
 
 /* ----- 상품 이미지 섹션 ----- */
@@ -47,12 +48,17 @@
 .ProductInfo {
   margin-left: 875px;
   margin-top: 32px;
+  width: 500px;
 }
 
 .ProductName {
   font-size: xx-large;
   font-weight: bolder;
   margin-bottom: 20px;
+}
+
+.ProductColorTitleContainer {
+  display: flex;
 }
 
 .ProductColor {
@@ -62,6 +68,24 @@
 .ProductColorTitle {
   font-weight: bold;
   margin-bottom: 10px;
+  margin-right: 10px;
+}
+
+.ColorBtnContainer {
+}
+
+.ColorBtn {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 2px solid #909090;
+  cursor: pointer;
+}
+
+.ColorBtnInner {
+  display: block;
+  height: 100%;
+  border-radius: 50%;
 }
 
 .CapacityTitle {
@@ -69,10 +93,58 @@
   margin-bottom: 10px;
 }
 
+.CapacityBtn {
+  width: 160px;
+  border: 2px solid #000 !important;
+  border-radius: 6px;
+  min-height: 48px;
+  cursor: default;
+}
+
+.ItemBtn {
+  width: 160px;
+  border: 2px solid #ddd !important;
+  border-radius: 6px;
+  min-height: 48px;
+}
+
+.RadioBtn:focus {
+  border: 2px solid #000 !important;
+}
+
+.RadioBtnContainer {
+  width: 160px;
+  border: 2px solid #ddd !important;
+  border-radius: 6px;
+  min-height: 48px;
+  text-align: center;
+  align-items: center;
+}
+
+.JoinTypeBtn {
+  width: 160px;
+  border: 2px solid #ddd;
+  border-radius: 6px;
+  min-height: 48px;
+}
+.RadioBtn > label {
+  margin-top: 20px;
+}
+
+.RadioBtnSpan {
+}
+
+.JoinType {
+  margin-bottom: 50px;
+  width: 100%;
+}
+
 .JoinTypeTitle {
   font-weight: bold;
   margin-bottom: 10px;
 }
+
+/* --- 가격 --- */
 
 .PriceInfo {
   position: relative;
@@ -86,7 +158,28 @@
 .TotalPrice {
   font-size: x-large;
   font-weight: bold;
+}
+
+.SubTitle {
   margin-bottom: 10px;
+}
+
+.PriceDetail {
+  display: flex;
+  flex-wrap: wrap;
+  font-size: 15px;
+}
+
+.PriceDetailDT {
+  width: 88px;
+  margin-bottom: 4px;
+  font-weight: lighter;
+}
+
+.PriceDetailDD {
+  width: 320px;
+  margin-bottom: 4px;
+  color: #000;
 }
 
 /* ----- 주문 버튼 ----- */

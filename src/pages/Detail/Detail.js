@@ -2,7 +2,13 @@ import React, { useState, useEffect } from "react";
 import styles from "./Detail.module.css";
 import ProductDetail from "../../components/ProductDetail/ProductDetail";
 import { Link } from "react-router-dom";
-import { ButtonGroup, Button, Stack } from "@chakra-ui/react";
+import {
+  ButtonGroup,
+  Button,
+  Stack,
+  Radio,
+  RadioGroup,
+} from "@chakra-ui/react";
 import { useParams } from "react-router-dom";
 import OrderPlanBox from "../../components/PlanBox/OrderPlanBox";
 import SamplePlanData from "../../SamplePlanData.json";
@@ -105,7 +111,12 @@ function Detail() {
   }, []);
 
   const [idx, setIdx] = useState(0);
-  const [value, setValue] = useState("1");
+  const [joinType, setJoinType] = useState("0");
+  const onClickJoinType = (v) => {
+    console.log(v);
+    setJoinType(v);
+  };
+
   const test = (e) => {
     setIdx(e.target.id);
   };
@@ -143,16 +154,27 @@ function Detail() {
         <div className={styles.ProductInfo}>
           <div className={styles.ProductName}>{data["phone"]["name"]}</div>
           <div className={styles.ProductColor}>
-            <div className={styles.ProductColorTitle}>색상</div>
-            <span>{data["phone"]["color"]}</span>
-            <div className={styles.ColorBtn}>{/* 색상 버튼 */}</div>
+            <div className={styles.ProductColorTitleContainer}>
+              <div className={styles.ProductColorTitle}>색상</div>
+              <span>{data["phone"]["color"]}</span>
+            </div>
+            <div className={styles.ColorBtnContainer}>
+              <div className={styles.ColorBtn}>
+                <span
+                  className={styles.ColorBtnInner}
+                  style={{
+                    backgroundColor: data["phone"]["color"],
+                  }}
+                ></span>
+              </div>
+            </div>
           </div>
           <div className={styles.Capacity}>
             <div className={styles.CapacityTitle}>저장공간</div>
             {/* 저장공간 선택 */}
-            <Button value="1">
+            <button className={styles.CapacityBtn} value="1">
               {convertNumber(data["phone"]["storage"]["capability"])}GB
-            </Button>
+            </button>
           </div>
           <div>
             <br />
@@ -160,29 +182,54 @@ function Detail() {
           <div className={styles.JoinType}>
             <div className={styles.JoinTypeTitle}>가입유형</div>
             {/* 가입유형 선택 - radio */}
-            <ButtonGroup onChange={setValue} value={value}>
-              <Stack direction="row">
-                <Button value="1">기기변경</Button>
-                <Button value="2">번호이동</Button>
-                <Button value="3">신규가입</Button>
-              </Stack>
-            </ButtonGroup>
+            <Stack direction="row">
+              <button
+                className={styles.JoinTypeBtn}
+                style={{ borderColor: joinType === "0" ? "#000" : "#ddd" }}
+                onClick={(e) => onClickJoinType("0")}
+              >
+                <span className={styles.RadioBtnSpan}>기기변경</span>
+              </button>
+              <button
+                className={styles.JoinTypeBtn}
+                style={{ borderColor: joinType === "1" ? "#000" : "#ddd" }}
+                onClick={(e) => onClickJoinType("1")}
+              >
+                <span className={styles.RadioBtnSpan}>번호이동</span>
+              </button>
+              <button
+                className={styles.JoinTypeBtn}
+                style={{ borderColor: joinType === "2" ? "#000" : "#ddd" }}
+                onClick={(e) => onClickJoinType("2")}
+              >
+                <span className={styles.RadioBtnSpan}>신규가입</span>
+              </button>
+            </Stack>
           </div>
           <div className={styles.PriceInfo}>
             <div className={styles.TotalPrice}>
               월 {nowPrice && convertNumber(Number(nowPrice.total))}원
             </div>
             <div className={styles.SubTitle}>
-              {data["plan"]["name"]} | {mapDiscountType(Number(discountValue))}{" "}
+              {data["plan"]["name"]}, {mapDiscountType(Number(discountValue))}{" "}
               기준
             </div>
-            <div>
-              핸드폰 {convertNumber(Number(nowPrice.phone))} 원 | 통신료{" "}
-              {convertNumber(Number(nowPrice.plan))} 원 | 정상가{" "}
-              {prices.length !== 0 &&
-                convertNumber(Number(prices["original"]["total"]))}{" "}
-              원
-            </div>
+            <dl className={styles.PriceDetail}>
+              <dt className={styles.PriceDetailDT}>휴대폰</dt>
+              <dt className={styles.PriceDetailDD}>
+                {convertNumber(Number(nowPrice.phone))} 원
+              </dt>
+              <dt className={styles.PriceDetailDT}>통신료</dt>
+              <dt className={styles.PriceDetailDD}>
+                {convertNumber(Number(nowPrice.plan))} 원
+              </dt>
+              <dt className={styles.PriceDetailDT}>정상가</dt>
+              <dt className={styles.PriceDetailDD}>
+                {prices.length !== 0 &&
+                  convertNumber(Number(prices["original"]["total"]))}{" "}
+                원
+              </dt>
+            </dl>
             {/* 가격 정보 - dl & dt */}
           </div>
           <div className={styles.InfoBtn}>
