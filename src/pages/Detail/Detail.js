@@ -9,8 +9,19 @@ import {
   Radio,
   RadioGroup,
 } from "@chakra-ui/react";
+import {
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalCloseButton,
+  ModalBody,
+  ModalFooter,
+  Select,
+  useDisclosure,
+} from "@chakra-ui/react";
 import { useParams } from "react-router-dom";
-import OrderPlanBox from "../../components/PlanBox/OrderPlanBox";
+//import OrderPlanBox from "../../components/PlanBox/OrderPlanBox";
 import SamplePlanData from "../../SamplePlanData.json";
 import SampleDetailData from "../../SampleDetailData.json";
 import axios from "axios";
@@ -21,12 +32,55 @@ import mapDiscountType from "../../utils/mapDiscountType";
 
 // Detail 정보 & Plan 전체 정보 필요
 
+// 미리보기 요금제 만들기
+const createPlanPreview = (data, onPlanValueChange) => {
+  const planPreviewList = [];
+  let len = 3;
+  if (data.length < 3) len = data.length;
+  for (let i = 0; i < len; i++) {
+    planPreviewList.push(
+      <div
+        className={styles.OrderPlanItem}
+        value={i}
+        key={i}
+        size="lg"
+        onClick={onPlanValueChange}
+      >
+        <div className={styles.OrderPlanInfo}>
+          <div className={styles.OrderPlanMain}>
+            <div className={styles.OrderPlanName}>{data[i].name}</div>
+            <div className={styles.OrderPlanPrice}>
+              {convertNumber(data[i].price)}원
+            </div>
+          </div>
+
+          <div className={styles.OrderPlanDetail}>
+            <div className={styles.OrderPlanDetailItem}>
+              {convertNumber(data[i].data)}GB
+            </div>
+            <div className={styles.OrderPlanDetailItem}>
+              {convertNumber(data[i].shareData)}GB
+            </div>
+            <div className={styles.OrderPlanDetailItem}>
+              {convertNumber(data[i].voice)}분
+            </div>
+            <div className={styles.OrderPlanDetailItem}>
+              {convertNumber(data[i].message)}건
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+  return planPreviewList;
+};
+
 function Detail() {
-  //net_sp/:pl_code/:ph_code/:color/:dc_type
   const { net_sp, pl_code, ph_code, color, dc_type } = useParams();
   const DETAIL_URL = `${process.env.REACT_APP_PRODUCT_SERVICE_API_URL}/detail?pl_code=${pl_code}&ph_code=${ph_code}&color=${color}&dc_type=${dc_type}`;
   const PLAN_API_URL = `${process.env.REACT_APP_PRODUCT_SERVICE_API_URL}/plan?net_sp=`;
 
+  // 데이터 로딩 & 에러
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -35,14 +89,27 @@ function Detail() {
   const [plans, setPlans] = useState(SamplePlanData);
 
   // 현재 사용자가 선택한 요금제 & 할인유형
-  const [plan, setPlan] = useState([]);
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [plan, setPlan] = useState([]); // 현재 요금제 정보
   const [imgPaths, setImgPaths] = useState([]);
   const [planValue, setPlanValue] = useState(pl_code);
+  const [planModalValue, setPlanModalValue] = useState(pl_code);
   const [discountValue, setDiscountValue] = useState(dc_type);
+  const [sortValue, setSortValue] = useState("0");
 
-  const [prices, setPrices] = useState([]);
-  const [nowPrice, setNowPrice] = useState([]);
+  // 요금제 변경 함수
+  const onApplyPlan = () => {
+    setPlanValue(planModalValue);
+    onClose();
+  };
 
+  const onPlanValueChange = (value) => {
+    console.log(value);
+    setPlanValue(value);
+    setPlanModalValue(value);
+  };
+
+  // API 통신
   const fetchProductDetail = async () => {
     try {
       setLoading(true);
@@ -69,24 +136,29 @@ function Detail() {
     setLoading(false);
   };
 
+  // 현재 요금제 정보 찾기
   const findSelectPlan = (value) => {
     return plans.find((p) => p.code === value);
   };
 
-  useEffect(() => {
-    console.log(planValue, discountValue);
-    const nowPlan = findSelectPlan(planValue);
-    setPlan(nowPlan);
-    const nowPlanPrice = calcMonthPrice(
-      data["phone"]["price"],
-      nowPlan["price"]
-    );
-    setPrices(nowPlanPrice);
-    console.log(nowPlanPrice);
-    setNowPrice(calcDiscountPrice(discountValue, nowPlanPrice));
-    console.log(calcDiscountPrice(discountValue, nowPlanPrice));
-  }, [planValue, discountValue]);
+  // 현재 요금제 + 할인 유형을 바탕으로 한 가격
+  const [prices, setPrices] = useState([]);
+  const [nowPrice, setNowPrice] = useState([]);
 
+  // 이미지 클릭 시, index 변경 함수
+  const [idx, setIdx] = useState(0);
+  const onChangeImg = (e) => {
+    setIdx(e.target.id);
+  };
+
+  // 가입 유형
+  const [joinType, setJoinType] = useState("0");
+  const onClickJoinType = (v) => {
+    //console.log(v);
+    setJoinType(v);
+  };
+
+  // 초기 세팅
   useEffect(() => {
     /* axios GET
     fetchProductDetail();
@@ -105,21 +177,25 @@ function Detail() {
       data["phone"]["price"],
       nowPlan["price"]
     );
-    console.log(nowPlanPrice);
+    //console.log(nowPlanPrice);
     setPrices(nowPlanPrice);
     setNowPrice(calcDiscountPrice(discountValue, nowPlanPrice));
   }, []);
 
-  const [idx, setIdx] = useState(0);
-  const [joinType, setJoinType] = useState("0");
-  const onClickJoinType = (v) => {
-    console.log(v);
-    setJoinType(v);
-  };
-
-  const test = (e) => {
-    setIdx(e.target.id);
-  };
+  // 요금제 & 할인유형 변할 때마다 새로운 정보로 update
+  useEffect(() => {
+    console.log(planValue, discountValue);
+    const nowPlan = findSelectPlan(planValue);
+    setPlan(nowPlan);
+    const nowPlanPrice = calcMonthPrice(
+      data["phone"]["price"],
+      nowPlan["price"]
+    );
+    setPrices(nowPlanPrice);
+    //console.log(nowPlanPrice);
+    setNowPrice(calcDiscountPrice(discountValue, nowPlanPrice));
+    //console.log(calcDiscountPrice(discountValue, nowPlanPrice));
+  }, [planValue, discountValue]);
 
   if (loading) return <div>loading...</div>;
   if (error) return <div>Error!</div>;
@@ -139,7 +215,11 @@ function Detail() {
           </div>
           <div className={styles.PreviewImgs}>
             {imgPaths.map((url, i) => (
-              <button className={styles.PreviewBtn} onClick={test} key={i}>
+              <button
+                className={styles.PreviewBtn}
+                onClick={onChangeImg}
+                key={i}
+              >
                 <img
                   className={styles.PreviewImg}
                   src={url}
@@ -188,21 +268,21 @@ function Detail() {
                 style={{ borderColor: joinType === "0" ? "#000" : "#ddd" }}
                 onClick={(e) => onClickJoinType("0")}
               >
-                <span className={styles.RadioBtnSpan}>기기변경</span>
+                <span className={styles.JoinTypeBtnSpan}>기기변경</span>
               </button>
               <button
                 className={styles.JoinTypeBtn}
                 style={{ borderColor: joinType === "1" ? "#000" : "#ddd" }}
                 onClick={(e) => onClickJoinType("1")}
               >
-                <span className={styles.RadioBtnSpan}>번호이동</span>
+                <span className={styles.JoinTypeBtnSpan}>번호이동</span>
               </button>
               <button
                 className={styles.JoinTypeBtn}
                 style={{ borderColor: joinType === "2" ? "#000" : "#ddd" }}
                 onClick={(e) => onClickJoinType("2")}
               >
-                <span className={styles.RadioBtnSpan}>신규가입</span>
+                <span className={styles.JoinTypeBtnSpan}>신규가입</span>
               </button>
             </Stack>
           </div>
@@ -211,8 +291,7 @@ function Detail() {
               월 {nowPrice && convertNumber(Number(nowPrice.total))}원
             </div>
             <div className={styles.SubTitle}>
-              {data["plan"]["name"]}, {mapDiscountType(Number(discountValue))}{" "}
-              기준
+              {plan.name}, {mapDiscountType(Number(discountValue))} 기준
             </div>
             <dl className={styles.PriceDetail}>
               <dt className={styles.PriceDetailDT}>휴대폰</dt>
@@ -251,12 +330,50 @@ function Detail() {
                   <th className={styles.OrderInfoTh}>요금제</th>
                   <td className={styles.OrderInfoTd}>
                     <div className={styles.OrderInfoTdHeader}>
-                      <div className={styles.OrderInfoTdTitle}>추천 요금제</div>
-                      <div className={styles.OrderInfoTdBtn}>
+                      <div className={styles.OrderInfoTdTitle}>현재 요금제</div>
+                      <div className={styles.OrderInfoTdBtn} onClick={onOpen}>
                         다른 요금제 선택 ❯
                       </div>
                     </div>
-                    <OrderPlanBox data={SamplePlanData} />
+                    {/*<OrderPlanBox data={SamplePlanData} />*/}
+                    <Stack className={styles.OrderPlanContainerStack}>
+                      <div className={styles.OrderPlanItemContainer}>
+                        <div className={styles.OrderPlanInfoContainer}>
+                          {/*createPlanPreview(plans, onPlanValueChange)*/}
+                          <div
+                            className={styles.OrderPlanItem}
+                            value={plan.code}
+                            size="lg"
+                          >
+                            <div className={styles.OrderPlanInfo}>
+                              <div className={styles.OrderPlanMain}>
+                                <div className={styles.OrderPlanName}>
+                                  {plan.name}
+                                </div>
+                                <div className={styles.OrderPlanPrice}>
+                                  {convertNumber(Number(plan.price))}원
+                                </div>
+                              </div>
+
+                              <div className={styles.OrderPlanDetail}>
+                                <div className={styles.OrderPlanDetailItem}>
+                                  {convertNumber(Number(plan.data))}GB
+                                </div>
+                                <div className={styles.OrderPlanDetailItem}>
+                                  {convertNumber(Number(plan.shareData))}GB
+                                </div>
+                                <div className={styles.OrderPlanDetailItem}>
+                                  {convertNumber(Number(plan.voice))}분
+                                </div>
+                                <div className={styles.OrderPlanDetailItem}>
+                                  {convertNumber(Number(plan.message))}건
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </Stack>
                   </td>
                 </tr>
                 <tr className={styles.OrderInfoTr}>
@@ -297,17 +414,113 @@ function Detail() {
           {/*<ProductDetail product={SampleDetailData} /> */}
         </div>
       </div>
+
+      {/* 요금제 더보기 모달 */}
+      <Modal
+        className={styles.Modal}
+        onClose={onClose}
+        isOpen={isOpen}
+        isCentered
+      >
+        <ModalOverlay />
+        <ModalContent className={styles.ModalContent}>
+          <ModalHeader className={styles.ModalHeader}>전체 요금제</ModalHeader>
+          <ModalCloseButton />
+          <div className={styles.HeaderMenu}>
+            <div className={styles.HeaderSortContainer}>
+              <div className={styles.HeaderSelectSort}>
+                <Select value={sortValue} onChange={setSortValue}>
+                  <option value="0">많은 데이터 사용량 순</option>
+                  <option value="1">적은 데이터 사용량 순</option>
+                  <option value="2">높은 가격 순</option>
+                  <option value="3">낮은 가격 순</option>
+                </Select>
+              </div>
+            </div>
+            <div className={styles.HeaderMenuNav}>
+              <div className={styles.HeaderLeftMenu}>
+                <div className={styles.NavItem}>요금제</div>
+              </div>
+              <div className={styles.HeaderRightMenu}>
+                <div className={styles.NavItem}>데이터</div>
+                <div className={styles.NavItem}>나눠쓰기</div>
+                <div className={styles.NavItem}>음성통화</div>
+                <div className={styles.NavItem}>메세지</div>
+              </div>
+            </div>
+          </div>
+          <ModalBody className={styles.ModalBody}>
+            <RadioGroup
+              onChange={setPlanModalValue}
+              value={planModalValue}
+              className={styles.PlanContainer}
+            >
+              <Stack className={styles.PlanContainerStack}>
+                {plans.map((p, i) => {
+                  return (
+                    <div className={styles.PlanItemContainer} key={i}>
+                      <div className={styles.PlanInfoContainer} key={i}>
+                        <Radio
+                          className={styles.PlanItem}
+                          value={p.code}
+                          size="lg"
+                        >
+                          <div className={styles.PlanInfo}>
+                            <div className={styles.PlanMain}>
+                              <div className={styles.PlanName}>{p.name}</div>
+                              <div className={styles.PlanPrice}>
+                                {convertNumber(p.price)}원
+                              </div>
+                            </div>
+
+                            <div className={styles.PlanDetail}>
+                              <div className={styles.PlanDetailItem}>
+                                {convertNumber(p.data)}GB
+                              </div>
+                              <div className={styles.PlanDetailItem}>
+                                {convertNumber(p.shareData)}GB
+                              </div>
+                              <div className={styles.PlanDetailItem}>
+                                {convertNumber(p.voice)}분
+                              </div>
+                              <div className={styles.PlanDetailItem}>
+                                {convertNumber(p.message)}건
+                              </div>
+                            </div>
+                          </div>
+                        </Radio>
+                      </div>
+                    </div>
+                  );
+                })}
+              </Stack>
+            </RadioGroup>
+          </ModalBody>
+          <ModalFooter className={styles.ModalFooter}>
+            <div className={styles.FooterInfo}>
+              <ul className={styles.FooterInfoUL}>
+                <li className={styles.FooterInfoLI}>
+                  • 정액은 부가세 포함 금액입니다.
+                </li>
+                <li className={styles.FooterInfoLI}>
+                  • 안내된 요금제 외 가입 가능한 요금제는 별도 상담을 통해 안내
+                  받으실 수 있습니다.
+                </li>
+              </ul>
+            </div>
+            <div className={styles.FooterBtnContainer}>
+              <Button onClick={onClose} className={styles.FooterCancelBtn}>
+                취소
+              </Button>
+              <Button onClick={onApplyPlan} className={styles.FooterApplyBtn}>
+                적용
+              </Button>
+            </div>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </div>
   );
 }
 
 export default Detail;
-
-/*
-  const imgUrls = [
-    "https://image.lguplus.com/static/pc-contents/images/prdv/20220616-074546-107-EpOJVZKV.jpg",
-    "https://image.lguplus.com/static/pc-contents/images/prdv/20220616-074546-105-5XFcEWAn.jpg",
-    "https://image.lguplus.com/static/pc-contents/images/prdv/20220616-074546-123-xI98LvJp.jpg",
-    "https://image.lguplus.com/static/pc-contents/images/prdv/20220616-074546-105-6upl4lWx.jpg",
-  ];
-*/

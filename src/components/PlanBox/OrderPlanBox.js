@@ -6,8 +6,9 @@ import convertNumber from "../../utils/convertNumber";
 function OrderPlanBox({ data }) {
   console.log(data);
   const [planValue, setPlanValue] = useState(0);
-  const onPlanValueChange = (v) => {
-    setPlanValue(v);
+  const onPlanValueChange = (e) => {
+    console.log(e.target.value);
+    setPlanValue(e.target.value);
   };
   const createPlanPreview = () => {
     const planPreviewList = [];
