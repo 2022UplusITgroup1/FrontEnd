@@ -318,7 +318,7 @@ function Detail() {
           </div>
           <div className={styles.InfoBtn}>
             {/* 온라인 주문 버튼 */}
-            <Link to="/order">
+            <Link to="/mobile/order">
               <button className={styles.OrderBtn}>온라인 주문</button>
             </Link>
           </div>
