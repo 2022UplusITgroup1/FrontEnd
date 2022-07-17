@@ -13,10 +13,35 @@
   padding: 6px;
 }
 
+.ProductListContent {
+}
+
 .ProductList {
   width: 100%;
   display: flex;
   flex-wrap: wrap;
+}
+
+.NoProductListContainer {
+  display: flex;
+  flex-wrap: wrap;
+  text-align: center;
+  justify-content: center;
+  margin-top: 50px;
+}
+
+.NoProductList {
+  text-align: center;
+}
+
+.NoProductListAlert {
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.NoProductListTxt {
+  font-weight: 400;
 }
 
 .TotalCount {
