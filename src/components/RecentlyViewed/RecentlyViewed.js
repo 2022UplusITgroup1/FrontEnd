@@ -12,14 +12,23 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import convertNumber from "../../utils/convertNumber";
+import { useSelector } from "react-redux";
 
-function RecentlyViewed({ product }) {
-  //const DETAIL_URL = `/mobile/detail/${product.brand["name"]}/${product.code}/${product.color}/${product.discountType}`;
+function RecentlyViewed({ product, plans, category }) {
+  //const DETAIL_URL = `/mobile/detail/${category}/${plan.code}/${product.code}/${product.color}/${product.discountType}`;
+
+  const options = useSelector((state) => state.changeOptionReducer);
+  //console.log(options);
 
   const { isOpen, onOpen, onClose } = useDisclosure();
   const onOrderClose = (e) => {
     onClose();
   };
+
+  const findSelectPlan = (value) => {
+    return plans.find((p) => p.code === value);
+  };
+
   const property = {
     imageUrl:
       "https://image.lguplus.com/static/pc-contents/images/prdv/20220616-073051-526-l4VusvGl.jpg",
@@ -32,6 +41,7 @@ function RecentlyViewed({ product }) {
     reviewCount: 34,
     rating: 4,
   };
+
   return (
     <div className={styles.Container}>
       <Grid

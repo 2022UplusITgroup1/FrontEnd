@@ -8,7 +8,6 @@ import calcDiscountPrice from "../../utils/calcDiscountPrice";
 import { useSelector } from "react-redux";
 
 function Product({ product, plans, category }) {
-  //let DETAIL_URL = `/mobile/detail/${product.brand["name"]}/${product.code}/${product.color}/${product.discountType}`;
   const options = useSelector((state) => state.changeOptionReducer);
   //console.log(options);
   const [detailURL, setDetailURL] = useState("");

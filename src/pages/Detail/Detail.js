@@ -24,24 +24,18 @@ function Detail() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
+  // API 로 받아온 모바일 상품 상세 정보 & 요금제 정보
   const [data, setData] = useState(SampleDetailData);
   const [plans, setPlans] = useState(SamplePlanData);
 
+  // 현재 사용자가 선택한 요금제 & 할인유형
   const [plan, setPlan] = useState([]);
   const [imgPaths, setImgPaths] = useState([]);
   const [planValue, setPlanValue] = useState(pl_code);
   const [discountValue, setDiscountValue] = useState(dc_type);
 
-  const [totalPrice, setTotalPrice] = useState("0");
-  const [phonePrice, setPhonePrice] = useState("0");
-  const [planPrice, setPlanPrice] = useState("0");
-  const [originalPrice, setOriginalPrice] = useState("0");
-
   const [prices, setPrices] = useState([]);
   const [nowPrice, setNowPrice] = useState([]);
-
-  //const prices = calcMonthPrice(data["phone"]["price"], data["plan"]["price"]);
-  //const nowPrice = calcDiscountPrice(data["phone"]["discountValue"], prices);
 
   const fetchProductDetail = async () => {
     try {
@@ -82,9 +76,9 @@ function Detail() {
       nowPlan["price"]
     );
     setPrices(nowPlanPrice);
-    //console.log(nowPlanPrice);
+    console.log(nowPlanPrice);
     setNowPrice(calcDiscountPrice(discountValue, nowPlanPrice));
-    //console.log(calcDiscountPrice(discountValue, nowPlanPrice));
+    console.log(calcDiscountPrice(discountValue, nowPlanPrice));
   }, [planValue, discountValue]);
 
   useEffect(() => {
@@ -93,13 +87,19 @@ function Detail() {
     fetchPlan(data["phone"]["networkSupport"]);
     */
 
+    setImgPaths(
+      data["images"].map((d) => {
+        return d["imgPath"];
+      })
+    );
+
     const nowPlan = findSelectPlan(planValue);
     setPlan(nowPlan);
     const nowPlanPrice = calcMonthPrice(
       data["phone"]["price"],
       nowPlan["price"]
     );
-    //console.log(nowPlanPrice);
+    console.log(nowPlanPrice);
     setPrices(nowPlanPrice);
     setNowPrice(calcDiscountPrice(discountValue, nowPlanPrice));
   }, []);
@@ -179,7 +179,9 @@ function Detail() {
             <div>
               핸드폰 {convertNumber(Number(nowPrice.phone))} 원 | 통신료{" "}
               {convertNumber(Number(nowPrice.plan))} 원 | 정상가{" "}
-              {convertNumber(Number(prices["original"]["total"]))} 원
+              {prices.length !== 0 &&
+                convertNumber(Number(prices["original"]["total"]))}{" "}
+              원
             </div>
             {/* 가격 정보 - dl & dt */}
           </div>
@@ -245,7 +247,7 @@ function Detail() {
         </div>
         <div className={styles.ProductDetail}>
           {/* 상품 정보 컴포넌트 */}
-          {/*<ProductDetail property={SampleDetailData} /> */}
+          {/*<ProductDetail product={SampleDetailData} /> */}
         </div>
       </div>
     </div>

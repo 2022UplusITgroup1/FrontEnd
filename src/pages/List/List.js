@@ -54,7 +54,11 @@ function List({ category }) {
           </div>
           <div className={styles.RecentlyViewed}>
             {/* 최근 본 상품은 따로 처리 필요 */}
-            <RecentlyViewed product={latesetProduct} />
+            <RecentlyViewed
+              product={latesetProduct}
+              plans={plan}
+              category={category}
+            />
           </div>
         </div>
       </div>
