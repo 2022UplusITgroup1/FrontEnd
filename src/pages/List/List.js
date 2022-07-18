@@ -1,42 +1,47 @@
 import React, { useEffect, useState } from "react";
+import axios from "axios";
 import styles from "./List.module.css";
 import Option from "../../components/Option/Option";
 import ProductList from "../../components/ProductList/ProductList";
 import RecentlyViewed from "../../components/RecentlyViewed/RecentlyViewed";
 import SampleData from "../../SampleData.json";
 import SamplePlanData from "../../SamplePlanData.json";
-import axios from "axios";
 
 const PRODUCT_API_URL = `${process.env.REACT_APP_PRODUCT_SERVICE_API_URL}/phone?net_sp=`;
 const PLAN_API_URL = `${process.env.REACT_APP_PRODUCT_SERVICE_API_URL}/plan?net_sp=`;
 
 function List({ category }) {
-  const [product, setProduct] = useState([]);
-  const [plan, setPlan] = useState([]);
-  const [latestProduct, setLatestProduct] = useState([]);
+  const [products, setProducts] = useState([]);
+  const [plans, setPlans] = useState([]);
+  const [latestProducts, setLatestProducts] = useState([]);
+
+  // GET 상품 전체 리스트
+  const getProducts = async () => {
+    try {
+      const response = await axios.get(`${PRODUCT_API_URL}${category}`);
+      console.log("getProducts SUCCESS ");
+      setProducts(response.data.data);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  // GET 요금제 전체 리스트
+  const getPlans = async () => {
+    try {
+      const response = await axios.get(`${PLAN_API_URL}${category}`);
+      console.log("getPlans SUCCESS ");
+      setPlans(response.data.data);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   useEffect(() => {
-    /*
-    axios
-      .get(`${PRODUCT_API_URL}${category}`)
-      .then((response) => {
-        console.log(response.data);
-        setProduct(response.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-    axios
-      .get(`${PLAN_API_URL}${category}`)
-      .then((response) => {
-        console.log(response.data);
-        setPlan(response.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-    */
-    setProduct(SampleData);
-    setPlan(SamplePlanData);
+    //getProducts();
+    //getPlans();
+    setProducts(SampleData);
+    setPlans(SamplePlanData);
   }, []);
 
   return (
@@ -47,16 +52,20 @@ function List({ category }) {
         </div>
         <div className={styles.List}>
           <div className={styles.ListOption}>
-            <Option plan={plan} />
+            <Option plans={plans} />
           </div>
           <div className={styles.ListItems}>
-            <ProductList product={product} plan={plan} category={category} />
+            <ProductList
+              products={products}
+              plans={plans}
+              category={category}
+            />
           </div>
           <div className={styles.RecentlyViewed}>
             {/* 최근 본 상품은 따로 처리 필요 */}
             <RecentlyViewed
-              product={latestProduct}
-              plans={plan}
+              products={latestProducts}
+              plans={plans}
               category={category}
             />
           </div>

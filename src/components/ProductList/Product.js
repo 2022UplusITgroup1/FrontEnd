@@ -5,20 +5,13 @@ import { Box, Image, Button } from "@chakra-ui/react";
 import convertNumber from "../../utils/convertNumber";
 import calcMonthPrice from "../../utils/calcMonthPrice";
 import calcDiscountPrice from "../../utils/calcDiscountPrice";
-import { useSelector, useDispatch } from "react-redux";
-import { changeDiscount } from "../../actions";
+import { useSelector } from "react-redux";
 
 function Product({ product, plans, category }) {
   const options = useSelector((state) => state.changeOptionReducer);
-  const dispatch = useDispatch();
   //console.log(options);
   const [detailURL, setDetailURL] = useState("");
   const [discountValue, setDiscountValue] = useState(product.discountType);
-
-  const onChangeDiscountValue = (value) => {
-    dispatch(changeDiscount(value));
-    setDiscountValue(value);
-  };
 
   let plan = [];
   if (options.planValue === "0") {

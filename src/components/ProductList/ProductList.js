@@ -1,26 +1,30 @@
 import React, { useState } from "react";
-import styles from "./ProductList.module.css";
-import Product from "./Product";
-import { Select } from "@chakra-ui/react";
 import { useSelector } from "react-redux";
-import mapBrandName from "../../utils/mapBrandName";
 import { FiAlertCircle } from "react-icons/fi";
+import styles from "./ProductList.module.css";
+import { Select } from "@chakra-ui/react";
+import Product from "./Product";
+import mapBrandName from "../../utils/mapBrandName";
 
-function ProductList({ product, plan, category }) {
+function ProductList({ products, plans, category }) {
+  // 선택한 정렬값 저장
   const [isSelect, setIsSelect] = useState(0);
   const onSelectChange = (e) => {
     setIsSelect(e.target.value);
   };
 
+  // 현재 옵션 선택 값 가져오기
   const options = useSelector((state) => state.changeOptionReducer);
   //console.log(options);
 
-  let selectedProduct = product.filter(
+  // 현재 선택된 제조사에 맞게 filter
+  let selectedProduct = products.filter(
     (p) => p["brand"]["name"] === mapBrandName(options.brandValue)
   );
-  if (options.brandValue === "0") selectedProduct = product;
+  if (options.brandValue === "0") selectedProduct = products;
   //console.log(selectedProduct);
 
+  // 현재 선택된 저장용량에 맞게 filter
   if (
     Number(options.storageValue) === 512 ||
     Number(options.storageValue) === 0
@@ -63,7 +67,7 @@ function ProductList({ product, plan, category }) {
                 return (
                   <Product
                     product={p}
-                    plans={plan}
+                    plans={plans}
                     category={category}
                     key={i}
                   />

@@ -1,4 +1,4 @@
-// 제조사 이름 매칭
+// 제조사 type 과 이름 mapping
 
 function mapBrandName(type) {
   if (type === "1") {

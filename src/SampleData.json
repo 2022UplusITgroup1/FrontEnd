@@ -1,7 +1,7 @@
 [
   {
     "storage": {
-      "capability": 128
+      "capability": 256
     },
     "brand": {
       "name": "애플"

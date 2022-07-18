@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import styles from "./Option.module.css";
 import {
   Accordion,
@@ -25,8 +26,6 @@ import {
   ModalBody,
   ModalCloseButton,
 } from "@chakra-ui/react";
-import convertNumber from "../../utils/convertNumber";
-import { useSelector, useDispatch } from "react-redux";
 import {
   changePlan,
   changeDiscount,
@@ -35,8 +34,9 @@ import {
   changeProductSort,
   resetData,
 } from "../../actions";
+import convertNumber from "../../utils/convertNumber";
 
-function Option({ plan }) {
+function Option({ plans }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const dispatch = useDispatch();
   const [planValue, setPlanValue] = useState("0");
@@ -46,7 +46,7 @@ function Option({ plan }) {
   const [storageValue, setStorageValue] = useState("0");
   const [sortValue, setSotrValue] = useState("0");
   const [isAdditional, setIsAdditional] = useState(0);
-  let planPreviewList = plan.slice(0, 3);
+  let planPreviewList = plans.slice(0, 3);
 
   const onApplyPlan = () => {
     onChangePlanValue(planModalValue);
@@ -82,18 +82,18 @@ function Option({ plan }) {
   const createPlanPreview = () => {
     const previewList = [];
     let len = 3;
-    if (plan.length < 3) len = plan.length;
+    if (plans.length < 3) len = plans.length;
     for (let i = 0; i < len; i++) {
       previewList.push(
-        <Radio value={plan[i].code} key={i}>
-          {plan[i].name}
+        <Radio value={plans[i].code} key={i}>
+          {plans[i].name}
         </Radio>
       );
     }
     return previewList;
   };
   const findSelectPlan = (value) => {
-    return plan.find((p) => p.code === value);
+    return plans.find((p) => p.code === value);
   };
 
   return (
@@ -184,9 +184,10 @@ function Option({ plan }) {
             <RadioGroup onChange={onChangeStorageValue} value={storageValue}>
               <Stack>
                 <Radio value="0">전체</Radio>
-                <Radio value="1000">1TB</Radio>
-                <Radio value="512">512GB 이상</Radio>
+                <Radio value="64">64GB</Radio>
+                <Radio value="128">128GB</Radio>
                 <Radio value="256">256GB</Radio>
+                <Radio value="512">512GB 이상</Radio>
               </Stack>
             </RadioGroup>
           </AccordionPanel>
@@ -234,7 +235,7 @@ function Option({ plan }) {
               className={styles.PlanContainer}
             >
               <Stack className={styles.PlanContainerStack}>
-                {plan.map((p, i) => {
+                {plans.map((p, i) => {
                   return (
                     <div className={styles.PlanItemContainer} key={i}>
                       <div className={styles.PlanInfoContainer} key={i}>
@@ -302,10 +303,3 @@ function Option({ plan }) {
 }
 
 export default Option;
-
-/*
-요금제 길이 제한 X
-{plan.map((plan, i) => {
-  return (<Radio value={plan.code} key={i}>{plan.name}</Radio>);
-})} 
-*/

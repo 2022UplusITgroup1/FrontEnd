@@ -1,8 +1,10 @@
 import React from "react";
 import styles from "./OrderDetail.module.css";
 import convertNumber from "../../utils/convertNumber";
+import mapDiscountType from "../../utils/mapDiscountType";
 
-function OrderDetail({ property }) {
+function OrderDetail({ product }) {
+  //console.log(product);
   return (
     <div className={styles.Container}>
       <div className={styles.Information}>
@@ -10,20 +12,23 @@ function OrderDetail({ property }) {
         <div className={styles.MainImg}>
           <img
             className={styles.MainImg}
-            src={property.imageUrl}
-            alt="PRODUCT"
+            src={product.phone.imgThumbnail}
+            alt={product.phone.code}
           />
         </div>
-        <div className={styles.TitleInfo}>{property.title}</div>
+        <div className={styles.TitleInfo}>{product.phone.name}</div>
         <span className={styles.SubInfo}>
-          {convertNumber(property.capacity)}GB | {property.color}
+          {convertNumber(product.phone.storage)}GB | {product.phone.color}
         </span>
         <div className={styles.PriceInfo}>
           {/* 상품 가격 정보 */}
-          <div className={styles.CalcPriceInfo}>{property.subTitle}</div>
+          <div className={styles.CalcPriceInfo}>
+            {product.plan.name} |{" "}
+            {mapDiscountType(Number(product.discountType))}
+          </div>
           <div className={styles.CalcMonthInfo}>
             <div className={styles.TotalPrice}>
-              월 납부금액 {convertNumber(property.formattedPrice)} 원
+              월 납부금액 {convertNumber(product.monthPrice)} 원
             </div>
           </div>
         </div>

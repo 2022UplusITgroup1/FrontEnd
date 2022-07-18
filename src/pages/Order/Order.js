@@ -1,4 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import axios from "axios";
+import { useSelector } from "react-redux";
 import styles from "./Order.module.css";
 import OrderDetail from "../../components/OrderDetail/OrderDetail";
 import { Input, Button } from "@chakra-ui/react";
@@ -12,7 +15,8 @@ import {
   ModalCloseButton,
   useDisclosure,
 } from "@chakra-ui/react";
-import { Link } from "react-router-dom";
+
+const PLAN_API_URL = `${process.env.REACT_APP_ORDER_INQUIRY_SERVER_URL}/order/my?name=%EC%95%84%EC%9D%B4%EC%9C%A0&phone_number=01012340001&order_number=202207132210570001`;
 
 function Order() {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -28,19 +32,24 @@ function Order() {
     e.preventDefault();
     console.log(name, number, email, address);
   };
-  const property = {
-    imageUrl:
-      "https://image.lguplus.com/static/pc-contents/images/prdv/20220616-073051-526-l4VusvGl.jpg",
-    imageAlt: "Galaxy Buddy 2",
-    title: "Galaxy Buddy 2",
-    subTitle: "5G 라이트+ | 공시지원금",
-    phone: "0",
-    communication: "55,000",
-    formattedPrice: "55,000",
-    color: "라이트 블루",
-    capacity: "128GB",
-    joinType: "기기변경",
+
+  const orderProduct = useSelector((state) => state.orderReducer);
+  console.log(orderProduct);
+
+  // API 통신
+  const getOrder = async () => {
+    try {
+      //const response = await axios.get(`${PLAN_API_URL}`);
+      //console.log(response.data);
+      //setProduct(response.data);
+    } catch (e) {
+      console.log(e);
+    }
   };
+  useEffect(() => {
+    //getOrder();
+  }, []);
+
   return (
     <div className={styles.Container}>
       <div className={styles.OrderInfo}>
@@ -96,7 +105,7 @@ function Order() {
         </form>
       </div>
       <div className={styles.ProductInfo}>
-        <OrderDetail property={property} />
+        <OrderDetail product={orderProduct} />
       </div>
     </div>
   );

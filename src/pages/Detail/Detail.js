@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
+import { Link, useParams } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import axios from "axios";
 import styles from "./Detail.module.css";
 import ProductDetail from "../../components/ProductDetail/ProductDetail";
-import { Link } from "react-router-dom";
 import {
   ButtonGroup,
   Button,
@@ -20,63 +22,21 @@ import {
   Select,
   useDisclosure,
 } from "@chakra-ui/react";
-import { useParams } from "react-router-dom";
 //import OrderPlanBox from "../../components/PlanBox/OrderPlanBox";
-import SamplePlanData from "../../SamplePlanData.json";
-import SampleDetailData from "../../SampleDetailData.json";
-import axios from "axios";
 import convertNumber from "../../utils/convertNumber";
 import calcMonthPrice from "../../utils/calcMonthPrice";
 import calcDiscountPrice from "../../utils/calcDiscountPrice";
 import mapDiscountType from "../../utils/mapDiscountType";
+import SamplePlanData from "../../SamplePlanData.json";
+import SampleDetailData from "../../SampleDetailData.json";
+import { selectDetail } from "../../actions";
 
 // Detail 정보 & Plan 전체 정보 필요
 
-// 미리보기 요금제 만들기
-const createPlanPreview = (data, onPlanValueChange) => {
-  const planPreviewList = [];
-  let len = 3;
-  if (data.length < 3) len = data.length;
-  for (let i = 0; i < len; i++) {
-    planPreviewList.push(
-      <div
-        className={styles.OrderPlanItem}
-        value={i}
-        key={i}
-        size="lg"
-        onClick={onPlanValueChange}
-      >
-        <div className={styles.OrderPlanInfo}>
-          <div className={styles.OrderPlanMain}>
-            <div className={styles.OrderPlanName}>{data[i].name}</div>
-            <div className={styles.OrderPlanPrice}>
-              {convertNumber(data[i].price)}원
-            </div>
-          </div>
-
-          <div className={styles.OrderPlanDetail}>
-            <div className={styles.OrderPlanDetailItem}>
-              {convertNumber(data[i].data)}GB
-            </div>
-            <div className={styles.OrderPlanDetailItem}>
-              {convertNumber(data[i].shareData)}GB
-            </div>
-            <div className={styles.OrderPlanDetailItem}>
-              {convertNumber(data[i].voice)}분
-            </div>
-            <div className={styles.OrderPlanDetailItem}>
-              {convertNumber(data[i].message)}건
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
-  return planPreviewList;
-};
-
 function Detail() {
+  const dispatch = useDispatch();
   const { net_sp, pl_code, ph_code, color, dc_type } = useParams();
+
   const DETAIL_URL = `${process.env.REACT_APP_PRODUCT_SERVICE_API_URL}/detail?pl_code=${pl_code}&ph_code=${ph_code}&color=${color}&dc_type=${dc_type}`;
   const PLAN_API_URL = `${process.env.REACT_APP_PRODUCT_SERVICE_API_URL}/plan?net_sp=`;
 
@@ -96,26 +56,44 @@ function Detail() {
   const [planModalValue, setPlanModalValue] = useState(pl_code);
   const [discountValue, setDiscountValue] = useState(dc_type);
   const [sortValue, setSortValue] = useState("0");
+  const [colorValue, setColorValue] = useState(color);
 
-  // 요금제 변경 함수
+  // Redux Dispatch -> 주문 정보 저장
+  const onSelectDetail = (nowPlan, nowPlanPrice) => {
+    const value = {
+      phone: {
+        code: data.phone.code,
+        name: data.phone.name,
+        imgThumbnail: data.phone.imgThumbnail,
+        storage: data.phone.storage.capability,
+        color: data.phone.color,
+        price: data.phone.price,
+      },
+      plan: {
+        code: nowPlan.code,
+        name: nowPlan.name,
+        price: nowPlan.price,
+      },
+      discountType: discountValue,
+      monthPrice: calcDiscountPrice(discountValue, nowPlanPrice).total,
+    };
+    dispatch(selectDetail(value));
+  };
+
+  // 모달을 통한 요금제 변경 함수
   const onApplyPlan = () => {
     setPlanValue(planModalValue);
     onClose();
   };
 
-  const onPlanValueChange = (value) => {
-    console.log(value);
-    setPlanValue(value);
-    setPlanModalValue(value);
-  };
-
-  // API 통신
+  // API: 상품 리스트 GET
   const fetchProductDetail = async () => {
     try {
       setLoading(true);
       setError(null);
       const response = await axios.get(`${DETAIL_URL}`);
-      setData(response.data);
+      setData(response.data.data);
+      console.log(response.data.data);
     } catch (e) {
       console.log(e);
       setError(e);
@@ -123,12 +101,14 @@ function Detail() {
     setLoading(false);
   };
 
-  const fetchPlan = async (category) => {
+  // API: 요금제 리스트 GET
+  const fetchPlans = async () => {
     try {
       setLoading(true);
       setError(null);
       const response = await axios.get(`${PLAN_API_URL}${net_sp}`);
-      setPlan(response.data);
+      setPlans(response.data.data);
+      console.log(response.data.data);
     } catch (e) {
       console.log(e);
       setError(e);
@@ -151,41 +131,47 @@ function Detail() {
     setIdx(e.target.id);
   };
 
-  // 가입 유형
+  // 가입 유형 변경
   const [joinType, setJoinType] = useState("0");
   const onClickJoinType = (v) => {
     //console.log(v);
     setJoinType(v);
   };
 
-  // 할인 유형
+  // 할인 유형 변경
   const onChangeDiscountValue = (value) => {
     setDiscountValue(value);
   };
 
   // 초기 세팅
   useEffect(() => {
-    /* axios GET
-    fetchProductDetail();
-    fetchPlan(data["phone"]["networkSupport"]);
-    */
+    //fetchProductDetail();
+    //fetchPlans();
+    setData(SampleDetailData);
+    setPlans(SamplePlanData);
+  }, []);
 
+  // 초기 세팅 후, 전달받은 상품과 요금제 데이터를 기반으로 초기화
+  useEffect(() => {
+    // 미리보기 이미지 list 로 저장
     setImgPaths(
       data["images"].map((d) => {
         return d["imgPath"];
       })
     );
 
+    // 현재 선택된 요금제 정보 추출
     const nowPlan = findSelectPlan(planValue);
     setPlan(nowPlan);
     const nowPlanPrice = calcMonthPrice(
       data["phone"]["price"],
       nowPlan["price"]
     );
-    //console.log(nowPlanPrice);
     setPrices(nowPlanPrice);
     setNowPrice(calcDiscountPrice(discountValue, nowPlanPrice));
-  }, []);
+    // Redux 변경
+    onSelectDetail(nowPlan, nowPlanPrice);
+  }, [data, plans]);
 
   // 요금제 & 할인유형 변할 때마다 새로운 정보로 update
   useEffect(() => {
@@ -197,9 +183,9 @@ function Detail() {
       nowPlan["price"]
     );
     setPrices(nowPlanPrice);
-    //console.log(nowPlanPrice);
     setNowPrice(calcDiscountPrice(discountValue, nowPlanPrice));
-    //console.log(calcDiscountPrice(discountValue, nowPlanPrice));
+    // Redux 변경
+    onSelectDetail(nowPlan, nowPlanPrice);
   }, [planValue, discountValue]);
 
   if (loading) return <div>loading...</div>;
@@ -213,7 +199,6 @@ function Detail() {
           <div className={styles.MainImg}>
             <img
               className={styles.MainImg}
-              //src={imgUrls[Number(idx)]}
               src={data["images"][Number(idx)]["imgPath"]}
               alt={data["images"][Number(idx)]["imgPos"]}
             />
