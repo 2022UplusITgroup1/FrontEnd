@@ -57,7 +57,7 @@ function Detail() {
   const [discountValue, setDiscountValue] = useState(dc_type);
   const [sortValue, setSortValue] = useState("0");
   const [colorValue, setColorValue] = useState(color);
-  const [payPeriod, setPayPeriod] = useState(0);
+  const [payPeriod, setPayPeriod] = useState(12);
 
   const onChangeColorValue = (e) => {
     setColorValue(e.target.value);
@@ -164,7 +164,7 @@ function Detail() {
     setPlan(nowPlan);
     const nowPlanPrice = calcMonthPrice(
       data["phone"]["price"],
-      nowPlan["price"]
+      nowPlan["price"], payPeriod
     );
     setPrices(nowPlanPrice);
     setNowPrice(calcDiscountPrice(discountValue, nowPlanPrice));
@@ -174,18 +174,18 @@ function Detail() {
 
   // 요금제 & 할인유형 변할 때마다 새로운 정보로 update
   useEffect(() => {
-    console.log(planValue, discountValue);
+    console.log(planValue, discountValue, payPeriod);
     const nowPlan = findSelectPlan(planValue);
     setPlan(nowPlan);
     const nowPlanPrice = calcMonthPrice(
       data["phone"]["price"],
-      nowPlan["price"]
+      nowPlan["price"], payPeriod
     );
     setPrices(nowPlanPrice);
     setNowPrice(calcDiscountPrice(discountValue, nowPlanPrice));
     // Redux 변경
     onSelectDetail(nowPlan, nowPlanPrice);
-  }, [planValue, discountValue]);
+  }, [planValue, discountValue, payPeriod]);
 
   if (loading) return <div>loading...</div>;
   if (error) return <div>Error!</div>;
@@ -272,7 +272,7 @@ function Detail() {
               <dt className={styles.PriceDetailDT}>정상가</dt>
               <dt className={styles.PriceDetailDD}>
                 {prices.length !== 0 &&
-                  convertNumber(Number(prices["original"]["total"]))}{" "}
+                  convertNumber(Number(data["phone"]["price"]))}{" "}
                 원
               </dt>
             </dl>
@@ -370,9 +370,9 @@ function Detail() {
                     <div className={styles.OrderInfoTdItem}>
                       <div className={styles.OrderInfoTdHeader}>
                         <div className={styles.OrderInfoTdTitle}>할인 유형</div>
-                        <div className={styles.OrderInfoTdBtn}>
+                        {/*<div className={styles.OrderInfoTdBtn}>
                           자세히 보기 ❯
-                        </div>
+                </div>*/}
                       </div>
                       <div className={styles.OrderInfoTdBody}>
                         <RadioGroup
@@ -385,6 +385,7 @@ function Detail() {
                             style={{
                               borderColor:
                                 discountValue === "1" ? "#000" : "#ddd",
+                                color: discountValue === "1" ? "#000" : "#666",
                             }}
                           >
                             <Radio
@@ -395,7 +396,7 @@ function Detail() {
                               <div className={styles.OrderInfoTdLeft}>
                                 {/* 공시지원금 */}
                                 <div>
-                                  <div>공시지원금</div>
+                                  <div className={styles.DiscountTypeTitle}>공시지원금</div>
                                   <div>휴대폰 가격 1회 할인</div>
                                 </div>
                                 <div className={styles.PublicPrice}>
@@ -413,11 +414,12 @@ function Detail() {
                             style={{
                               borderColor:
                                 discountValue !== "1" ? "#000" : "#ddd",
+                              color: discountValue !== "1" ? "#000" : "#666",
                             }}
                           >
                             <div className={styles.OrderInfoTdRight}>
                               {/* 선택약정할인 */}
-                              <div>선택약정할인</div>
+                              <div className={styles.DiscountTypeTitle}>선택약정할인</div>
                               <div>통신요금 25% 할인</div>
                               <div className={styles.SelectPlan}>
                                 <Radio value="2">24개월 할인</Radio>
@@ -448,7 +450,47 @@ function Detail() {
                       <div className={styles.OrderInfoTdHeader}>
                         <div className={styles.OrderInfoTdTitle}>할부기간</div>
                       </div>
-                      <div className={styles.OrderInfoTdBody}></div>
+                      <div className={styles.OrderInfoTdBody}>
+                        <div className={styles.PayPeriodContainer}>
+                          <button className={styles.PayPeriod}
+                          onClick={(e) => setPayPeriod(0)}
+                            style={{
+                              borderColor:
+                                payPeriod === 0 ? "#000" : "#ddd",
+                              color: payPeriod === 0 ? "#000" : "#666",
+                            }}>
+                            카드/간편결제
+                            <div>(일시불/할부)</div>
+                          </button>
+                          <button className={styles.PayPeriod}
+                          onClick={(e) => setPayPeriod(12)}
+                          style={{
+                              borderColor:
+                                payPeriod === 12 ? "#000" : "#ddd",
+                              color: payPeriod === 12 ? "#000" : "#666",
+                            }}>
+                            12개월
+                          </button>
+                          <button className={styles.PayPeriod}
+                          onClick={(e) => setPayPeriod(24)}
+                          style={{
+                            borderColor:
+                              payPeriod === 24 ? "#000" : "#ddd",
+                            color: payPeriod === 24 ? "#000" : "#666",
+                          }}>
+                            24개월
+                          </button>
+                          <button className={styles.PayPeriod}
+                          onClick={(e) => setPayPeriod(36)}
+                          style={{
+                              borderColor:
+                                payPeriod === 36 ? "#000" : "#ddd",
+                              color: payPeriod === 36 ? "#000" : "#666",
+                            }}>
+                            36개월
+                          </button>
+                        </div>
+                      </div>
                     </div>
                   </td>
                 </tr>
