@@ -3,7 +3,6 @@ import { Link, useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 import styles from "./Detail.module.css";
-import ProductDetail from "../../components/ProductDetail/ProductDetail";
 import {
   ButtonGroup,
   Button,
@@ -23,6 +22,7 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 //import OrderPlanBox from "../../components/PlanBox/OrderPlanBox";
+import ProductDetail from "../../components/ProductDetail/ProductDetail";
 import convertNumber from "../../utils/convertNumber";
 import calcMonthPrice from "../../utils/calcMonthPrice";
 import calcDiscountPrice from "../../utils/calcDiscountPrice";
@@ -458,7 +458,7 @@ function Detail() {
         </div>
         <div className={styles.ProductDetail}>
           {/* 상품 정보 컴포넌트 */}
-          {/*<ProductDetail product={SampleDetailData} /> */}
+          <ProductDetail product={SampleDetailData} />
         </div>
       </div>
 

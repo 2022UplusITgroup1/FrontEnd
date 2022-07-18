@@ -28,14 +28,21 @@ function Product({ product, plans, category }) {
     }
   }, [options]);
 
+  // !!! nowPrice useEffect 적용
   const prices = calcMonthPrice(product.price, plan.price);
   const nowPrice = calcDiscountPrice(discountValue.toString(), prices);
   //console.log(nowPrice);
 
   useEffect(() => {
-    setDetailURL(
-      `/mobile/detail/${category}/${plan.code}/${product.code}/${product.color}/${product.discountType}`
-    );
+    if (options.discountValue === "0") {
+      setDetailURL(
+        `/mobile/detail/${category}/${plan.code}/${product.code}/${product.color}/${product.discountType}`
+      );
+    } else {
+      setDetailURL(
+        `/mobile/detail/${category}/${plan.code}/${product.code}/${product.color}/${options.discountValue}`
+      );
+    }
   }, [options]);
 
   return (

@@ -24,9 +24,7 @@ function ProductDetail({ product }) {
             <span>정상가</span>
             <strong>월 통신료</strong>
             <span>0 원</span>
-            <div className={styles.TotalPrice}>
-              월 납부금액 {convertNumber(product["totalPrice"])} 원
-            </div>
+            <div className={styles.TotalPrice}>월 납부금액 {} 원</div>
           </div>
         </div>
       </div>
