@@ -33,6 +33,7 @@ import {
   changeStorage,
   changeProductSort,
   resetData,
+  changeOptions,
 } from "../../actions";
 import convertNumber from "../../utils/convertNumber";
 
@@ -72,6 +73,16 @@ function Option({ plans }) {
   const onChangeSortValue = (e) => {
     dispatch(changeProductSort(e.target.value));
     setSotrValue(e.target.value);
+  };
+  const onChangeOptions = () => {
+    const value = {
+      planValue: planValue,
+      discountValue: discountValue,
+      brandValue: brandValue,
+      storageValue: storageValue,
+      sortValue: sortValue,
+    };
+    dispatch(changeOptions(value));
   };
   useEffect(() => {
     // 초기 렌더링 시, 초기화

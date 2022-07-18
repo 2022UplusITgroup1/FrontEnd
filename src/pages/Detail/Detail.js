@@ -241,8 +241,7 @@ function Detail() {
           </div>
           <div className={styles.Capacity}>
             <div className={styles.CapacityTitle}>저장공간</div>
-            {/* 저장공간 선택 */}
-            <button className={styles.CapacityBtn} value="1">
+            <button className={styles.ItemBtn} value="1">
               {convertNumber(data["phone"]["storage"]["capability"])}GB
             </button>
           </div>
@@ -251,30 +250,9 @@ function Detail() {
           </div>
           <div className={styles.JoinType}>
             <div className={styles.JoinTypeTitle}>가입유형</div>
-            {/* 가입유형 선택 - radio */}
-            <Stack direction="row">
-              <button
-                className={styles.JoinTypeBtn}
-                style={{ borderColor: joinType === "0" ? "#000" : "#ddd" }}
-                onClick={(e) => onClickJoinType("0")}
-              >
-                <span className={styles.JoinTypeBtnSpan}>기기변경</span>
-              </button>
-              <button
-                className={styles.JoinTypeBtn}
-                style={{ borderColor: joinType === "1" ? "#000" : "#ddd" }}
-                onClick={(e) => onClickJoinType("1")}
-              >
-                <span className={styles.JoinTypeBtnSpan}>번호이동</span>
-              </button>
-              <button
-                className={styles.JoinTypeBtn}
-                style={{ borderColor: joinType === "2" ? "#000" : "#ddd" }}
-                onClick={(e) => onClickJoinType("2")}
-              >
-                <span className={styles.JoinTypeBtnSpan}>신규가입</span>
-              </button>
-            </Stack>
+            <button className={styles.ItemBtn} value="1">
+              신규가입
+            </button>
           </div>
           <div className={styles.PriceInfo}>
             <div className={styles.TotalPrice}>

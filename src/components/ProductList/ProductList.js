@@ -13,16 +13,14 @@ function ProductList({ products, plans, category }) {
     setIsSelect(e.target.value);
   };
 
-  // 현재 옵션 선택 값 가져오기
+  // 현재 선택한 옵션 값 가져오기
   const options = useSelector((state) => state.changeOptionReducer);
-  //console.log(options);
 
   // 현재 선택된 제조사에 맞게 filter
   let selectedProduct = products.filter(
     (p) => p["brand"]["name"] === mapBrandName(options.brandValue)
   );
   if (options.brandValue === "0") selectedProduct = products;
-  //console.log(selectedProduct);
 
   // 현재 선택된 저장용량에 맞게 filter
   if (
