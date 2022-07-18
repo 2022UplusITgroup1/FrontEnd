@@ -17,6 +17,7 @@ const initialState = {
   },
   discountType: 0,
   monthPrice: 0,
+  payPeriod: 0,
 };
 
 function orderReducer(state = initialState, action) {

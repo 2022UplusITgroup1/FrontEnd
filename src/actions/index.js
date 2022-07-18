@@ -87,6 +87,7 @@ export function selectDetail(data) {
       },
       discountType: data.discountType,
       monthPrice: data.monthPrice,
+      payPeriod: data.payPeriod,
     },
   };
 }

@@ -57,6 +57,11 @@ function Detail() {
   const [discountValue, setDiscountValue] = useState(dc_type);
   const [sortValue, setSortValue] = useState("0");
   const [colorValue, setColorValue] = useState(color);
+  const [payPeriod, setPayPeriod] = useState(0);
+
+  const onChangeColorValue = (e) => {
+    setColorValue(e.target.value);
+  };
 
   // Redux Dispatch -> 주문 정보 저장
   const onSelectDetail = (nowPlan, nowPlanPrice) => {
@@ -76,6 +81,7 @@ function Detail() {
       },
       discountType: discountValue,
       monthPrice: calcDiscountPrice(discountValue, nowPlanPrice).total,
+      payPeriod: payPeriod,
     };
     dispatch(selectDetail(value));
   };
@@ -129,13 +135,6 @@ function Detail() {
   const [idx, setIdx] = useState(0);
   const onChangeImg = (e) => {
     setIdx(e.target.id);
-  };
-
-  // 가입 유형 변경
-  const [joinType, setJoinType] = useState("0");
-  const onClickJoinType = (v) => {
-    //console.log(v);
-    setJoinType(v);
   };
 
   // 할인 유형 변경
