@@ -5,12 +5,20 @@ import { Box, Image, Button } from "@chakra-ui/react";
 import convertNumber from "../../utils/convertNumber";
 import calcMonthPrice from "../../utils/calcMonthPrice";
 import calcDiscountPrice from "../../utils/calcDiscountPrice";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { changeDiscount } from "../../actions";
 
 function Product({ product, plans, category }) {
   const options = useSelector((state) => state.changeOptionReducer);
+  const dispatch = useDispatch();
   //console.log(options);
   const [detailURL, setDetailURL] = useState("");
+  const [discountValue, setDiscountValue] = useState(product.discountType);
+
+  const onChangeDiscountValue = (value) => {
+    dispatch(changeDiscount(value));
+    setDiscountValue(value);
+  };
 
   let plan = [];
   if (options.planValue === "0") {
@@ -19,8 +27,16 @@ function Product({ product, plans, category }) {
     plan = plans.find((p) => p.code === options.planValue);
   }
 
+  useEffect(() => {
+    if (options.discountValue !== "0") {
+      setDiscountValue(options.discountValue);
+    } else {
+      setDiscountValue(product.discountType);
+    }
+  }, [options]);
+
   const prices = calcMonthPrice(product.price, plan.price);
-  const nowPrice = calcDiscountPrice(options.discountValue, prices);
+  const nowPrice = calcDiscountPrice(discountValue.toString(), prices);
   //console.log(nowPrice);
 
   useEffect(() => {

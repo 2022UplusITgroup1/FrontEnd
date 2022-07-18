@@ -13,7 +13,7 @@ const PLAN_API_URL = `${process.env.REACT_APP_PRODUCT_SERVICE_API_URL}/plan?net_
 function List({ category }) {
   const [product, setProduct] = useState([]);
   const [plan, setPlan] = useState([]);
-  const [latesetProduct, setLatestProduct] = useState([]);
+  const [latestProduct, setLatestProduct] = useState([]);
   useEffect(() => {
     /*
     axios
@@ -55,7 +55,7 @@ function List({ category }) {
           <div className={styles.RecentlyViewed}>
             {/* 최근 본 상품은 따로 처리 필요 */}
             <RecentlyViewed
-              product={latesetProduct}
+              product={latestProduct}
               plans={plan}
               category={category}
             />
