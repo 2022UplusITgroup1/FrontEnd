@@ -491,10 +491,10 @@ function Detail() {
                         <div className={styles.PayPeriodContainer}>
                           <button
                             className={styles.PayPeriod}
-                            onClick={(e) => setPayPeriod(0)}
+                            onClick={(e) => setPayPeriod(1)}
                             style={{
-                              borderColor: payPeriod === 0 ? "#000" : "#ddd",
-                              color: payPeriod === 0 ? "#000" : "#666",
+                              borderColor: payPeriod === 1 ? "#000" : "#ddd",
+                              color: payPeriod === 1 ? "#000" : "#666",
                             }}
                           >
                             카드/간편결제

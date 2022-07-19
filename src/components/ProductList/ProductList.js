@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { FiAlertCircle } from "react-icons/fi";
 import styles from "./ProductList.module.css";
@@ -11,6 +11,7 @@ function ProductList({ products, plans, category }) {
   const dispatch = useDispatch();
   // 현재 선택한 옵션 값 가져오기
   const options = useSelector((state) => state.changeOptionReducer);
+  //console.log(options);
 
   // 가장 알맞은 요금제는 가장 첫번째 요금제로
   let plan = [];
