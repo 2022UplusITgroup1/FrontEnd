@@ -27,6 +27,7 @@ import convertNumber from "../../utils/convertNumber";
 import calcMonthPrice from "../../utils/calcMonthPrice";
 import calcDiscountPrice from "../../utils/calcDiscountPrice";
 import mapDiscountType from "../../utils/mapDiscountType";
+import floorNumber from "../../utils/floorNumber";
 import SamplePlanData from "../../SamplePlanData.json";
 import SampleDetailData from "../../SampleDetailData.json";
 import { selectDetail } from "../../actions";
@@ -164,7 +165,8 @@ function Detail() {
     setPlan(nowPlan);
     const nowPlanPrice = calcMonthPrice(
       data["phone"]["price"],
-      nowPlan["price"], payPeriod
+      nowPlan["price"],
+      payPeriod
     );
     setPrices(nowPlanPrice);
     setNowPrice(calcDiscountPrice(discountValue, nowPlanPrice));
@@ -179,7 +181,8 @@ function Detail() {
     setPlan(nowPlan);
     const nowPlanPrice = calcMonthPrice(
       data["phone"]["price"],
-      nowPlan["price"], payPeriod
+      nowPlan["price"],
+      payPeriod
     );
     setPrices(nowPlanPrice);
     setNowPrice(calcDiscountPrice(discountValue, nowPlanPrice));
@@ -385,7 +388,7 @@ function Detail() {
                             style={{
                               borderColor:
                                 discountValue === "1" ? "#000" : "#ddd",
-                                color: discountValue === "1" ? "#000" : "#666",
+                              color: discountValue === "1" ? "#000" : "#666",
                             }}
                           >
                             <Radio
@@ -396,7 +399,9 @@ function Detail() {
                               <div className={styles.OrderInfoTdLeft}>
                                 {/* 공시지원금 */}
                                 <div>
-                                  <div className={styles.DiscountTypeTitle}>공시지원금</div>
+                                  <div className={styles.DiscountTypeTitle}>
+                                    공시지원금
+                                  </div>
                                   <div>휴대폰 가격 1회 할인</div>
                                 </div>
                                 <div className={styles.PublicPrice}>
@@ -419,7 +424,9 @@ function Detail() {
                           >
                             <div className={styles.OrderInfoTdRight}>
                               {/* 선택약정할인 */}
-                              <div className={styles.DiscountTypeTitle}>선택약정할인</div>
+                              <div className={styles.DiscountTypeTitle}>
+                                선택약정할인
+                              </div>
                               <div>통신요금 25% 할인</div>
                               <div className={styles.SelectPlan}>
                                 <Radio value="2">24개월 할인</Radio>
@@ -452,41 +459,45 @@ function Detail() {
                       </div>
                       <div className={styles.OrderInfoTdBody}>
                         <div className={styles.PayPeriodContainer}>
-                          <button className={styles.PayPeriod}
-                          onClick={(e) => setPayPeriod(0)}
+                          <button
+                            className={styles.PayPeriod}
+                            onClick={(e) => setPayPeriod(0)}
                             style={{
-                              borderColor:
-                                payPeriod === 0 ? "#000" : "#ddd",
+                              borderColor: payPeriod === 0 ? "#000" : "#ddd",
                               color: payPeriod === 0 ? "#000" : "#666",
-                            }}>
+                            }}
+                          >
                             카드/간편결제
                             <div>(일시불/할부)</div>
                           </button>
-                          <button className={styles.PayPeriod}
-                          onClick={(e) => setPayPeriod(12)}
-                          style={{
-                              borderColor:
-                                payPeriod === 12 ? "#000" : "#ddd",
+                          <button
+                            className={styles.PayPeriod}
+                            onClick={(e) => setPayPeriod(12)}
+                            style={{
+                              borderColor: payPeriod === 12 ? "#000" : "#ddd",
                               color: payPeriod === 12 ? "#000" : "#666",
-                            }}>
+                            }}
+                          >
                             12개월
                           </button>
-                          <button className={styles.PayPeriod}
-                          onClick={(e) => setPayPeriod(24)}
-                          style={{
-                            borderColor:
-                              payPeriod === 24 ? "#000" : "#ddd",
-                            color: payPeriod === 24 ? "#000" : "#666",
-                          }}>
+                          <button
+                            className={styles.PayPeriod}
+                            onClick={(e) => setPayPeriod(24)}
+                            style={{
+                              borderColor: payPeriod === 24 ? "#000" : "#ddd",
+                              color: payPeriod === 24 ? "#000" : "#666",
+                            }}
+                          >
                             24개월
                           </button>
-                          <button className={styles.PayPeriod}
-                          onClick={(e) => setPayPeriod(36)}
-                          style={{
-                              borderColor:
-                                payPeriod === 36 ? "#000" : "#ddd",
+                          <button
+                            className={styles.PayPeriod}
+                            onClick={(e) => setPayPeriod(36)}
+                            style={{
+                              borderColor: payPeriod === 36 ? "#000" : "#ddd",
                               color: payPeriod === 36 ? "#000" : "#666",
-                            }}>
+                            }}
+                          >
                             36개월
                           </button>
                         </div>

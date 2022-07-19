@@ -55,7 +55,7 @@
     "name": "Galaxy Buddy 2",
     "imgThumbnail": "https://image.lguplus.com/static/pc-contents/images/prdv/20220616-073051-526-l4VusvGl.jpg",
     "networkSupport": "5G",
-    "discountType": 0,
+    "discountType": 1,
     "color": "blue",
     "price": 1867000
   },

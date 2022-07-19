@@ -1,20 +1,31 @@
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { FiAlertCircle } from "react-icons/fi";
 import styles from "./ProductList.module.css";
 import { Select } from "@chakra-ui/react";
 import Product from "./Product";
+import { changePlan } from "../../actions";
 import mapBrandName from "../../utils/mapBrandName";
 
 function ProductList({ products, plans, category }) {
+  const dispatch = useDispatch();
+  // 현재 선택한 옵션 값 가져오기
+  const options = useSelector((state) => state.changeOptionReducer);
+
+  // 가장 알맞은 요금제는 가장 첫번째 요금제로
+  let plan = [];
+  if (options.planValue === "0" && plans.length !== 0) {
+    plan = plans[0];
+    //dispatch(changePlan(plan.code));
+  } else {
+    plan = plans.find((p) => p.code === options.planValue);
+  }
+
   // 선택한 정렬값 저장
   const [isSelect, setIsSelect] = useState(0);
   const onSelectChange = (e) => {
     setIsSelect(e.target.value);
   };
-
-  // 현재 선택한 옵션 값 가져오기
-  const options = useSelector((state) => state.changeOptionReducer);
 
   // 현재 선택된 제조사에 맞게 filter
   let selectedProduct = products.filter(
@@ -65,13 +76,14 @@ function ProductList({ products, plans, category }) {
                 return (
                   <Product
                     product={p}
-                    plans={plans}
+                    plan={plan}
                     category={category}
                     key={i}
                   />
                 );
               })}
           </div>
+          {/* 상품 리스트가 없을 경우 */}
           {selectedProduct.length === 0 && (
             <div className={styles.NoProductListContainer}>
               <div className={styles.NoProductList}>
