@@ -9,7 +9,7 @@ function OrderDetail({ product }) {
     <div className={styles.Container}>
       <div className={styles.Information}>
         {/* 상품 정보 및 요금 정보 */}
-        <div className={styles.MainImg}>
+        <div className={styles.MainImgContainer}>
           <img
             className={styles.MainImg}
             src={product.phone.imgThumbnail}
@@ -17,14 +17,25 @@ function OrderDetail({ product }) {
           />
         </div>
         <div className={styles.TitleInfo}>{product.phone.name}</div>
-        <span className={styles.SubInfo}>
+        <div className={styles.SubInfo}>
           {convertNumber(product.phone.storage)}GB | {product.phone.color}
-        </span>
+        </div>
+        <div className={styles.PlanInfo}>
+          <ul className={styles.PlanInfoUL}>
+            <li className={styles.PlanInfoLI}>신규가입</li>
+            <li className={styles.PlanInfoLI}>{product.plan.name}</li>
+            <li className={styles.PlanInfoLI}>
+              {mapDiscountType(Number(product.discountType))}
+            </li>
+          </ul>
+        </div>
         <div className={styles.PriceInfo}>
           {/* 상품 가격 정보 */}
-          <div className={styles.CalcPriceInfo}>
-            {product.plan.name} |{" "}
-            {mapDiscountType(Number(product.discountType))}
+          <div className={styles.PriceInfoDL}>
+            <div className={styles.PriceInfoDT}>휴대폰 가격</div>
+            <div className={styles.PriceInfoDD}>0 원</div>
+            <div className={styles.PriceInfoDT}>통신요금</div>
+            <div className={styles.PriceInfoDD}>0 원</div>
           </div>
           <div className={styles.CalcMonthInfo}>
             <div className={styles.TotalPrice}>

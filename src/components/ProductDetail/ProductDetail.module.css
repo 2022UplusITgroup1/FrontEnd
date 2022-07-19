@@ -47,12 +47,13 @@
   margin-bottom: 5px;
 }
 
-.CalcMonthLI, .CalcMonthLISelect {
+.CalcMonthLI,
+.CalcMonthLISelect {
   font-size: small;
 }
 
 .CalcMonthLISelect {
-  color:#e6007e;
+  color: #e6007e;
 }
 
 .CalcMonthPlan {

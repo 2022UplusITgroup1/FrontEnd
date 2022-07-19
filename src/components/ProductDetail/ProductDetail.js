@@ -12,10 +12,10 @@ function ProductDetail({ product }) {
     <div className={styles.Container}>
       <div className={styles.Information}>
         {/* 상품 정보 및 요금 정보 */}
-        <div className={styles.TitleInfo}>{product["phone"]["name"]}</div>
+        <div className={styles.TitleInfo}>{orderProduct["phone"]["name"]}</div>
         <span className={styles.SubInfo}>
-          {product["phone"]["color"]} |{" "}
-          {product["phone"]["storage"]["capability"]}GB | 신규가입
+          {orderProduct["phone"]["color"]} | {orderProduct["phone"]["storage"]}
+          GB | 신규가입
         </span>
         <div className={styles.PriceInfo}>
           {/* 상품 가격 정보 */}
@@ -40,13 +40,6 @@ function ProductDetail({ product }) {
               </li>
               <li className={styles.CalcMonthLI}>
                 할부 개월수 {convertNumber(orderProduct.payPeriod)}개월
-              </li>
-              <li className={styles.CalcMonthLI}>
-                할부수수료(연 5.9%){" "}
-                {convertNumber(
-                  Math.ceil((orderProduct.phone.price / 12) * 0.059)
-                )}{" "}
-                원
               </li>
             </ul>
             <ul className={styles.CalcMonthPlan}>
@@ -78,3 +71,14 @@ function ProductDetail({ product }) {
 }
 
 export default ProductDetail;
+
+/*
+
+              <li className={styles.CalcMonthLI}>
+                할부수수료(연 5.9%){" "}
+                {convertNumber(
+                  Math.ceil((orderProduct.phone.price / 12) * 0.059)
+                )}{" "}
+                원
+              </li>
+*/

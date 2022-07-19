@@ -291,19 +291,19 @@ function Detail() {
             </div>
             <dl className={styles.PriceDetail}>
               <dt className={styles.PriceDetailDT}>휴대폰</dt>
-              <dt className={styles.PriceDetailDD}>
+              <dd className={styles.PriceDetailDD}>
                 {convertNumber(Number(nowPrice.phone))} 원
-              </dt>
+              </dd>
               <dt className={styles.PriceDetailDT}>통신료</dt>
-              <dt className={styles.PriceDetailDD}>
+              <dd className={styles.PriceDetailDD}>
                 {convertNumber(Number(nowPrice.plan))} 원
-              </dt>
+              </dd>
               <dt className={styles.PriceDetailDT}>정상가</dt>
-              <dt className={styles.PriceDetailDD}>
+              <dd className={styles.PriceDetailDD}>
                 {prices.length !== 0 &&
                   convertNumber(Number(data["phone"]["price"]))}{" "}
                 원
-              </dt>
+              </dd>
             </dl>
             {/* 가격 정보 - dl & dt */}
           </div>
@@ -455,7 +455,9 @@ function Detail() {
                               </div>
                               <div>통신요금 25% 할인</div>
                               <div className={styles.SelectPlan}>
-                                <Radio value="2">24개월 할인</Radio>
+                                <Radio value="2" size="lg">
+                                  24개월 할인
+                                </Radio>
                                 <span className={styles.SelectPlanPrice}>
                                   총 -
                                   {convertNumber(
@@ -465,7 +467,9 @@ function Detail() {
                                 </span>
                               </div>
                               <div className={styles.SelectPlan}>
-                                <Radio value="3">12개월 할인</Radio>
+                                <Radio value="3" size="lg">
+                                  12개월 할인
+                                </Radio>
                                 <span className={styles.SelectPlanPrice}>
                                   총 -
                                   {convertNumber(
