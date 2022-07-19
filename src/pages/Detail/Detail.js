@@ -30,6 +30,7 @@ import mapDiscountType from "../../utils/mapDiscountType";
 import floorNumber from "../../utils/floorNumber";
 import SamplePlanData from "../../SamplePlanData.json";
 import SampleDetailData from "../../SampleDetailData.json";
+import SampleColorData from "../../SampleColorData.json";
 import { selectDetail } from "../../actions";
 
 // Detail 정보 & Plan 전체 정보 필요
@@ -38,8 +39,9 @@ function Detail() {
   const dispatch = useDispatch();
   const { net_sp, pl_code, ph_code, color, dc_type } = useParams();
 
-  const DETAIL_URL = `${process.env.REACT_APP_PRODUCT_SERVICE_API_URL}/detail?pl_code=${pl_code}&ph_code=${ph_code}&color=${color}&dc_type=${dc_type}`;
-  const PLAN_API_URL = `${process.env.REACT_APP_PRODUCT_SERVICE_API_URL}/plan?net_sp=`;
+  const PRODUCT_DETAIL_URL = `${process.env.REACT_APP_PRODUCT_SERVICE_API_URL}/detail?pl_code=${pl_code}&ph_code=${ph_code}&color=${color}&dc_type=${dc_type}`;
+  const PRODUCT_COLOR_URL = `${process.env.REACT_APP_PRODUCT_SERVICE_API_URL}/color?ph_code=${ph_code}`;
+  const PLAN_URL = `${process.env.REACT_APP_PRODUCT_SERVICE_API_URL}/plan?net_sp=`;
 
   // 데이터 로딩 & 에러
   const [loading, setLoading] = useState(false);
@@ -47,6 +49,7 @@ function Detail() {
 
   // API 로 받아온 모바일 상품 상세 정보 & 요금제 정보
   const [data, setData] = useState(SampleDetailData);
+  const [colors, setColors] = useState(SampleColorData);
   const [plans, setPlans] = useState(SamplePlanData);
 
   // 현재 사용자가 선택한 요금제 & 할인유형
@@ -60,10 +63,6 @@ function Detail() {
   const [colorValue, setColorValue] = useState(color);
   const [payPeriod, setPayPeriod] = useState(12);
 
-  const onChangeColorValue = (e) => {
-    setColorValue(e.target.value);
-  };
-
   // Redux Dispatch -> 주문 정보 저장
   const onSelectDetail = (nowPlan, nowPlanPrice) => {
     const value = {
@@ -72,7 +71,7 @@ function Detail() {
         name: data.phone.name,
         imgThumbnail: data.phone.imgThumbnail,
         storage: data.phone.storage.capability,
-        color: data.phone.color,
+        color: colorValue,
         price: data.phone.price,
       },
       plan: {
@@ -98,8 +97,23 @@ function Detail() {
     try {
       setLoading(true);
       setError(null);
-      const response = await axios.get(`${DETAIL_URL}`);
+      const response = await axios.get(`${PRODUCT_DETAIL_URL}`);
       setData(response.data.data);
+      console.log(response.data.data);
+    } catch (e) {
+      console.log(e);
+      setError(e);
+    }
+    setLoading(false);
+  };
+
+  // API: 상품 색상 리스트 GET
+  const fetchProductColor = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      const response = await axios.get(`${PRODUCT_COLOR_URL}`);
+      setColors(response.data.data);
       console.log(response.data.data);
     } catch (e) {
       console.log(e);
@@ -113,7 +127,7 @@ function Detail() {
     try {
       setLoading(true);
       setError(null);
-      const response = await axios.get(`${PLAN_API_URL}${net_sp}`);
+      const response = await axios.get(`${PLAN_URL}${net_sp}`);
       setPlans(response.data.data);
       console.log(response.data.data);
     } catch (e) {
@@ -188,7 +202,7 @@ function Detail() {
     setNowPrice(calcDiscountPrice(discountValue, nowPlanPrice));
     // Redux 변경
     onSelectDetail(nowPlan, nowPlanPrice);
-  }, [planValue, discountValue, payPeriod]);
+  }, [planValue, discountValue, payPeriod, colorValue]);
 
   if (loading) return <div>loading...</div>;
   if (error) return <div>Error!</div>;
@@ -228,17 +242,29 @@ function Detail() {
           <div className={styles.ProductColor}>
             <div className={styles.ProductColorTitleContainer}>
               <div className={styles.ProductColorTitle}>색상</div>
-              <span>{data["phone"]["color"]}</span>
+              <span>{colorValue}</span>
             </div>
             <div className={styles.ColorBtnContainer}>
-              <div className={styles.ColorBtn}>
-                <span
-                  className={styles.ColorBtnInner}
-                  style={{
-                    backgroundColor: data["phone"]["color"],
-                  }}
-                ></span>
-              </div>
+              {colors.map((color) => {
+                return (
+                  <button
+                    className={styles.ColorBtn}
+                    key={color}
+                    value={color}
+                    onClick={(e) => setColorValue(color)}
+                    style={{
+                      borderColor: colorValue === color ? "#000" : "#909090",
+                    }}
+                  >
+                    <span
+                      className={styles.ColorBtnInner}
+                      style={{
+                        backgroundColor: color,
+                      }}
+                    ></span>
+                  </button>
+                );
+              })}
             </div>
           </div>
           <div className={styles.Capacity}>
