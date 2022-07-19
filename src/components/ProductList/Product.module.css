@@ -62,6 +62,10 @@
   letter-spacing: -0.2px;
 }
 
+.Discount {
+  color: #e6007e;
+}
+
 .MonthPrice {
   display: inline-block;
   width: 100%;

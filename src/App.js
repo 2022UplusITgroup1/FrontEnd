@@ -1,16 +1,15 @@
 import { BrowserRouter as Router, Route } from "react-router-dom";
+import "./App.css";
+import { ChakraProvider } from "@chakra-ui/react";
 import Layout from "./components/Layout/Layout";
 import Main from "./pages/Main/Main";
 import List from "./pages/List/List";
 import Detail from "./pages/Detail/Detail";
 import Order from "./pages/Order/Order";
+import OrderResult from "./pages/Order/OrderResult";
 import Inquiry from "./pages/Inquiry/Inquiry";
-import "./App.css";
-import { ChakraProvider } from "@chakra-ui/react";
-import Modal from "react-modal";
 import Result from "./pages/Inquiry/Result";
 import Search from "./pages/Search/Search";
-import OrderResult from "./pages/Order/OrderResult";
 
 function App() {
   return (
@@ -43,7 +42,5 @@ function App() {
     </ChakraProvider>
   );
 }
-
-Modal.setAppElement("#root");
 
 export default App;

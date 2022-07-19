@@ -14,7 +14,7 @@ import {
 import convertNumber from "../../utils/convertNumber";
 import { useSelector } from "react-redux";
 
-function RecentlyViewed({ product, plans, category }) {
+function RecentlyViewed({ products, plans, category }) {
   //const DETAIL_URL = `/mobile/detail/${category}/${plan.code}/${product.code}/${product.color}/${product.discountType}`;
 
   const options = useSelector((state) => state.changeOptionReducer);

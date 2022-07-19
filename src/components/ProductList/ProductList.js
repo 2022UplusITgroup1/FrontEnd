@@ -1,26 +1,40 @@
-import React, { useState } from "react";
-import styles from "./ProductList.module.css";
-import Product from "./Product";
-import { Select } from "@chakra-ui/react";
-import { useSelector } from "react-redux";
-import mapBrandName from "../../utils/mapBrandName";
+import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { FiAlertCircle } from "react-icons/fi";
+import styles from "./ProductList.module.css";
+import { Select } from "@chakra-ui/react";
+import Product from "./Product";
+import { changePlan } from "../../actions";
+import mapBrandName from "../../utils/mapBrandName";
 
-function ProductList({ product, plan, category }) {
+function ProductList({ products, plans, category }) {
+  const dispatch = useDispatch();
+  // 현재 선택한 옵션 값 가져오기
+  const options = useSelector((state) => state.changeOptionReducer);
+  //console.log(options);
+
+  // 가장 알맞은 요금제는 가장 첫번째 요금제로
+  let plan = [];
+  if (options.planValue === "0" && plans.length !== 0) {
+    plan = plans[0];
+    //dispatch(changePlan(plan.code));
+  } else {
+    plan = plans.find((p) => p.code === options.planValue);
+  }
+
+  // 선택한 정렬값 저장
   const [isSelect, setIsSelect] = useState(0);
   const onSelectChange = (e) => {
     setIsSelect(e.target.value);
   };
 
-  const options = useSelector((state) => state.changeOptionReducer);
-  //console.log(options);
-
-  let selectedProduct = product.filter(
+  // 현재 선택된 제조사에 맞게 filter
+  let selectedProduct = products.filter(
     (p) => p["brand"]["name"] === mapBrandName(options.brandValue)
   );
-  if (options.brandValue === "0") selectedProduct = product;
-  //console.log(selectedProduct);
+  if (options.brandValue === "0") selectedProduct = products;
 
+  // 현재 선택된 저장용량에 맞게 filter
   if (
     Number(options.storageValue) === 512 ||
     Number(options.storageValue) === 0
@@ -63,13 +77,14 @@ function ProductList({ product, plan, category }) {
                 return (
                   <Product
                     product={p}
-                    plans={plan}
+                    plan={plan}
                     category={category}
                     key={i}
                   />
                 );
               })}
           </div>
+          {/* 상품 리스트가 없을 경우 */}
           {selectedProduct.length === 0 && (
             <div className={styles.NoProductListContainer}>
               <div className={styles.NoProductList}>
