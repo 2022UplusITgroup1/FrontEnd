@@ -8,6 +8,7 @@ export const CHANGE_PRODUCT_SORT = "CHANGE_PRODUCT_SORT";
 export const CHANGE_OPTIONS = "CHANGE_OPTIONS";
 export const SELECT_DETAIL = "SELECT_DETAIL";
 export const SET_RECENTLY_PRODUCT = "SET_RECENTLY_PRODUCT";
+export const SET_COMPARE_PRODUCTS = "SET_COMPARE_PRODUCTS";
 export const RESET_DATA = "RESET_DATA";
 
 // 조건 선택
@@ -111,6 +112,24 @@ export function setRecentlyProduct(data) {
       networkSupport: data.networkSupport,
       discountType: data.discountType,
       monthPrice: data.monthPrice,
+    },
+  };
+}
+
+// 비교하기 상품들 저장
+export function setCompareProduct(data) {
+  console.log("setCompareProduct: " + data);
+  return {
+    type: SET_COMPARE_PRODUCTS,
+    data: {
+      code: data.code,
+      name: data.name,
+      color: data.color,
+      imgThumbnail: data.imgThumbnail,
+      plan: data.plan,
+      networkSupport: data.networkSupport,
+      discountType: data.discountType,
+      totalPrice: data.totalPrice,
     },
   };
 }

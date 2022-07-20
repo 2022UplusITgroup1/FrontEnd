@@ -1,0 +1,35 @@
+.Modal {
+    width: 1320px;
+  }
+  
+  .ModalHeader {
+    background-color: #2d2926;
+    color: white;
+  }
+  
+  .ModalContent {
+    min-width: 1320px;
+    bottom: 0;
+    position: fixed;
+    z-index: 99;
+  }
+
+  .ModalBodyContainer {
+    display: flex;
+    align-items: center;
+  }
+
+  .ModalBody {
+    max-height: calc(100vh - 430px);
+    overflow-y: auto;
+    display: flex;
+    width: 1200px;
+  }
+
+  .CompareBtnContainer {
+    align-items: center;
+  }
+  
+  .CompareBtn {
+    margin-right: 20px;
+  }

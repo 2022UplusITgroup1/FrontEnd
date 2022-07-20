@@ -144,14 +144,3 @@ function ProductDetail({ product }) {
 }
 
 export default ProductDetail;
-
-/*
-
-              <li className={styles.CalcMonthLI}>
-                할부수수료(연 5.9%){" "}
-                {convertNumber(
-                  Math.ceil((orderProduct.phone.price / 12) * 0.059)
-                )}{" "}
-                원
-              </li>
-*/
