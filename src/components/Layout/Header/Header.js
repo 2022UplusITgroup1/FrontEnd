@@ -1,3 +1,5 @@
+// Header
+
 import { Link } from "react-router-dom";
 import styles from "./Header.module.css";
 import { FiSearch, FiInbox } from "react-icons/fi";
@@ -15,10 +17,10 @@ function Header() {
           <div className={styles.HeaderMenuNavContainer}>
             <div className={styles.HeaderMenuNav}>
               <div className={styles.HeaderLeftMenu}>
-                <Link to="/mobile/5g-phone" className={styles.NavItem}>
+                <Link to="/mobile/5G" className={styles.NavItem}>
                   5G 휴대폰
                 </Link>
-                <Link to="/mobile/4g-phone" className={styles.NavItem}>
+                <Link to="/mobile/4G" className={styles.NavItem}>
                   4G 휴대폰
                 </Link>
               </div>
@@ -40,10 +42,3 @@ function Header() {
 }
 
 export default Header;
-
-/*
-Navigation 검색 부분
-<div className={styles.HeaderMenuContens}>
-    <div className={styles.MenuItem}>검색</div>
-</div>
-*/

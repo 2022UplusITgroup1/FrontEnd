@@ -1,3 +1,5 @@
+// 비교하기
+
 import React from "react";
 
 function Compare() {

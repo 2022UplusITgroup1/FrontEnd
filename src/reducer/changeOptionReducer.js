@@ -1,3 +1,5 @@
+// 상품 리스트 페이지 조건 선택 시 변경
+
 import * as types from "../actions";
 
 const initialState = {

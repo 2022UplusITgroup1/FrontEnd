@@ -1,8 +1,10 @@
+// 상품 상세 페이지
+
 import React, { useState, useEffect } from "react";
+import styles from "./Detail.module.css";
 import { Link, useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
-import styles from "./Detail.module.css";
 import {
   ButtonGroup,
   Button,
@@ -31,19 +33,23 @@ import floorNumber from "../../utils/floorNumber";
 import SamplePlanData from "../../SamplePlanData.json";
 import SampleDetailData from "../../SampleDetailData.json";
 import SampleColorData from "../../SampleColorData.json";
-import { selectDetail } from "../../actions";
+import { selectDetail, setRecentlyProduct } from "../../actions";
 
 // Detail 정보 & Plan 전체 정보 필요
 
 function Detail() {
   const dispatch = useDispatch();
-  const { net_sp, pl_code, ph_code, color, dc_type } = useParams();
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const PRODUCT_DETAIL_URL = `${process.env.REACT_APP_PRODUCT_SERVICE_API_URL}/detail?pl_code=${pl_code}&ph_code=${ph_code}&color=${color}&dc_type=${dc_type}`;
-  const PRODUCT_COLOR_URL = `${process.env.REACT_APP_PRODUCT_SERVICE_API_URL}/color?ph_code=${ph_code}`;
-  const PLAN_URL = `${process.env.REACT_APP_PRODUCT_SERVICE_API_URL}/plan?net_sp=`;
+  // 받아온 파라미터 데이터
+  const { netType, plCode, phCode, color, dcType } = useParams();
 
-  // 데이터 로딩 & 에러
+  // API URL
+  const PRODUCT_DETAIL_URL = `${process.env.REACT_APP_PRODUCT_SERVICE_API_URL}/detail?plCode=${plCode}&phCode=${phCode}&color=${color}&dcType=${dcType}`;
+  const PRODUCT_COLOR_URL = `${process.env.REACT_APP_PRODUCT_SERVICE_API_URL}/color?phCode=${phCode}`;
+  const PLAN_URL = `${process.env.REACT_APP_PRODUCT_SERVICE_API_URL}/plan?netType=`;
+
+  // 데이터 로딩 & 에러 처리
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -53,14 +59,13 @@ function Detail() {
   const [plans, setPlans] = useState(SamplePlanData);
 
   // 현재 사용자가 선택한 요금제 & 할인유형
-  const { isOpen, onOpen, onClose } = useDisclosure();
   const [plan, setPlan] = useState([]); // 현재 요금제 정보
   const [imgPaths, setImgPaths] = useState([]);
-  const [planValue, setPlanValue] = useState(pl_code);
-  const [planModalValue, setPlanModalValue] = useState(pl_code);
-  const [discountValue, setDiscountValue] = useState(dc_type);
+  const [planValue, setPlanValue] = useState(plCode);
+  const [planModalValue, setPlanModalValue] = useState(plCode);
+  const [discountValue, setDiscountValue] = useState(dcType);
   const [sortValue, setSortValue] = useState("0");
-  const [colorValue, setColorValue] = useState(color);
+  const [colorType, setColorType] = useState(color);
   const [payPeriod, setPayPeriod] = useState(12);
 
   // Redux Dispatch -> 주문 정보 저장
@@ -71,7 +76,7 @@ function Detail() {
         name: data.phone.name,
         imgThumbnail: data.phone.imgThumbnail,
         storage: data.phone.storage.capability,
-        color: colorValue,
+        color: colorType,
         price: data.phone.price,
       },
       plan: {
@@ -98,6 +103,7 @@ function Detail() {
       setLoading(true);
       setError(null);
       const response = await axios.get(`${PRODUCT_DETAIL_URL}`);
+      console.log("fetchProductDetail SUCCESS ");
       setData(response.data.data);
       console.log(response.data.data);
     } catch (e) {
@@ -113,6 +119,7 @@ function Detail() {
       setLoading(true);
       setError(null);
       const response = await axios.get(`${PRODUCT_COLOR_URL}`);
+      console.log("fetchProductColor SUCCESS ");
       setColors(response.data.data);
       console.log(response.data.data);
     } catch (e) {
@@ -127,7 +134,8 @@ function Detail() {
     try {
       setLoading(true);
       setError(null);
-      const response = await axios.get(`${PLAN_URL}${net_sp}`);
+      const response = await axios.get(`${PLAN_URL}${netType}`);
+      console.log("fetchPlans SUCCESS ");
       setPlans(response.data.data);
       console.log(response.data.data);
     } catch (e) {
@@ -160,9 +168,11 @@ function Detail() {
   // 초기 세팅
   useEffect(() => {
     //fetchProductDetail();
+    //fetchProductColor();
     //fetchPlans();
     setData(SampleDetailData);
     setPlans(SamplePlanData);
+    setColors(SampleColorData);
   }, []);
 
   // 초기 세팅 후, 전달받은 상품과 요금제 데이터를 기반으로 초기화
@@ -183,10 +193,24 @@ function Detail() {
       payPeriod
     );
     setPrices(nowPlanPrice);
-    setNowPrice(calcDiscountPrice(discountValue, nowPlanPrice));
+    const nowTotalPrice = calcDiscountPrice(discountValue, nowPlanPrice);
+    setNowPrice(nowTotalPrice);
     // Redux 변경
     onSelectDetail(nowPlan, nowPlanPrice);
-  }, [data, plans]);
+
+    // 최근 본 상품 정보 넘기기 -> 처음 접근한 정보값 기준
+    const recentInfo = {
+      phoneCode: phCode,
+      phoneName: data.phone.name,
+      phoneColor: color,
+      imgThumbnail: data.phone.imgThumbnail,
+      planCode: plCode,
+      networkSupport: netType,
+      discountType: dcType,
+      monthPrice: nowTotalPrice.total,
+    };
+    dispatch(setRecentlyProduct(recentInfo));
+  }, [data, plans, color]);
 
   // 요금제 & 할인유형 변할 때마다 새로운 정보로 update
   useEffect(() => {
@@ -202,11 +226,13 @@ function Detail() {
     setNowPrice(calcDiscountPrice(discountValue, nowPlanPrice));
     // Redux 변경
     onSelectDetail(nowPlan, nowPlanPrice);
-  }, [planValue, discountValue, payPeriod, colorValue]);
+  }, [planValue, discountValue, payPeriod, colorType]);
 
   if (loading) return <div>loading...</div>;
   if (error) return <div>Error!</div>;
   if (!data) return null;
+  if (!plans) return null;
+  if (!color) return null;
 
   return (
     <div className={styles.Container}>
@@ -242,7 +268,7 @@ function Detail() {
           <div className={styles.ProductColor}>
             <div className={styles.ProductColorTitleContainer}>
               <div className={styles.ProductColorTitle}>색상</div>
-              <span>{colorValue}</span>
+              <span>{colorType}</span>
             </div>
             <div className={styles.ColorBtnContainer}>
               {colors.map((color) => {
@@ -251,9 +277,9 @@ function Detail() {
                     className={styles.ColorBtn}
                     key={color}
                     value={color}
-                    onClick={(e) => setColorValue(color)}
+                    onClick={(e) => setColorType(color)}
                     style={{
-                      borderColor: colorValue === color ? "#000" : "#909090",
+                      borderColor: colorType === color ? "#000" : "#909090",
                     }}
                   >
                     <span

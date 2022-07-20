@@ -1,3 +1,5 @@
+// 상세 페이지 요금제, 할인유형 변경
+
 import * as types from "../actions";
 
 const initialState = {

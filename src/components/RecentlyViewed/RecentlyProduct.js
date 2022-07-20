@@ -1,7 +1,7 @@
-// 상품 리스트 페이지 내 상품 Box
+// 최근 본 상품 전체 보기 모달 내 상품 Box
 
 import React, { useEffect, useState } from "react";
-import styles from "./Product.module.css";
+import styles from "./RecentlyProduct.module.css";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { Box, Image, Button } from "@chakra-ui/react";
@@ -9,32 +9,18 @@ import convertNumber from "../../utils/convertNumber";
 import calcMonthPrice from "../../utils/calcMonthPrice";
 import calcDiscountPrice from "../../utils/calcDiscountPrice";
 
-function Product({ product, plan, category }) {
-  const options = useSelector((state) => state.changeOptionReducer);
-  //console.log(options);
+function RecentlyProduct({ product, plan, discountValue, color, category }) {
+  // 최근 본 상품은 고정 값이므로 일반 변수 사용
+  let DETAIL_URL = "";
+  if (discountValue === "0") {
+    DETAIL_URL = `/mobile/detail/${category}/${plan.code}/${product.code}/${color}/${product.discountType}`;
+  } else {
+    DETAIL_URL = `/mobile/detail/${category}/${plan.code}/${product.code}/${color}/${discountValue}`;
+  }
 
-  const [detailURL, setDetailURL] = useState("");
-  const [discountValue, setDiscountValue] = useState(
-    product.discountType.toString()
-  );
-
-  // !!! nowPrice useEffect 적용
+  // 상품 요금제 & 할인 유형 기반 월별 요금 계산
   const prices = calcMonthPrice(product.price, plan.price);
   const nowPrice = calcDiscountPrice(discountValue.toString(), prices);
-
-  useEffect(() => {
-    if (options.discountValue === "0") {
-      setDetailURL(
-        `/mobile/detail/${category}/${plan.code}/${product.code}/${product.color}/${product.discountType}`
-      );
-      setDiscountValue(product.discountType.toString());
-    } else {
-      setDetailURL(
-        `/mobile/detail/${category}/${plan.code}/${product.code}/${product.color}/${options.discountValue}`
-      );
-      setDiscountValue(options.discountValue);
-    }
-  }, [options]);
 
   return (
     <Box
@@ -44,7 +30,7 @@ function Product({ product, plan, category }) {
       borderRadius="lg"
       overflow="hidden"
     >
-      <Link to={detailURL} style={{ textDecoration: "none" }}>
+      <Link to={DETAIL_URL} style={{ textDecoration: "none" }}>
         <Box className={styles.BoxTop}>
           <Box className={styles.ImgBox}>
             <Image
@@ -62,7 +48,7 @@ function Product({ product, plan, category }) {
       </Link>
 
       <Box className={styles.BoxBottom} p="6">
-        <Link to={detailURL} style={{ textDecoration: "none" }}>
+        <Link to={DETAIL_URL} style={{ textDecoration: "none" }}>
           <Box className={styles.Price}>
             <Box className={styles.PriceTxt}>
               휴대폰 월 {convertNumber(nowPrice.phone)}원
@@ -81,25 +67,9 @@ function Product({ product, plan, category }) {
             </Box>
           </Box>
         </Link>
-
-        <Box
-          className={styles.Button}
-          display="flex"
-          mt="2"
-          alignItems="center"
-        >
-          <Button className={styles.CompareBtn} borderRadius="50px">
-            비교하기
-          </Button>
-          <Link to={detailURL} style={{ textDecoration: "none" }}>
-            <Button className={styles.OrderBtn} borderRadius="50px">
-              주문하기
-            </Button>
-          </Link>
-        </Box>
       </Box>
     </Box>
   );
 }
 
-export default Product;
+export default RecentlyProduct;

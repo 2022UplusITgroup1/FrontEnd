@@ -1,6 +1,8 @@
+// 상품 리스트 페이지 내 옵션 아코디언
+
 import React, { useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
 import styles from "./Option.module.css";
+import { useSelector, useDispatch } from "react-redux";
 import {
   Accordion,
   AccordionItem,
@@ -87,7 +89,7 @@ function Option({ plans }) {
   useEffect(() => {
     // 초기 렌더링 시, 초기화
     // 페이지를 이동해도 유지하고 싶다면 초기화 X + useSelector 값 이용
-    dispatch(resetData());
+    //dispatch(resetData());
   }, []);
 
   const createPlanPreview = () => {

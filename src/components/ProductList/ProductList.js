@@ -1,7 +1,9 @@
+// 상품 리스트 페이지 리스트 섹션 (전체 상품 개수 + 정렬 + 상품 리스트 )
+
 import React, { useState, useEffect } from "react";
+import styles from "./ProductList.module.css";
 import { useSelector, useDispatch } from "react-redux";
 import { FiAlertCircle } from "react-icons/fi";
-import styles from "./ProductList.module.css";
 import { Select } from "@chakra-ui/react";
 import Product from "./Product";
 import { changePlan } from "../../actions";

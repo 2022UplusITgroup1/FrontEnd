@@ -19,17 +19,17 @@ function App() {
           <Route exact path="/" component={Main} />
           <Route
             exact
-            path="/mobile/5g-phone"
+            path="/mobile/5G"
             component={() => <List category="5G" />}
           />
           <Route
             exact
-            path="/mobile/4g-phone"
+            path="/mobile/4G"
             component={() => <List category="4G" />}
           />
           <Route
             exact
-            path="/mobile/detail/:net_sp/:pl_code/:ph_code/:color/:dc_type"
+            path="/mobile/detail/:netType/:plCode/:phCode/:color/:dcType"
             component={Detail}
           />
           <Route exact path="/mobile/order" component={Order} />

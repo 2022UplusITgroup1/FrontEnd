@@ -1,3 +1,5 @@
+// 주문 페이지 내 주문 상품 정보 Box
+
 import React from "react";
 import styles from "./OrderDetail.module.css";
 import convertNumber from "../../utils/convertNumber";

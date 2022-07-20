@@ -1,6 +1,9 @@
+// 최근 본 상품
+
+import { useEffect, useState } from "react";
+import styles from "./RecentlyViewed.module.css";
 import { Link } from "react-router-dom";
 import { Grid, GridItem, Box, Image, Button } from "@chakra-ui/react";
-import styles from "./RecentlyViewed.module.css";
 import {
   Modal,
   ModalOverlay,
@@ -13,34 +16,57 @@ import {
 } from "@chakra-ui/react";
 import convertNumber from "../../utils/convertNumber";
 import { useSelector } from "react-redux";
+import RecentlyProduct from "./RecentlyProduct";
+import SampleRecentlyData from "../../SampleRecentlyData.json";
+import RecentlyPreviewProduct from "./RecentlyPreviewProduct";
 
 function RecentlyViewed({ products, plans, category }) {
   //const DETAIL_URL = `/mobile/detail/${category}/${plan.code}/${product.code}/${product.color}/${product.discountType}`;
 
-  const options = useSelector((state) => state.changeOptionReducer);
-  //console.log(options);
+  const productList = useSelector((state) => state.recentlyReducer);
+  //console.log(productList);
+
+  // 최근 본 상품 전체 리스트
+  const [data, setData] = useState(products);
+  const [storedData, setStoredData] = useState([]);
+  const [limitedProducts, setLimitedProducts] = useState([]);
 
   const { isOpen, onOpen, onClose } = useDisclosure();
   const onOrderClose = (e) => {
     onClose();
   };
 
-  const findSelectPlan = (value) => {
-    return plans.find((p) => p.code === value);
+  const limitProducts = () => {
+    let p = [];
+    let len = storedData.length > 3 ? 3 : storedData.length;
+    for (let i = 0; i < len; i++) {
+      p.push(storedData[i]);
+    }
+    //console.log(p);
+    setLimitedProducts(p);
   };
 
-  const property = {
-    imageUrl:
-      "https://image.lguplus.com/static/pc-contents/images/prdv/20220616-073051-526-l4VusvGl.jpg",
-    imageAlt: "Galaxy Buddy 2",
-    title: "Galaxy Buddy 2",
-    subTitle: "5G 라이트+ | 공시지원금",
-    phone: "0",
-    plan: "55000",
-    total: "55000",
-    reviewCount: 34,
-    rating: 4,
+  const findPlan = (value) => {
+    //console.log(value);
+    const plan = plans.find((p) => p.code === value);
+    //console.log(plan);
+    return plan;
   };
+
+  const findProduct = (value) => {
+    //console.log(value);
+    const product = products.find((p) => p.code === value);
+    //console.log(product);
+    return product;
+  };
+
+  useEffect(() => {
+    setStoredData(productList.items);
+  }, [productList]);
+
+  useEffect(() => {
+    limitProducts();
+  }, [storedData]);
 
   return (
     <div className={styles.Container}>
@@ -59,27 +85,13 @@ function RecentlyViewed({ products, plans, category }) {
             최근 본 상품
           </Box>
         </GridItem>
-        <Link to="/detail/1">
-          <GridItem pl="1" area={"img"}>
-            <Box className={styles.ImgBox}>
-              <Image
-                className={styles.ProductImg}
-                src={property.imageUrl}
-                alt={property.imageAlt}
-              />
-            </Box>
-          </GridItem>
-          <GridItem
-            className={styles.Description}
-            pl="1"
-            bg="lightgray"
-            area={"description"}
-          >
-            {property.title}
-            <br />
-            {convertNumber(property.total)} 원
-          </GridItem>
-        </Link>
+        {limitedProducts.length > 0 ? (
+          limitedProducts.map((lp, i) => {
+            return <RecentlyPreviewProduct product={lp} key={i} />;
+          })
+        ) : (
+          <div>없음</div>
+        )}
         <GridItem pl="1" area={"total"}>
           <Box
             className={styles.TotalBtn}
@@ -90,19 +102,50 @@ function RecentlyViewed({ products, plans, category }) {
           >
             전체보기
           </Box>
-          <Modal onClose={onClose} isOpen={isOpen} isCentered>
-            <ModalOverlay />
-            <ModalContent>
-              <ModalHeader>최근 본 상품 전체보기</ModalHeader>
-              <ModalCloseButton />
-              <ModalBody>최근 본 상품 리스트</ModalBody>
-              <ModalFooter>
-                <Button onClick={onClose}>Close</Button>
-              </ModalFooter>
-            </ModalContent>
-          </Modal>
         </GridItem>
       </Grid>
+      {/* 전체보기 모달 */}
+      <Modal
+        className={styles.Modal}
+        onClose={onClose}
+        isOpen={isOpen}
+        isCentered
+      >
+        <ModalOverlay />
+        <ModalContent className={styles.ModalContent}>
+          <ModalHeader>최근 본 상품 전체보기</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody className={styles.ModalBody}>
+            <div>
+              {storedData && storedData.length > 0 ? (
+                storedData.map((d, i) => {
+                  //console.log(d);
+                  const findedProduct = findProduct(d.phoneCode);
+                  const findedPlan = findPlan(d.planCode);
+                  // 일치하는 데이터가 없을 경우 대비
+                  return findedProduct && findedPlan ? (
+                    <RecentlyProduct
+                      product={findedProduct}
+                      plan={findedPlan}
+                      discountValue={d.discountType}
+                      color={d.phoneColor}
+                      category={d.networkSupport}
+                      key={i}
+                    />
+                  ) : (
+                    <div key={i}>정보가 없습니다</div>
+                  );
+                })
+              ) : (
+                <div>정보가 없습니다</div>
+              )}
+            </div>
+          </ModalBody>
+          <ModalFooter>
+            <Button onClick={onClose}>Close</Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </div>
   );
 }

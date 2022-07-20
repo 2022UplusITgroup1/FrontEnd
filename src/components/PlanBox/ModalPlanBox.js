@@ -23,14 +23,22 @@ import {
   resetData,
 } from "../../actions";
 
-function ModalPlanBox({ plan, i }) {
+function ModalPlanBox({ plans, planValue }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const dispatch = useDispatch();
-  const [planModalValue, setPlanModalValue] = useState("0");
+  const [planModalValue, setPlanModalValue] = useState(planValue);
   const [sortValue, setSotrValue] = useState("0");
+  const onChangePlanValue = (value) => {
+    dispatch(changePlan(value));
+    setPlanModalValue(value);
+  };
   const onChangeSortValue = (e) => {
     dispatch(changeProductSort(e.target.value));
     setSotrValue(e.target.value);
+  };
+  const onApplyPlan = () => {
+    onChangePlanValue(planModalValue);
+    onClose();
   };
 
   return (
@@ -75,7 +83,7 @@ function ModalPlanBox({ plan, i }) {
               className={styles.PlanContainer}
             >
               <Stack className={styles.PlanContainerStack}>
-                {plan.map((p, i) => {
+                {plans.map((p, i) => {
                   return (
                     <div className={styles.PlanItemContainer} key={i}>
                       <div className={styles.PlanInfoContainer} key={i}>

@@ -1,3 +1,5 @@
+// 상품 상세 페이지에서 최종 선택한 값으로 저장 -> 주문 페이지에서 사용
+
 import * as types from "../actions";
 
 const initialState = {

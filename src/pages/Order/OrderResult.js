@@ -1,7 +1,7 @@
 import React, { useState } from "react";
+import styles from "./OrderResult.module.css";
 import { FiCheckCircle } from "react-icons/fi";
 import { Link } from "react-router-dom";
-import styles from "./OrderResult.module.css";
 import { Button } from "@chakra-ui/react";
 
 function OrderResult() {

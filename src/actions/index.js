@@ -1,3 +1,5 @@
+// Redux Actions
+
 export const CHANGE_PLAN = "CHANGE_PLAN";
 export const CHANGE_DISCOUNT = "CHANGE_DISCOUNT";
 export const CHANGE_BRAND = "CHANGE_BRAND";
@@ -5,8 +7,11 @@ export const CHANGE_STORAGE = "CHANGE_STORAGE";
 export const CHANGE_PRODUCT_SORT = "CHANGE_PRODUCT_SORT";
 export const CHANGE_OPTIONS = "CHANGE_OPTIONS";
 export const SELECT_DETAIL = "SELECT_DETAIL";
+export const SET_RECENTLY_PRODUCT = "SET_RECENTLY_PRODUCT";
 export const RESET_DATA = "RESET_DATA";
 
+// 조건 선택
+// 요금제 옵션
 export function changePlan(data) {
   console.log("changePlan: " + data);
   return {
@@ -15,6 +20,7 @@ export function changePlan(data) {
   };
 }
 
+// 할인 유형 옵션
 export function changeDiscount(data) {
   console.log("changeDiscount: " + data);
   return {
@@ -23,6 +29,7 @@ export function changeDiscount(data) {
   };
 }
 
+// 제조사 옵션
 export function changeBrand(data) {
   console.log("changeBrand: " + data);
   return {
@@ -31,6 +38,7 @@ export function changeBrand(data) {
   };
 }
 
+// 저장용량 옵션
 export function changeStorage(data) {
   console.log("changeStorage: " + data);
   return {
@@ -39,6 +47,7 @@ export function changeStorage(data) {
   };
 }
 
+// 정렬 옵션
 export function changeProductSort(data) {
   console.log("changeProductSort: " + data);
   return {
@@ -47,6 +56,7 @@ export function changeProductSort(data) {
   };
 }
 
+// 옵션 전체
 export function changeOptions(data) {
   console.log("changeOptions: " + data);
   return {
@@ -61,12 +71,7 @@ export function changeOptions(data) {
   };
 }
 
-export function resetData() {
-  return {
-    type: RESET_DATA,
-  };
-}
-
+// 상세 페이지에서 선택한 값
 export function selectDetail(data) {
   console.log("selectDetail: " + data.phone.code);
   return {
@@ -89,5 +94,30 @@ export function selectDetail(data) {
       monthPrice: data.monthPrice,
       payPeriod: data.payPeriod,
     },
+  };
+}
+
+// 최근 본 상품 정보
+export function setRecentlyProduct(data) {
+  console.log("setRecentlyProduct: " + data);
+  return {
+    type: SET_RECENTLY_PRODUCT,
+    data: {
+      phoneCode: data.phoneCode,
+      phoneName: data.phoneName,
+      phoneColor: data.phoneColor,
+      imgThumbnail: data.imgThumbnail,
+      planCode: data.planCode,
+      networkSupport: data.networkSupport,
+      discountType: data.discountType,
+      monthPrice: data.monthPrice,
+    },
+  };
+}
+
+// 전체 데이터 초기화
+export function resetData() {
+  return {
+    type: RESET_DATA,
   };
 }
