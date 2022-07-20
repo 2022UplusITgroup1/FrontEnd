@@ -12,8 +12,9 @@ import SamplePlanData from "../../SamplePlanData.json";
 import SampleRecentlyData from "../../SampleRecentlyData.json";
 
 // API URI
-const PRODUCT_API_URL = `${process.env.REACT_APP_PRODUCT_SERVER_URL}/product?net_sp=`;
-const PLAN_API_URL = `${process.env.REACT_APP_PRODUCT_SERVER_URL}/plan?net_sp=`;
+const PRODUCTS_API_URL = `${process.env.REACT_APP_PRODUCT_SERVER_URL}/product?net_sp=`;
+const PLANS_API_URL = `${process.env.REACT_APP_PRODUCT_SERVER_URL}/plan?net_sp=`;
+const RECENT_PRODUCT_API_URL = `${process.env.REACT_APP_PRODUCT_SERVER_URL}/recents`;
 
 function List({ category }) {
   const options = useSelector((state) => state.changeOptionReducer);
@@ -22,12 +23,11 @@ function List({ category }) {
   const [products, setProducts] = useState([]);
   const [plans, setPlans] = useState([]);
   const [recentlyProducts, setRecentlyProducts] = useState([]);
-  const [recommendedPlan, setRecommendedPlan] = useState([]);
 
   // GET 상품 전체 리스트
   const getProducts = async () => {
     try {
-      const response = await axios.get(`${PRODUCT_API_URL}${category}`);
+      const response = await axios.get(`${PRODUCTS_API_URL}${category}`);
       console.log("getProducts SUCCESS ");
       setProducts(response.data.data);
     } catch (e) {
@@ -38,7 +38,7 @@ function List({ category }) {
   // GET 요금제 전체 리스트
   const getPlans = async () => {
     try {
-      const response = await axios.get(`${PLAN_API_URL}${category}`);
+      const response = await axios.get(`${PLANS_API_URL}${category}`);
       console.log("getPlans SUCCESS ");
       setPlans(response.data.data);
     } catch (e) {
@@ -49,7 +49,7 @@ function List({ category }) {
   // GET 최근 본 상품 전체 리스트
   const getRecents = async () => {
     try {
-      const response = await axios.get(`${PLAN_API_URL}recents`);
+      const response = await axios.get(`${RECENT_PRODUCT_API_URL}`);
       console.log("getRecents SUCCESS ");
       setRecentlyProducts(response.data.data);
     } catch (e) {
@@ -58,34 +58,29 @@ function List({ category }) {
   };
 
   useEffect(() => {
+    // 데이터 가져오기
     //getProducts();
     //getPlans();
     //getRecents();
     setProducts(SampleData);
     setPlans(SamplePlanData);
     setRecentlyProducts(SampleRecentlyData);
-    let plan = [];
-    if (options.planValue === "0" && plans.length !== 0) {
-      plan = plans[0];
-      //dispatch(changePlan(plan.code));
-    } else {
-      plan = plans.find((p) => p.code === options.planValue);
-    }
-    setRecommendedPlan(plan);
-    //console.log(plan);
   }, []);
 
   return (
     <div className={styles.ListContainer}>
       <div className={styles.ListContents}>
         <div className={styles.ListTitle}>
+          {/* 페이지 타이틀 */}
           <h2>{category} 휴대폰</h2>
         </div>
         <div className={styles.List}>
           <div className={styles.ListOption}>
+            {/* 옵션 아코디언 */}
             <Option plans={plans} />
           </div>
           <div className={styles.ListItems}>
+            {/* 상품 리스트 섹션 */}
             <ProductList
               products={products}
               plans={plans}
@@ -93,7 +88,7 @@ function List({ category }) {
             />
           </div>
           <div className={styles.RecentlyViewed}>
-            {/* 최근 본 상품은 따로 처리 필요 */}
+            {/* 최근 본 상품 */}
             <RecentlyViewed
               products={products}
               plans={plans}

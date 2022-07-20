@@ -16,7 +16,7 @@ export function changePlan(data) {
   console.log("changePlan: " + data);
   return {
     type: CHANGE_PLAN,
-    planValue: data,
+    planType: data,
   };
 }
 
@@ -25,7 +25,7 @@ export function changeDiscount(data) {
   console.log("changeDiscount: " + data);
   return {
     type: CHANGE_DISCOUNT,
-    discountValue: data,
+    discountType: data,
   };
 }
 
@@ -34,7 +34,7 @@ export function changeBrand(data) {
   console.log("changeBrand: " + data);
   return {
     type: CHANGE_BRAND,
-    brandValue: data,
+    brandType: data,
   };
 }
 
@@ -43,7 +43,7 @@ export function changeStorage(data) {
   console.log("changeStorage: " + data);
   return {
     type: CHANGE_STORAGE,
-    storageValue: data,
+    storageType: data,
   };
 }
 
@@ -52,7 +52,7 @@ export function changeProductSort(data) {
   console.log("changeProductSort: " + data);
   return {
     type: CHANGE_PRODUCT_SORT,
-    sortValue: data,
+    sortType: data,
   };
 }
 
@@ -62,11 +62,11 @@ export function changeOptions(data) {
   return {
     type: CHANGE_OPTIONS,
     data: {
-      planValue: data.planValue,
-      discountValue: data.discountValue,
-      brandValue: data.brandValue,
-      storageValue: data.storageValue,
-      sortValue: data.sortValue,
+      planType: data.planType,
+      discountType: data.discountType,
+      brandType: data.brandType,
+      storageType: data.storageType,
+      sortType: data.sortType,
     },
   };
 }

@@ -65,6 +65,7 @@ function Option({ plans }) {
     setDiscountValue(value);
   };
   const onChangeBrandValue = (value) => {
+    console.log(value);
     dispatch(changeBrand(value));
     setBrandValue(value);
   };
@@ -78,11 +79,11 @@ function Option({ plans }) {
   };
   const onChangeOptions = () => {
     const value = {
-      planValue: planValue,
-      discountValue: discountValue,
-      brandValue: brandValue,
-      storageValue: storageValue,
-      sortValue: sortValue,
+      planType: planValue,
+      discountType: discountValue,
+      brandType: brandValue,
+      storageType: storageValue,
+      sortType: sortValue,
     };
     dispatch(changeOptions(value));
   };
