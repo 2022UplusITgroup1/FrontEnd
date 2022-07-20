@@ -116,7 +116,7 @@ function RecentlyViewed({ products, plans, category }) {
           <ModalHeader>최근 본 상품 전체보기</ModalHeader>
           <ModalCloseButton />
           <ModalBody className={styles.ModalBody}>
-            <div>
+            <div className={styles.ModalImgBox}>
               {storedData && storedData.length > 0 ? (
                 storedData.map((d, i) => {
                   //console.log(d);

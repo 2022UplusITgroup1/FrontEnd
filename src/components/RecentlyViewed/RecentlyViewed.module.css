@@ -32,8 +32,15 @@
 .ModalBody {
   max-height: calc(100vh - 430px);
   overflow-y: auto;
+  overflow-x: auto;
 }
 
 .ModalContent {
   min-width: 1256px;
+}
+
+.ModalImgBox {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
 }
