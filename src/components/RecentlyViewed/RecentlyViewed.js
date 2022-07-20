@@ -38,8 +38,8 @@ function RecentlyViewed({ products, plans, category }) {
 
   const limitProducts = () => {
     let p = [];
-    let len = storedData.length > 3 ? 3 : storedData.length;
-    for (let i = 0; i < len; i++) {
+    let len = storedData.length > 2 ? 2 : storedData.length;
+    for (let i = len-1; i >= 0; i--) {
       p.push(storedData[i]);
     }
     //console.log(p);
