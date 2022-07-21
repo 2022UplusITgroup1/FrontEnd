@@ -29,11 +29,6 @@ function orderReducer(state = initialState, action) {
         ...action.data,
       };
     }
-    case types.RESET_DATA: {
-      return {
-        ...initialState,
-      };
-    }
     default:
       return state;
   }

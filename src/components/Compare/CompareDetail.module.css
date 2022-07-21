@@ -1,261 +1,296 @@
-
 .Modal {
-    /*width: 100%;*/
-    /*min-height: calc(100% - 3.5rem);*/
-    width: 1320px;
-  }
-  
-  .ModalHeader {
-    background-color: #f5f5f5;
-    border-radius: 10px 10px 0 0;
-  }
-  
-  .ModalBody {
-    max-height: calc(100vh - 430px);
-    overflow-y: auto;
-  }
+  /*width: 100%;*/
+  /*min-height: calc(100% - 3.5rem);*/
+  width: 1320px;
+}
 
-  .ProductInfo {
-    display: flex;
-    justify-content: space-around;
-    text-align: center;
-  }
+.ModalHeader {
+  background-color: #f5f5f5;
+  border-radius: 10px 10px 0 0;
+}
 
-  .ProductInfoBox {
-    width: 370px;
-    height: 320px;  /* 350 */
-    border-radius: 28px;
-    border: 1px;
-    border-style: solid;
-    border-color: lightgray;
-    padding-top: 25px;
-    margin-bottom: 50px;
-  }
+.ModalBody {
+  max-height: calc(100vh - 430px);
+  overflow-y: auto;
+}
 
-  .ProductImgContainer {
-    display: flex;
-    justify-content: center;
-  }
+.ProductInfo {
+  display: flex;
+  justify-content: space-around;
+  text-align: center;
+}
 
-  .ProductImg {
-    max-width: 172px;
-  }
+.ProductInfoBox {
+  width: 370px;
+  height: 320px; /* 350 */
+  border-radius: 10px;
+  border: 1px;
+  border-style: solid;
+  border-color: lightgray;
+  padding-top: 25px;
+  margin-bottom: 50px;
+  margin-top: 25px;
+}
 
-  .ProductInfoTxt {
-    margin-top: 10px;
-    margin-bottom: 10px;
-  }
+.ProductImgContainer {
+  display: flex;
+  justify-content: center;
+}
 
-  .ReadMoreBtn {
-    width: 100px;
-    height: 25px;
-    padding: 0;
-    cursor: pointer;
-    font-size: 12px;
-    border-radius: 28px;
-    border: 1px;
-    border-style: solid;
-    border-color: lightgray;
-    background-color: white;
-  }
+.ProductImg {
+  max-width: 172px;
+}
 
-  /*-------------*/
-  
-  .ModalContent {
-    min-width: 1320px;
-  }
-  
-  .HeaderMenu {
-    position: relative;
-    border-top: 1px solid #ddd;
-    border-bottom: 1px solid #ddd;
-    background: #fff;
-    text-align: center;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-  
-  .HeaderSortContainer {
-    width: 100%;
-    display: flex;
-    justify-content: right;
-    margin-top: 10px;
-    padding-right: 40px;
-    padding-bottom: 10px;
-    border-bottom: 1px solid #ddd;
-  }
-  
-  .HeaderSelectSort {
-    width: 220px;
-  }
-  
-  .HeaderMenuNav {
-    width: 1256px;
-    height: 56px;
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    text-align: center;
-  }
-  
-  .HeaderLeftMenu {
-    flex: 1 1 40%;
-    text-align: center;
-    padding-left: 300px;
-  }
-  
-  .HeaderRightMenu {
-    display: flex;
-    flex: 1 1 40%;
-    text-align: center;
-    justify-content: space-evenly;
-  }
-  
-  .NavIcon {
-    width: 50px;
-    cursor: pointer;
-  }
-  
-  /*
+.ProductInfoTxt {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.ReadMoreBtn {
+  width: 100px;
+  height: 25px;
+  padding: 0;
+  cursor: pointer;
+  font-size: 12px;
+  border-radius: 28px;
+  border: 1px;
+  border-style: solid;
+  border-color: lightgray;
+  background-color: white;
+}
+
+.MonthPhonePrice {
+  display: flex;
+  justify-content: space-around;
+}
+
+.MonthPhonePriceBox {
+  background-color: #f8f8f8;
+  width: 370px;
+  height: 220px; /* 350 */
+  border-radius: 10px;
+  padding-top: 25px;
+  margin-bottom: 50px;
+  margin-top: 25px;
+}
+
+.MonthPhonePriceTxtContainer {
+}
+
+.MonthPlanPrice {
+  display: flex;
+  justify-content: space-around;
+}
+
+.MonthPlanPriceBox {
+  background-color: #f8f8f8;
+  width: 370px;
+  height: 150px; /* 350 */
+  border-radius: 10px;
+  padding-top: 25px;
+  margin-bottom: 50px;
+  margin-top: 25px;
+}
+
+.MonthPlanPriceTxtContainer {
+}
+
+/*-------------*/
+
+.ModalContent {
+  min-width: 1320px;
+}
+
+.HeaderMenu {
+  position: relative;
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+  background: #fff;
+  text-align: center;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.HeaderSortContainer {
+  width: 100%;
+  display: flex;
+  justify-content: right;
+  margin-top: 10px;
+  padding-right: 40px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+.HeaderSelectSort {
+  width: 220px;
+}
+
+.HeaderMenuNav {
+  width: 1256px;
+  height: 56px;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  text-align: center;
+}
+
+.HeaderLeftMenu {
+  flex: 1 1 40%;
+  text-align: center;
+  padding-left: 300px;
+}
+
+.HeaderRightMenu {
+  display: flex;
+  flex: 1 1 40%;
+  text-align: center;
+  justify-content: space-evenly;
+}
+
+.NavIcon {
+  width: 50px;
+  cursor: pointer;
+}
+
+/*
   color: #e6007e;
   border-bottom: 2px solid #e6007e;
   */
-  
-  .NavItem {
-    float: left;
-    text-decoration: none;
-    display: block;
-    height: 56px;
-    line-height: 56px;
-    white-space: nowrap;
-    padding-right: 20px;
-    padding-left: 20px;
-  }
-  
-  .HeaderMenuContents {
-    position: relative;
-    display: flex;
-    align-items: center;
-    margin-left: auto;
-  }
-  
-  .PlanContainer {
-  }
-  
-  .PlanContainerStack {
-  }
-  
-  .PlanInfoContainer {
-    position: relative;
-    margin-top: 16px;
-    margin-bottom: 16px;
-    border-radius: 14px;
-    overflow: hidden;
-    background: white;
-    padding: 16px 40px;
-    width: 1256px;
-    padding: 24px 48px 24px 34px;
-  }
-  
-  .PlanItemContainer {
-  }
-  
-  .PlanItem {
-  }
-  
-  .PlanInfo {
-    width: 1180px;
-    display: flex;
-    justify-content: space-between;
-  }
-  
-  .PlanMain {
-    float: left;
-    flex: 1 1 40%;
-    padding-left: 20px;
-  }
-  
-  .PlanName {
-    font-size: large;
-    font-weight: bold;
-    margin-bottom: 10px;
-  }
-  
-  .PlanPrice {
-    font-size: x-large;
-    font-weight: bold;
-    margin-bottom: 10px;
-  }
-  
-  .PlanDetail {
-    width: 560px;
-    display: flex;
-    float: right;
-    flex: 1 1 40%;
-  }
-  
-  .PlanDetailItem {
-    padding: 10px;
-    font-size: xx-large;
-    flex: 1 1 40%;
-    text-align: center;
-  }
-  
-  /* Modal Footer */
-  
-  .ModalFooter {
-    display: flex;
-    flex-wrap: wrap;
-    padding: 24px 64px 32px;
-    border-top: 1px solid #ddd;
-  }
-  
-  .FooterInfo {
-    width: 100%;
-    margin-bottom: 24px;
-  }
-  
-  FooterInfoUL {
-  }
-  
-  .FooterInfoLI {
-    font-size: small;
-    color: #666;
-    list-style: none;
-    margin-top: 4px;
-  }
-  
-  .FooterBtnContainer {
-    width: 100%;
-    text-align: center;
-  }
-  
-  .FooterCancelBtn {
-    width: 140px;
-    padding: 0;
-    cursor: pointer;
-    height: 40px;
-    font-size: 18px;
-    border-radius: 28px;
-    font-weight: 400;
-    border: 1px;
-    border-style: solid;
-    border-color: lightgray;
-    margin-right: 10px;
-    background-color: white;
-  }
-  
-  .FooterApplyBtn {
-    width: 140px;
-    padding: 0;
-    cursor: pointer;
-    color: #fff;
-    background-color: #e6007e;
-    height: 40px;
-    font-size: 18px;
-    border-radius: 28px;
-    font-weight: 400;
-    border: none;
-  }
-  
+
+.NavItem {
+  float: left;
+  text-decoration: none;
+  display: block;
+  height: 56px;
+  line-height: 56px;
+  white-space: nowrap;
+  padding-right: 20px;
+  padding-left: 20px;
+}
+
+.HeaderMenuContents {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+}
+
+.PlanContainer {
+}
+
+.PlanContainerStack {
+}
+
+.PlanInfoContainer {
+  position: relative;
+  margin-top: 16px;
+  margin-bottom: 16px;
+  border-radius: 14px;
+  overflow: hidden;
+  background: white;
+  padding: 16px 40px;
+  width: 1256px;
+  padding: 24px 48px 24px 34px;
+}
+
+.PlanItemContainer {
+}
+
+.PlanItem {
+}
+
+.PlanInfo {
+  width: 1180px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.PlanMain {
+  float: left;
+  flex: 1 1 40%;
+  padding-left: 20px;
+}
+
+.PlanName {
+  font-size: large;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.PlanPrice {
+  font-size: x-large;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.PlanDetail {
+  width: 560px;
+  display: flex;
+  float: right;
+  flex: 1 1 40%;
+}
+
+.PlanDetailItem {
+  padding: 10px;
+  font-size: xx-large;
+  flex: 1 1 40%;
+  text-align: center;
+}
+
+/* Modal Footer */
+
+.ModalFooter {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 24px 64px 32px;
+  border-top: 1px solid #ddd;
+}
+
+.FooterInfo {
+  width: 100%;
+  margin-bottom: 24px;
+}
+
+FooterInfoUL {
+}
+
+.FooterInfoLI {
+  font-size: small;
+  color: #666;
+  list-style: none;
+  margin-top: 4px;
+}
+
+.FooterBtnContainer {
+  width: 100%;
+  text-align: center;
+}
+
+.FooterCancelBtn {
+  width: 140px;
+  padding: 0;
+  cursor: pointer;
+  height: 40px;
+  font-size: 18px;
+  border-radius: 28px;
+  font-weight: 400;
+  border: 1px;
+  border-style: solid;
+  border-color: lightgray;
+  margin-right: 10px;
+  background-color: white;
+}
+
+.FooterApplyBtn {
+  width: 140px;
+  padding: 0;
+  cursor: pointer;
+  color: #fff;
+  background-color: #e6007e;
+  height: 40px;
+  font-size: 18px;
+  border-radius: 28px;
+  font-weight: 400;
+  border: none;
+}

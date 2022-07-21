@@ -19,6 +19,10 @@ function Product({ product, plan, category }) {
   const options = useSelector((state) => state.changeOptionReducer);
   //console.log(options);
 
+  // 현재 선택된 비교하기 상품들 가져오기
+  const compares = useSelector((state) => state.compareReducer);
+  //console.log(compares.items);
+
   // 상세 페이지로 넘길 URL
   const [detailURL, setDetailURL] = useState("");
   // 할인유형
@@ -43,18 +47,22 @@ function Product({ product, plan, category }) {
       totalPrice: nowPrice.total,
     };
     dispatch(setCompareProduct(compareInfo));
+    //console.log(compares.items);
   };
 
-  // 현재 선택된 비교하기 상품들 가져오기
-  const compares = useSelector((state) => state.compareReducer);
-  console.log(compares.items);
-
-  const onClickCompareBtn = (e) => {
+  // 비교하기 버튼 이벤트
+  const onClickCompareBtn = () => {
     saveCompareProduct();
-    if (compares.items.length > 0 && compares.items.length < 3) {
+  };
+
+  /*
+  useEffect(() => {
+    //console.log(compares.items, compares.items.length);
+    if (compares.items.length > 0 && compares.items.length <= 3) {
       onOpen();
     }
-  };
+  }, [compares]);
+  */
 
   //const [nowPrice, setNowPrice] = useState(0);
 
@@ -165,7 +173,6 @@ function Product({ product, plan, category }) {
           </Box>
         </Box>
       </Box>
-      <Compare isOpen={isOpen} onClose={onClose} />
     </>
   );
 }

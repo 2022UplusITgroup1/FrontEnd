@@ -1,35 +1,45 @@
+.Container {
+  max-height: 183px;
+  position: sticky;
+  bottom: 0;
+}
+
 .Modal {
-    width: 1320px;
-  }
-  
-  .ModalHeader {
-    background-color: #2d2926;
-    color: white;
-  }
-  
-  .ModalContent {
-    min-width: 1320px;
-    bottom: 0;
-    position: fixed;
-    z-index: 99;
-  }
+  width: 1180px;
+}
 
-  .ModalBodyContainer {
-    display: flex;
-    align-items: center;
-  }
+.ModalHeader {
+  background-color: #2d2926;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+}
 
-  .ModalBody {
-    max-height: calc(100vh - 430px);
-    overflow-y: auto;
-    display: flex;
-    width: 1200px;
-  }
+.ModalContent {
+  max-width: 1180px;
+  bottom: 0;
+  position: fixed;
+  z-index: 99;
+  margin: 0;
+  background-color: white;
+}
 
-  .CompareBtnContainer {
-    align-items: center;
-  }
-  
-  .CompareBtn {
-    margin-right: 20px;
-  }
+.ModalBodyContainer {
+  display: flex;
+  align-items: center;
+}
+
+.ModalBody {
+  max-height: calc(100vh - 430px);
+  overflow-y: auto;
+  display: flex;
+  width: 1200px;
+}
+
+.CompareBtnContainer {
+  align-items: center;
+}
+
+.CompareBtn {
+  margin-right: 20px;
+}

@@ -40,8 +40,12 @@ import {
 import convertNumber from "../../utils/convertNumber";
 
 function Option({ plans }) {
-  const { isOpen, onOpen, onClose } = useDisclosure();
   const dispatch = useDispatch();
+
+  // 모달 open/close 함수
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
+  // 현재 선택된 요금제, 할인 유형, 제조사, 저장용량 변수
   const [planValue, setPlanValue] = useState("0");
   const [planModalValue, setPlanModalValue] = useState("0");
   const [discountValue, setDiscountValue] = useState("0");
@@ -65,7 +69,7 @@ function Option({ plans }) {
     setDiscountValue(value);
   };
   const onChangeBrandValue = (value) => {
-    console.log(value);
+    //console.log(value);
     dispatch(changeBrand(value));
     setBrandValue(value);
   };
@@ -90,7 +94,8 @@ function Option({ plans }) {
   useEffect(() => {
     // 초기 렌더링 시, 초기화
     // 페이지를 이동해도 유지하고 싶다면 초기화 X + useSelector 값 이용
-    //dispatch(resetData());
+    dispatch(resetData());
+    //console.log("Options First Rendering");
   }, []);
 
   const createPlanPreview = () => {
@@ -179,7 +184,6 @@ function Option({ plans }) {
                 <Radio value="0">전체</Radio>
                 <Radio value="1">삼성</Radio>
                 <Radio value="2">애플</Radio>
-                <Radio value="3">기타</Radio>
               </Stack>
             </RadioGroup>
           </AccordionPanel>
@@ -198,10 +202,10 @@ function Option({ plans }) {
             <RadioGroup onChange={onChangeStorageValue} value={storageValue}>
               <Stack>
                 <Radio value="0">전체</Radio>
-                <Radio value="64">64GB</Radio>
-                <Radio value="128">128GB</Radio>
-                <Radio value="256">256GB</Radio>
-                <Radio value="512">512GB 이상</Radio>
+                <Radio value="1">64GB</Radio>
+                <Radio value="2">128GB</Radio>
+                <Radio value="3">256GB</Radio>
+                <Radio value="4">512GB 이상</Radio>
               </Stack>
             </RadioGroup>
           </AccordionPanel>

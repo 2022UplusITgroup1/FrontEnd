@@ -5,13 +5,7 @@ import styles from "./Compare.module.css";
 import { Link, useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
-import {
-  ButtonGroup,
-  Button,
-  Stack,
-  Radio,
-  RadioGroup,
-} from "@chakra-ui/react";
+import { Button } from "@chakra-ui/react";
 import {
   Modal,
   ModalOverlay,
@@ -27,6 +21,7 @@ import CompareDetail from "./CompareDetail";
 import CompareMiniBox from "./CompareMiniBox";
 
 function Compare({ isOpen, onClose }) {
+  console.log(isOpen);
   // 이름 바꾸기
   const {
     isOpen: isOpenDetail,
@@ -41,17 +36,54 @@ function Compare({ isOpen, onClose }) {
     onOpenDetail();
   };
 
+  // 비교할 값이 없으면 return null
+  if (!isOpen) return null;
+
   return (
-    <>
-      <Modal
+    <div className={styles.Container}>
+      <div className={styles.Modal}>
+        <div className={styles.ModalContent}>
+          <div className={styles.ModalHeader}>
+            <div>비교하기</div>
+            <button>V</button>
+          </div>
+          <div className={styles.ModalBodyContainer}>
+            <div className={styles.ModalBody}>
+              {compares.items &&
+                compares.items.map((c, i) => {
+                  return <CompareMiniBox data={c} key={i} />;
+                })}
+            </div>
+            <div className={styles.CompareBtnContainer}>
+              <Button onClick={onOpenDetail} className={styles.CompareBtn}>
+                비교하기
+              </Button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <CompareDetail
+        data={compares.items}
+        isOpen={isOpenDetail}
+        onClose={onCloseDetail}
+      />
+    </div>
+  );
+}
+
+export default Compare;
+
+/*
+<Modal
         className={styles.Modal}
         onClose={onClose}
         isOpen={isOpen}
         closeOnOverlayClick={false}
+        blockScrollOnMount={false}
       >
         <ModalContent className={styles.ModalContent}>
           <ModalHeader className={styles.ModalHeader}>비교하기</ModalHeader>
-          <ModalCloseButton /> {/* 밑으로 내리기 */}
+          <ModalCloseButton />
           <div className={styles.ModalBodyContainer}>
             <ModalBody className={styles.ModalBody}>
               {compares.items &&
@@ -67,19 +99,4 @@ function Compare({ isOpen, onClose }) {
           </div>
         </ModalContent>
       </Modal>
-      <CompareDetail
-        data={compares.items}
-        isOpen={isOpenDetail}
-        onClose={onCloseDetail}
-      />
-    </>
-  );
-}
-
-export default Compare;
-
-/*
-<h1>Compare</h1>
-      <button onClick={onOpen}>비교하기</button>
-      <CompareDetail isOpen={isOpen} onClose={onClose} />
 */

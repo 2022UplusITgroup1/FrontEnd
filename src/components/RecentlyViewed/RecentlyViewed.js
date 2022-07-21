@@ -14,17 +14,16 @@ import {
   ModalCloseButton,
   useDisclosure,
 } from "@chakra-ui/react";
-import convertNumber from "../../utils/convertNumber";
 import { useSelector } from "react-redux";
 import RecentlyProduct from "./RecentlyProduct";
-import SampleRecentlyData from "../../SampleRecentlyData.json";
 import RecentlyPreviewProduct from "./RecentlyPreviewProduct";
 
 function RecentlyViewed({ products, plans, category }) {
   //const DETAIL_URL = `/mobile/detail/${category}/${plan.code}/${product.code}/${product.color}/${product.discountType}`;
 
+  // Redux store 에 저장된 최근 본 상품
   const productList = useSelector((state) => state.recentlyReducer);
-  //console.log(productList);
+  console.log(productList);
 
   // 최근 본 상품 전체 리스트
   const [data, setData] = useState(products);
@@ -39,10 +38,10 @@ function RecentlyViewed({ products, plans, category }) {
   const limitProducts = () => {
     let p = [];
     let len = storedData.length > 2 ? 2 : storedData.length;
-    for (let i = len-1; i >= 0; i--) {
+    for (let i = len - 1; i >= 0; i--) {
       p.push(storedData[i]);
     }
-    //console.log(p);
+    console.log(p);
     setLimitedProducts(p);
   };
 

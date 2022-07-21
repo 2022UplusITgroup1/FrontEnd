@@ -20,12 +20,12 @@ function App() {
           <Route
             exact
             path="/mobile/5G"
-            component={() => <List category="5G" />}
+            component={() => <List netType="5G" />}
           />
           <Route
             exact
             path="/mobile/4G"
-            component={() => <List category="4G" />}
+            component={() => <List netType="4G" />}
           />
           <Route
             exact

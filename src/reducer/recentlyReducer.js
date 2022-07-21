@@ -13,11 +13,6 @@ function recentlyReducer(state = initialState, action) {
     case types.SET_RECENTLY_PRODUCT: {
       return { items: [...state.items, action.data] };
     }
-    case types.RESET_DATA: {
-      return {
-        ...initialState,
-      };
-    }
     default:
       return state;
   }

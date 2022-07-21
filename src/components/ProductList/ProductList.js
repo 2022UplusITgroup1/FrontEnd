@@ -1,69 +1,94 @@
-// 상품 리스트 페이지 리스트 섹션 (전체 상품 개수 + 정렬 + 상품 리스트 )
+// 상품 리스트 페이지 리스트 섹션 (전체 상품 개수 + 정렬 + 상품 리스트)
 
 import React, { useState, useEffect } from "react";
 import styles from "./ProductList.module.css";
 import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 import { FiAlertCircle } from "react-icons/fi";
-import { Select } from "@chakra-ui/react";
+import { Select, useDisclosure } from "@chakra-ui/react";
 import Product from "./Product";
 import { changeProductSort } from "../../actions";
 import mapBrandName from "../../utils/mapBrandName";
+import Compare from "../Compare/Compare";
 
 // 상세 정보 조회 URL
-const SELECTED_PRODUCT_API_URL = `${process.env.REACT_APP_PRODUCT_SERVER_URL}/product/phone?net_sp=`;
+const SELECTED_PRODUCT_API_URL = `http://localhost:8000/product/phone?net_sp=`;
 
 function ProductList({ products, plans, category }) {
+  //console.log(products);
+  //console.log(plans);
+
   const dispatch = useDispatch();
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
   // 현재 선택한 옵션 값 가져오기
   const options = useSelector((state) => state.changeOptionReducer);
-  //console.log(options);
+  console.log(options);
 
-  // 현재 선택된 옵션 값 담는 변수
-  const [nowOption, setNowOption] = useState({
-    planType: "0",
-    discountType: "0",
-    brandType: "0",
-    storageType: "0",
-    sortType: "0",
-  });
+  // 데이터 로딩 & 에러 처리
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   // 조건에 맞는 상품들
   const [selectedProducts, setSelectedProducts] = useState([]);
+  //console.log(selectedProducts);
 
-  // GET 상품 조건 리스트
-  const getSelectedProducts = async () => {
+  useEffect(() => {
+    // 맨 처음 렌더링 될 때는 products 값으로 초기화
+    if (!selectedProducts.length) setSelectedProducts(products);
+  }, [products]);
+
+  // API GET 상품 조건 리스트
+  const getSelectedProducts = async (brandType, storageType, sortType) => {
+    // 조회해야하는 조건만 URL 에 추가
+    let OPTION_URL = `http://localhost:8000/product/phone?net_sp=${category}`;
+    if (brandType !== "0") {
+      OPTION_URL += `&mf_name=${brandType}`;
+    }
+    if (storageType !== "0") {
+      OPTION_URL += `&capa=${storageType}`;
+    }
+    // !!! 정렬 값은 실사용 여부에 따라
+    if (sortType !== "0") {
+      OPTION_URL += `&ord=${options.sortType}`;
+    }
+
+    // API GET
     try {
-      const response = await axios.get(
-        `${SELECTED_PRODUCT_API_URL}${category}&mf_name=${nowOption.brandType}&capa=${nowOption.storageType}&ord=${nowOption.sortType}`
-      );
+      setLoading(true);
+      setError(null);
+      const response = await axios.get(OPTION_URL);
       console.log("getSelectedProducts SUCCESS ");
-      setSelectedProducts(response.data.data);
+      // 조건 조회 결과가 없을 경우는 빈 배열로 설정
+      setSelectedProducts(
+        response.data.data !== null ? response.data.data : []
+      );
+      console.log(response.data.data);
     } catch (e) {
       console.log(e);
+      setError(e);
     }
+    setLoading(false);
   };
 
-  // 정렬 함수 따로 빼기!!!!
-
-  // 옵션이 바뀌면 현재 옵션(nowOption)에도 적용
+  // 옵션 값이 변경될 때마다 실행
   useEffect(() => {
-    setNowOption({
-      planType: options.planType,
-      discountType: options.discountType,
-      brandType: options.brandType,
-      storageType: options.storageType,
-      sortType: options.sortType,
-    });
-  }, [options]);
-
-  // 현재 옵션이 바뀔 때마다 API 조건 조회
-  useEffect(() => {
+    console.log(options.brandType, options.storageType);
+    // 하나라도 선택된 조건이 있다면 API GET 호출
+    if (options.brandType !== "0" || options.storageType !== "0") {
+      getSelectedProducts(
+        options.brandType,
+        options.storageType,
+        options.sortType
+      );
+    } else {
+      // 전체에 선택되어 있다면 기존 products 로 set
+      if (selectedProducts.length !== products.length) {
+        setSelectedProducts(products);
+      }
+    }
     //getSelectedProducts();
-    //console.log(products);
-    setSelectedProducts(products);
-    // 정렬함수();
-  }, [nowOption]);
+  }, [options]);
 
   // 선택한 정렬값 저장
   const [isSelect, setIsSelect] = useState("0");
@@ -71,11 +96,6 @@ function ProductList({ products, plans, category }) {
     setIsSelect(e.target.value);
     dispatch(changeProductSort(e.target.value));
   };
-
-  // MYSEO CREATED
-  useEffect(() => {
-    //정렬함수();
-  }, [isSelect]);
 
   // 현재 요금제 정보 찾기
   const findSelectPlan = (value) => {
@@ -112,9 +132,9 @@ function ProductList({ products, plans, category }) {
                   <Product
                     product={p}
                     plan={
-                      nowOption.planType === "0"
+                      options.planType === "0"
                         ? plans[0] // 가장 알맞은 요금제는 첫번째로
-                        : findSelectPlan(nowOption.planType)
+                        : findSelectPlan(options.planType)
                     }
                     category={category}
                     key={i}
@@ -140,6 +160,10 @@ function ProductList({ products, plans, category }) {
           )}
         </div>
       </div>
+
+      {/* {<div className={styles.Compare}>
+        <Compare isOpen={isOpen} onClose={onClose} className={styles.Compare} />
+      </div>} */}
     </div>
   );
 }
