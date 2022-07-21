@@ -10,6 +10,7 @@ export const SELECT_DETAIL = "SELECT_DETAIL";
 export const SET_RECENTLY_PRODUCT = "SET_RECENTLY_PRODUCT";
 export const SET_COMPARE_PRODUCTS = "SET_COMPARE_PRODUCTS";
 export const SET_COMPARE_OPEN = "SET_COMPARE_OPEN";
+export const DELETE_COMPARE_PRODUCTS = "DELETE_COMPARE_PRODUCTS";
 export const RESET_DATA = "RESET_DATA";
 
 // 조건 선택
@@ -135,6 +136,7 @@ export function setCompareProduct(data) {
   };
 }
 
+// 비교하기 모달창 open
 export function setCompareIsOpen(data) {
   return {
     type: SET_COMPARE_OPEN,
@@ -143,6 +145,14 @@ export function setCompareIsOpen(data) {
       //onOpen: data.onOpen,
       //onClose: data.onClose,
     },
+  };
+}
+
+// 비교하기 상품 삭제하기
+export function deleteCompareProduct(code) {
+  return {
+    type: DELETE_COMPARE_PRODUCTS,
+    code,
   };
 }
 

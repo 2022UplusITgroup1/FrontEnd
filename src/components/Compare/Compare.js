@@ -19,9 +19,11 @@ import {
 } from "@chakra-ui/react";
 import CompareDetail from "./CompareDetail";
 import CompareMiniBox from "./CompareMiniBox";
+import { setCompareIsOpen } from "../../actions";
 
 function Compare({ isOpen, onClose }) {
   //console.log(isOpen);
+  const dispatch = useDispatch();
   // 이름 바꾸기
   const {
     isOpen: isOpenDetail,
@@ -41,6 +43,12 @@ function Compare({ isOpen, onClose }) {
       onOpenDetail();
     }
   };
+
+  useEffect(() => {
+    if (compares.items.length === 0) {
+      dispatch(setCompareIsOpen(false));
+    }
+  }, [compares.items]);
 
   // 비교할 값이 없으면 return null
   if (!isOpen) return null;

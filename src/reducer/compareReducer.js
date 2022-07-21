@@ -18,6 +18,12 @@ function compareReducer(state = initialState, action) {
     case types.SET_COMPARE_OPEN: {
       return { items: state.items, isOpen: action.data.isOpen };
     }
+    case types.DELETE_COMPARE_PRODUCTS: {
+      return {
+        items: state.items.filter((item) => item.code !== action.code),
+        isOpen: state.isOpen,
+      };
+    }
     case types.RESET_DATA: {
       return {
         ...initialState,

@@ -5,14 +5,17 @@ import styles from "./CompareMiniBox.module.css";
 import { useSelector, useDispatch } from "react-redux";
 import { Box, Image } from "@chakra-ui/react";
 import convertNumber from "../../utils/convertNumber";
+import { deleteCompareProduct } from "../../actions";
 
 function CompareMiniBox({ data }) {
   // 현재 선택된 비교하기 상품들 가져오기
   const compares = useSelector((state) => state.compareReducer);
   //console.log(compares);
+  const dispatch = useDispatch();
 
   const onClickCloseBtn = (e) => {
     // 비교하기 상품 삭제
+    dispatch(deleteCompareProduct(data.code));
   };
 
   return (
