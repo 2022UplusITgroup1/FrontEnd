@@ -9,7 +9,11 @@ import convertNumber from "../../utils/convertNumber";
 import calcMonthPrice from "../../utils/calcMonthPrice";
 import calcDiscountPrice from "../../utils/calcDiscountPrice";
 import Compare from "../Compare/Compare";
-import { setCompareIsOpen, setCompareProduct } from "../../actions";
+import {
+  deleteCompareProduct,
+  setCompareIsOpen,
+  setCompareProduct,
+} from "../../actions";
 
 function Product({ product, plan, category }) {
   const dispatch = useDispatch();
@@ -22,6 +26,8 @@ function Product({ product, plan, category }) {
   // 현재 선택된 비교하기 상품들 가져오기
   const compares = useSelector((state) => state.compareReducer);
   //console.log(compares.items);
+
+  const [isCompare, setIsCompare] = useState(false);
 
   // 상세 페이지로 넘길 URL
   const [detailURL, setDetailURL] = useState("");
@@ -52,12 +58,23 @@ function Product({ product, plan, category }) {
 
   // 비교하기 버튼 이벤트
   const onClickCompareBtn = () => {
-    saveCompareProduct(); // 여기서 추가되므로
-    if (compares.items.length > -1 && compares.items.length < 3) {
-      dispatch(setCompareIsOpen(true));
-      onOpen();
+    console.log(isCompare);
+    // 이미 비교하기 상품인 경우 -> 삭제
+    if (isCompare === true) {
+      // 비교하기 상품 삭제
+      dispatch(deleteCompareProduct(product.code));
+      setIsCompare(!isCompare);
     } else {
-      dispatch(setCompareIsOpen(false));
+      // 비교하기 상품 추가
+      // 개수 제한 (추가할 수 있는 경우 => length === 0 / 1 / 2)
+      if (compares.items.length > -1 && compares.items.length < 3) {
+        setIsCompare(!isCompare);
+        saveCompareProduct();
+        dispatch(setCompareIsOpen(true));
+        onOpen();
+      } else {
+        alert("최대 3개 상품까지 비교하기가 가능합니다.");
+      }
     }
   };
 
@@ -167,12 +184,19 @@ function Product({ product, plan, category }) {
             <Button
               className={styles.CompareBtn}
               borderRadius="50px"
+              border="1px solid"
               onClick={onClickCompareBtn}
+              style={{ backgroundColor: isCompare ? "black" : "white" }}
             >
               비교하기
             </Button>
             <Link to={detailURL} style={{ textDecoration: "none" }}>
-              <Button className={styles.OrderBtn} borderRadius="50px">
+              <Button
+                className={styles.OrderBtn}
+                borderRadius="50px"
+                border="1px solid"
+                style={{ backgroundColor: "white" }}
+              >
                 주문하기
               </Button>
             </Link>

@@ -1,34 +1,32 @@
 .Container {
-    width: 355px;
-    height: 105px;
-    display: flex;
-    align-items: center;
-    padding: 19px 16px 12px;
-    position: relative;
-    margin-right: 10px;
+  width: 340px;
+  height: 105px;
+  display: flex;
+  align-items: center;
+  padding: 19px 16px 12px;
+  position: relative;
+  margin-right: 10px;
 }
 
 .CloseBtn {
-    display: inline-block;
-    width: 14px;
-    height: 14px;
-    position: absolute;
-    top: 16px;
-    right: 16px;
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  position: absolute;
+  top: 16px;
+  right: 16px;
 }
 
 .Content {
-    display: flex;
-    align-items: center;
-
+  display: flex;
+  align-items: center;
 }
 
 .TxtContainer {
-    
 }
 
 .ProductImg {
-    width: 75px;
-    height: 75px;
-    margin-right: 36px;
+  width: 75px;
+  height: 75px;
+  margin-right: 36px;
 }
