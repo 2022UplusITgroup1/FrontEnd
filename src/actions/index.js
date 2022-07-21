@@ -9,6 +9,7 @@ export const CHANGE_OPTIONS = "CHANGE_OPTIONS";
 export const SELECT_DETAIL = "SELECT_DETAIL";
 export const SET_RECENTLY_PRODUCT = "SET_RECENTLY_PRODUCT";
 export const SET_COMPARE_PRODUCTS = "SET_COMPARE_PRODUCTS";
+export const SET_COMPARE_OPEN = "SET_COMPARE_OPEN";
 export const RESET_DATA = "RESET_DATA";
 
 // 조건 선택
@@ -130,6 +131,17 @@ export function setCompareProduct(data) {
       networkSupport: data.networkSupport,
       discountType: data.discountType,
       totalPrice: data.totalPrice,
+    },
+  };
+}
+
+export function setCompareIsOpen(data) {
+  return {
+    type: SET_COMPARE_OPEN,
+    data: {
+      isOpen: data,
+      //onOpen: data.onOpen,
+      //onClose: data.onClose,
     },
   };
 }

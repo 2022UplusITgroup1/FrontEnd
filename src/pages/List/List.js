@@ -19,9 +19,10 @@ import { useParams } from "react-router-dom";
 //const PLANS_API_URL = `${process.env.REACT_APP_PRODUCT_SERVER_URL}/plan?net_sp=`;
 //const RECENT_PRODUCT_API_URL = `${process.env.REACT_APP_PRODUCT_SERVER_URL}/recents`;
 
-const PRODUCTS_API_URL = `http://localhost:8000/product/phone?net_sp=`;
-const PLANS_API_URL = `http://localhost:8000/product/plan?net_sp=`;
-const RECENT_PRODUCT_API_URL = `http://localhost:8000/recents`;
+//http://43.200.122.174:8000/product/phone?net_sp=5g
+const PRODUCTS_API_URL = `http://43.200.122.174:8000/product/phone?net_sp=`;
+const PLANS_API_URL = `http://43.200.122.174:8000/product/plan?net_sp=`;
+const RECENT_PRODUCT_API_URL = `http://43.200.122.174:8000/recents`;
 
 function List({ netType }) {
   //console.log(netType);
@@ -85,7 +86,7 @@ function List({ netType }) {
   };
 
   useEffect(() => {
-    console.log("list First Rendering");
+    //console.log("list First Rendering");
     // 데이터 가져오기
     axios
       .all([

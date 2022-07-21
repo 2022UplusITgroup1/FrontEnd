@@ -9,7 +9,7 @@ import convertNumber from "../../utils/convertNumber";
 import calcMonthPrice from "../../utils/calcMonthPrice";
 import calcDiscountPrice from "../../utils/calcDiscountPrice";
 import Compare from "../Compare/Compare";
-import { setCompareProduct } from "../../actions";
+import { setCompareIsOpen, setCompareProduct } from "../../actions";
 
 function Product({ product, plan, category }) {
   const dispatch = useDispatch();
@@ -52,7 +52,13 @@ function Product({ product, plan, category }) {
 
   // 비교하기 버튼 이벤트
   const onClickCompareBtn = () => {
-    saveCompareProduct();
+    saveCompareProduct(); // 여기서 추가되므로
+    if (compares.items.length > -1 && compares.items.length < 3) {
+      dispatch(setCompareIsOpen(true));
+      onOpen();
+    } else {
+      dispatch(setCompareIsOpen(false));
+    }
   };
 
   /*
@@ -173,6 +179,7 @@ function Product({ product, plan, category }) {
           </Box>
         </Box>
       </Box>
+      {/* <Compare isOpen={isOpen} onClose={onClose} className={styles.Compare} /> */}
     </>
   );
 }

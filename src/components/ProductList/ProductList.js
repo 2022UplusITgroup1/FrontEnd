@@ -7,7 +7,7 @@ import axios from "axios";
 import { FiAlertCircle } from "react-icons/fi";
 import { Select, useDisclosure } from "@chakra-ui/react";
 import Product from "./Product";
-import { changeProductSort } from "../../actions";
+import { changeProductSort, setCompareIsOpen } from "../../actions";
 import mapBrandName from "../../utils/mapBrandName";
 import Compare from "../Compare/Compare";
 
@@ -19,11 +19,12 @@ function ProductList({ products, plans, category }) {
   //console.log(plans);
 
   const dispatch = useDispatch();
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const { onClose } = useDisclosure();
+  const [isOpen, setIsOpen] = useState(false);
 
   // 현재 선택한 옵션 값 가져오기
   const options = useSelector((state) => state.changeOptionReducer);
-  console.log(options);
+  //console.log(options);
 
   // 데이터 로딩 & 에러 처리
   const [loading, setLoading] = useState(false);
@@ -41,7 +42,7 @@ function ProductList({ products, plans, category }) {
   // API GET 상품 조건 리스트
   const getSelectedProducts = async (brandType, storageType, sortType) => {
     // 조회해야하는 조건만 URL 에 추가
-    let OPTION_URL = `http://localhost:8000/product/phone?net_sp=${category}`;
+    let OPTION_URL = `http://43.200.122.174:8000/product/phone?net_sp=${category}`;
     if (brandType !== "0") {
       OPTION_URL += `&mf_name=${brandType}`;
     }
@@ -58,14 +59,14 @@ function ProductList({ products, plans, category }) {
       setLoading(true);
       setError(null);
       const response = await axios.get(OPTION_URL);
-      console.log("getSelectedProducts SUCCESS ");
+      //console.log("getSelectedProducts SUCCESS ");
       // 조건 조회 결과가 없을 경우는 빈 배열로 설정
       setSelectedProducts(
         response.data.data !== null ? response.data.data : []
       );
-      console.log(response.data.data);
+      //console.log(response.data.data);
     } catch (e) {
-      console.log(e);
+      //console.log(e);
       setError(e);
     }
     setLoading(false);
@@ -73,7 +74,7 @@ function ProductList({ products, plans, category }) {
 
   // 옵션 값이 변경될 때마다 실행
   useEffect(() => {
-    console.log(options.brandType, options.storageType);
+    //console.log(options.brandType, options.storageType);
     // 하나라도 선택된 조건이 있다면 API GET 호출
     if (options.brandType !== "0" || options.storageType !== "0") {
       getSelectedProducts(
@@ -101,6 +102,10 @@ function ProductList({ products, plans, category }) {
   const findSelectPlan = (value) => {
     return plans.find((p) => p.code === value);
   };
+
+  // 현재 isOpen
+  const compares = useSelector((state) => state.compareReducer);
+  console.log(compares.isOpen);
 
   return (
     <div className={styles.Container}>
@@ -161,9 +166,13 @@ function ProductList({ products, plans, category }) {
         </div>
       </div>
 
-      {/* {<div className={styles.Compare}>
-        <Compare isOpen={isOpen} onClose={onClose} className={styles.Compare} />
-      </div>} */}
+      <div className={styles.Compare}>
+        <Compare
+          isOpen={compares.isOpen}
+          onClose={onClose}
+          className={styles.Compare}
+        />
+      </div>
     </div>
   );
 }

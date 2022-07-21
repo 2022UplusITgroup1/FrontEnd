@@ -45,9 +45,9 @@ function Detail() {
   const { netType, plCode, phCode, color, dcType } = useParams();
 
   // API URL
-  const PRODUCT_DETAIL_URL = `${process.env.REACT_APP_PRODUCT_SERVICE_API_URL}/detail?plCode=${plCode}&phCode=${phCode}&color=${color}&dcType=${dcType}`;
-  const PRODUCT_COLOR_URL = `${process.env.REACT_APP_PRODUCT_SERVICE_API_URL}/color?phCode=${phCode}`;
-  const PLAN_URL = `${process.env.REACT_APP_PRODUCT_SERVICE_API_URL}/plan?netType=`;
+  const PRODUCT_DETAIL_URL = `http://43.200.122.174:8000/product/detail?pl_code=${plCode}&ph_code=${phCode}&color=${color}&dc_type=${dcType}`;
+  const PRODUCT_COLOR_URL = `http://43.200.122.174:8000/product/color?ph_code=${phCode}`;
+  const PLAN_URL = `http://43.200.122.174:8000/product/plan?net_sp=`;
 
   // 데이터 로딩 & 에러 처리
   const [loading, setLoading] = useState(false);
@@ -168,11 +168,11 @@ function Detail() {
   // 초기 세팅
   useEffect(() => {
     //fetchProductDetail();
-    //fetchProductColor();
-    //fetchPlans();
+    fetchProductColor();
+    fetchPlans();
     setData(SampleDetailData);
-    setPlans(SamplePlanData);
-    setColors(SampleColorData);
+    //setPlans(SamplePlanData);
+    //setColors(SampleColorData);
   }, []);
 
   // 초기 세팅 후, 전달받은 상품과 요금제 데이터를 기반으로 초기화

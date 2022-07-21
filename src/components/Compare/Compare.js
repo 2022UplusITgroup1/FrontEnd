@@ -21,7 +21,7 @@ import CompareDetail from "./CompareDetail";
 import CompareMiniBox from "./CompareMiniBox";
 
 function Compare({ isOpen, onClose }) {
-  console.log(isOpen);
+  //console.log(isOpen);
   // 이름 바꾸기
   const {
     isOpen: isOpenDetail,
@@ -31,9 +31,15 @@ function Compare({ isOpen, onClose }) {
   // 현재 선택된 비교하기 상품들 가져오기
   const compares = useSelector((state) => state.compareReducer);
   console.log(compares.items);
+  // console.log(isOpenDetail);
 
   const onClickCompareDetail = (e) => {
-    onOpenDetail();
+    if (compares.items.length < 2) {
+      // alert
+      alert("2개 이상의 상품을 선택 하셔야 비교하기가 가능합니다.");
+    } else {
+      onOpenDetail();
+    }
   };
 
   // 비교할 값이 없으면 return null
@@ -44,8 +50,10 @@ function Compare({ isOpen, onClose }) {
       <div className={styles.Modal}>
         <div className={styles.ModalContent}>
           <div className={styles.ModalHeader}>
-            <div>비교하기</div>
-            <button>V</button>
+            <div className={styles.ModalHeaderTxt}>
+              비교하기 ({compares.items.length})
+            </div>
+            {/* <button>V</button> */}
           </div>
           <div className={styles.ModalBodyContainer}>
             <div className={styles.ModalBody}>
@@ -55,18 +63,19 @@ function Compare({ isOpen, onClose }) {
                 })}
             </div>
             <div className={styles.CompareBtnContainer}>
-              <Button onClick={onOpenDetail} className={styles.CompareBtn}>
+              <Button
+                onClick={onClickCompareDetail}
+                className={styles.CompareBtn}
+              >
                 비교하기
               </Button>
             </div>
           </div>
         </div>
       </div>
-      <CompareDetail
-        data={compares.items}
-        isOpen={isOpenDetail}
-        onClose={onCloseDetail}
-      />
+      {/* {isOpenDetail && (
+        <CompareDetail isOpen={isOpenDetail} onClose={onCloseDetail} />
+      )} */}
     </div>
   );
 }

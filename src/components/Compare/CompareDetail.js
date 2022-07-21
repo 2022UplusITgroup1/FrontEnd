@@ -30,25 +30,22 @@ import calcDiscountPrice from "../../utils/calcDiscountPrice";
 import floorNumber from "../../utils/floorNumber";
 import SampleCompareData from "../../SampleCompareData.json";
 
-const COMPARE_URL = `${process.env.REACT_APP_PRODUCT_SERVICE_API_URL}/compare`;
+const COMPARE_URL = `http://43.200.122.174:8000/compare`;
 
-function CompareDetail({ data, isOpen, onClose }) {
-  console.log(data);
+function CompareDetail({ isOpen, onClose }) {
+  // 현재 선택된 비교하기 상품들 가져오기
+  const compares = useSelector((state) => state.compareReducer).items;
+  console.log(compares);
+
+  const [data, setData] = useState(compares);
   const [compareData, setCompareData] = useState([]);
   const [payPeriods, setPayPeriods] = useState([12, 12, 12]);
   const [prices, setPrices] = useState([]);
+  const [discountTypes, setDiscountTypes] = useState([]);
 
   // 데이터 로딩 & 에러 처리
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-
-  // 상세 조회 당시의 할인유형 값
-  let discountTypes = [];
-  data.map((d) =>
-    discountTypes.push({
-      discountType: d.discountType,
-    })
-  );
 
   // API: 비교하기 결과 POST
   const fetchCompareData = async () => {
@@ -77,29 +74,46 @@ function CompareDetail({ data, isOpen, onClose }) {
     setLoading(false);
   };
 
+  // useEffect(() => {
+  //   if (compares.length) setData(compares);
+  // }, [compares]);
+
   useEffect(() => {
-    //fetchCompareData();
-    setCompareData(SampleCompareData);
-  }, []);
+    if (compares.length) {
+      //fetchCompareData();
+      setCompareData(SampleCompareData);
+      // 상세 조회 당시의 할인유형 값
+      let dcTypes = [];
+      compares.map((d) =>
+        dcTypes.push({
+          discountType: d.discountType,
+        })
+      );
+      setDiscountTypes(dcTypes);
+    }
+  }, [compares]);
 
   useEffect(() => {
     console.log(compareData);
-    let nowPrices = [];
-    compareData.map((c, i) => {
-      const nowPlanPrice = calcMonthPrice(
-        c["phone"]["price"],
-        c["plan"]["price"],
-        payPeriods[i]
-      );
-      const nowTotalPrice = calcDiscountPrice(discountTypes[i], nowPlanPrice);
-      nowPrices.push(nowTotalPrice);
-      console.log(nowTotalPrice);
-    });
-    console.log(nowPrices);
-    setPrices(nowPrices);
+    if (compareData.length) {
+      let nowPrices = [];
+      compareData.map((c, i) => {
+        const nowPlanPrice = calcMonthPrice(
+          c["phone"]["price"],
+          c["plan"]["price"],
+          payPeriods[i]
+        );
+        const nowTotalPrice = calcDiscountPrice(discountTypes[i], nowPlanPrice);
+        nowPrices.push(nowTotalPrice);
+        console.log(nowTotalPrice);
+      });
+      console.log(nowPrices);
+      setPrices(nowPrices);
+    }
   }, [compareData]);
 
-  if (!data) return null;
+  if (!compares.length) return null;
+  if (!compareData.length) return null;
 
   return (
     <Modal
@@ -115,8 +129,20 @@ function CompareDetail({ data, isOpen, onClose }) {
         <ModalBody className={styles.ModalBody}>
           <div className={styles.ProductInfo}>
             {/* 상품 소개 */}
-            {compareData.length &&
+            {compares.length &&
+              compareData.length &&
               compareData.map((d, i) => {
+                console.log(d);
+                const nowPlanPrice = calcMonthPrice(
+                  d["phone"]["price"],
+                  d["plan"]["price"]
+                );
+                console.log(compares);
+                const nowTotalPrice = calcDiscountPrice(
+                  compares[i].discountType,
+                  nowPlanPrice
+                );
+                console.log(nowTotalPrice);
                 return (
                   <Box key={i} className={styles.ProductInfoBox}>
                     <div className={styles.ProductImgContainer}>
@@ -128,7 +154,7 @@ function CompareDetail({ data, isOpen, onClose }) {
                     </div>
                     <div className={styles.ProductInfoTxt}>
                       <div>{d.phone.name}</div>
-                      <div>월 {prices && convertNumber(prices[i].total)}원</div>
+                      <div>월 {convertNumber(nowTotalPrice.total)}원</div>
                     </div>
                     <Button onClick={onClose} className={styles.ReadMoreBtn}>
                       자세히보기
@@ -140,7 +166,7 @@ function CompareDetail({ data, isOpen, onClose }) {
           <div>월 납부금액</div>
           <div className={styles.MonthPhonePrice}>
             {/* 월 납부금액 */}
-            {compareData.length &&
+            {/* {compareData.length &&
               compareData.map((d, i) => {
                 return (
                   <Box key={i} className={styles.MonthPhonePriceBox}>
@@ -152,11 +178,11 @@ function CompareDetail({ data, isOpen, onClose }) {
                     </div>
                   </Box>
                 );
-              })}
+              })} */}
           </div>
           <div className={styles.MonthPlanPrice}>
             {/* 요금제 */}
-            {compareData.length &&
+            {/* {compareData.length &&
               compareData.map((d, i) => {
                 return (
                   <Box key={i} className={styles.MonthPlanPriceBox}>
@@ -167,26 +193,26 @@ function CompareDetail({ data, isOpen, onClose }) {
                     </div>
                   </Box>
                 );
-              })}
+              })} */}
           </div>
           <div>할인유형, 요금제</div>
           <div className={styles.MonthPrice}>
             {/* 할인유형, 요금제 */}
-            {compareData.length &&
+            {/*compareData.length &&
               compareData.map((d, i) => {
                 return (
                   <Box key={i} className={styles.MonthPriceBox}>
                     <div className={styles.MonthPriceTxtContainer}>
                       <div>신규가입</div>
-                      <div>할부개월 {/* select로 payPeriod */}</div>
+                      <div>할부개월 {/* select로 payPeriod /}</div>
                       <div>
-                        {mapDiscountType(d.phone.discountType) /* req dcType */}
+                        {mapDiscountType(d.phone.discountType) /* req dcType /}
                       </div>
                       <div>{d.plan.name}</div>
                     </div>
                   </Box>
                 );
-              })}
+              })*/}
           </div>
         </ModalBody>
         <ModalFooter className={styles.ModalFooter}>

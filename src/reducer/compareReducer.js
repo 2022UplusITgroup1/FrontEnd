@@ -6,12 +6,17 @@ import * as types from "../actions";
 
 const initialState = {
   items: [],
+  isOpen: false,
 };
 
 function compareReducer(state = initialState, action) {
+  //console.log(action);
   switch (action.type) {
     case types.SET_COMPARE_PRODUCTS: {
-      return { items: [...state.items, action.data] };
+      return { items: [...state.items, action.data], isOpen: state.isOpen };
+    }
+    case types.SET_COMPARE_OPEN: {
+      return { items: state.items, isOpen: action.data.isOpen };
     }
     case types.RESET_DATA: {
       return {
@@ -24,3 +29,16 @@ function compareReducer(state = initialState, action) {
 }
 
 export default compareReducer;
+
+/*
+export function setCompareOpen(data) {
+  return {
+    type: SET_COMPARE_OPEN,
+    data: {
+      isOpen: data.isOpen,
+      onOpen: data.onOpen,
+      onClose: data.onClose,
+    },
+  };
+}
+*/

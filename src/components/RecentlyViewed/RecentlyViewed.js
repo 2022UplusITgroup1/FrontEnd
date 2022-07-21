@@ -23,7 +23,7 @@ function RecentlyViewed({ products, plans, category }) {
 
   // Redux store 에 저장된 최근 본 상품
   const productList = useSelector((state) => state.recentlyReducer);
-  console.log(productList);
+  //console.log(productList);
 
   // 최근 본 상품 전체 리스트
   const [data, setData] = useState(products);
@@ -41,7 +41,7 @@ function RecentlyViewed({ products, plans, category }) {
     for (let i = len - 1; i >= 0; i--) {
       p.push(storedData[i]);
     }
-    console.log(p);
+    //console.log(p);
     setLimitedProducts(p);
   };
 
