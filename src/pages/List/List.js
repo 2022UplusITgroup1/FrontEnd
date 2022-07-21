@@ -51,6 +51,7 @@ function List({ category }) {
           <h2>{category} 휴대폰</h2>
         </div>
         <div className={styles.List}>
+          {/* 상품 전체 리스트 조건 div */}
           <div className={styles.ListOption}>
             <Option plans={plans} />
           </div>
@@ -58,7 +59,7 @@ function List({ category }) {
             <ProductList
               products={products}
               plans={plans}
-              category={category}
+              // category={category}
             />
           </div>
           <div className={styles.RecentlyViewed}>

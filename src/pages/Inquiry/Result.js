@@ -38,7 +38,7 @@ function Result() {
             <div className={styles.ContentTitle}>{data.phoneCode}</div>
             <div className={styles.Content}>{data.planCode}</div>
             <div className={styles.Content}>{data.color}</div>
-            <div className={styles.Content}>{data.monthPrice} 원</div>
+            <div className={styles.Content}>월 {data.monthPrice} 원</div>
           </div>
         </div>
         <div className={styles.ResultBtnContainer}>
