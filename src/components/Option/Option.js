@@ -91,6 +91,32 @@ function Option({ plans }) {
     };
     dispatch(changeOptions(value));
   };
+
+  // MYSEO CREATED
+  const [sortedPlans, setSortedPlans] = useState([]);
+  useEffect(() => {
+    if (!sortedPlans.length) setSortedPlans(plans);
+  }, [plans]);
+
+  const sortArray = type => {
+    const types = {
+      0: 'data',
+      1: 'data',
+      2: 'price',
+      3: 'price'
+    };
+    const sortProperty = types[type];
+    let sortDirection = 0; // 0: DESC , 1: ASC
+    if (type == 1 || type == 3)
+      sortDirection = 1;
+    setSortedPlans(sortedPlans.sort((a, b) => sortDirection == 0 ? b[sortProperty] - a[sortProperty] : a[sortProperty] - b[sortProperty]));
+  };
+
+  useEffect(() => {
+    sortArray(Number(sortValue));
+    // console.log(sortedPlans)
+  }, [sortValue]);
+
   useEffect(() => {
     // 초기 렌더링 시, 초기화
     // 페이지를 이동해도 유지하고 싶다면 초기화 X + useSelector 값 이용
@@ -253,7 +279,7 @@ function Option({ plans }) {
               className={styles.PlanContainer}
             >
               <Stack className={styles.PlanContainerStack}>
-                {plans.map((p, i) => {
+                {sortedPlans.map((p, i) => {
                   return (
                     <div className={styles.PlanItemContainer} key={i}>
                       <div className={styles.PlanInfoContainer} key={i}>
