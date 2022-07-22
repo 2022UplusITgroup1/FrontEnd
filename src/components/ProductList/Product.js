@@ -11,7 +11,7 @@ import calcDiscountPrice from "../../utils/calcDiscountPrice";
 import Compare from "../Compare/Compare";
 import {
   deleteCompareProduct,
-  setCompareIsOpen,
+  setCompareModalIsOpen,
   setCompareProduct,
 } from "../../actions";
 
@@ -70,13 +70,21 @@ function Product({ product, plan, category }) {
       if (compares.items.length > -1 && compares.items.length < 3) {
         setIsCompare(!isCompare);
         saveCompareProduct();
-        dispatch(setCompareIsOpen(true));
+        dispatch(setCompareModalIsOpen(true));
         onOpen();
       } else {
         alert("최대 3개 상품까지 비교하기가 가능합니다.");
       }
     }
   };
+
+  // 비교하기 창에서 삭제 시, 상품에도 반영 (버튼 색깔 변경)
+  useEffect(() => {
+    const isInCompare = compares.items.find(
+      (item) => item.code === product.code
+    );
+    if (!isInCompare) setIsCompare(false);
+  }, [compares.items]);
 
   /*
   useEffect(() => {

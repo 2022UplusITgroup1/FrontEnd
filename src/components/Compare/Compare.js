@@ -19,7 +19,7 @@ import {
 } from "@chakra-ui/react";
 import CompareDetail from "./CompareDetail";
 import CompareMiniBox from "./CompareMiniBox";
-import { setCompareIsOpen } from "../../actions";
+import { setCompareModalIsOpen } from "../../actions";
 
 function Compare({ isOpen, onClose }) {
   //console.log(isOpen);
@@ -44,9 +44,10 @@ function Compare({ isOpen, onClose }) {
     }
   };
 
+  // CompareMiniBox 가 다 사라질 경우 모달창 닫기
   useEffect(() => {
     if (compares.items.length === 0) {
-      dispatch(setCompareIsOpen(false));
+      dispatch(setCompareModalIsOpen(false));
     }
   }, [compares.items]);
 

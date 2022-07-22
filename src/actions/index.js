@@ -132,12 +132,13 @@ export function setCompareProduct(data) {
       networkSupport: data.networkSupport,
       discountType: data.discountType,
       totalPrice: data.totalPrice,
+      isCompare: true,
     },
   };
 }
 
 // 비교하기 모달창 open
-export function setCompareIsOpen(data) {
+export function setCompareModalIsOpen(data) {
   return {
     type: SET_COMPARE_OPEN,
     data: {
