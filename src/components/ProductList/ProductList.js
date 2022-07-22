@@ -72,7 +72,24 @@ function ProductList({ products, plans, category }) {
     setLoading(false);
   };
 
-  // 옵션 값이 변경될 때마다 실행
+
+  // MYSEO CREATED
+  const sortArray = type => {
+    const types = {
+      0: 'create_time',
+      1: 'price', // TODO 실구매가로 변경
+      2: 'price',
+      3: 'price',
+      4: 'sales'
+    };
+    const sortProperty = types[type];
+    let sortDirection = 0; // 0: DESC , 1: ASC
+    if (type == 1 || type == 2)
+      sortDirection = 1;
+    setSelectedProducts(selectedProducts.sort((a, b) => sortDirection == 0 ? b[sortProperty] - a[sortProperty] : a[sortProperty] - b[sortProperty]));
+  };
+
+  // 현재 옵션이 바뀔 때마다 API 조건 조회
   useEffect(() => {
     //console.log(options.brandType, options.storageType);
     // 하나라도 선택된 조건이 있다면 API GET 호출
@@ -88,6 +105,7 @@ function ProductList({ products, plans, category }) {
         setSelectedProducts(products);
       }
     }
+    sortArray(Number(isSelect));
     //getSelectedProducts();
   }, [options]);
 
@@ -97,6 +115,12 @@ function ProductList({ products, plans, category }) {
     setIsSelect(e.target.value);
     dispatch(changeProductSort(e.target.value));
   };
+
+  // MYSEO CREATED
+  useEffect(() => {
+    sortArray(Number(isSelect));
+    // console.log(selectedProducts)
+  }, [isSelect]);
 
   // 현재 요금제 정보 찾기
   const findSelectPlan = (value) => {
