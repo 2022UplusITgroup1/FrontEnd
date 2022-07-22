@@ -298,16 +298,16 @@ function Option({ plans }) {
 
                             <div className={styles.PlanDetail}>
                               <div className={styles.PlanDetailItem}>
-                                {convertNumber(p.data)}GB
+                                {p.data < 300 ? convertNumber(p.data) + 'GB' : '무제한'}
                               </div>
                               <div className={styles.PlanDetailItem}>
                                 {convertNumber(p.shareData)}GB
                               </div>
                               <div className={styles.PlanDetailItem}>
-                                {convertNumber(p.voice)}분
+                                {p.voice < 600 ? convertNumber(p.voice) + '분' : '집/이동전화\n무제한'}
                               </div>
                               <div className={styles.PlanDetailItem}>
-                                {convertNumber(p.message)}건
+                                {p.message < 1050 ? convertNumber(p.message) + '건' : '무제한'}
                               </div>
                             </div>
                           </div>
