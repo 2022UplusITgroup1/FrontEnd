@@ -165,6 +165,40 @@ function Detail() {
     setDiscountValue(value);
   };
 
+  // MYSEO CREATED
+  let [watchItems, setWatchItems] = useState([]);
+
+  useEffect(() => {
+    console.log(data.phone.code + " " + plCode)
+    if (data && plCode) {
+      let recentsItemInfo = {
+        code: data.phone.code,
+        name: data.phone.name,
+        color: data.phone.color,
+        imgThumbnail: data.phone.imgThumbnail,
+        plan: plCode,
+        networkSupport: data.phone.networkSupport,
+        discountType: data.phone.discountType,
+        totalPrice: nowPrice.total,
+      };
+      let watchItem = localStorage.getItem("recents");
+
+      let watchItemArray = [];
+      if (watchItem != null) {
+        watchItemArray = JSON.parse(watchItem);
+      }
+
+      watchItemArray.push(recentsItemInfo);
+
+      if (watchItemArray.length <= 8) {
+        watchItemArray = new Set(watchItemArray);
+        watchItemArray = [...watchItemArray];
+      }
+      localStorage.setItem("recents", JSON.stringify(watchItemArray));
+      setWatchItems(watchItemArray);
+    }
+  }, [data]);
+
   // 초기 세팅
   useEffect(() => {
     //fetchProductDetail();
