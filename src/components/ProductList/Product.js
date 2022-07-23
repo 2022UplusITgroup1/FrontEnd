@@ -39,7 +39,10 @@ function Product({ product, plan, netType }) {
   const compares = useSelector((state) => state.compareReducer);
   //console.log(compares.items);
 
-  const [isCompare, setIsCompare] = useState(false);
+  // 이미 비교하기 리스트에 있는지 확인 => T/F
+  const [isCompare, setIsCompare] = useState(
+    compares.items.findIndex((item) => item.code === product.code) !== -1
+  );
 
   // 상세 페이지로 넘길 URL
   const [detailURL, setDetailURL] = useState("");
