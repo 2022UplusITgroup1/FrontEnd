@@ -18,7 +18,7 @@ function PlanDetail({ plan }) {
                 <div className={styles.OrderPlanMain}>
                   <div className={styles.OrderPlanName}>{plan.name}</div>
                   <div className={styles.OrderPlanPrice}>
-                    {convertNumber(Number(plan.price))}원
+                    {convertNumber(plan.price)}원
                   </div>
                 </div>
 
@@ -30,7 +30,9 @@ function PlanDetail({ plan }) {
                     <div className={styles.OrderPlanDetailHeader}>데이터</div>
                   </div>
                   <div className={styles.OrderPlanDetailItem}>
-                    {convertNumber(Number(plan.shareData))}GB
+                    {plan.shareData !== 0
+                      ? convertNumber(plan.shareData) + "GB"
+                      : "사용가능"}
                     <div className={styles.OrderPlanDetailHeader}>나눠쓰기</div>
                   </div>
                   <div className={styles.OrderPlanDetailItem}>
@@ -40,9 +42,9 @@ function PlanDetail({ plan }) {
                     <div className={styles.OrderPlanDetailHeader}>음성통화</div>
                   </div>
                   <div className={styles.OrderPlanDetailItem}>
-                    {plan.message < 1050
+                    {plan.message < 500
                       ? convertNumber(plan.message) + "건"
-                      : "무제한"}
+                      : "기본제공"}
                     <div className={styles.OrderPlanDetailHeader}>메세지</div>
                   </div>
                 </div>

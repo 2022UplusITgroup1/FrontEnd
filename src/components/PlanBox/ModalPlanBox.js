@@ -172,7 +172,9 @@ function ModalPlanBox({ isOpen, onClose, plans, planType, actionFunc }) {
                                   : "무제한"}
                               </div>
                               <div className={styles.PlanDetailItem}>
-                                {convertNumber(p.shareData)}GB
+                                {p.shareData !== 0
+                                  ? convertNumber(p.shareData) + "GB"
+                                  : "사용가능"}
                               </div>
                               <div className={styles.PlanDetailItem}>
                                 {p.voice < 600 ? (
@@ -191,9 +193,9 @@ function ModalPlanBox({ isOpen, onClose, plans, planType, actionFunc }) {
                                 )}
                               </div>
                               <div className={styles.PlanDetailItem}>
-                                {p.message < 1050
+                                {p.message < 500
                                   ? convertNumber(p.message) + "건"
-                                  : "무제한"}
+                                  : "기본제공"}
                               </div>
                             </div>
                           </div>

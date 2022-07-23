@@ -8,6 +8,7 @@ export const CHANGE_BRAND = "CHANGE_BRAND";
 export const CHANGE_STORAGE = "CHANGE_STORAGE";
 export const CHANGE_PRODUCT_SORT = "CHANGE_PRODUCT_SORT";
 export const CHANGE_OPTIONS = "CHANGE_OPTIONS";
+export const RESET_OPTION_DATA = "RESET_OPTION_DATA";
 
 // 요금제 옵션
 export function changePlan(data) {
@@ -69,6 +70,13 @@ export function changeOptions(data) {
   };
 }
 
+// 전체 데이터 초기화
+export function resetOptionData() {
+  return {
+    type: RESET_OPTION_DATA,
+  };
+}
+
 /* ---------- 더 많은 요금제 보기 > 요금제 정렬 ---------- */
 
 export const CHANGE_PLAN_SORT = "CHANGE_PLAN_SORT";
@@ -86,6 +94,7 @@ export function changePlanSort(data) {
 
 export const SELECT_DETAIL = "SELECT_DETAIL";
 export const CHANGE_DETAIL_PLAN_TYPE = "CHANGE_DETAIL_PLAN_TYPE";
+export const RESET_DETAIL_DATA = "RESET_DETAIL_DATA";
 
 // 상세 페이지에서 선택한 값
 export function selectDetail(data) {
@@ -126,10 +135,16 @@ export function changeDetailPlanType(data) {
   };
 }
 
+// 상세 페이지에서 선택한 값 초기화
+export function resetDetailData() {
+  return {
+    type: RESET_DETAIL_DATA,
+  };
+}
+
 /* ---------- 상세 페이지 -> 최근 본 상품 ---------- */
 
 export const SET_RECENTLY_PRODUCT = "SET_RECENTLY_PRODUCT";
-export const RESET_DETAIL_DATA = "RESET_DETAIL_DATA";
 
 // 최근 본 상품 정보
 export function setRecentlyProduct(data) {
@@ -146,12 +161,6 @@ export function setRecentlyProduct(data) {
       discountType: data.discountType,
       monthPrice: data.monthPrice,
     },
-  };
-}
-
-export function resetDetailData() {
-  return {
-    type: RESET_DETAIL_DATA,
   };
 }
 
@@ -197,16 +206,5 @@ export function deleteCompareProduct(code) {
   return {
     type: DELETE_COMPARE_PRODUCTS,
     code,
-  };
-}
-
-/* ---------- 초기화 ---------- */
-
-export const RESET_DATA = "RESET_DATA";
-
-// 전체 데이터 초기화
-export function resetData() {
-  return {
-    type: RESET_DATA,
   };
 }

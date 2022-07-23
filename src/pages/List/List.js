@@ -10,7 +10,7 @@ import ProductList from "../../components/ProductList/ProductList";
 import RecentlyViewed from "../../components/RecentlyViewed/RecentlyViewed";
 import SampleRecentlyData from "../../SampleRecentlyData.json";
 import Compare from "../../components/Compare/Compare";
-import { resetDetailData } from "../../actions";
+import { resetDetailData, resetOptionData } from "../../actions";
 
 // API URI
 //const PRODUCTS_API_URL = `${process.env.REACT_APP_PRODUCT_SERVER_URL}/product?net_sp=`;
@@ -116,8 +116,9 @@ function List({ netType }) {
     //setProducts(SampleData);
     //setPlans(SamplePlanData);
     setRecentlyProducts(SampleRecentlyData);
+    dispatch(resetOptionData()); // 5G - 4G 간 페이지 이동 시, 선택했던 option 값 초기화
     dispatch(resetDetailData()); // 상세페이지에서 뒤로가기 시, 선택했던 detail 값 초기화
-  }, []);
+  }, [netType]);
 
   if (loading) return <div>loading...</div>;
   if (error) return <div>Error!</div>;

@@ -24,11 +24,6 @@ function compareReducer(state = initialState, action) {
         isOpen: state.isOpen,
       };
     }
-    case types.RESET_DATA: {
-      return {
-        ...initialState,
-      };
-    }
     default:
       return state;
   }

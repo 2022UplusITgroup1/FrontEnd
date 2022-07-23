@@ -45,7 +45,7 @@ function changeOptionReducer(state = initialState, action) {
     case types.CHANGE_OPTIONS: {
       return action.data;
     }
-    case types.RESET_DATA: {
+    case types.RESET_OPTION_DATA: {
       return {
         ...initialState,
       };
