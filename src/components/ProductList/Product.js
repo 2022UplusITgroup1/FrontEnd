@@ -4,13 +4,12 @@ import React, { useEffect, useState } from "react";
 import styles from "./Product.module.css";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
-import { Box, Image, Button, useDisclosure } from "@chakra-ui/react";
+import { Box, Image, Button } from "@chakra-ui/react";
 import {
   deleteCompareProduct,
   setCompareModalIsOpen,
   setCompareProduct,
 } from "../../actions";
-import Compare from "../Compare/Compare";
 import convertNumber from "../../utils/convertNumber";
 import calcPrices from "../../utils/calcPrices";
 
@@ -29,7 +28,6 @@ const initialPrice = {
 
 function Product({ product, plan, netType }) {
   const dispatch = useDispatch();
-  const { isOpen, onOpen, onClose } = useDisclosure();
 
   // 사용자가 선택한 옵션값
   const options = useSelector((state) => state.changeOptionReducer);
@@ -94,12 +92,11 @@ function Product({ product, plan, netType }) {
       setIsCompare(!isCompare);
     } else {
       // 비교하기 상품 추가
-      // 개수 제한 (추가할 수 있는 경우 => length === 0 / 1 / 2)
+      // 개수 제한 (추가할 수 있는 경우 => length === 0 ~ 2)
       if (compares.items.length > -1 && compares.items.length < 3) {
         setIsCompare(!isCompare);
         saveCompareProduct();
         dispatch(setCompareModalIsOpen(true));
-        onOpen();
       } else {
         alert("최대 3개 상품까지 비교하기가 가능합니다.");
       }
@@ -113,15 +110,6 @@ function Product({ product, plan, netType }) {
     );
     if (!isInCompare) setIsCompare(false);
   }, [compares.items]);
-
-  /*
-  useEffect(() => {
-    //console.log(compares.items, compares.items.length);
-    if (compares.items.length > 0 && compares.items.length <= 3) {
-      onOpen();
-    }
-  }, [compares]);
-  */
 
   useEffect(() => {
     // 상세 페이지로 넘어갈 URL 설정 (할인 유형이 추천 상태면 product 가 가진 값으로, 아니면 선택한 값으로)
@@ -202,7 +190,10 @@ function Product({ product, plan, netType }) {
               borderRadius="50px"
               border="1px solid"
               onClick={onClickCompareBtn}
-              style={{ backgroundColor: isCompare ? "black" : "white" }}
+              style={{
+                backgroundColor: isCompare ? "black" : "white",
+                color: isCompare ? "white" : "black",
+              }}
             >
               비교하기
             </Button>
@@ -219,7 +210,6 @@ function Product({ product, plan, netType }) {
           </Box>
         </Box>
       </Box>
-      {/* <Compare isOpen={isOpen} onClose={onClose} className={styles.Compare} /> */}
     </>
   );
 }

@@ -135,27 +135,27 @@ function List({ netType }) {
         <div className={styles.List}>
           <div className={styles.ListOption}>
             {/* 옵션 아코디언 */}
-            {plans.length && <Option plans={plans} />}
+            {plans.length ? <Option plans={plans} /> : null}
           </div>
           <div className={styles.ListItems}>
             {/* 상품 리스트 섹션 */}
-            {products.length && plans.length && (
+            {products.length && plans.length ? (
               <ProductList
                 products={products}
                 plans={plans}
                 netType={netType}
               />
-            )}
+            ) : null}
           </div>
           <div className={styles.RecentlyViewed}>
             {/* 최근 본 상품 */}
-            {products.length && plans.length && (
+            {products.length && plans.length ? (
               <RecentlyViewed
                 products={products}
                 plans={plans}
                 category={netType}
               />
-            )}
+            ) : null}
           </div>
         </div>
       </div>

@@ -92,7 +92,27 @@
   margin-top: 25px;
 }
 
-.MonthPlanPriceTxtContainer {
+.DiscountPlan {
+  display: flex;
+  justify-content: space-around;
+}
+
+.DiscountPlanTxtContainer {
+}
+
+.DiscountPlanBox {
+  display: flex;
+  justify-content: space-around;
+}
+
+.DiscountPlanTxtContainer {
+  background-color: #f8f8f8;
+  width: 370px;
+  height: 150px; /* 350 */
+  border-radius: 10px;
+  padding-top: 25px;
+  margin-bottom: 50px;
+  margin-top: 25px;
 }
 
 /*-------------*/

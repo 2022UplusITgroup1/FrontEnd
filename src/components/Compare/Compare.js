@@ -1,4 +1,4 @@
-// 비교하기
+// 비교하기 하단 모달
 
 import React, { useState, useEffect } from "react";
 import styles from "./Compare.module.css";
@@ -66,7 +66,7 @@ function Compare({ isOpen, onClose }) {
           </div>
           <div className={styles.ModalBodyContainer}>
             <div className={styles.ModalBody}>
-              {compares.items &&
+              {compares.items.length &&
                 compares.items.map((c, i) => {
                   return <CompareMiniBox data={c} key={i} />;
                 })}
@@ -82,9 +82,9 @@ function Compare({ isOpen, onClose }) {
           </div>
         </div>
       </div>
-      {/* {isOpenDetail && (
+      {isOpenDetail && (
         <CompareDetail isOpen={isOpenDetail} onClose={onCloseDetail} />
-      )} */}
+      )}
     </div>
   );
 }

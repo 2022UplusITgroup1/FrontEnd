@@ -1,4 +1,4 @@
-// 비교하기 모달 상품 Box
+// 비교하기 하단 모달 상품 Box
 
 import React, { useState, useEffect } from "react";
 import styles from "./CompareMiniBox.module.css";
