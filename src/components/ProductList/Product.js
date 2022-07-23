@@ -15,7 +15,7 @@ import {
   setCompareProduct,
 } from "../../actions";
 
-function Product({ product, plan, category }) {
+function Product({ product, plan, netType }) {
   const dispatch = useDispatch();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -118,13 +118,13 @@ function Product({ product, plan, category }) {
     // 상세 페이지로 넘어갈 URL 설정 (할인 유형이 추천 상태면 product 가 가진 값으로, 아니면 선택한 값으로)
     if (options.discountType === "0") {
       setDetailURL(
-        `/mobile/detail/${category}/${plan.code}/${product.code}/${product.color}/${product.discountType}`
+        `/mobile/detail/${netType}/${plan.code}/${product.code}/${product.color}/${product.discountType}`
       );
       setDiscountType(product.discountType.toString());
       //calculatePrice(product.discountType.toString());
     } else {
       setDetailURL(
-        `/mobile/detail/${category}/${plan.code}/${product.code}/${product.color}/${options.discountType}`
+        `/mobile/detail/${netType}/${plan.code}/${product.code}/${product.color}/${options.discountType}`
       );
       setDiscountType(options.discountType);
       //calculatePrice(options.discountType);

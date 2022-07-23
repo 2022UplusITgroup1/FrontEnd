@@ -37,6 +37,7 @@ function ProductList({ products, plans, netType }) {
     dispatch(changeProductSort(e.target.value));
   };
 
+  /* ----- MYSEO CREATED ----- */
   // MYSEO CREATED - 상품 정렬
   const sortArray = (type) => {
     const types = {
@@ -49,19 +50,20 @@ function ProductList({ products, plans, netType }) {
     const sortProperty = types[type];
     let sortDirection = 0; // 0: DESC , 1: ASC
     if (type === 1 || type === 2) sortDirection = 1;
-    setSelectedProducts(
-      selectedProducts.sort((a, b) =>
-        sortDirection === 0
-          ? b[sortProperty] - a[sortProperty]
-          : a[sortProperty] - b[sortProperty]
-      )
+    let selected = [...selectedProducts];
+    selected = selected.sort((a, b) =>
+      sortDirection === 0
+        ? b[sortProperty] - a[sortProperty]
+        : a[sortProperty] - b[sortProperty]
     );
+    setSelectedProducts(selected);
   };
+
   // MYSEO CREATED - 상품 정렬 실행
   useEffect(() => {
     sortArray(Number(isSelect));
-    // console.log(selectedProducts)
   }, [isSelect]);
+  /* ----- END ----- */
 
   // API GET 상품 조건 리스트
   const getSelectedProducts = async (brandType, storageType, sortType) => {
