@@ -24,11 +24,8 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import convertNumber from "../../utils/convertNumber";
-import mapDiscountType from "../../utils/mapDiscountType";
-import calcMonthPrice from "../../utils/calcMonthPrice";
-import calcDiscountPrice from "../../utils/calcDiscountPrice";
-import floorNumber from "../../utils/floorNumber";
 import SampleCompareData from "../../SampleCompareData.json";
+import calcPrices from "../../utils/calcPrices";
 
 const COMPARE_URL = `http://43.200.122.174:8000/compare`;
 
@@ -98,12 +95,12 @@ function CompareDetail({ isOpen, onClose }) {
     if (compareData.length) {
       let nowPrices = [];
       compareData.map((c, i) => {
-        const nowPlanPrice = calcMonthPrice(
-          c["phone"]["price"],
-          c["plan"]["price"],
+        const nowTotalPrice = calcPrices(
+          c.phone.price,
+          c.plan.price,
+          discountTypes[i],
           payPeriods[i]
         );
-        const nowTotalPrice = calcDiscountPrice(discountTypes[i], nowPlanPrice);
         nowPrices.push(nowTotalPrice);
         console.log(nowTotalPrice);
       });
@@ -133,14 +130,11 @@ function CompareDetail({ isOpen, onClose }) {
               compareData.length &&
               compareData.map((d, i) => {
                 console.log(d);
-                const nowPlanPrice = calcMonthPrice(
-                  d["phone"]["price"],
-                  d["plan"]["price"]
-                );
-                console.log(compares);
-                const nowTotalPrice = calcDiscountPrice(
+                const nowTotalPrice = calcPrices(
+                  d.phone.price,
+                  d.plan.price,
                   compares[i].discountType,
-                  nowPlanPrice
+                  payPeriods[i]
                 );
                 console.log(nowTotalPrice);
                 return (

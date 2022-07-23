@@ -1,3 +1,5 @@
+// 주문 조회 결과 페이지
+
 import React, { useEffect, useState } from "react";
 import styles from "./Result.module.css";
 import { Link } from "react-router-dom";

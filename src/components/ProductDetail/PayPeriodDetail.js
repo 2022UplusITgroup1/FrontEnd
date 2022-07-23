@@ -2,28 +2,24 @@
 
 import React, { useEffect, useState } from "react";
 import styles from "../../pages/Detail/Detail.module.css";
-import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import convertNumber from "../../utils/convertNumber";
-import floorNumber from "../../utils/floorNumber";
-import { changeOptions, selectDetail } from "../../actions";
-import { RadioGroup, Radio, useDisclosure } from "@chakra-ui/react";
-import calcMonthPrice from "../../utils/calcMonthPrice";
-import calcDiscountPrice from "../../utils/calcDiscountPrice";
+import { selectDetail } from "../../actions";
+import calcPrices from "../../utils/calcPrices";
 
 function PayPeriodDetail({ data, plan }) {
   const dispatch = useDispatch();
+
   const orderProduct = useSelector((state) => state.orderReducer);
   //console.log(orderProduct);
 
+  // 할인 유형
   const [payPeriod, setPayPeriod] = useState(orderProduct.payPeriod);
-  // 할인 유형 변경
   const onChangePayPeriod = (value) => {
     setPayPeriod(value);
   };
 
   // Redux Dispatch -> 주문 정보 저장
-  const onSelectDetail = (nowPlan, nowPlanPrice) => {
+  const onSelectDetail = (nowPlan, nowTotalPrice) => {
     const value = {
       phone: {
         code: data.phone.code,
@@ -39,8 +35,7 @@ function PayPeriodDetail({ data, plan }) {
         price: nowPlan.price,
       },
       discountType: orderProduct.discountType,
-      monthPrice: calcDiscountPrice(orderProduct.discountType, nowPlanPrice)
-        .total,
+      monthPrice: nowTotalPrice.total,
       payPeriod: payPeriod,
     };
     dispatch(selectDetail(value));
@@ -48,12 +43,13 @@ function PayPeriodDetail({ data, plan }) {
 
   // 할부기간 변경할 때마다 redux 에 update
   useEffect(() => {
-    const nowPlanPrice = calcMonthPrice(
+    const nowTotalPrice = calcPrices(
       data.phone.price,
       plan.price,
+      orderProduct.discountType,
       payPeriod
     );
-    onSelectDetail(plan, nowPlanPrice);
+    onSelectDetail(plan, nowTotalPrice);
   }, [payPeriod]);
 
   return (

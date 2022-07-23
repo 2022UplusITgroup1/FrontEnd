@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import styles from "./RecentlyViewed.module.css";
-import { Link } from "react-router-dom";
 import { Grid, GridItem, Box, Image, Button } from "@chakra-ui/react";
 import {
   Modal,
@@ -126,7 +125,7 @@ function RecentlyViewed({ products, plans, category }) {
                     <RecentlyProduct
                       product={findedProduct}
                       plan={findedPlan}
-                      discountValue={d.discountType}
+                      discountType={d.discountType}
                       color={d.phoneColor}
                       category={d.networkSupport}
                       key={i}

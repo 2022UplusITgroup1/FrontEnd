@@ -2,28 +2,25 @@
 
 import React, { useEffect, useState } from "react";
 import styles from "../../pages/Detail/Detail.module.css";
-import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import convertNumber from "../../utils/convertNumber";
-import floorNumber from "../../utils/floorNumber";
-import { changeOptions, selectDetail } from "../../actions";
-import { RadioGroup, Radio, useDisclosure } from "@chakra-ui/react";
-import calcMonthPrice from "../../utils/calcMonthPrice";
-import calcDiscountPrice from "../../utils/calcDiscountPrice";
+import { selectDetail } from "../../actions";
+import { RadioGroup, Radio } from "@chakra-ui/react";
+import calcPrices from "../../utils/calcPrices";
 
 function DiscountDetail({ data, plan }) {
   const dispatch = useDispatch();
   const orderProduct = useSelector((state) => state.orderReducer);
   //console.log(orderProduct);
 
+  // 할인 유형
   const [discountType, setDiscountType] = useState(orderProduct.discountType);
-  // 할인 유형 변경
   const onChangeDiscountType = (value) => {
     setDiscountType(value);
   };
 
   // Redux Dispatch -> 주문 정보 저장
-  const onSelectDetail = (nowPlan, nowPlanPrice) => {
+  const onSelectDetail = (nowPlan, nowTotalPrice) => {
     const value = {
       phone: {
         code: data.phone.code,
@@ -39,7 +36,7 @@ function DiscountDetail({ data, plan }) {
         price: nowPlan.price,
       },
       discountType: discountType,
-      monthPrice: calcDiscountPrice(discountType, nowPlanPrice).total,
+      monthPrice: nowTotalPrice.total,
       payPeriod: orderProduct.payPeriod,
     };
     dispatch(selectDetail(value));
@@ -47,12 +44,13 @@ function DiscountDetail({ data, plan }) {
 
   // 할인 유형 변경할 때마다 redux 에 update
   useEffect(() => {
-    const nowPlanPrice = calcMonthPrice(
+    const nowTotalPrice = calcPrices(
       data.phone.price,
       plan.price,
+      discountType,
       orderProduct.payPeriod
     );
-    onSelectDetail(plan, nowPlanPrice);
+    onSelectDetail(plan, nowTotalPrice);
   }, [discountType]);
 
   return (

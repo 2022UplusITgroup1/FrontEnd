@@ -16,17 +16,7 @@ import {
   Stack,
   Radio,
   RadioGroup,
-  Select,
-} from "@chakra-ui/react";
-import {
   useDisclosure,
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
-  ModalBody,
-  ModalCloseButton,
 } from "@chakra-ui/react";
 import {
   changePlan,
@@ -34,9 +24,7 @@ import {
   changeBrand,
   changeStorage,
   changeOptions,
-  changePlanSort,
 } from "../../actions";
-import convertNumber from "../../utils/convertNumber";
 import ModalPlanBox from "../PlanBox/ModalPlanBox";
 
 function Option({ plans }) {
@@ -56,10 +44,6 @@ function Option({ plans }) {
   const [brandValue, setBrandValue] = useState(options.brandType);
   const [storageValue, setStorageValue] = useState(options.storageType);
 
-  const onApplyPlan = () => {
-    onChangePlanValue(planModalValue);
-    onClose();
-  };
   const onChangePlanValue = (value) => {
     dispatch(changePlan(value));
     setPlanValue(value);
@@ -91,13 +75,6 @@ function Option({ plans }) {
   useEffect(() => {
     setPlanValue(options.planType);
   }, [options.planType]);
-
-  useEffect(() => {
-    // 초기 렌더링 시, 초기화
-    // 페이지를 이동해도 유지하고 싶다면 초기화 X + useSelector 값 이용
-    //dispatch(resetData());
-    //console.log("Options First Rendering");
-  }, []);
 
   // 요금제 미리보기 리스트 - 최대 3개로 제한
   const [planPreviewList, setPlanPreviewList] = useState(plans.slice(0, 3));

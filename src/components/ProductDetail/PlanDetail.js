@@ -1,18 +1,11 @@
 // 상세 페이지 > 현재 요금제 Box
 
-import React, { useEffect, useState } from "react";
+import React from "react";
 import styles from "../../pages/Detail/Detail.module.css";
-import { Link } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
 import convertNumber from "../../utils/convertNumber";
-import floorNumber from "../../utils/floorNumber";
-import { changeOptions, selectDetail } from "../../actions";
-import { Stack, useDisclosure } from "@chakra-ui/react";
-import calcDiscountPrice from "../../utils/calcDiscountPrice";
-import calcMonthPrice from "../../utils/calcMonthPrice";
+import { Stack } from "@chakra-ui/react";
 
 function PlanDetail({ plan }) {
-  console.log(plan);
   if (!plan.code) return null;
 
   return (
@@ -20,7 +13,6 @@ function PlanDetail({ plan }) {
       <Stack className={styles.OrderPlanContainerStack}>
         <div className={styles.OrderPlanItemContainer}>
           <div className={styles.OrderPlanInfoContainer}>
-            {/*createPlanPreview(plans, onplanTypeChange)*/}
             <div className={styles.OrderPlanItem} value={plan.code} size="lg">
               <div className={styles.OrderPlanInfo}>
                 <div className={styles.OrderPlanMain}>

@@ -1,5 +1,9 @@
+// 요금제 더 보기 모달
+
+import React, { useEffect, useState } from "react";
 import styles from "./ModalPlanBox.module.css";
-import { Box, Radio, RadioGroup, Stack, useDisclosure } from "@chakra-ui/react";
+import { useSelector, useDispatch } from "react-redux";
+import { Radio, RadioGroup, Stack } from "@chakra-ui/react";
 import {
   Modal,
   ModalOverlay,
@@ -11,14 +15,12 @@ import {
   Select,
   Button,
 } from "@chakra-ui/react";
-import convertNumber from "../../utils/convertNumber";
-import { useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
 import {
   changeDetailPlanType,
   changePlan,
   changePlanSort,
 } from "../../actions";
+import convertNumber from "../../utils/convertNumber";
 
 function ModalPlanBox({ isOpen, onClose, plans, planType, actionFunc }) {
   const dispatch = useDispatch();

@@ -1,3 +1,5 @@
+// 검색 페이지
+
 import React, { useEffect, useState } from "react";
 import styles from "./Search.module.css";
 import { FiSearch, FiAlertCircle } from "react-icons/fi";

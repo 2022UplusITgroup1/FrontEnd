@@ -1,7 +1,8 @@
 // 상품 리스트 페이지에서 보이는 최근 본 상품 미리보기 Box
 
-import { Link } from "react-router-dom";
+import React from "react";
 import styles from "./RecentlyPreviewProduct.module.css";
+import { Link } from "react-router-dom";
 import { Grid, GridItem, Box, Image, Button } from "@chakra-ui/react";
 import convertNumber from "../../utils/convertNumber";
 import { useSelector } from "react-redux";

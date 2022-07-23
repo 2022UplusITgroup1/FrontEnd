@@ -5,12 +5,22 @@ import styles from "../../pages/Detail/Detail.module.css";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import convertNumber from "../../utils/convertNumber";
-import floorNumber from "../../utils/floorNumber";
-import { changeOptions, selectDetail } from "../../actions";
-import { RadioGroup, Radio, useDisclosure } from "@chakra-ui/react";
+import { selectDetail } from "../../actions";
 import mapDiscountType from "../../utils/mapDiscountType";
-import calcDiscountPrice from "../../utils/calcDiscountPrice";
-import calcMonthPrice from "../../utils/calcMonthPrice";
+import calcPrices from "../../utils/calcPrices";
+
+// 결제 금액 초기화 값
+const initialPrice = {
+  discountName: "",
+  phonePrice: 0,
+  planPrice: 0,
+  publicPrice: 0,
+  selectPrice: 0,
+  monthPhonePrice: 0,
+  monthPlanPrice: 0,
+  realPhonePrice: 0,
+  total: 0,
+};
 
 function InfoDetail({ data, plan, colors }) {
   const dispatch = useDispatch();
@@ -20,10 +30,10 @@ function InfoDetail({ data, plan, colors }) {
 
   // 색상
   const [colorType, setColorType] = useState(orderProduct.phone.color);
-  const [nowPrice, setNowPrice] = useState([]);
+  const [nowPrice, setNowPrice] = useState(initialPrice);
 
   // Redux Dispatch -> 주문 정보 저장
-  const onSelectDetail = (nowPlan, nowPlanPrice) => {
+  const onSelectDetail = (nowPlan, nowTotalPrice) => {
     const value = {
       phone: {
         code: data.phone.code,
@@ -39,8 +49,7 @@ function InfoDetail({ data, plan, colors }) {
         price: nowPlan.price,
       },
       discountType: orderProduct.discountType,
-      monthPrice: calcDiscountPrice(orderProduct.discountType, nowPlanPrice)
-        .total,
+      monthPrice: nowTotalPrice.total,
       payPeriod: orderProduct.payPeriod,
     };
     dispatch(selectDetail(value));
@@ -48,24 +57,25 @@ function InfoDetail({ data, plan, colors }) {
 
   // color 변경할 때마다 redux 에 update
   useEffect(() => {
-    const nowPlanPrice = calcMonthPrice(
+    const nowTotalPrice = calcPrices(
       data.phone.price,
       plan.price,
+      orderProduct.discountType,
       orderProduct.payPeriod
     );
-    onSelectDetail(plan, nowPlanPrice);
+    setNowPrice(nowTotalPrice);
+    onSelectDetail(plan, nowTotalPrice);
   }, [colorType]);
 
   // 요금제, 할인 유형, 할부기간이 바뀔 때마다 다시 계산
   useEffect(() => {
-    console.log(data.phone.price, plan.price, orderProduct.payPeriod);
-    const nowPlanPrice = calcMonthPrice(
+    const nowTotalPrice = calcPrices(
       data.phone.price,
       plan.price,
+      orderProduct.discountType,
       orderProduct.payPeriod
     );
-    console.log(calcDiscountPrice(orderProduct.discountType, nowPlanPrice));
-    setNowPrice(calcDiscountPrice(orderProduct.discountType, nowPlanPrice));
+    setNowPrice(nowTotalPrice);
   }, [orderProduct]);
 
   return (
@@ -126,7 +136,7 @@ function InfoDetail({ data, plan, colors }) {
         <div className={styles.PriceInfo}>
           {/* 가격 정보 */}
           <div className={styles.TotalPrice}>
-            월 {nowPrice && convertNumber(Number(nowPrice.total))}원
+            월 {convertNumber(Number(nowPrice.total))}원
           </div>
           <div className={styles.SubTitle}>
             {orderProduct.plan.code && orderProduct.plan.name},{" "}
@@ -135,11 +145,11 @@ function InfoDetail({ data, plan, colors }) {
           <dl className={styles.PriceDetail}>
             <dt className={styles.PriceDetailDT}>휴대폰</dt>
             <dd className={styles.PriceDetailDD}>
-              {convertNumber(Number(nowPrice.phone))} 원
+              {convertNumber(Number(nowPrice.monthPhonePrice))} 원
             </dd>
             <dt className={styles.PriceDetailDT}>통신료</dt>
             <dd className={styles.PriceDetailDD}>
-              {convertNumber(Number(nowPrice.plan))} 원
+              {convertNumber(Number(nowPrice.monthPlanPrice))} 원
             </dd>
             <dt className={styles.PriceDetailDT}>정상가</dt>
             <dd className={styles.PriceDetailDD}>

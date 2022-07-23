@@ -6,10 +6,7 @@ import { Link, useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 import { useDisclosure } from "@chakra-ui/react";
-//import OrderPlanBox from "../../components/PlanBox/OrderPlanBox";
 import ProductDetail from "../../components/ProductDetail/ProductDetail";
-import calcMonthPrice from "../../utils/calcMonthPrice";
-import calcDiscountPrice from "../../utils/calcDiscountPrice";
 import {
   changeDetailPlanType,
   selectDetail,
@@ -21,6 +18,7 @@ import DiscountDetail from "../../components/ProductDetail/DiscountDetail";
 import PayPeriodDetail from "../../components/ProductDetail/PayPeriodDetail";
 import ImgDetail from "../../components/ProductDetail/ImgDetail";
 import InfoDetail from "../../components/ProductDetail/InfoDetail";
+import calcPrices from "../../utils/calcPrices";
 
 // Detail 정보 & Color 정보 & Plan 전체 정보 필요
 
@@ -61,6 +59,19 @@ const initialDetail = {
   ],
 };
 
+// nowPrice 결제 금액 초기화 값
+const initialPrice = {
+  discountName: "",
+  phonePrice: 0,
+  planPrice: 0,
+  publicPrice: 0,
+  selectPrice: 0,
+  monthPhonePrice: 0,
+  monthPlanPrice: 0,
+  realPhonePrice: 0,
+  total: 0,
+};
+
 function Detail() {
   // 받아온 파라미터 데이터
   const { netType, plCode, phCode, color, dcType } = useParams();
@@ -89,14 +100,14 @@ function Detail() {
   const [plan, setPlan] = useState(initialDetail.plan);
 
   // 현재 요금제 + 할인 유형을 바탕으로 한 가격
-  const [nowPrice, setNowPrice] = useState([]);
+  const [nowPrice, setNowPrice] = useState(initialPrice);
 
   // 현재 사용자가 선택한 주문 정보가 담긴 Store
   const orderProduct = useSelector((state) => state.orderReducer);
   //console.log(orderProduct);
 
   // Redux Dispatch -> 주문 정보 저장
-  const onSelectDetail = (nowPlan, nowPlanPrice) => {
+  const onSelectDetail = (nowPlan, nowTotalPrice) => {
     const value = {
       phone: {
         code: data.phone.code,
@@ -112,7 +123,7 @@ function Detail() {
         price: nowPlan.price,
       },
       discountType: dcType, // 초기값 = dcType
-      monthPrice: calcDiscountPrice(dcType, nowPlanPrice).total,
+      monthPrice: nowTotalPrice.total,
       payPeriod: 12, // 초기값 = 12
     };
     dispatch(selectDetail(value));
@@ -203,11 +214,15 @@ function Detail() {
       // 현재 요금제 기반 계산
       const nowPlan = findSelectPlan(plCode);
       setPlan(nowPlan);
-      const nowPlanPrice = calcMonthPrice(data.phone.price, nowPlan.price, 12);
-      const nowTotalPrice = calcDiscountPrice(dcType, nowPlanPrice);
+      const nowTotalPrice = calcPrices(
+        data.phone.price,
+        data.plan.price,
+        dcType,
+        12 // 초기값 = 12
+      );
       setNowPrice(nowTotalPrice);
       // Redux 변경
-      onSelectDetail(nowPlan, nowPlanPrice);
+      onSelectDetail(nowPlan, nowTotalPrice);
     }
   }, [data]);
 

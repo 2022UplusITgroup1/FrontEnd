@@ -5,15 +5,27 @@ import styles from "./Product.module.css";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { Box, Image, Button, useDisclosure } from "@chakra-ui/react";
-import convertNumber from "../../utils/convertNumber";
-import calcMonthPrice from "../../utils/calcMonthPrice";
-import calcDiscountPrice from "../../utils/calcDiscountPrice";
-import Compare from "../Compare/Compare";
 import {
   deleteCompareProduct,
   setCompareModalIsOpen,
   setCompareProduct,
 } from "../../actions";
+import Compare from "../Compare/Compare";
+import convertNumber from "../../utils/convertNumber";
+import calcPrices from "../../utils/calcPrices";
+
+// 결제 금액 초기화 값
+const initialPrice = {
+  discountName: "",
+  phonePrice: 0,
+  planPrice: 0,
+  publicPrice: 0,
+  selectPrice: 0,
+  monthPhonePrice: 0,
+  monthPlanPrice: 0,
+  realPhonePrice: 0,
+  total: 0,
+};
 
 function Product({ product, plan, netType }) {
   const dispatch = useDispatch();
@@ -37,8 +49,19 @@ function Product({ product, plan, netType }) {
   );
 
   // 요금제 계산
-  let prices = calcMonthPrice(product.price, plan.price);
-  let nowPrice = calcDiscountPrice(discountType.toString(), prices);
+  const [nowPrice, setNowPrice] = useState(initialPrice);
+
+  useEffect(() => {
+    if (product.code && plan.code) {
+      const nowTotalPrice = calcPrices(
+        product.price,
+        plan.price,
+        discountType,
+        12 // 상품 리스트에서는 할부기간 기본 = 12개월
+      );
+      setNowPrice(nowTotalPrice);
+    }
+  }, [discountType]);
 
   // Redux Dispatch -> 비교하기 정보 저장
   const saveCompareProduct = () => {
@@ -95,39 +118,18 @@ function Product({ product, plan, netType }) {
   }, [compares]);
   */
 
-  //const [nowPrice, setNowPrice] = useState(0);
-
-  /*
-  const calculatePrice = (dcType) => {
-    console.log(dcType);
-    let calcPrices = calcMonthPrice(product.price, plan.price);
-    //console.log(calcPrices);
-    let calcNowPrice = calcDiscountPrice(dcType, calcPrices);
-    console.log(product.name, calcNowPrice);
-    setNowPrice(calcNowPrice);
-  };
-  */
-
-  // !!! nowPrice useEffect 적용
-  //const prices = calcMonthPrice(product.price, plan.price);
-  //const nowPrice = calcDiscountPrice(discountType.toString(), prices);
-
   useEffect(() => {
-    //console.log("product rendering");
-    //console.log(options.discountType);
     // 상세 페이지로 넘어갈 URL 설정 (할인 유형이 추천 상태면 product 가 가진 값으로, 아니면 선택한 값으로)
     if (options.discountType === "0") {
       setDetailURL(
         `/mobile/detail/${netType}/${plan.code}/${product.code}/${product.color}/${product.discountType}`
       );
       setDiscountType(product.discountType.toString());
-      //calculatePrice(product.discountType.toString());
     } else {
       setDetailURL(
         `/mobile/detail/${netType}/${plan.code}/${product.code}/${product.color}/${options.discountType}`
       );
       setDiscountType(options.discountType);
-      //calculatePrice(options.discountType);
     }
   }, [product, options]);
 
@@ -156,7 +158,7 @@ function Product({ product, plan, netType }) {
             <Box className={styles.ProductSubTitle}>
               {plan.name}
               <div className={styles.ProductDiscountType}>
-                {nowPrice && nowPrice.name}
+                {nowPrice && nowPrice.discountName}
               </div>
             </Box>
           </Box>
@@ -166,13 +168,14 @@ function Product({ product, plan, netType }) {
           <Link to={detailURL} style={{ textDecoration: "none" }}>
             <Box className={styles.Price}>
               <Box className={styles.PriceTxt}>
-                휴대폰 월 {nowPrice && convertNumber(nowPrice.phone)}원
+                휴대폰 월 {nowPrice && convertNumber(nowPrice.monthPhonePrice)}
+                원
                 {discountType === "1" && (
                   <span className={styles.Discount}> (30% ↓)</span>
                 )}
               </Box>
               <Box className={styles.PriceTxt}>
-                통신료 월 {nowPrice && convertNumber(nowPrice.plan)}원
+                통신료 월 {nowPrice && convertNumber(nowPrice.monthPlanPrice)}원
                 {(discountType === "2" || discountType === "3") && (
                   <span className={styles.Discount}> (25% ↓)</span>
                 )}

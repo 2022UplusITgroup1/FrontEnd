@@ -1,7 +1,9 @@
+// 주문 조회 페이지
+
 import React, { useState } from "react";
 import styles from "./Inquiry.module.css";
-import { Input, Button } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
+import { Input, Button } from "@chakra-ui/react";
 
 function Inquiry() {
   const [name, setName] = useState("");
