@@ -44,6 +44,7 @@ function List({ netType }) {
       console.log(response.data);
       if (response.data.data !== null) {
         console.log("getProducts SUCCESS ");
+        // TODO: 같은 색깔 처리
         setProducts(response.data.data);
       } else {
         // 알맞은 결과를 찾을 수 없습니다

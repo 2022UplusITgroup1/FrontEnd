@@ -317,7 +317,6 @@ function Detail() {
             plan={plan}
             colors={colors}
             nowPrice={nowPrice}
-            dcType={dcType}
             color={color}
           />
         )}
@@ -361,13 +360,7 @@ function Detail() {
                       <div className={styles.OrderInfoTdBody}>
                         {/* 할인 유형 Select Box */}
                         {data.phone.code && plan.code && (
-                          <DiscountDetail
-                            data={data}
-                            plan={plan}
-                            discountValue={discountValue}
-                            setDiscountValue={setDiscountValue}
-                            onChangeDiscountValue={onChangeDiscountValue}
-                          />
+                          <DiscountDetail data={data} plan={plan} />
                         )}
                       </div>
                     </div>
@@ -377,10 +370,9 @@ function Detail() {
                       </div>
                       <div className={styles.OrderInfoTdBody}>
                         {/* 할부기간 Select Box */}
-                        <PayPeriodDetail
-                          payPeriod={payPeriod}
-                          setPayPeriod={setPayPeriod}
-                        />
+                        {data.phone.code && plan.code && (
+                          <PayPeriodDetail data={data} plan={plan} />
+                        )}
                       </div>
                     </div>
                   </td>

@@ -1,4 +1,4 @@
-// 상세 페이지 현재 요금제 Box
+// 상세 페이지 > 현재 요금제 Box
 
 import React, { useEffect, useState } from "react";
 import styles from "../../pages/Detail/Detail.module.css";
@@ -10,6 +10,8 @@ import { changeOptions } from "../../actions";
 import { Stack, useDisclosure } from "@chakra-ui/react";
 
 function PlanDetail({ plan }) {
+  const orderProduct = useSelector((state) => state.orderReducer);
+  //console.log(orderProduct);
   return (
     <>
       <Stack className={styles.OrderPlanContainerStack}>

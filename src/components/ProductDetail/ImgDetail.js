@@ -1,3 +1,5 @@
+// 상세 페이지 > 상품 이미지
+
 import React, { useEffect, useState } from "react";
 import styles from "../../pages/Detail/Detail.module.css";
 import { Link } from "react-router-dom";

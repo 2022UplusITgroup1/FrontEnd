@@ -1,34 +1,75 @@
+// 상세 페이지 > 할인유형
+
 import React, { useEffect, useState } from "react";
 import styles from "../../pages/Detail/Detail.module.css";
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import convertNumber from "../../utils/convertNumber";
 import floorNumber from "../../utils/floorNumber";
-import { changeOptions } from "../../actions";
+import { changeOptions, selectDetail } from "../../actions";
 import { RadioGroup, Radio, useDisclosure } from "@chakra-ui/react";
+import calcMonthPrice from "../../utils/calcMonthPrice";
+import calcDiscountPrice from "../../utils/calcDiscountPrice";
 
-function DiscountDetail({
-  data,
-  plan,
-  discountValue,
-  setDiscountValue,
-  onChangeDiscountValue,
-}) {
+function DiscountDetail({ data, plan }) {
+  const dispatch = useDispatch();
+  const orderProduct = useSelector((state) => state.orderReducer);
+  //console.log(orderProduct);
+
+  const [discountType, setDiscountType] = useState(orderProduct.discountType);
+  // 할인 유형 변경
+  const onChangeDiscountType = (value) => {
+    setDiscountType(value);
+  };
+
+  // Redux Dispatch -> 주문 정보 저장
+  const onSelectDetail = (nowPlan, nowPlanPrice) => {
+    const value = {
+      phone: {
+        code: data.phone.code,
+        name: data.phone.name,
+        imgThumbnail: data.phone.imgThumbnail,
+        storage: data.phone.storage.capability,
+        color: orderProduct.phone.color,
+        price: data.phone.price,
+      },
+      plan: {
+        code: nowPlan.code,
+        name: nowPlan.name,
+        price: nowPlan.price,
+      },
+      discountType: discountType,
+      monthPrice: calcDiscountPrice(discountType, nowPlanPrice).total,
+      payPeriod: orderProduct.payPeriod,
+    };
+    dispatch(selectDetail(value));
+  };
+
+  // 할인 유형 변경할 때마다 redux 에 update
+  useEffect(() => {
+    const nowPlanPrice = calcMonthPrice(
+      data.phone.price,
+      plan.price,
+      orderProduct.payPeriod
+    );
+    onSelectDetail(plan, nowPlanPrice);
+  }, [discountType]);
+
   return (
     <>
       <RadioGroup
-        onChange={onChangeDiscountValue}
-        value={discountValue}
+        onChange={onChangeDiscountType}
+        value={discountType}
         className={styles.OrderInfoTdInner}
       >
         <div
           className={styles.OrderInfoTdLeftContainer}
           style={{
-            borderColor: discountValue === "1" ? "#000" : "#ddd",
-            color: discountValue === "1" ? "#000" : "#666",
+            borderColor: discountType === "1" ? "#000" : "#ddd",
+            color: discountType === "1" ? "#000" : "#666",
           }}
         >
-          <Radio opacity={0} value="1" onClick={(e) => setDiscountValue("1")}>
+          <Radio opacity={0} value="1" onClick={(e) => setDiscountType("1")}>
             <div className={styles.OrderInfoTdLeft}>
               {/* 공시지원금 */}
               <div>
@@ -47,8 +88,8 @@ function DiscountDetail({
         <div
           className={styles.OrderInfoTdRightContainer}
           style={{
-            borderColor: discountValue !== "1" ? "#000" : "#ddd",
-            color: discountValue !== "1" ? "#000" : "#666",
+            borderColor: discountType !== "1" ? "#000" : "#ddd",
+            color: discountType !== "1" ? "#000" : "#666",
           }}
         >
           <div className={styles.OrderInfoTdRight}>

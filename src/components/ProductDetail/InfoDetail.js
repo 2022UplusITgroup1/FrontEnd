@@ -1,3 +1,5 @@
+// 상세 페이지 > 상품 정보
+
 import React, { useEffect, useState } from "react";
 import styles from "../../pages/Detail/Detail.module.css";
 import { Link } from "react-router-dom";
@@ -10,15 +12,15 @@ import mapDiscountType from "../../utils/mapDiscountType";
 import calcDiscountPrice from "../../utils/calcDiscountPrice";
 import calcMonthPrice from "../../utils/calcMonthPrice";
 
-function InfoDetail({ data, plan, colors, nowPrice, dcType, color }) {
+function InfoDetail({ data, plan, colors }) {
   const dispatch = useDispatch();
 
-  // 사용자가 선택함에 따라 바뀌는 정보
-  const [discountValue, setDiscountValue] = useState(dcType);
-  const [colorType, setColorType] = useState(color);
-  const [payPeriod, setPayPeriod] = useState(12);
+  const orderProduct = useSelector((state) => state.orderReducer);
+  //console.log(orderProduct);
 
-  // TODO: 색깔 바뀔 때마다 Redux 저장
+  // 색상
+  const [colorType, setColorType] = useState(orderProduct.phone.color);
+  const [nowPrice, setNowPrice] = useState([]);
 
   // Redux Dispatch -> 주문 정보 저장
   const onSelectDetail = (nowPlan, nowPlanPrice) => {
@@ -36,12 +38,32 @@ function InfoDetail({ data, plan, colors, nowPrice, dcType, color }) {
         name: nowPlan.name,
         price: nowPlan.price,
       },
-      discountType: discountValue,
-      monthPrice: calcDiscountPrice(discountValue, nowPlanPrice).total,
-      payPeriod: payPeriod,
+      discountType: orderProduct.discountType,
+      monthPrice: calcDiscountPrice(orderProduct.discountType, nowPlanPrice)
+        .total,
+      payPeriod: orderProduct.payPeriod,
     };
     dispatch(selectDetail(value));
   };
+
+  // color 변경할 때마다 redux 에 update
+  useEffect(() => {
+    const nowPlanPrice = calcMonthPrice(
+      data.phone.price,
+      plan.price,
+      orderProduct.payPeriod
+    );
+    onSelectDetail(plan, nowPlanPrice);
+  }, [colorType]);
+
+  useEffect(() => {
+    const nowPlanPrice = calcMonthPrice(
+      data.phone.price,
+      plan.price,
+      orderProduct.payPeriod
+    );
+    setNowPrice(calcDiscountPrice(orderProduct.discountType, nowPlanPrice));
+  }, [orderProduct]);
 
   return (
     <>
@@ -85,8 +107,7 @@ function InfoDetail({ data, plan, colors, nowPrice, dcType, color }) {
         <div className={styles.Capacity}>
           <div className={styles.CapacityTitle}>저장공간</div>
           <button className={styles.ItemBtn} value="1">
-            {data.phone.code &&
-              convertNumber(data["phone"]["storage"]["capability"])}
+            {data.phone.code && convertNumber(data.phone.storage.capability)}
             GB
           </button>
         </div>
@@ -100,12 +121,13 @@ function InfoDetail({ data, plan, colors, nowPrice, dcType, color }) {
           </button>
         </div>
         <div className={styles.PriceInfo}>
+          {/* 가격 정보 */}
           <div className={styles.TotalPrice}>
             월 {nowPrice && convertNumber(Number(nowPrice.total))}원
           </div>
           <div className={styles.SubTitle}>
-            {plan.code && plan.name}, {mapDiscountType(Number(discountValue))}{" "}
-            기준
+            {plan.code && plan.name},{" "}
+            {mapDiscountType(Number(orderProduct.discountType))} 기준
           </div>
           <dl className={styles.PriceDetail}>
             <dt className={styles.PriceDetailDT}>휴대폰</dt>
@@ -121,7 +143,6 @@ function InfoDetail({ data, plan, colors, nowPrice, dcType, color }) {
               {data.phone.code && convertNumber(Number(data.phone.price))} 원
             </dd>
           </dl>
-          {/* 가격 정보 - dl & dt */}
         </div>
         <div className={styles.InfoBtn}>
           {/* 온라인 주문 버튼 */}

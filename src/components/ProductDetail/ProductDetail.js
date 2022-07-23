@@ -1,3 +1,5 @@
+// 상세 페이지 > 상품 최종 결제금액 Box
+
 import React, { useEffect, useState } from "react";
 import styles from "./ProductDetail.module.css";
 import { Link } from "react-router-dom";
