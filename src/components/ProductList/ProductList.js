@@ -31,7 +31,7 @@ function ProductList({ products, plans, netType }) {
   //console.log(selectedProducts);
 
   // 선택한 정렬값 저장
-  const [isSelect, setIsSelect] = useState("0");
+  const [isSelect, setIsSelect] = useState(options.sortType);
   const onSelectChange = (e) => {
     setIsSelect(e.target.value);
     dispatch(changeProductSort(e.target.value));

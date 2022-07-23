@@ -42,16 +42,19 @@ import ModalPlanBox from "../PlanBox/ModalPlanBox";
 function Option({ plans }) {
   const dispatch = useDispatch();
 
+  // Redux Options
+  const options = useSelector((state) => state.changeOptionReducer);
+  //console.log(options);
+
   // 모달 open/close 함수
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   // 현재 선택된 요금제, 할인 유형, 제조사, 저장용량 변수
-  const [planValue, setPlanValue] = useState("0");
-  const [planModalValue, setPlanModalValue] = useState("0");
-  const [discountValue, setDiscountValue] = useState("0");
-  const [brandValue, setBrandValue] = useState("0");
-  const [storageValue, setStorageValue] = useState("0");
-  const [isAdditional, setIsAdditional] = useState(0);
+  const [planValue, setPlanValue] = useState(options.planType);
+  const [planModalValue, setPlanModalValue] = useState(options.planType);
+  const [discountValue, setDiscountValue] = useState(options.discountType);
+  const [brandValue, setBrandValue] = useState(options.brandType);
+  const [storageValue, setStorageValue] = useState(options.storageType);
 
   const onApplyPlan = () => {
     onChangePlanValue(planModalValue);
@@ -84,9 +87,6 @@ function Option({ plans }) {
     };
     dispatch(changeOptions(value));
   };
-
-  const options = useSelector((state) => state.changeOptionReducer);
-  //console.log(options);
 
   useEffect(() => {
     setPlanValue(options.planType);
