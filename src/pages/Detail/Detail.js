@@ -135,7 +135,7 @@ function Detail() {
       setLoading(true);
       setError(null);
       const response = await axios.get(`${PRODUCT_DETAIL_URL}`);
-      console.log(response.data);
+      //console.log(response.data);
       if (response.data.data !== null) {
         console.log("fetchProductDetail SUCCESS ");
         setData(response.data.data);
@@ -155,7 +155,7 @@ function Detail() {
       setLoading(true);
       setError(null);
       const response = await axios.get(`${PRODUCT_COLOR_URL}`);
-      console.log(response.data);
+      //console.log(response.data);
       if (response.data.data !== null) {
         console.log("fetchProductColor SUCCESS ");
         setColors(response.data.data);
@@ -175,10 +175,36 @@ function Detail() {
       setLoading(true);
       setError(null);
       const response = await axios.get(`${PLAN_URL}${netType}`);
-      console.log(response.data);
+      //console.log(response.data);
       if (response.data.data !== null) {
         console.log("fetchPlans SUCCESS ");
         setPlans(response.data.data);
+      } else {
+        // 알맞은 결과를 찾을 수 없습니다
+      }
+    } catch (e) {
+      console.log(e);
+      setError(e);
+    }
+    setLoading(false);
+  };
+
+  // API: 다른 색상의 이미지 GET
+  const fetchProductColorImg = async (nowColor) => {
+    try {
+      setLoading(true);
+      setError(null);
+      const PRODUCT_COLOR_IMG_URL = `http://43.200.122.174:8000/product/detail?pl_code=${plCode}&ph_code=${phCode}&color=${nowColor}&dc_type=${dcType}`;
+      const response = await axios.get(`${PRODUCT_COLOR_IMG_URL}`);
+      //console.log(response.data);
+      if (response.data.data !== null) {
+        console.log("fetchProductColorImg SUCCESS ");
+        const resImg = response.data.data.images;
+        setImgPaths(
+          resImg.map((d) => {
+            return d.imgPath;
+          })
+        );
       } else {
         // 알맞은 결과를 찾을 수 없습니다
       }
@@ -230,6 +256,13 @@ function Detail() {
   useEffect(() => {
     setPlan(orderProduct.plan);
   }, [orderProduct]);
+
+  // 선택된 색상 변경 시, imgPath 도 변경
+  useEffect(() => {
+    if (orderProduct.phone.color) {
+      fetchProductColorImg(orderProduct.phone.color);
+    }
+  }, [orderProduct.phone.color]);
 
   /* ----- MYSEO CREATED ----- */
   // MYSEO CREATED - 최근 본 상품 LocalStorage 저장

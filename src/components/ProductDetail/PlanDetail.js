@@ -6,7 +6,7 @@ import convertNumber from "../../utils/convertNumber";
 import { Stack } from "@chakra-ui/react";
 
 function PlanDetail({ plan }) {
-  if (!plan.code) return null;
+  if (!plan) return null;
 
   return (
     <>
