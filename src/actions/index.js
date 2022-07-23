@@ -1,4 +1,6 @@
-// Redux Actions
+// Redux Action Types & Functions
+
+/* ---------- 상품 리스트 페이지 옵션 선택 ---------- */
 
 export const CHANGE_PLAN = "CHANGE_PLAN";
 export const CHANGE_DISCOUNT = "CHANGE_DISCOUNT";
@@ -6,14 +8,7 @@ export const CHANGE_BRAND = "CHANGE_BRAND";
 export const CHANGE_STORAGE = "CHANGE_STORAGE";
 export const CHANGE_PRODUCT_SORT = "CHANGE_PRODUCT_SORT";
 export const CHANGE_OPTIONS = "CHANGE_OPTIONS";
-export const SELECT_DETAIL = "SELECT_DETAIL";
-export const SET_RECENTLY_PRODUCT = "SET_RECENTLY_PRODUCT";
-export const SET_COMPARE_PRODUCTS = "SET_COMPARE_PRODUCTS";
-export const SET_COMPARE_OPEN = "SET_COMPARE_OPEN";
-export const DELETE_COMPARE_PRODUCTS = "DELETE_COMPARE_PRODUCTS";
-export const RESET_DATA = "RESET_DATA";
 
-// 조건 선택
 // 요금제 옵션
 export function changePlan(data) {
   console.log("changePlan: " + data);
@@ -50,7 +45,7 @@ export function changeStorage(data) {
   };
 }
 
-// 정렬 옵션
+// 상품 정렬 옵션
 export function changeProductSort(data) {
   console.log("changeProductSort: " + data);
   return {
@@ -73,6 +68,23 @@ export function changeOptions(data) {
     },
   };
 }
+
+/* ---------- 더 많은 요금제 보기 > 요금제 정렬 ---------- */
+
+export const CHANGE_PLAN_SORT = "CHANGE_PLAN_SORT";
+
+// 요금제 정렬 옵션
+export function changePlanSort(data) {
+  console.log("changePlanSort: " + data);
+  return {
+    type: CHANGE_PLAN_SORT,
+    planSortType: data,
+  };
+}
+
+/* ---------- 상세 페이지 -> 주문 페이지 ---------- */
+
+export const SELECT_DETAIL = "SELECT_DETAIL";
 
 // 상세 페이지에서 선택한 값
 export function selectDetail(data) {
@@ -100,6 +112,10 @@ export function selectDetail(data) {
   };
 }
 
+/* ---------- 상세 페이지 -> 최근 본 상품 ---------- */
+
+export const SET_RECENTLY_PRODUCT = "SET_RECENTLY_PRODUCT";
+
 // 최근 본 상품 정보
 export function setRecentlyProduct(data) {
   console.log("setRecentlyProduct: " + data);
@@ -117,6 +133,12 @@ export function setRecentlyProduct(data) {
     },
   };
 }
+
+/* ---------- 비교하기 ---------- */
+
+export const SET_COMPARE_PRODUCTS = "SET_COMPARE_PRODUCTS";
+export const SET_COMPARE_OPEN = "SET_COMPARE_OPEN";
+export const DELETE_COMPARE_PRODUCTS = "DELETE_COMPARE_PRODUCTS";
 
 // 비교하기 상품들 저장
 export function setCompareProduct(data) {
@@ -156,6 +178,10 @@ export function deleteCompareProduct(code) {
     code,
   };
 }
+
+/* ---------- 초기화 ---------- */
+
+export const RESET_DATA = "RESET_DATA";
 
 // 전체 데이터 초기화
 export function resetData() {

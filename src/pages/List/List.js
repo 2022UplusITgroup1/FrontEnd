@@ -8,11 +8,8 @@ import { useDisclosure } from "@chakra-ui/react";
 import Option from "../../components/Option/Option";
 import ProductList from "../../components/ProductList/ProductList";
 import RecentlyViewed from "../../components/RecentlyViewed/RecentlyViewed";
-import SampleData from "../../SampleData.json";
-import SamplePlanData from "../../SamplePlanData.json";
 import SampleRecentlyData from "../../SampleRecentlyData.json";
 import Compare from "../../components/Compare/Compare";
-import { useParams } from "react-router-dom";
 
 // API URI
 //const PRODUCTS_API_URL = `${process.env.REACT_APP_PRODUCT_SERVER_URL}/product?net_sp=`;
@@ -44,13 +41,13 @@ function List({ netType }) {
       setLoading(true);
       setError(null);
       const response = await axios.get(`${PRODUCTS_API_URL}${netType}`);
+      console.log(response.data);
       if (response.data.data !== null) {
         console.log("getProducts SUCCESS ");
         setProducts(response.data.data);
       } else {
         // 알맞은 결과를 찾을 수 없습니다
       }
-      console.log(response.data);
     } catch (e) {
       console.log(e);
       setError(e);
@@ -64,13 +61,13 @@ function List({ netType }) {
       setLoading(true);
       setError(null);
       const response = await axios.get(`${PLANS_API_URL}${netType}`);
+      console.log(response.data);
       if (response.data.data !== null) {
         console.log("getPlans SUCCESS ");
         setPlans(response.data.data);
       } else {
         // 알맞은 결과를 찾을 수 없습니다
       }
-      console.log(response.data);
     } catch (e) {
       console.log(e);
       setError(e);
@@ -84,13 +81,13 @@ function List({ netType }) {
       setLoading(true);
       setError(null);
       const response = await axios.get(`${RECENT_PRODUCT_API_URL}`);
+      console.log(response.data);
       if (response.data.data !== null) {
         console.log("getRecents SUCCESS ");
         setRecentlyProducts(response.data.data);
       } else {
         // 알맞은 결과를 찾을 수 없습니다
       }
-      console.log(response.data);
     } catch (e) {
       console.log(e);
       setError(e);
@@ -127,11 +124,6 @@ function List({ netType }) {
     //setPlans(SamplePlanData);
     setRecentlyProducts(SampleRecentlyData);
   }, []);
-
-  useEffect(() => {
-    console.log(products);
-    console.log(plans);
-  }, [products, plans]);
 
   if (loading) return <div>loading...</div>;
   if (error) return <div>Error!</div>;

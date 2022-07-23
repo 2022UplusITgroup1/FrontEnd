@@ -607,6 +607,18 @@ border-bottom: 2px solid #e6007e;
   font-size: xx-large;
   flex: 1 1 40%;
   text-align: center;
+  font-weight: bold;
+}
+
+.VoiceInfinityContainer {
+}
+
+.VoiceInfinityTop {
+  font-size: 15px;
+}
+
+.VoiceInfinityBottom {
+  font-size: smaller;
 }
 
 /* Modal Footer */

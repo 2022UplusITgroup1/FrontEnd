@@ -12,37 +12,77 @@ import {
   Button,
 } from "@chakra-ui/react";
 import convertNumber from "../../utils/convertNumber";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import {
-  changePlan,
-  changeDiscount,
-  changeBrand,
-  changeStorage,
-  changeProductSort,
-  resetData,
-} from "../../actions";
+import { changePlan, changePlanSort } from "../../actions";
 
-function ModalPlanBox({ plans, planValue }) {
-  const { isOpen, onOpen, onClose } = useDisclosure();
+function ModalPlanBox({ isOpen, onClose, plans, planType }) {
   const dispatch = useDispatch();
-  const [planModalValue, setPlanModalValue] = useState(planValue);
-  const [sortValue, setSotrValue] = useState("0");
-  const onChangePlanValue = (value) => {
+
+  // 모달에서 선택한 요금제 값
+  const [planModalValue, setPlanModalValue] = useState(
+    planType === "0" ? plans[0].code : planType
+  );
+
+  // Redux PlanCode 변경
+  const onChangePlanType = (value) => {
     dispatch(changePlan(value));
     setPlanModalValue(value);
   };
-  const onChangeSortValue = (e) => {
-    dispatch(changeProductSort(e.target.value));
-    setSotrValue(e.target.value);
-  };
-  const onApplyPlan = () => {
-    onChangePlanValue(planModalValue);
+
+  // 적용 하고 Close
+  const onClickApplyBtn = () => {
+    onChangePlanType(planModalValue);
+    dispatch(changePlanSort("0")); // 닫으면 정렬조건 초기화
     onClose();
   };
 
+  // 적용 없이 Close
+  const onClickCloseBtn = () => {
+    dispatch(changePlanSort("0")); // 닫으면 정렬조건 초기화
+    onClose();
+  };
+
+  const planSort = useSelector((state) => state.changePlanReducer);
+  //console.log(planSort);
+
+  const [sortType, setSortType] = useState("0");
+  const [sortedPlans, setSortedPlans] = useState(plans);
+
+  // 요금제 정렬 값 변경
+  const onChangePlanSortType = (e) => {
+    //console.log("변경 " + e.target.value);
+    dispatch(changePlanSort(e.target.value));
+    setSortType(e.target.value);
+  };
+
+  // MYSEO CREATED - 요금제 정렬
+  const sortArray = (type) => {
+    const types = {
+      0: "data",
+      1: "data",
+      2: "price",
+      3: "price",
+    };
+    const sortProperty = types[type];
+    let sortDirection = 0; // 0: DESC , 1: ASC
+    if (type === 1 || type === 3) sortDirection = 1;
+    let sorted = [...sortedPlans]; // 복사해서 사용해야 기존 값에 영향 X
+    sorted = sorted.sort((a, b) =>
+      sortDirection === 0
+        ? b[sortProperty] - a[sortProperty]
+        : a[sortProperty] - b[sortProperty]
+    );
+    setSortedPlans(sorted);
+    //console.log("sort! ");
+  };
+
+  useEffect(() => {
+    sortArray(Number(sortType));
+  }, [sortType]);
+
   return (
-    <div>
+    <>
       <Modal
         className={styles.Modal}
         onClose={onClose}
@@ -52,11 +92,11 @@ function ModalPlanBox({ plans, planValue }) {
         <ModalOverlay />
         <ModalContent className={styles.ModalContent}>
           <ModalHeader className={styles.ModalHeader}>전체 요금제</ModalHeader>
-          <ModalCloseButton />
+          <ModalCloseButton onClick={onClickCloseBtn} />
           <div className={styles.HeaderMenu}>
             <div className={styles.HeaderSortContainer}>
               <div className={styles.HeaderSelectSort}>
-                <Select value={sortValue} onChange={onChangeSortValue}>
+                <Select value={sortType} onChange={onChangePlanSortType}>
                   <option value="0">많은 데이터 사용량 순</option>
                   <option value="1">적은 데이터 사용량 순</option>
                   <option value="2">높은 가격 순</option>
@@ -83,7 +123,8 @@ function ModalPlanBox({ plans, planValue }) {
               className={styles.PlanContainer}
             >
               <Stack className={styles.PlanContainerStack}>
-                {plans.map((p, i) => {
+                {sortedPlans.map((p, i) => {
+                  //console.log("render" + p.code + p.name);
                   return (
                     <div className={styles.PlanItemContainer} key={i}>
                       <div className={styles.PlanInfoContainer} key={i}>
@@ -102,16 +143,33 @@ function ModalPlanBox({ plans, planValue }) {
 
                             <div className={styles.PlanDetail}>
                               <div className={styles.PlanDetailItem}>
-                                {convertNumber(p.data)}GB
+                                {p.data < 300
+                                  ? convertNumber(p.data) + "GB"
+                                  : "무제한"}
                               </div>
                               <div className={styles.PlanDetailItem}>
                                 {convertNumber(p.shareData)}GB
                               </div>
                               <div className={styles.PlanDetailItem}>
-                                {convertNumber(p.voice)}분
+                                {p.voice < 600 ? (
+                                  convertNumber(p.voice) + "분"
+                                ) : (
+                                  <div
+                                    className={styles.VoiceInfinityContainer}
+                                  >
+                                    <div className={styles.VoiceInfinityTop}>
+                                      집/이동전화
+                                    </div>
+                                    <div className={styles.VoiceInfinityBottom}>
+                                      무제한
+                                    </div>
+                                  </div>
+                                )}
                               </div>
                               <div className={styles.PlanDetailItem}>
-                                {convertNumber(p.message)}건
+                                {p.message < 1050
+                                  ? convertNumber(p.message) + "건"
+                                  : "무제한"}
                               </div>
                             </div>
                           </div>
@@ -136,17 +194,23 @@ function ModalPlanBox({ plans, planValue }) {
               </ul>
             </div>
             <div className={styles.FooterBtnContainer}>
-              <Button onClick={onClose} className={styles.FooterCancelBtn}>
+              <Button
+                onClick={onClickCloseBtn}
+                className={styles.FooterCancelBtn}
+              >
                 취소
               </Button>
-              <Button onClick={onApplyPlan} className={styles.FooterApplyBtn}>
+              <Button
+                onClick={onClickApplyBtn}
+                className={styles.FooterApplyBtn}
+              >
                 적용
               </Button>
             </div>
           </ModalFooter>
         </ModalContent>
       </Modal>
-    </div>
+    </>
   );
 }
 

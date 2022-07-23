@@ -140,13 +140,13 @@ function Detail() {
       setLoading(true);
       setError(null);
       const response = await axios.get(`${PRODUCT_DETAIL_URL}`);
-      console.log("fetchProductDetail SUCCESS ");
+      console.log(response.data);
       if (response.data.data !== null) {
+        console.log("fetchProductDetail SUCCESS ");
         setData(response.data.data);
       } else {
         // 알맞은 결과를 찾을 수 없습니다
       }
-      console.log(response.data);
     } catch (e) {
       console.log(e);
       setError(e);
@@ -160,13 +160,13 @@ function Detail() {
       setLoading(true);
       setError(null);
       const response = await axios.get(`${PRODUCT_COLOR_URL}`);
-      console.log("fetchProductColor SUCCESS ");
+      console.log(response.data);
       if (response.data.data !== null) {
+        console.log("fetchProductColor SUCCESS ");
         setColors(response.data.data);
       } else {
         // 알맞은 결과를 찾을 수 없습니다
       }
-      console.log(response.data);
     } catch (e) {
       console.log(e);
       setError(e);
@@ -180,13 +180,13 @@ function Detail() {
       setLoading(true);
       setError(null);
       const response = await axios.get(`${PLAN_URL}${netType}`);
-      console.log("fetchPlans SUCCESS ");
+      console.log(response.data);
       if (response.data.data !== null) {
+        console.log("fetchPlans SUCCESS ");
         setPlans(response.data.data);
       } else {
         // 알맞은 결과를 찾을 수 없습니다
       }
-      console.log(response.data);
     } catch (e) {
       console.log(e);
       setError(e);
@@ -727,16 +727,33 @@ function Detail() {
 
                             <div className={styles.PlanDetail}>
                               <div className={styles.PlanDetailItem}>
-                                {convertNumber(p.data)}GB
+                                {p.data < 300
+                                  ? convertNumber(p.data) + "GB"
+                                  : "무제한"}
                               </div>
                               <div className={styles.PlanDetailItem}>
                                 {convertNumber(p.shareData)}GB
                               </div>
                               <div className={styles.PlanDetailItem}>
-                                {convertNumber(p.voice)}분
+                                {p.voice < 600 ? (
+                                  convertNumber(p.voice) + "분"
+                                ) : (
+                                  <div
+                                    className={styles.VoiceInfinityContainer}
+                                  >
+                                    <div className={styles.VoiceInfinityTop}>
+                                      집/이동전화
+                                    </div>
+                                    <div className={styles.VoiceInfinityBottom}>
+                                      무제한
+                                    </div>
+                                  </div>
+                                )}
                               </div>
                               <div className={styles.PlanDetailItem}>
-                                {convertNumber(p.message)}건
+                                {p.message < 1050
+                                  ? convertNumber(p.message) + "건"
+                                  : "무제한"}
                               </div>
                             </div>
                           </div>

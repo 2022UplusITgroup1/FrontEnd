@@ -119,8 +119,6 @@ function ProductList({ products, plans, netType }) {
   const compares = useSelector((state) => state.compareReducer);
   //console.log(compares.isOpen);
 
-  if (loading) return <div>loading...</div>;
-  if (error) return <div>Error!</div>;
   if (!products) return null;
   if (!plans) return null;
 
