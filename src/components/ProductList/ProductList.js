@@ -8,16 +8,12 @@ import { FiAlertCircle } from "react-icons/fi";
 import { Select, useDisclosure } from "@chakra-ui/react";
 import Product from "./Product";
 import { changeProductSort, setCompareIsOpen } from "../../actions";
-import mapBrandName from "../../utils/mapBrandName";
 import Compare from "../Compare/Compare";
 
 // 상세 정보 조회 URL
-const SELECTED_PRODUCT_API_URL = `http://localhost:8000/product/phone?net_sp=`;
+const SELECTED_PRODUCT_API_URL = `http://43.200.122.174:8000/product/phone?net_sp=`;
 
 function ProductList({ products, plans, netType }) {
-  //console.log(products);
-  //console.log(plans);
-
   const dispatch = useDispatch();
   const { onClose } = useDisclosure();
   const [isOpen, setIsOpen] = useState(false);
@@ -34,13 +30,6 @@ function ProductList({ products, plans, netType }) {
   const [selectedProducts, setSelectedProducts] = useState(products);
   //console.log(selectedProducts);
 
-  /*
-  useEffect(() => {
-    // 맨 처음 렌더링 될 때는 products 값으로 초기화
-    if (!selectedProducts.length) setSelectedProducts(products);
-  }, [products]);
-  */
-
   // 선택한 정렬값 저장
   const [isSelect, setIsSelect] = useState("0");
   const onSelectChange = (e) => {
@@ -51,7 +40,7 @@ function ProductList({ products, plans, netType }) {
   // MYSEO CREATED - 상품 정렬
   const sortArray = (type) => {
     const types = {
-      0: "create_time",
+      0: "create_time", // JSH: createTime 으로 변경해야하지 않을까요?
       1: "price", // TODO 실구매가로 변경
       2: "price",
       3: "price",
@@ -77,24 +66,22 @@ function ProductList({ products, plans, netType }) {
   // API GET 상품 조건 리스트
   const getSelectedProducts = async (brandType, storageType, sortType) => {
     // 조회해야하는 조건만 URL 에 추가
-    let OPTION_URL = `http://43.200.122.174:8000/product/phone?net_sp=${netType}`;
+    let OPTION_URL = `${SELECTED_PRODUCT_API_URL}${netType}`;
     if (brandType !== "0") {
       OPTION_URL += `&mf_name=${brandType}`;
     }
     if (storageType !== "0") {
       OPTION_URL += `&capa=${storageType}`;
     }
-    // !!! 정렬 값은 실사용 여부에 따라
-    if (sortType !== "0") {
-      OPTION_URL += `&ord=${options.sortType}`;
-    }
-    console.log(OPTION_URL);
+    OPTION_URL += `&ord=${sortType}`;
+    //console.log(OPTION_URL);
 
     // API GET
     try {
       setLoading(true);
       setError(null);
       const response = await axios.get(OPTION_URL);
+      //console.log(response.data);
       if (response.data.data !== null) {
         console.log("getSelectedProducts SUCCESS ");
         setSelectedProducts(response.data.data);
@@ -102,7 +89,6 @@ function ProductList({ products, plans, netType }) {
         // 알맞은 결과를 찾을 수 없습니다
         setSelectedProducts([]);
       }
-      console.log(response.data);
     } catch (e) {
       //console.log(e);
       setError(e);
@@ -112,29 +98,16 @@ function ProductList({ products, plans, netType }) {
 
   // 현재 옵션이 바뀔 때마다 API 조건 조회
   useEffect(() => {
-    console.log(options.brandType, options.storageType);
-    // 하나라도 선택된 조건이 있다면 API GET 호출
+    //console.log(options.brandType, options.storageType);
+
+    // 하나라도 바뀐 조건이 있다면 API GET 호출
     getSelectedProducts(
       options.brandType,
       options.storageType,
       options.sortType
     );
-    /*
-    if (options.brandType !== "0" || options.storageType !== "0") {
-      getSelectedProducts(
-        options.brandType,
-        options.storageType,
-        options.sortType
-      );
-    } else {
-      // 전체에 선택되어 있다면 기존 products 로 set
-      if (selectedProducts.length !== products.length) {
-        setSelectedProducts(products);
-      }
-    }*/
-    // 정렬
+    // 정렬 적용
     sortArray(Number(isSelect));
-    //getSelectedProducts();
   }, [options]);
 
   // 현재 요금제 정보 찾기
@@ -142,9 +115,14 @@ function ProductList({ products, plans, netType }) {
     return plans.find((p) => p.code === value);
   };
 
-  // 현재 isOpen
+  // 현재 비교하기 isOpen
   const compares = useSelector((state) => state.compareReducer);
   //console.log(compares.isOpen);
+
+  if (loading) return <div>loading...</div>;
+  if (error) return <div>Error!</div>;
+  if (!products) return null;
+  if (!plans) return null;
 
   return (
     <div className={styles.Container}>
@@ -170,7 +148,7 @@ function ProductList({ products, plans, netType }) {
         <div className={styles.ProductListContent}>
           {/* 상품 리스트 */}
           <div className={styles.ProductList}>
-            {selectedProducts.length > 0 &&
+            {selectedProducts.length &&
               selectedProducts.map((p, i) => {
                 return (
                   <Product
