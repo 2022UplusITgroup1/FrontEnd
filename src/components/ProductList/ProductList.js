@@ -14,7 +14,7 @@ import Compare from "../Compare/Compare";
 // 상세 정보 조회 URL
 const SELECTED_PRODUCT_API_URL = `http://localhost:8000/product/phone?net_sp=`;
 
-function ProductList({ products, plans, category }) {
+function ProductList({ products, plans, netType }) {
   //console.log(products);
   //console.log(plans);
 
@@ -31,18 +31,53 @@ function ProductList({ products, plans, category }) {
   const [error, setError] = useState(null);
 
   // 조건에 맞는 상품들
-  const [selectedProducts, setSelectedProducts] = useState([]);
+  const [selectedProducts, setSelectedProducts] = useState(products);
   //console.log(selectedProducts);
 
+  /*
   useEffect(() => {
     // 맨 처음 렌더링 될 때는 products 값으로 초기화
     if (!selectedProducts.length) setSelectedProducts(products);
   }, [products]);
+  */
+
+  // 선택한 정렬값 저장
+  const [isSelect, setIsSelect] = useState("0");
+  const onSelectChange = (e) => {
+    setIsSelect(e.target.value);
+    dispatch(changeProductSort(e.target.value));
+  };
+
+  // MYSEO CREATED - 상품 정렬
+  const sortArray = (type) => {
+    const types = {
+      0: "create_time",
+      1: "price", // TODO 실구매가로 변경
+      2: "price",
+      3: "price",
+      4: "sales",
+    };
+    const sortProperty = types[type];
+    let sortDirection = 0; // 0: DESC , 1: ASC
+    if (type === 1 || type === 2) sortDirection = 1;
+    setSelectedProducts(
+      selectedProducts.sort((a, b) =>
+        sortDirection === 0
+          ? b[sortProperty] - a[sortProperty]
+          : a[sortProperty] - b[sortProperty]
+      )
+    );
+  };
+  // MYSEO CREATED - 상품 정렬 실행
+  useEffect(() => {
+    sortArray(Number(isSelect));
+    // console.log(selectedProducts)
+  }, [isSelect]);
 
   // API GET 상품 조건 리스트
   const getSelectedProducts = async (brandType, storageType, sortType) => {
     // 조회해야하는 조건만 URL 에 추가
-    let OPTION_URL = `http://43.200.122.174:8000/product/phone?net_sp=${category}`;
+    let OPTION_URL = `http://43.200.122.174:8000/product/phone?net_sp=${netType}`;
     if (brandType !== "0") {
       OPTION_URL += `&mf_name=${brandType}`;
     }
@@ -53,18 +88,21 @@ function ProductList({ products, plans, category }) {
     if (sortType !== "0") {
       OPTION_URL += `&ord=${options.sortType}`;
     }
+    console.log(OPTION_URL);
 
     // API GET
     try {
       setLoading(true);
       setError(null);
       const response = await axios.get(OPTION_URL);
-      //console.log("getSelectedProducts SUCCESS ");
-      // 조건 조회 결과가 없을 경우는 빈 배열로 설정
-      setSelectedProducts(
-        response.data.data !== null ? response.data.data : []
-      );
-      //console.log(response.data.data);
+      if (response.data.data !== null) {
+        console.log("getSelectedProducts SUCCESS ");
+        setSelectedProducts(response.data.data);
+      } else {
+        // 알맞은 결과를 찾을 수 없습니다
+        setSelectedProducts([]);
+      }
+      console.log(response.data);
     } catch (e) {
       //console.log(e);
       setError(e);
@@ -72,27 +110,16 @@ function ProductList({ products, plans, category }) {
     setLoading(false);
   };
 
-
-  // MYSEO CREATED
-  const sortArray = type => {
-    const types = {
-      0: 'create_time',
-      1: 'price', // TODO 실구매가로 변경
-      2: 'price',
-      3: 'price',
-      4: 'sales'
-    };
-    const sortProperty = types[type];
-    let sortDirection = 0; // 0: DESC , 1: ASC
-    if (type == 1 || type == 2)
-      sortDirection = 1;
-    setSelectedProducts(selectedProducts.sort((a, b) => sortDirection == 0 ? b[sortProperty] - a[sortProperty] : a[sortProperty] - b[sortProperty]));
-  };
-
   // 현재 옵션이 바뀔 때마다 API 조건 조회
   useEffect(() => {
-    //console.log(options.brandType, options.storageType);
+    console.log(options.brandType, options.storageType);
     // 하나라도 선택된 조건이 있다면 API GET 호출
+    getSelectedProducts(
+      options.brandType,
+      options.storageType,
+      options.sortType
+    );
+    /*
     if (options.brandType !== "0" || options.storageType !== "0") {
       getSelectedProducts(
         options.brandType,
@@ -104,23 +131,11 @@ function ProductList({ products, plans, category }) {
       if (selectedProducts.length !== products.length) {
         setSelectedProducts(products);
       }
-    }
+    }*/
+    // 정렬
     sortArray(Number(isSelect));
     //getSelectedProducts();
   }, [options]);
-
-  // 선택한 정렬값 저장
-  const [isSelect, setIsSelect] = useState("0");
-  const onSelectChange = (e) => {
-    setIsSelect(e.target.value);
-    dispatch(changeProductSort(e.target.value));
-  };
-
-  // MYSEO CREATED
-  useEffect(() => {
-    sortArray(Number(isSelect));
-    // console.log(selectedProducts)
-  }, [isSelect]);
 
   // 현재 요금제 정보 찾기
   const findSelectPlan = (value) => {
@@ -129,7 +144,7 @@ function ProductList({ products, plans, category }) {
 
   // 현재 isOpen
   const compares = useSelector((state) => state.compareReducer);
-  console.log(compares.isOpen);
+  //console.log(compares.isOpen);
 
   return (
     <div className={styles.Container}>
@@ -165,7 +180,7 @@ function ProductList({ products, plans, category }) {
                         ? plans[0] // 가장 알맞은 요금제는 첫번째로
                         : findSelectPlan(options.planType)
                     }
-                    category={category}
+                    netType={netType}
                     key={i}
                   />
                 );

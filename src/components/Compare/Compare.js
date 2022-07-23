@@ -32,7 +32,7 @@ function Compare({ isOpen, onClose }) {
   } = useDisclosure();
   // 현재 선택된 비교하기 상품들 가져오기
   const compares = useSelector((state) => state.compareReducer);
-  console.log(compares.items);
+  //console.log(compares.items);
   // console.log(isOpenDetail);
 
   const onClickCompareDetail = (e) => {

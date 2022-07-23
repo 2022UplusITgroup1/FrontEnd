@@ -26,10 +26,10 @@ const RECENT_PRODUCT_API_URL = `http://43.200.122.174:8000/recents`;
 
 function List({ netType }) {
   //console.log(netType);
-  const { isOpen, onOpen, onClose } = useDisclosure();
   const options = useSelector((state) => state.changeOptionReducer);
   //console.log(options);
 
+  // API 로 받아온 상품, 요금제, 최근 본 상품
   const [products, setProducts] = useState([]);
   const [plans, setPlans] = useState([]);
   const [recentlyProducts, setRecentlyProducts] = useState([]);
@@ -44,9 +44,13 @@ function List({ netType }) {
       setLoading(true);
       setError(null);
       const response = await axios.get(`${PRODUCTS_API_URL}${netType}`);
-      console.log("getProducts SUCCESS ");
-      setProducts(response.data.data);
-      console.log(response.data.data);
+      if (response.data.data !== null) {
+        console.log("getProducts SUCCESS ");
+        setProducts(response.data.data);
+      } else {
+        // 알맞은 결과를 찾을 수 없습니다
+      }
+      console.log(response.data);
     } catch (e) {
       console.log(e);
       setError(e);
@@ -60,9 +64,13 @@ function List({ netType }) {
       setLoading(true);
       setError(null);
       const response = await axios.get(`${PLANS_API_URL}${netType}`);
-      console.log("getPlans SUCCESS ");
-      setPlans(response.data.data);
-      console.log(response.data.data);
+      if (response.data.data !== null) {
+        console.log("getPlans SUCCESS ");
+        setPlans(response.data.data);
+      } else {
+        // 알맞은 결과를 찾을 수 없습니다
+      }
+      console.log(response.data);
     } catch (e) {
       console.log(e);
       setError(e);
@@ -76,8 +84,13 @@ function List({ netType }) {
       setLoading(true);
       setError(null);
       const response = await axios.get(`${RECENT_PRODUCT_API_URL}`);
-      console.log("getRecents SUCCESS ");
-      setRecentlyProducts(response.data.data);
+      if (response.data.data !== null) {
+        console.log("getRecents SUCCESS ");
+        setRecentlyProducts(response.data.data);
+      } else {
+        // 알맞은 결과를 찾을 수 없습니다
+      }
+      console.log(response.data);
     } catch (e) {
       console.log(e);
       setError(e);
@@ -88,6 +101,7 @@ function List({ netType }) {
   useEffect(() => {
     //console.log("list First Rendering");
     // 데이터 가져오기
+    /*
     axios
       .all([
         axios.get(`${PRODUCTS_API_URL}${netType}`),
@@ -105,13 +119,19 @@ function List({ netType }) {
         console.log(e);
         setError(e);
       });
-    //getProducts();
-    //getPlans();
+      */
+    getProducts();
+    getPlans();
     // getRecents();
     //setProducts(SampleData);
     //setPlans(SamplePlanData);
     setRecentlyProducts(SampleRecentlyData);
   }, []);
+
+  useEffect(() => {
+    console.log(products);
+    console.log(plans);
+  }, [products, plans]);
 
   if (loading) return <div>loading...</div>;
   if (error) return <div>Error!</div>;
@@ -128,19 +148,27 @@ function List({ netType }) {
         <div className={styles.List}>
           <div className={styles.ListOption}>
             {/* 옵션 아코디언 */}
-            <Option plans={plans} />
+            {plans.length && <Option plans={plans} />}
           </div>
           <div className={styles.ListItems}>
             {/* 상품 리스트 섹션 */}
-            <ProductList products={products} plans={plans} category={netType} />
+            {products.length && plans.length && (
+              <ProductList
+                products={products}
+                plans={plans}
+                netType={netType}
+              />
+            )}
           </div>
           <div className={styles.RecentlyViewed}>
             {/* 최근 본 상품 */}
-            <RecentlyViewed
-              products={products}
-              plans={plans}
-              category={netType}
-            />
+            {products.length && plans.length && (
+              <RecentlyViewed
+                products={products}
+                plans={plans}
+                category={netType}
+              />
+            )}
           </div>
         </div>
       </div>

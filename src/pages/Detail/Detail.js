@@ -35,11 +35,48 @@ import SampleDetailData from "../../SampleDetailData.json";
 import SampleColorData from "../../SampleColorData.json";
 import { selectDetail, setRecentlyProduct } from "../../actions";
 
-// Detail 정보 & Plan 전체 정보 필요
+// Detail 정보 & Color 정보 & Plan 전체 정보 필요
+
+// Detail 초기화 값
+const initialDetail = {
+  phone: {
+    storage: {
+      capability: 0,
+    },
+    brand: {
+      name: "",
+    },
+    code: "",
+    name: "",
+    imgThumbnail: "",
+    networkSupport: "",
+    discountType: "",
+    color: "",
+    price: "",
+    sales: "",
+  },
+  plan: {
+    code: "",
+    name: "",
+    networkSupport: "",
+    data: "",
+    message: "",
+    voice: "",
+    price: "",
+    shareData: "",
+  },
+  images: [
+    {
+      imgPath: "",
+      imgName: "",
+      imgPos: "",
+    },
+  ],
+};
 
 function Detail() {
   const dispatch = useDispatch();
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const { isOpen, onOpen, onClose } = useDisclosure(); // 요금제 모달
 
   // 받아온 파라미터 데이터
   const { netType, plCode, phCode, color, dcType } = useParams();
@@ -54,9 +91,9 @@ function Detail() {
   const [error, setError] = useState(null);
 
   // API 로 받아온 모바일 상품 상세 정보 & 요금제 정보
-  const [data, setData] = useState(SampleDetailData);
-  const [colors, setColors] = useState(SampleColorData);
-  const [plans, setPlans] = useState(SamplePlanData);
+  const [data, setData] = useState(initialDetail);
+  const [colors, setColors] = useState([]);
+  const [plans, setPlans] = useState([]);
 
   // 현재 사용자가 선택한 요금제 & 할인유형
   const [plan, setPlan] = useState([]); // 현재 요금제 정보
@@ -104,8 +141,12 @@ function Detail() {
       setError(null);
       const response = await axios.get(`${PRODUCT_DETAIL_URL}`);
       console.log("fetchProductDetail SUCCESS ");
-      setData(response.data.data);
-      console.log(response.data.data);
+      if (response.data.data !== null) {
+        setData(response.data.data);
+      } else {
+        // 알맞은 결과를 찾을 수 없습니다
+      }
+      console.log(response.data);
     } catch (e) {
       console.log(e);
       setError(e);
@@ -120,8 +161,12 @@ function Detail() {
       setError(null);
       const response = await axios.get(`${PRODUCT_COLOR_URL}`);
       console.log("fetchProductColor SUCCESS ");
-      setColors(response.data.data);
-      console.log(response.data.data);
+      if (response.data.data !== null) {
+        setColors(response.data.data);
+      } else {
+        // 알맞은 결과를 찾을 수 없습니다
+      }
+      console.log(response.data);
     } catch (e) {
       console.log(e);
       setError(e);
@@ -136,8 +181,12 @@ function Detail() {
       setError(null);
       const response = await axios.get(`${PLAN_URL}${netType}`);
       console.log("fetchPlans SUCCESS ");
-      setPlans(response.data.data);
-      console.log(response.data.data);
+      if (response.data.data !== null) {
+        setPlans(response.data.data);
+      } else {
+        // 알맞은 결과를 찾을 수 없습니다
+      }
+      console.log(response.data);
     } catch (e) {
       console.log(e);
       setError(e);
@@ -165,12 +214,79 @@ function Detail() {
     setDiscountValue(value);
   };
 
-  // MYSEO CREATED
-  let [watchItems, setWatchItems] = useState([]);
+  // 초기 세팅
+  useEffect(() => {
+    fetchProductDetail();
+    fetchProductColor();
+    fetchPlans();
+    //setData(SampleDetailData);
+    //setPlans(SamplePlanData);
+    //setColors(SampleColorData);
+  }, []);
+
+  // 초기 세팅 후, 전달받은 상품과 요금제 데이터를 기반으로 초기화
+  useEffect(() => {
+    console.log(data);
+    // 미리보기 이미지 list 로 저장
+    if (data.phone.code && plan.length && color.length) {
+      setImgPaths(
+        data["images"].map((d) => {
+          return d["imgPath"];
+        })
+      );
+
+      // 현재 선택된 요금제 정보 추출
+      const nowPlan = findSelectPlan(planValue);
+      setPlan(nowPlan);
+      const nowPlanPrice = calcMonthPrice(
+        data["phone"]["price"],
+        nowPlan["price"],
+        payPeriod
+      );
+      setPrices(nowPlanPrice);
+      const nowTotalPrice = calcDiscountPrice(discountValue, nowPlanPrice);
+      setNowPrice(nowTotalPrice);
+      // Redux 변경
+      onSelectDetail(nowPlan, nowPlanPrice);
+
+      // 최근 본 상품 정보 넘기기 -> 처음 접근한 정보값 기준
+      const recentInfo = {
+        phoneCode: phCode,
+        phoneName: data.phone.name,
+        phoneColor: color,
+        imgThumbnail: data.phone.imgThumbnail,
+        planCode: plCode,
+        networkSupport: netType,
+        discountType: dcType,
+        monthPrice: nowTotalPrice.total,
+      };
+      dispatch(setRecentlyProduct(recentInfo));
+    }
+  }, [data, plans, color]);
+
+  // 요금제 & 할인유형 변할 때마다 새로운 정보로 update
+  useEffect(() => {
+    console.log(planValue, discountValue, payPeriod);
+    if (data.phone.code) {
+      const nowPlan = findSelectPlan(planValue);
+      setPlan(nowPlan);
+      const nowPlanPrice = calcMonthPrice(
+        data["phone"]["price"],
+        nowPlan["price"],
+        payPeriod
+      );
+      setPrices(nowPlanPrice);
+      setNowPrice(calcDiscountPrice(discountValue, nowPlanPrice));
+    }
+  }, [planValue, discountValue, payPeriod, colorType]);
+
+  // MYSEO CREATED - 최근 본 상품 LocalStorage 저장
+  const [watchItems, setWatchItems] = useState([]);
+  const [firstRender, setfirstRender] = useState(1); // 맨 처음에만 저장되도록
 
   useEffect(() => {
-    console.log(data.phone.code + " " + plCode)
-    if (data && plCode) {
+    console.log(data.phone.code !== "");
+    if (data.phone.code && plan.length && color.length && firstRender) {
       let recentsItemInfo = {
         code: data.phone.code,
         name: data.phone.name,
@@ -196,71 +312,9 @@ function Detail() {
       }
       localStorage.setItem("recents", JSON.stringify(watchItemArray));
       setWatchItems(watchItemArray);
+      setfirstRender(0);
     }
   }, [data]);
-
-  // 초기 세팅
-  useEffect(() => {
-    //fetchProductDetail();
-    fetchProductColor();
-    fetchPlans();
-    setData(SampleDetailData);
-    //setPlans(SamplePlanData);
-    //setColors(SampleColorData);
-  }, []);
-
-  // 초기 세팅 후, 전달받은 상품과 요금제 데이터를 기반으로 초기화
-  useEffect(() => {
-    // 미리보기 이미지 list 로 저장
-    setImgPaths(
-      data["images"].map((d) => {
-        return d["imgPath"];
-      })
-    );
-
-    // 현재 선택된 요금제 정보 추출
-    const nowPlan = findSelectPlan(planValue);
-    setPlan(nowPlan);
-    const nowPlanPrice = calcMonthPrice(
-      data["phone"]["price"],
-      nowPlan["price"],
-      payPeriod
-    );
-    setPrices(nowPlanPrice);
-    const nowTotalPrice = calcDiscountPrice(discountValue, nowPlanPrice);
-    setNowPrice(nowTotalPrice);
-    // Redux 변경
-    onSelectDetail(nowPlan, nowPlanPrice);
-
-    // 최근 본 상품 정보 넘기기 -> 처음 접근한 정보값 기준
-    const recentInfo = {
-      phoneCode: phCode,
-      phoneName: data.phone.name,
-      phoneColor: color,
-      imgThumbnail: data.phone.imgThumbnail,
-      planCode: plCode,
-      networkSupport: netType,
-      discountType: dcType,
-      monthPrice: nowTotalPrice.total,
-    };
-    dispatch(setRecentlyProduct(recentInfo));
-  }, [data, plans, color]);
-
-  // 요금제 & 할인유형 변할 때마다 새로운 정보로 update
-  useEffect(() => {
-    console.log(planValue, discountValue, payPeriod);
-    const nowPlan = findSelectPlan(planValue);
-    setPlan(nowPlan);
-    const nowPlanPrice = calcMonthPrice(
-      data["phone"]["price"],
-      nowPlan["price"],
-      payPeriod
-    );
-    setPrices(nowPlanPrice);
-    setNowPrice(calcDiscountPrice(discountValue, nowPlanPrice));
-    // Redux 변경
-    onSelectDetail(nowPlan, nowPlanPrice);
-  }, [planValue, discountValue, payPeriod, colorType]);
 
   if (loading) return <div>loading...</div>;
   if (error) return <div>Error!</div>;
@@ -275,8 +329,8 @@ function Detail() {
           <div className={styles.MainImg}>
             <img
               className={styles.MainImg}
-              src={data["images"][Number(idx)]["imgPath"]}
-              alt={data["images"][Number(idx)]["imgPos"]}
+              src={data.length && data["images"][Number(idx)]["imgPath"]}
+              alt={data.length && data["images"][Number(idx)]["imgPos"]}
             />
           </div>
           <div className={styles.PreviewImgs}>
@@ -298,7 +352,12 @@ function Detail() {
           </div>
         </div>
         <div className={styles.ProductInfo}>
-          <div className={styles.ProductName}>{data["phone"]["name"]}</div>
+          <div className={styles.ProductName}>
+            {data.length && data["phone"]["name"]}
+            <span className={styles.ProductCode}>
+              ({data.length && data["phone"]["code"]})
+            </span>
+          </div>
           <div className={styles.ProductColor}>
             <div className={styles.ProductColorTitleContainer}>
               <div className={styles.ProductColorTitle}>색상</div>
@@ -330,7 +389,9 @@ function Detail() {
           <div className={styles.Capacity}>
             <div className={styles.CapacityTitle}>저장공간</div>
             <button className={styles.ItemBtn} value="1">
-              {convertNumber(data["phone"]["storage"]["capability"])}GB
+              {data.length &&
+                convertNumber(data["phone"]["storage"]["capability"])}
+              GB
             </button>
           </div>
           <div>
@@ -347,7 +408,8 @@ function Detail() {
               월 {nowPrice && convertNumber(Number(nowPrice.total))}원
             </div>
             <div className={styles.SubTitle}>
-              {plan.name}, {mapDiscountType(Number(discountValue))} 기준
+              {plan.length && plan.name},{" "}
+              {mapDiscountType(Number(discountValue))} 기준
             </div>
             <dl className={styles.PriceDetail}>
               <dt className={styles.PriceDetailDT}>휴대폰</dt>
@@ -360,8 +422,7 @@ function Detail() {
               </dd>
               <dt className={styles.PriceDetailDT}>정상가</dt>
               <dd className={styles.PriceDetailDD}>
-                {prices.length !== 0 &&
-                  convertNumber(Number(data["phone"]["price"]))}{" "}
+                {prices.length && convertNumber(Number(data["phone"]["price"]))}{" "}
                 원
               </dd>
             </dl>
@@ -492,9 +553,10 @@ function Detail() {
                                 </div>
                                 <div className={styles.PublicPrice}>
                                   총 -
-                                  {convertNumber(
-                                    Number(data["phone"]["price"] * 0.3)
-                                  )}{" "}
+                                  {data.length &&
+                                    convertNumber(
+                                      Number(data["phone"]["price"] * 0.3)
+                                    )}{" "}
                                   원
                                 </div>
                               </div>
@@ -601,7 +663,7 @@ function Detail() {
         </div>
         <div className={styles.ProductDetail}>
           {/* 상품 정보 컴포넌트 */}
-          <ProductDetail product={SampleDetailData} />
+          <ProductDetail product={data} />
         </div>
       </div>
 

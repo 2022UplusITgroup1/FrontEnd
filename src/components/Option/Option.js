@@ -92,24 +92,29 @@ function Option({ plans }) {
     dispatch(changeOptions(value));
   };
 
-  // MYSEO CREATED
+  // MYSEO CREATED - 요금제 정렬
   const [sortedPlans, setSortedPlans] = useState([]);
   useEffect(() => {
     if (!sortedPlans.length) setSortedPlans(plans);
   }, [plans]);
 
-  const sortArray = type => {
+  const sortArray = (type) => {
     const types = {
-      0: 'data',
-      1: 'data',
-      2: 'price',
-      3: 'price'
+      0: "data",
+      1: "data",
+      2: "price",
+      3: "price",
     };
     const sortProperty = types[type];
     let sortDirection = 0; // 0: DESC , 1: ASC
-    if (type == 1 || type == 3)
-      sortDirection = 1;
-    setSortedPlans(sortedPlans.sort((a, b) => sortDirection == 0 ? b[sortProperty] - a[sortProperty] : a[sortProperty] - b[sortProperty]));
+    if (type === 1 || type === 3) sortDirection = 1;
+    setSortedPlans(
+      sortedPlans.sort((a, b) =>
+        sortDirection === 0
+          ? b[sortProperty] - a[sortProperty]
+          : a[sortProperty] - b[sortProperty]
+      )
+    );
   };
 
   useEffect(() => {
@@ -120,10 +125,11 @@ function Option({ plans }) {
   useEffect(() => {
     // 초기 렌더링 시, 초기화
     // 페이지를 이동해도 유지하고 싶다면 초기화 X + useSelector 값 이용
-    dispatch(resetData());
+    //dispatch(resetData());
     //console.log("Options First Rendering");
   }, []);
 
+  // 요금제 미리보기 최대 3개로 제한
   const createPlanPreview = () => {
     const previewList = [];
     let len = 3;
@@ -137,6 +143,8 @@ function Option({ plans }) {
     }
     return previewList;
   };
+
+  // 현재 요금제 정보 찾기
   const findSelectPlan = (value) => {
     return plans.find((p) => p.code === value);
   };
@@ -298,16 +306,22 @@ function Option({ plans }) {
 
                             <div className={styles.PlanDetail}>
                               <div className={styles.PlanDetailItem}>
-                                {p.data < 300 ? convertNumber(p.data) + 'GB' : '무제한'}
+                                {p.data < 300
+                                  ? convertNumber(p.data) + "GB"
+                                  : "무제한"}
                               </div>
                               <div className={styles.PlanDetailItem}>
                                 {convertNumber(p.shareData)}GB
                               </div>
                               <div className={styles.PlanDetailItem}>
-                                {p.voice < 600 ? convertNumber(p.voice) + '분' : '집/이동전화\n무제한'}
+                                {p.voice < 600
+                                  ? convertNumber(p.voice) + "분"
+                                  : "집/이동전화\n무제한"}
                               </div>
                               <div className={styles.PlanDetailItem}>
-                                {p.message < 1050 ? convertNumber(p.message) + '건' : '무제한'}
+                                {p.message < 1050
+                                  ? convertNumber(p.message) + "건"
+                                  : "무제한"}
                               </div>
                             </div>
                           </div>

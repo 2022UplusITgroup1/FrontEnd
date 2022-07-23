@@ -57,6 +57,12 @@
   margin-bottom: 20px;
 }
 
+.ProductCode {
+  font-size: small;
+  margin-left: 10px;
+  font-weight: bolder;
+}
+
 .ProductColorTitleContainer {
   display: flex;
 }

@@ -60,7 +60,7 @@ function RecentlyViewed({ products, plans, category }) {
   };
 
   useEffect(() => {
-    setStoredData(productList.items);
+    setStoredData(productList.items.slice(0, 8));
   }, [productList]);
 
   useEffect(() => {
