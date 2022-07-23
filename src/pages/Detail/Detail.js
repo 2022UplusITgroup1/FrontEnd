@@ -124,7 +124,7 @@ function Detail() {
       },
       discountType: dcType, // 초기값 = dcType
       monthPrice: nowTotalPrice.total,
-      payPeriod: 12, // 초기값 = 12
+      payPeriod: dcType === "3" ? 12 : 24, // 계약기간 => 기본 = 24, 선택약정12개월 = 12
     };
     dispatch(selectDetail(value));
   };
@@ -229,7 +229,9 @@ function Detail() {
 
   // 상세 페이지로 넘어온 파라미터를 기준으로 계산해서 Store 에 저장
   useEffect(() => {
-    if (data.phone.code !== "") {
+    // orderProduct 도 고려하는 이유 => 뒤로가기 했을 때 유지하기 위해
+    // TODO: 새창으로 뜨도록하고 유지하지 말기
+    if (data.phone.code !== "" && orderProduct.phone.code === "") {
       // 미리보기 이미지 list 로 저장
       setImgPaths(
         data.images.map((d) => {
@@ -240,11 +242,14 @@ function Detail() {
       // 현재 요금제 기반 계산
       const nowPlan = findSelectPlan(plCode);
       setPlan(nowPlan);
+
+      // 계약기간 => 기본 = 24, 선택약정12개월 = 12
+      let payPeriod = dcType === "3" ? 12 : 24;
       const nowTotalPrice = calcPrices(
         data.phone.price,
         data.plan.price,
         dcType,
-        12 // 초기값 = 12
+        payPeriod
       );
       setNowPrice(nowTotalPrice);
       // Redux 변경

@@ -52,12 +52,14 @@ function Product({ product, plan, netType }) {
   const [nowPrice, setNowPrice] = useState(initialPrice);
 
   useEffect(() => {
+    // 계약기간 => 기본 = 24, 선택약정12개월 = 12
+    let payPeriod = discountType === "3" ? 12 : 24;
     if (product.code && plan.code) {
       const nowTotalPrice = calcPrices(
         product.price,
         plan.price,
         discountType,
-        12 // 상품 리스트에서는 할부기간 기본 = 12개월
+        payPeriod
       );
       setNowPrice(nowTotalPrice);
     }

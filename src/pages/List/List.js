@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import styles from "./List.module.css";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 import { useDisclosure } from "@chakra-ui/react";
 import Option from "../../components/Option/Option";
@@ -10,6 +10,7 @@ import ProductList from "../../components/ProductList/ProductList";
 import RecentlyViewed from "../../components/RecentlyViewed/RecentlyViewed";
 import SampleRecentlyData from "../../SampleRecentlyData.json";
 import Compare from "../../components/Compare/Compare";
+import { resetDetailData } from "../../actions";
 
 // API URI
 //const PRODUCTS_API_URL = `${process.env.REACT_APP_PRODUCT_SERVER_URL}/product?net_sp=`;
@@ -22,6 +23,7 @@ const PLANS_API_URL = `http://43.200.122.174:8000/product/plan?net_sp=`;
 const RECENT_PRODUCT_API_URL = `http://43.200.122.174:8000/recents`;
 
 function List({ netType }) {
+  const dispatch = useDispatch();
   //console.log(netType);
   const options = useSelector((state) => state.changeOptionReducer);
   //console.log(options);
@@ -108,31 +110,13 @@ function List({ netType }) {
   useEffect(() => {
     //console.log("list First Rendering");
     // 데이터 가져오기
-    /*
-    axios
-      .all([
-        axios.get(`${PRODUCTS_API_URL}${netType}`),
-        axios.get(`${PLANS_API_URL}${netType}`),
-        //axios.get(`${RECENT_PRODUCT_API_URL}`),
-      ])
-      .then(
-        axios.spread((res1, res2) => {
-          setProducts(res1.data.data);
-          setPlans(res2.data.data);
-          //setRecentlyProducts(res3.data.data);
-        })
-      )
-      .catch((e) => {
-        console.log(e);
-        setError(e);
-      });
-      */
     getProducts();
     getPlans();
     // getRecents();
     //setProducts(SampleData);
     //setPlans(SamplePlanData);
     setRecentlyProducts(SampleRecentlyData);
+    dispatch(resetDetailData()); // 상세페이지에서 뒤로가기 시, 선택했던 detail 값 초기화
   }, []);
 
   if (loading) return <div>loading...</div>;

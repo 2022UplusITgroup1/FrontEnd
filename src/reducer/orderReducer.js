@@ -38,6 +38,9 @@ function orderReducer(state = initialState, action) {
         payPeriod: state.payPeriod,
       };
     }
+    case types.RESET_DETAIL_DATA: {
+      return initialState;
+    }
     default:
       return state;
   }

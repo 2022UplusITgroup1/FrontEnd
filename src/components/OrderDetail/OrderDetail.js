@@ -4,9 +4,16 @@ import React from "react";
 import styles from "./OrderDetail.module.css";
 import convertNumber from "../../utils/convertNumber";
 import mapDiscountType from "../../utils/mapDiscountType";
+import calcPrices from "../../utils/calcPrices";
 
 function OrderDetail({ product }) {
   //console.log(product);
+  let nowPrice = calcPrices(
+    product.phone.price,
+    product.plan.price,
+    product.discountType,
+    product.payPeriod
+  );
   return (
     <div className={styles.Container}>
       <div className={styles.Information}>
@@ -27,21 +34,36 @@ function OrderDetail({ product }) {
             <li className={styles.PlanInfoLI}>신규가입</li>
             <li className={styles.PlanInfoLI}>{product.plan.name}</li>
             <li className={styles.PlanInfoLI}>
-              {mapDiscountType(Number(product.discountType))}
+              {mapDiscountType(product.discountType)}
             </li>
           </ul>
         </div>
         <div className={styles.PriceInfo}>
           {/* 상품 가격 정보 */}
           <div className={styles.PriceInfoDL}>
-            <div className={styles.PriceInfoDT}>휴대폰 가격</div>
-            <div className={styles.PriceInfoDD}>0 원</div>
+            {product.payPeriod === 1 ? (
+              <>
+                <div className={styles.PriceInfoDT}>기기 완납 결제 가격</div>
+                <div className={styles.PriceInfoDD}>
+                  {convertNumber(nowPrice.monthPhonePrice)} 원
+                </div>
+              </>
+            ) : (
+              <>
+                <div className={styles.PriceInfoDT}>휴대폰 가격</div>
+                <div className={styles.PriceInfoDD}>
+                  월 {convertNumber(nowPrice.monthPhonePrice)} 원
+                </div>
+              </>
+            )}
             <div className={styles.PriceInfoDT}>통신요금</div>
-            <div className={styles.PriceInfoDD}>0 원</div>
+            <div className={styles.PriceInfoDD}>
+              월 {convertNumber(nowPrice.monthPlanPrice)} 원
+            </div>
           </div>
           <div className={styles.CalcMonthInfo}>
             <div className={styles.TotalPrice}>
-              월 납부금액 {convertNumber(product.monthPrice)} 원
+              월 납부금액 {convertNumber(nowPrice.total)} 원
             </div>
           </div>
         </div>

@@ -9,6 +9,7 @@ import { Select, useDisclosure } from "@chakra-ui/react";
 import Product from "./Product";
 import { changeProductSort, setCompareIsOpen } from "../../actions";
 import Compare from "../Compare/Compare";
+import floorNumber from "../../utils/floorNumber";
 
 // 상세 정보 조회 URL
 const SELECTED_PRODUCT_API_URL = `http://43.200.122.174:8000/product/phone?net_sp=`;
@@ -66,7 +67,12 @@ function ProductList({ products, plans, netType }) {
   /* ----- END ----- */
 
   // API GET 상품 조건 리스트
-  const getSelectedProducts = async (brandType, storageType, sortType) => {
+  const getSelectedProducts = async (
+    brandType,
+    storageType,
+    planType,
+    sortType
+  ) => {
     // 조회해야하는 조건만 URL 에 추가
     let OPTION_URL = `${SELECTED_PRODUCT_API_URL}${netType}`;
     if (brandType !== "0") {
@@ -74,6 +80,11 @@ function ProductList({ products, plans, netType }) {
     }
     if (storageType !== "0") {
       OPTION_URL += `&capa=${storageType}`;
+    }
+    if (planType === "0") {
+      OPTION_URL += `&plan=${plans[0].code}`;
+    } else {
+      OPTION_URL += `&plan=${planType}`;
     }
     OPTION_URL += `&ord=${sortType}`;
     //console.log(OPTION_URL);
@@ -116,6 +127,7 @@ function ProductList({ products, plans, netType }) {
     getSelectedProducts(
       options.brandType,
       options.storageType,
+      options.planType,
       options.sortType
     );
     // 정렬 적용
@@ -131,6 +143,7 @@ function ProductList({ products, plans, netType }) {
   const compares = useSelector((state) => state.compareReducer);
   //console.log(compares.isOpen);
 
+  if (error) return <div>Error!</div>;
   if (!products) return null;
   if (!plans) return null;
 

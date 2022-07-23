@@ -140,7 +140,7 @@ function InfoDetail({ data, plan, colors }) {
           </div>
           <div className={styles.SubTitle}>
             {orderProduct.plan.code && orderProduct.plan.name},{" "}
-            {mapDiscountType(Number(orderProduct.discountType))} 기준
+            {mapDiscountType(orderProduct.discountType)} 기준
           </div>
           <dl className={styles.PriceDetail}>
             <dt className={styles.PriceDetailDT}>휴대폰</dt>

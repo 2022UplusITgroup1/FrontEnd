@@ -129,6 +129,7 @@ export function changeDetailPlanType(data) {
 /* ---------- 상세 페이지 -> 최근 본 상품 ---------- */
 
 export const SET_RECENTLY_PRODUCT = "SET_RECENTLY_PRODUCT";
+export const RESET_DETAIL_DATA = "RESET_DETAIL_DATA";
 
 // 최근 본 상품 정보
 export function setRecentlyProduct(data) {
@@ -145,6 +146,12 @@ export function setRecentlyProduct(data) {
       discountType: data.discountType,
       monthPrice: data.monthPrice,
     },
+  };
+}
+
+export function resetDetailData() {
+  return {
+    type: RESET_DETAIL_DATA,
   };
 }
 
