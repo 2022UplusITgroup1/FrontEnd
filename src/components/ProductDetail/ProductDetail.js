@@ -6,9 +6,8 @@ import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import convertNumber from "../../utils/convertNumber";
 import floorNumber from "../../utils/floorNumber";
-import { changeOptions } from "../../actions";
 
-function ProductDetail({ product }) {
+function ProductDetail({ data }) {
   const orderProduct = useSelector((state) => state.orderReducer);
   //console.log(orderProduct);
 

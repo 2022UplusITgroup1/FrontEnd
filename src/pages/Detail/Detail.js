@@ -5,35 +5,16 @@ import styles from "./Detail.module.css";
 import { Link, useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
-import {
-  ButtonGroup,
-  Button,
-  Stack,
-  Radio,
-  RadioGroup,
-} from "@chakra-ui/react";
-import {
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalCloseButton,
-  ModalBody,
-  ModalFooter,
-  Select,
-  useDisclosure,
-} from "@chakra-ui/react";
+import { useDisclosure } from "@chakra-ui/react";
 //import OrderPlanBox from "../../components/PlanBox/OrderPlanBox";
 import ProductDetail from "../../components/ProductDetail/ProductDetail";
-import convertNumber from "../../utils/convertNumber";
 import calcMonthPrice from "../../utils/calcMonthPrice";
 import calcDiscountPrice from "../../utils/calcDiscountPrice";
-import mapDiscountType from "../../utils/mapDiscountType";
-import floorNumber from "../../utils/floorNumber";
-import SamplePlanData from "../../SamplePlanData.json";
-import SampleDetailData from "../../SampleDetailData.json";
-import SampleColorData from "../../SampleColorData.json";
-import { selectDetail, setRecentlyProduct } from "../../actions";
+import {
+  changeDetailPlanType,
+  selectDetail,
+  setRecentlyProduct,
+} from "../../actions";
 import ModalPlanBox from "../../components/PlanBox/ModalPlanBox";
 import PlanDetail from "../../components/ProductDetail/PlanDetail";
 import DiscountDetail from "../../components/ProductDetail/DiscountDetail";
@@ -104,18 +85,15 @@ function Detail() {
   const [colors, setColors] = useState([]);
   const [plans, setPlans] = useState([]);
 
-  // 현재 사용자가 선택된 요금제 정보
+  // 현재 요금제 정보
   const [plan, setPlan] = useState(initialDetail.plan);
-
-  // 사용자가 선택함에 따라 바뀌는 정보
-  const [planValue, setPlanValue] = useState(plCode);
-  const [planModalValue, setPlanModalValue] = useState(plCode);
-  const [discountValue, setDiscountValue] = useState(dcType);
-  const [colorType, setColorType] = useState(color);
-  const [payPeriod, setPayPeriod] = useState(12);
 
   // 현재 요금제 + 할인 유형을 바탕으로 한 가격
   const [nowPrice, setNowPrice] = useState([]);
+
+  // 현재 사용자가 선택한 주문 정보가 담긴 Store
+  const orderProduct = useSelector((state) => state.orderReducer);
+  //console.log(orderProduct);
 
   // Redux Dispatch -> 주문 정보 저장
   const onSelectDetail = (nowPlan, nowPlanPrice) => {
@@ -125,7 +103,7 @@ function Detail() {
         name: data.phone.name,
         imgThumbnail: data.phone.imgThumbnail,
         storage: data.phone.storage.capability,
-        color: colorType,
+        color: color, // 초기값 = color
         price: data.phone.price,
       },
       plan: {
@@ -133,17 +111,11 @@ function Detail() {
         name: nowPlan.name,
         price: nowPlan.price,
       },
-      discountType: discountValue,
-      monthPrice: calcDiscountPrice(discountValue, nowPlanPrice).total,
-      payPeriod: payPeriod,
+      discountType: dcType, // 초기값 = dcType
+      monthPrice: calcDiscountPrice(dcType, nowPlanPrice).total,
+      payPeriod: 12, // 초기값 = 12
     };
     dispatch(selectDetail(value));
-  };
-
-  // 모달을 통한 요금제 변경 함수
-  const onApplyPlan = () => {
-    setPlanValue(planModalValue);
-    onClose();
   };
 
   // API: 상품 리스트 GET
@@ -211,11 +183,6 @@ function Detail() {
     return plans.find((p) => p.code === value);
   };
 
-  // 할인 유형 변경
-  const onChangeDiscountValue = (value) => {
-    setDiscountValue(value);
-  };
-
   // 초기 세팅
   useEffect(() => {
     fetchProductDetail();
@@ -223,6 +190,7 @@ function Detail() {
     fetchPlans();
   }, []);
 
+  // 상세 페이지로 넘어온 파라미터를 기준으로 계산해서 Store 에 저장
   useEffect(() => {
     if (data.phone.code !== "") {
       // 미리보기 이미지 list 로 저장
@@ -233,34 +201,20 @@ function Detail() {
       );
 
       // 현재 요금제 기반 계산
-      const nowPlan = findSelectPlan(planValue);
+      const nowPlan = findSelectPlan(plCode);
       setPlan(nowPlan);
-      const nowPlanPrice = calcMonthPrice(
-        data.phone.price,
-        nowPlan.price,
-        payPeriod
-      );
-      const nowTotalPrice = calcDiscountPrice(discountValue, nowPlanPrice);
+      const nowPlanPrice = calcMonthPrice(data.phone.price, nowPlan.price, 12);
+      const nowTotalPrice = calcDiscountPrice(dcType, nowPlanPrice);
       setNowPrice(nowTotalPrice);
       // Redux 변경
       onSelectDetail(nowPlan, nowPlanPrice);
     }
   }, [data]);
 
-  // 요금제 & 할인유형 변할 때마다 새로운 정보로 update
+  // 요금제 변경 시 plan 변경
   useEffect(() => {
-    console.log(planValue, discountValue, payPeriod);
-    if (data.phone.code) {
-      const nowPlan = findSelectPlan(planValue);
-      setPlan(nowPlan);
-      const nowPlanPrice = calcMonthPrice(
-        data["phone"]["price"],
-        nowPlan["price"],
-        payPeriod
-      );
-      setNowPrice(calcDiscountPrice(discountValue, nowPlanPrice));
-    }
-  }, [planValue, discountValue, payPeriod, colorType]);
+    setPlan(orderProduct.plan);
+  }, [orderProduct]);
 
   /* ----- MYSEO CREATED ----- */
   // MYSEO CREATED - 최근 본 상품 LocalStorage 저장
@@ -312,13 +266,7 @@ function Detail() {
         {data.phone.code && <ImgDetail data={data} imgPaths={imgPaths} />}
         {/* 상품 정보 섹션 */}
         {data.phone.code && plan.code && colors.length && (
-          <InfoDetail
-            data={data}
-            plan={plan}
-            colors={colors}
-            nowPrice={nowPrice}
-            color={color}
-          />
+          <InfoDetail data={data} plan={orderProduct.plan} colors={colors} />
         )}
       </div>
       <div className={styles.OrderDetail}>
@@ -338,7 +286,11 @@ function Detail() {
                       </div>
                     </div>
                     {/* 현재 요금제 Box */}
-                    {plan.code && <PlanDetail plan={plan} />}
+                    {orderProduct.plan.code && (
+                      <PlanDetail
+                        plan={findSelectPlan(orderProduct.plan.code)}
+                      />
+                    )}
                   </td>
                 </tr>
                 <tr className={styles.OrderInfoTr}>
@@ -383,7 +335,7 @@ function Detail() {
         </div>
         <div className={styles.ProductDetail}>
           {/* 상품 정보 컴포넌트 */}
-          {data.phone.code && <ProductDetail product={data} />}
+          {data.phone.code && <ProductDetail data={data} />}
         </div>
       </div>
 
@@ -393,7 +345,8 @@ function Detail() {
           isOpen={isOpen}
           onClose={onClose}
           plans={plans}
-          planType={planValue}
+          planType={orderProduct.plan.code}
+          actionFunc={changeDetailPlanType}
         />
       )}
     </div>

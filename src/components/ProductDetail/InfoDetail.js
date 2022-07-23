@@ -56,12 +56,15 @@ function InfoDetail({ data, plan, colors }) {
     onSelectDetail(plan, nowPlanPrice);
   }, [colorType]);
 
+  // 요금제, 할인 유형, 할부기간이 바뀔 때마다 다시 계산
   useEffect(() => {
+    console.log(data.phone.price, plan.price, orderProduct.payPeriod);
     const nowPlanPrice = calcMonthPrice(
       data.phone.price,
       plan.price,
       orderProduct.payPeriod
     );
+    console.log(calcDiscountPrice(orderProduct.discountType, nowPlanPrice));
     setNowPrice(calcDiscountPrice(orderProduct.discountType, nowPlanPrice));
   }, [orderProduct]);
 
@@ -126,7 +129,7 @@ function InfoDetail({ data, plan, colors }) {
             월 {nowPrice && convertNumber(Number(nowPrice.total))}원
           </div>
           <div className={styles.SubTitle}>
-            {plan.code && plan.name},{" "}
+            {orderProduct.plan.code && orderProduct.plan.name},{" "}
             {mapDiscountType(Number(orderProduct.discountType))} 기준
           </div>
           <dl className={styles.PriceDetail}>

@@ -14,9 +14,13 @@ import {
 import convertNumber from "../../utils/convertNumber";
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { changePlan, changePlanSort } from "../../actions";
+import {
+  changeDetailPlanType,
+  changePlan,
+  changePlanSort,
+} from "../../actions";
 
-function ModalPlanBox({ isOpen, onClose, plans, planType }) {
+function ModalPlanBox({ isOpen, onClose, plans, planType, actionFunc }) {
   const dispatch = useDispatch();
 
   // 모달에서 선택한 요금제 값
@@ -24,9 +28,27 @@ function ModalPlanBox({ isOpen, onClose, plans, planType }) {
     planType === "0" ? plans[0].code : planType
   );
 
+  // 현재 요금제 정보 찾기
+  const findSelectPlan = (value) => {
+    return plans.find((p) => p.code === value);
+  };
+
   // Redux PlanCode 변경
   const onChangePlanType = (value) => {
-    dispatch(changePlan(value));
+    if (actionFunc === changePlan) {
+      // 선택한 요금제로 option 에 적용
+      dispatch(actionFunc(value));
+    } else if (actionFunc === changeDetailPlanType) {
+      // 선택한 요금제로 detail 에 적용
+      const findPlan = findSelectPlan(value);
+      // Redux Plan 형식에 맞게 가공해서 update
+      const planValue = {
+        code: findPlan.code,
+        name: findPlan.name,
+        price: findPlan.price,
+      };
+      dispatch(actionFunc(planValue));
+    }
     setPlanModalValue(value);
   };
 

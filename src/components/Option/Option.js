@@ -219,6 +219,7 @@ function Option({ plans }) {
           onClose={onClose}
           plans={plans}
           planType={planValue}
+          actionFunc={changePlan}
         />
       )}
     </div>

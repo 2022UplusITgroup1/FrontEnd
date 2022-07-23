@@ -3,21 +3,24 @@
 import React, { useEffect, useState } from "react";
 import styles from "../../pages/Detail/Detail.module.css";
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import convertNumber from "../../utils/convertNumber";
 import floorNumber from "../../utils/floorNumber";
-import { changeOptions } from "../../actions";
+import { changeOptions, selectDetail } from "../../actions";
 import { Stack, useDisclosure } from "@chakra-ui/react";
+import calcDiscountPrice from "../../utils/calcDiscountPrice";
+import calcMonthPrice from "../../utils/calcMonthPrice";
 
 function PlanDetail({ plan }) {
-  const orderProduct = useSelector((state) => state.orderReducer);
-  //console.log(orderProduct);
+  console.log(plan);
+  if (!plan.code) return null;
+
   return (
     <>
       <Stack className={styles.OrderPlanContainerStack}>
         <div className={styles.OrderPlanItemContainer}>
           <div className={styles.OrderPlanInfoContainer}>
-            {/*createPlanPreview(plans, onPlanValueChange)*/}
+            {/*createPlanPreview(plans, onplanTypeChange)*/}
             <div className={styles.OrderPlanItem} value={plan.code} size="lg">
               <div className={styles.OrderPlanInfo}>
                 <div className={styles.OrderPlanMain}>
@@ -29,7 +32,9 @@ function PlanDetail({ plan }) {
 
                 <div className={styles.OrderPlanDetail}>
                   <div className={styles.OrderPlanDetailItem}>
-                    {convertNumber(Number(plan.data))}GB
+                    {plan.data < 300
+                      ? convertNumber(plan.data) + "GB"
+                      : "무제한"}
                     <div className={styles.OrderPlanDetailHeader}>데이터</div>
                   </div>
                   <div className={styles.OrderPlanDetailItem}>
@@ -37,11 +42,15 @@ function PlanDetail({ plan }) {
                     <div className={styles.OrderPlanDetailHeader}>나눠쓰기</div>
                   </div>
                   <div className={styles.OrderPlanDetailItem}>
-                    {convertNumber(Number(plan.voice))}분
+                    {plan.voice < 600
+                      ? convertNumber(plan.voice) + "분"
+                      : "무제한"}
                     <div className={styles.OrderPlanDetailHeader}>음성통화</div>
                   </div>
                   <div className={styles.OrderPlanDetailItem}>
-                    {convertNumber(Number(plan.message))}건
+                    {plan.message < 1050
+                      ? convertNumber(plan.message) + "건"
+                      : "무제한"}
                     <div className={styles.OrderPlanDetailHeader}>메세지</div>
                   </div>
                 </div>

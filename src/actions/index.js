@@ -85,6 +85,7 @@ export function changePlanSort(data) {
 /* ---------- 상세 페이지 -> 주문 페이지 ---------- */
 
 export const SELECT_DETAIL = "SELECT_DETAIL";
+export const CHANGE_DETAIL_PLAN_TYPE = "CHANGE_DETAIL_PLAN_TYPE";
 
 // 상세 페이지에서 선택한 값
 export function selectDetail(data) {
@@ -108,6 +109,19 @@ export function selectDetail(data) {
       discountType: data.discountType,
       monthPrice: data.monthPrice,
       payPeriod: data.payPeriod,
+    },
+  };
+}
+
+// 다른 요금제 선택 모달창에서 선택한 값
+export function changeDetailPlanType(data) {
+  console.log("changeDetailPlanType: " + data);
+  return {
+    type: CHANGE_DETAIL_PLAN_TYPE,
+    plan: {
+      code: data.code,
+      name: data.name,
+      price: data.price,
     },
   };
 }

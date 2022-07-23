@@ -342,6 +342,17 @@
   text-align: center;
 }
 
+.VoiceInfinityContainer {
+}
+
+.VoiceInfinityTop {
+  font-size: 5px;
+}
+
+.VoiceInfinityBottom {
+  font-size: smaller;
+}
+
 .OrderPlanDetailHeader {
   font-size: 12px;
   color: #666;

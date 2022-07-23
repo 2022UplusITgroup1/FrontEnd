@@ -29,6 +29,15 @@ function orderReducer(state = initialState, action) {
         ...action.data,
       };
     }
+    case types.CHANGE_DETAIL_PLAN_TYPE: {
+      return {
+        phone: { ...state.phone },
+        plan: action.plan,
+        discountType: state.discountType,
+        monthPrice: state.monthPrice,
+        payPeriod: state.payPeriod,
+      };
+    }
     default:
       return state;
   }
