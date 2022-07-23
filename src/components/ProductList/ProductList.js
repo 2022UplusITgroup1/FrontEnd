@@ -50,7 +50,7 @@ function ProductList({ products, plans, netType }) {
     const sortProperty = types[type];
     let sortDirection = 0; // 0: DESC , 1: ASC
     if (type === 1 || type === 2) sortDirection = 1;
-    let selected = [...selectedProducts];
+    let selected = [...selectedProducts]; // 복사해서 사용해야 기존 값에 영향 X
     selected = selected.sort((a, b) =>
       sortDirection === 0
         ? b[sortProperty] - a[sortProperty]
@@ -86,7 +86,17 @@ function ProductList({ products, plans, netType }) {
       //console.log(response.data);
       if (response.data.data !== null) {
         console.log("getSelectedProducts SUCCESS ");
-        setSelectedProducts(response.data.data);
+        // color 가 다른 기종은 처음 값으로 처리
+        const res = response.data.data;
+        let filteredRes = res.filter((item, i) => {
+          return (
+            res.findIndex((item2, j) => {
+              return item.code === item2.code;
+            }) === i
+          );
+        });
+        //console.log(filteredRes);
+        setSelectedProducts(filteredRes);
       } else {
         // 알맞은 결과를 찾을 수 없습니다
         setSelectedProducts([]);

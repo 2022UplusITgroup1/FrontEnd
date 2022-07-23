@@ -41,11 +41,20 @@ function List({ netType }) {
       setLoading(true);
       setError(null);
       const response = await axios.get(`${PRODUCTS_API_URL}${netType}`);
-      console.log(response.data);
+      //console.log(response.data);
       if (response.data.data !== null) {
         console.log("getProducts SUCCESS ");
-        // TODO: 같은 색깔 처리
-        setProducts(response.data.data);
+        // color 가 다른 기종은 처음 값으로 처리
+        const res = response.data.data;
+        let filteredRes = res.filter((item, i) => {
+          return (
+            res.findIndex((item2, j) => {
+              return item.code === item2.code;
+            }) === i
+          );
+        });
+        //console.log(filteredRes);
+        setProducts(filteredRes);
       } else {
         // 알맞은 결과를 찾을 수 없습니다
       }
@@ -62,7 +71,7 @@ function List({ netType }) {
       setLoading(true);
       setError(null);
       const response = await axios.get(`${PLANS_API_URL}${netType}`);
-      console.log(response.data);
+      //console.log(response.data);
       if (response.data.data !== null) {
         console.log("getPlans SUCCESS ");
         setPlans(response.data.data);
@@ -82,7 +91,7 @@ function List({ netType }) {
       setLoading(true);
       setError(null);
       const response = await axios.get(`${RECENT_PRODUCT_API_URL}`);
-      console.log(response.data);
+      //console.log(response.data);
       if (response.data.data !== null) {
         console.log("getRecents SUCCESS ");
         setRecentlyProducts(response.data.data);
