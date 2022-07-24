@@ -95,7 +95,7 @@ function RecentlyViewed({ products, plans, category }) {
   const viewAllButton = () => {
     getRecents();
     onOpen();
-}
+  };
 
   return (
     <div className={styles.Container}>
@@ -156,7 +156,7 @@ function RecentlyViewed({ products, plans, category }) {
                     <RecentlyProduct
                       product={findedProduct}
                       plan={findedPlan}
-                      discountType={d.discountType}
+                      discountType={d.discountType.toString()}
                       color={d.color}
                       category={d.networkSupport}
                       monthPrice={d.monPrice}
