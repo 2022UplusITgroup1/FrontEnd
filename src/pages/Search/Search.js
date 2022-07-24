@@ -10,8 +10,8 @@ import SamplePlanData from "../../SamplePlanData.json";
 // const PRODUCT_API_URL = `${process.env.REACT_APP_PRODUCT_SERVICE_API_URL}/phone?net_sp=`;
 const SEARCH_WORD_URL = `http://localhost:8000/search?query=`;
 
-const PLAN_4G_API_URL = `http://localhost:64421/product/plan?net_sp=4g`;
-const PLAN_5G_API_URL = `http://localhost:64421/product/plan?net_sp=5g`;
+const PLAN_4G_API_URL = `http://localhost:8000/product/plan?net_sp=4g`;
+const PLAN_5G_API_URL = `http://localhost:8000/product/plan?net_sp=5g`;
 
 
 //word 검색결과 없을 경우 반환
@@ -62,29 +62,6 @@ function noResult({ word }) {
 }
 
 
-// function noResult({ word }) {
-//   return (
-    
-//     <div className={styles.noResult}>
-//       <div className={styles.noResultAlert}>
-//         <FiAlertCircle
-//           size="50"
-//           color="lightgray"
-//           className={styles.noResultAlertIcon}
-//         />
-//       </div>
-//       <div className={styles.ResultTitle}>
-//         "{word}"에 대한 검색 결과가 없습니다
-//       </div>
-//       <div className={styles.ResultSubTitle}>
-//         단어의 철자 및 띄어쓰기가 정확한지 확인해 보세요.
-//         <br />
-//         한글을 영어로 혹은 영어를 한글로 입력했는지 확인해 보세요.
-//       </div>
-//     </div>
-//   );
-// }
-
 function insertResult({ searchWord, products, plans }) {
   return (
     <div className={styles.insertResult}>
@@ -126,12 +103,57 @@ function Search() {
     try {
       
       const response = await axios.get(`${SEARCH_WORD_URL}${word}`);
-      console.log("getProducts SUCCESS ");
       console.log(response.data.data);
-      setProducts(response.data.data);
+      if (response.data.data !== null) {
+        console.log("getProducts SUCCESS ");
+        // color 가 다른 기종은 처음 값으로 처리
+        const res = response.data.data;
+        let filteredRes = res.filter((item, i) => {
+          return (
+            res.findIndex((item2, j) => {
+              return item.code === item2.code;
+            }) === i
+          );
+        });
+        //console.log(filteredRes);
+        setProducts(filteredRes);
+      }
     } catch (e) {
       console.log(e);
     }
+  };
+
+
+  const getPlans = async () => {
+    var planList=[];
+
+    try {
+      
+      const response = await axios.get(`${PLAN_4G_API_URL}`);
+      console.log(response.data.data);      
+      planList.push.apply(planList,response.data.data)
+      // setProducts(response.data.data);
+
+    } catch (e) {
+      console.log(e);
+    }
+
+    try {
+      
+      const response = await axios.get(`${PLAN_5G_API_URL}`);
+      console.log(response.data.data);
+
+      
+      planList.push.apply(planList,response.data.data)
+      // setProducts(response.data.data);
+
+    } catch (e) {
+      console.log(e);
+    }
+
+    setPlans(planList);
+    console.log(planList);
+
   };
 
   const onClick=(word)=>{
@@ -149,13 +171,15 @@ function Search() {
   }
 
   useEffect(() => {
-    // getProducts();
-    // getPlans();
+
     setProducts([]);
-    setPlans(SamplePlanData);
+    // setPlans(SamplePlanData);
+    // setPlans([]);
+    setPlans(getPlans());
+
     setWord("");
     setSearchWord("");
-    // setResulProducts(SampleData);
+
 
   }, []);
   return (

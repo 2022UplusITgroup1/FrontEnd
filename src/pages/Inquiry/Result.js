@@ -3,18 +3,28 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import styles from "./Result.module.css";
 import { Button } from "@chakra-ui/react";
+import SampleOrderData from "../../SampleOrderData.json";
 
 const PLAN_API_URL = `${process.env.REACT_APP_ORDER_INQUIRY_SERVER_URL}/order/my?name=%EC%95%84%EC%9D%B4%EC%9C%A0&phone_number=01012340001&order_number=202207132210570001`;
 
 function Result() {
-  const [data, setData] = useState([]);
+  const [orderData, setOrderData] = useState(SampleOrderData);
+  const name=orderData["productOrder"]["name"];
+  const orderNum=orderData["productOrder"]["orderNumber"];
+  const payPeriod=orderData["productOrder"]["payPeriod"];
+  const monthPrice=orderData["productOrder"]["monthPrice"];
+  const phoneName=orderData["product"]["phone"]["name"];
+  const phoneColor=orderData["product"]["phone"]["color"];
+  const phoneThumbnail=orderData["product"]["phone"]["imgThumbnail"];
+  const planName=orderData["product"]["plan"]["name"];
+
 
   // API 통신
   const getOrder = async () => {
     try {
       const response = await axios.get(`${PLAN_API_URL}`);
       //console.log(response.data);
-      setData(response.data.data);
+      setOrderData(response.data.data);
     } catch (e) {
       console.log(e);
     }
@@ -22,6 +32,9 @@ function Result() {
 
   useEffect(() => {
     getOrder();
+    setOrderData(SampleOrderData);
+
+
   }, []);
 
   return (
@@ -30,15 +43,20 @@ function Result() {
         <div className={styles.ResultInfoTitle}>주문 조회</div>
         <div className={styles.ResultInfoContent}>
           <div className={styles.UserInfo}>
-            <div className={styles.Title}>이름</div>
-            <div className={styles.Content}>{data.name}</div>
+            <div className={styles.ContentTitle}>주문자 이름</div>
+            <div className={styles.Content}>{name}</div>
+            <div className={styles.ContentTitle}>주문 번호</div>
+            <div className={styles.Content}>{orderNum}</div>
           </div>
           <div className={styles.OrderInfo}>
-            <div className={styles.Title}>상품 정보</div>
-            <div className={styles.ContentTitle}>{data.phoneCode}</div>
-            <div className={styles.Content}>{data.planCode}</div>
-            <div className={styles.Content}>{data.color}</div>
-            <div className={styles.Content}>월 {data.monthPrice} 원</div>
+            {/* <div className={styles.Title}>상품 정보</div> */}
+            <div className={styles.ContentTitle}>기기 정보</div>
+            <div className={styles.Content}>{phoneName} {phoneColor} </div>
+            <div className={styles.ContentTitle}>요금제 정보</div>
+            <div className={styles.Content}>{planName}</div>
+            {/* <div className={styles.Content}>{phoneColor}</div> */}
+            <div className={styles.ContentTitle}>요금 정보</div>
+            <div className={styles.Content}>월 {monthPrice} 원 (할부기간 : {payPeriod} 개월)</div>
           </div>
         </div>
         <div className={styles.ResultBtnContainer}>
