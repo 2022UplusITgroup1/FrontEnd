@@ -64,7 +64,7 @@ function Product({ product, plan, netType }) {
       );
       setNowPrice(nowTotalPrice);
     }
-  }, [discountType]);
+  }, [options]);
 
   // Redux Dispatch -> 비교하기 정보 저장
   const saveCompareProduct = () => {
@@ -84,7 +84,7 @@ function Product({ product, plan, netType }) {
 
   // 비교하기 버튼 이벤트
   const onClickCompareBtn = () => {
-    console.log(isCompare);
+    //console.log(isCompare);
     // 이미 비교하기 상품인 경우 -> 삭제
     if (isCompare === true) {
       // 비교하기 상품 삭제

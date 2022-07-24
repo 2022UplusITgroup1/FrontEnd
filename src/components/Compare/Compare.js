@@ -17,23 +17,25 @@ import {
   Select,
   useDisclosure,
 } from "@chakra-ui/react";
-import CompareDetail from "./CompareDetail";
+import CompareDetail from "../CompareDetail/CompareDetail";
 import CompareMiniBox from "./CompareMiniBox";
 import { setCompareModalIsOpen } from "../../actions";
 
 function Compare({ isOpen, onClose }) {
   //console.log(isOpen);
   const dispatch = useDispatch();
-  // 이름 바꾸기
+
+  // CompareDetail
   const {
     isOpen: isOpenDetail,
     onOpen: onOpenDetail,
     onClose: onCloseDetail,
   } = useDisclosure();
+
   // 현재 선택된 비교하기 상품들 가져오기
   const compares = useSelector((state) => state.compareReducer);
   //console.log(compares.items);
-  // console.log(isOpenDetail);
+  //console.log("isOPEN!!!!" + isOpenDetail);
 
   const onClickCompareDetail = (e) => {
     if (compares.items.length < 2) {
@@ -62,7 +64,6 @@ function Compare({ isOpen, onClose }) {
             <div className={styles.ModalHeaderTxt}>
               비교하기 ({compares.items.length})
             </div>
-            {/* <button>V</button> */}
           </div>
           <div className={styles.ModalBodyContainer}>
             <div className={styles.ModalBody}>
@@ -82,39 +83,15 @@ function Compare({ isOpen, onClose }) {
           </div>
         </div>
       </div>
-      {isOpenDetail && (
-        <CompareDetail isOpen={isOpenDetail} onClose={onCloseDetail} />
-      )}
+      {isOpenDetail ? (
+        <CompareDetail
+          isOpen={isOpenDetail}
+          onClose={onCloseDetail}
+          data={compares.items}
+        />
+      ) : null}
     </div>
   );
 }
 
 export default Compare;
-
-/*
-<Modal
-        className={styles.Modal}
-        onClose={onClose}
-        isOpen={isOpen}
-        closeOnOverlayClick={false}
-        blockScrollOnMount={false}
-      >
-        <ModalContent className={styles.ModalContent}>
-          <ModalHeader className={styles.ModalHeader}>비교하기</ModalHeader>
-          <ModalCloseButton />
-          <div className={styles.ModalBodyContainer}>
-            <ModalBody className={styles.ModalBody}>
-              {compares.items &&
-                compares.items.map((c, i) => {
-                  return <CompareMiniBox data={c} key={i} />;
-                })}
-            </ModalBody>
-            <div className={styles.CompareBtnContainer}>
-              <Button onClick={onOpenDetail} className={styles.CompareBtn}>
-                비교하기
-              </Button>
-            </div>
-          </div>
-        </ModalContent>
-      </Modal>
-*/

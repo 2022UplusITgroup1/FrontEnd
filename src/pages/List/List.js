@@ -2,15 +2,15 @@
 
 import React, { useEffect, useState } from "react";
 import styles from "./List.module.css";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import axios from "axios";
-import { useDisclosure } from "@chakra-ui/react";
 import Option from "../../components/Option/Option";
 import ProductList from "../../components/ProductList/ProductList";
 import RecentlyViewed from "../../components/RecentlyViewed/RecentlyViewed";
 import SampleRecentlyData from "../../SampleRecentlyData.json";
-import Compare from "../../components/Compare/Compare";
 import { resetDetailData, resetOptionData } from "../../actions";
+import NoResult from "../Exception/NoResult";
+import ErrorPage from "../Exception/ErrorPage";
 
 // API URI
 //const PRODUCTS_API_URL = `${process.env.REACT_APP_PRODUCT_SERVER_URL}/product?net_sp=`;
@@ -25,8 +25,6 @@ const RECENT_PRODUCT_API_URL = `http://43.200.122.174:8000/recents`;
 function List({ netType }) {
   const dispatch = useDispatch();
   //console.log(netType);
-  const options = useSelector((state) => state.changeOptionReducer);
-  //console.log(options);
 
   // API 로 받아온 상품, 요금제, 최근 본 상품
   const [products, setProducts] = useState([]);
@@ -36,17 +34,19 @@ function List({ netType }) {
   // 데이터 로딩 & 에러 처리
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [noData, setNoData] = useState(false);
 
   // GET 상품 전체 리스트
   const getProducts = async () => {
     try {
       setLoading(true);
       setError(null);
+      setNoData(false);
       const response = await axios.get(`${PRODUCTS_API_URL}${netType}`);
       //console.log(response.data);
       if (response.data.data !== null) {
         console.log("getProducts SUCCESS ");
-        // color 가 다른 기종은 처음 값으로 처리
+        // color 가 다른 기종은 맨 처음 값만 가져오도록
         const res = response.data.data;
         let filteredRes = res.filter((item, i) => {
           return (
@@ -55,10 +55,11 @@ function List({ netType }) {
             }) === i
           );
         });
-        //console.log(filteredRes);
         setProducts(filteredRes);
+        //console.log(filteredRes);
       } else {
         // 알맞은 결과를 찾을 수 없습니다
+        setNoData(true);
       }
     } catch (e) {
       console.log(e);
@@ -72,6 +73,7 @@ function List({ netType }) {
     try {
       setLoading(true);
       setError(null);
+      setNoData(false);
       const response = await axios.get(`${PLANS_API_URL}${netType}`);
       //console.log(response.data);
       if (response.data.data !== null) {
@@ -79,6 +81,7 @@ function List({ netType }) {
         setPlans(response.data.data);
       } else {
         // 알맞은 결과를 찾을 수 없습니다
+        setNoData(true);
       }
     } catch (e) {
       console.log(e);
@@ -92,6 +95,7 @@ function List({ netType }) {
     try {
       setLoading(true);
       setError(null);
+      setNoData(false);
       const response = await axios.get(`${RECENT_PRODUCT_API_URL}`);
       //console.log(response.data);
       if (response.data.data !== null) {
@@ -99,6 +103,7 @@ function List({ netType }) {
         setRecentlyProducts(response.data.data);
       } else {
         // 알맞은 결과를 찾을 수 없습니다
+        setNoData(true);
       }
     } catch (e) {
       console.log(e);
@@ -108,20 +113,18 @@ function List({ netType }) {
   };
 
   useEffect(() => {
-    //console.log("list First Rendering");
     // 데이터 가져오기
     getProducts();
     getPlans();
     // getRecents();
-    //setProducts(SampleData);
-    //setPlans(SamplePlanData);
     setRecentlyProducts(SampleRecentlyData);
     dispatch(resetOptionData()); // 5G - 4G 간 페이지 이동 시, 선택했던 option 값 초기화
     dispatch(resetDetailData()); // 상세페이지에서 뒤로가기 시, 선택했던 detail 값 초기화
   }, [netType]);
 
-  if (loading) return <div>loading...</div>;
-  if (error) return <div>Error!</div>;
+  if (loading) return <div></div>;
+  if (error) return <ErrorPage />;
+  if (noData) return <NoResult />;
   if (!products) return null;
   if (!plans) return null;
 

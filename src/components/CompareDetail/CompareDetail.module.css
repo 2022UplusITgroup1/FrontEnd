@@ -12,7 +12,31 @@
 .ModalBody {
   max-height: calc(100vh - 430px);
   overflow-y: auto;
+  min-height: 700px;
+  padding: 40px 64px 0;
 }
+
+.ModalContent {
+  min-width: 1320px;
+}
+
+/* ----- 상품 Item ----- */
+
+.ModalItemContainer {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.CompareItemContainer {
+}
+
+.DetailTitle {
+  overflow: hidden;
+  font-weight: 800;
+  font-size: 24px;
+}
+
+/* ----- 상품 Info ----- */
 
 .ProductInfo {
   display: flex;
@@ -59,6 +83,8 @@
   background-color: white;
 }
 
+/* ----- 월 납부금액 ----- */
+
 .MonthPhonePrice {
   display: flex;
   justify-content: space-around;
@@ -67,7 +93,7 @@
 .MonthPhonePriceBox {
   background-color: #f8f8f8;
   width: 370px;
-  height: 220px; /* 350 */
+  height: 210px; /* 350 */
   border-radius: 10px;
   padding-top: 25px;
   margin-bottom: 50px;
@@ -75,6 +101,46 @@
 }
 
 .MonthPhonePriceTxtContainer {
+  width: 100%;
+}
+
+.PriceDetail {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding-left: 32px;
+  padding-right: 32px;
+}
+
+.PriceDetailMain {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #ddd;
+  margin-bottom: 20px;
+  align-items: center;
+}
+
+.PriceDetailDTMain,
+.PriceDetailDDMain {
+  font-size: 22px;
+  font-weight: bold;
+}
+
+.PriceDetailDT,
+.PriceDetailDTMain {
+  flex: 1 1 40%;
+  width: 88px;
+  margin-bottom: 4px;
+}
+
+.PriceDetailDD,
+.PriceDetailDDMain {
+  flex: 1 1 40%;
+  margin-bottom: 4px;
+  color: #000;
+  text-align: right;
 }
 
 .MonthPlanPrice {
@@ -85,16 +151,19 @@
 .MonthPlanPriceBox {
   background-color: #f8f8f8;
   width: 370px;
-  height: 150px; /* 350 */
+  height: 180px; /* 350 */
   border-radius: 10px;
   padding-top: 25px;
   margin-bottom: 50px;
   margin-top: 25px;
 }
 
+/* ----- 할인유형, 요금제 ----- */
+
 .DiscountPlan {
   display: flex;
   justify-content: space-around;
+  margin-bottom: 50px;
 }
 
 .DiscountPlanTxtContainer {
@@ -103,162 +172,55 @@
 .DiscountPlanBox {
   display: flex;
   justify-content: space-around;
+  height: 200px; /* 350 */
+  margin-bottom: 30px;
 }
 
 .DiscountPlanTxtContainer {
   background-color: #f8f8f8;
   width: 370px;
-  height: 150px; /* 350 */
+  height: 200px; /* 350 */
   border-radius: 10px;
   padding-top: 25px;
   margin-bottom: 50px;
   margin-top: 25px;
+  padding-left: 32px;
+  padding-right: 32px;
 }
 
-/*-------------*/
+/* ----- Performance ----- */
 
-.ModalContent {
-  min-width: 1320px;
-}
-
-.HeaderMenu {
-  position: relative;
-  border-top: 1px solid #ddd;
-  border-bottom: 1px solid #ddd;
-  background: #fff;
-  text-align: center;
+.Performance {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
+  justify-content: space-around;
 }
 
-.HeaderSortContainer {
-  width: 100%;
+.PerformanceBox {
   display: flex;
-  justify-content: right;
-  margin-top: 10px;
-  padding-right: 40px;
-  padding-bottom: 10px;
-  border-bottom: 1px solid #ddd;
+  justify-content: space-around;
 }
 
-.HeaderSelectSort {
-  width: 220px;
+.PerformanceTxtContainer {
+  background-color: #f8f8f8;
+  width: 370px;
+  height: 155px; /* 350 */
+  border-radius: 10px;
+  padding-top: 25px;
+  margin-bottom: 50px;
+  margin-top: 25px;
+  padding-left: 32px;
+  padding-right: 32px;
 }
 
-.HeaderMenuNav {
-  width: 1256px;
-  height: 56px;
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  text-align: center;
-}
-
-.HeaderLeftMenu {
-  flex: 1 1 40%;
-  text-align: center;
-  padding-left: 300px;
-}
-
-.HeaderRightMenu {
-  display: flex;
-  flex: 1 1 40%;
-  text-align: center;
-  justify-content: space-evenly;
-}
-
-.NavIcon {
-  width: 50px;
-  cursor: pointer;
-}
-
-/*
-  color: #e6007e;
-  border-bottom: 2px solid #e6007e;
-  */
-
-.NavItem {
-  float: left;
-  text-decoration: none;
-  display: block;
-  height: 56px;
-  line-height: 56px;
-  white-space: nowrap;
-  padding-right: 20px;
-  padding-left: 20px;
-}
-
-.HeaderMenuContents {
-  position: relative;
-  display: flex;
-  align-items: center;
-  margin-left: auto;
-}
-
-.PlanContainer {
-}
-
-.PlanContainerStack {
-}
-
-.PlanInfoContainer {
-  position: relative;
-  margin-top: 16px;
-  margin-bottom: 16px;
-  border-radius: 14px;
-  overflow: hidden;
-  background: white;
-  padding: 16px 40px;
-  width: 1256px;
-  padding: 24px 48px 24px 34px;
-}
-
-.PlanItemContainer {
-}
-
-.PlanItem {
-}
-
-.PlanInfo {
-  width: 1180px;
-  display: flex;
-  justify-content: space-between;
-}
-
-.PlanMain {
-  float: left;
-  flex: 1 1 40%;
-  padding-left: 20px;
-}
-
-.PlanName {
-  font-size: large;
+.PerformanceTitle {
   font-weight: bold;
+}
+
+.PerformanceItemContainer {
   margin-bottom: 10px;
 }
 
-.PlanPrice {
-  font-size: x-large;
-  font-weight: bold;
-  margin-bottom: 10px;
-}
-
-.PlanDetail {
-  width: 560px;
-  display: flex;
-  float: right;
-  flex: 1 1 40%;
-}
-
-.PlanDetailItem {
-  padding: 10px;
-  font-size: xx-large;
-  flex: 1 1 40%;
-  text-align: center;
-}
-
-/* Modal Footer */
+/* ----- Modal Footer ----- */
 
 .ModalFooter {
   display: flex;

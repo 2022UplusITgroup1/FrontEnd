@@ -19,6 +19,8 @@ import PayPeriodDetail from "../../components/ProductDetail/PayPeriodDetail";
 import ImgDetail from "../../components/ProductDetail/ImgDetail";
 import InfoDetail from "../../components/ProductDetail/InfoDetail";
 import calcPrices from "../../utils/calcPrices";
+import NoResult from "../Exception/NoResult";
+import ErrorPage from "../Exception/ErrorPage";
 
 // Detail 정보 & Color 정보 & Plan 전체 정보 필요
 
@@ -86,9 +88,9 @@ function Detail() {
   // 요금제 모달
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  // 데이터 로딩 & 에러 처리
-  const [loading, setLoading] = useState(false);
+  // 데이터 에러 처리
   const [error, setError] = useState(null);
+  const [noData, setNoData] = useState(false);
 
   // API 로 받아온 모바일 상품 상세 정보 & 요금제 정보
   const [data, setData] = useState(initialDetail);
@@ -132,8 +134,8 @@ function Detail() {
   // API: 상품 리스트 GET
   const fetchProductDetail = async () => {
     try {
-      setLoading(true);
       setError(null);
+      setNoData(false);
       const response = await axios.get(`${PRODUCT_DETAIL_URL}`);
       console.log(response.data);
       if (response.data.data !== null) {
@@ -141,19 +143,19 @@ function Detail() {
         setData(response.data.data);
       } else {
         // 알맞은 결과를 찾을 수 없습니다
+        setNoData(true);
       }
     } catch (e) {
       console.log(e);
       setError(e);
     }
-    setLoading(false);
   };
 
   // API: 상품 색상 리스트 GET
   const fetchProductColor = async () => {
     try {
-      setLoading(true);
       setError(null);
+      setNoData(false);
       const response = await axios.get(`${PRODUCT_COLOR_URL}`);
       //console.log(response.data);
       if (response.data.data !== null) {
@@ -161,19 +163,19 @@ function Detail() {
         setColors(response.data.data);
       } else {
         // 알맞은 결과를 찾을 수 없습니다
+        setNoData(true);
       }
     } catch (e) {
       console.log(e);
       setError(e);
     }
-    setLoading(false);
   };
 
   // API: 요금제 리스트 GET
   const fetchPlans = async () => {
     try {
-      setLoading(true);
       setError(null);
+      setNoData(false);
       const response = await axios.get(`${PLAN_URL}${netType}`);
       //console.log(response.data);
       if (response.data.data !== null) {
@@ -181,19 +183,19 @@ function Detail() {
         setPlans(response.data.data);
       } else {
         // 알맞은 결과를 찾을 수 없습니다
+        setNoData(true);
       }
     } catch (e) {
       console.log(e);
       setError(e);
     }
-    setLoading(false);
   };
 
   // API: 다른 색상의 이미지 GET
   const fetchProductColorImg = async (nowColor) => {
     try {
-      setLoading(true);
       setError(null);
+      setNoData(false);
       const PRODUCT_COLOR_IMG_URL = `http://43.200.122.174:8000/product/detail?pl_code=${plCode}&ph_code=${phCode}&color=${nowColor}&dc_type=${dcType}`;
       const response = await axios.get(`${PRODUCT_COLOR_IMG_URL}`);
       //console.log(response.data);
@@ -207,12 +209,12 @@ function Detail() {
         );
       } else {
         // 알맞은 결과를 찾을 수 없습니다
+        setNoData(true);
       }
     } catch (e) {
       console.log(e);
       setError(e);
     }
-    setLoading(false);
   };
 
   // 현재 요금제 정보 찾기
@@ -306,8 +308,8 @@ function Detail() {
   }, [data]);
   /* ----- END ----- */
 
-  if (loading) return <div>loading...</div>;
-  if (error) return <div>Error!</div>;
+  if (error) return <ErrorPage />;
+  if (noData) return <NoResult />;
   if (!data) return null;
   if (!plans) return null;
   if (!colors) return null;

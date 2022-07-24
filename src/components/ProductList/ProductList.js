@@ -10,6 +10,7 @@ import Product from "./Product";
 import { changeProductSort, setCompareIsOpen } from "../../actions";
 import Compare from "../Compare/Compare";
 import floorNumber from "../../utils/floorNumber";
+import ErrorPage from "../../pages/Exception/ErrorPage";
 
 // 상세 정보 조회 URL
 const SELECTED_PRODUCT_API_URL = `http://43.200.122.174:8000/product/phone?net_sp=`;
@@ -106,7 +107,7 @@ function ProductList({ products, plans, netType }) {
             }) === i
           );
         });
-        //console.log(filteredRes);
+        console.log(filteredRes);
         setSelectedProducts(filteredRes);
       } else {
         // 알맞은 결과를 찾을 수 없습니다
@@ -143,7 +144,7 @@ function ProductList({ products, plans, netType }) {
   const compares = useSelector((state) => state.compareReducer);
   //console.log(compares.isOpen);
 
-  if (error) return <div>Error!</div>;
+  if (error) return <ErrorPage />;
   if (!products) return null;
   if (!plans) return null;
 
