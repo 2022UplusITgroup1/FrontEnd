@@ -47,11 +47,15 @@ const initialData = {
 };
 
 function CompareDetail({ isOpen, onClose, data }) {
-  console.log(data);
+  //console.log(data);
+
+  const dispatch = useDispatch();
 
   // 현재 선택된 비교하기 상품들 가져오기
-  const compareItemInfo = useSelector((state) => state.compareReducer).items;
-  //console.log(compareItemInfo);
+  const compareDetailItems = useSelector(
+    (state) => state.compareDetailReducer
+  ).items;
+  //console.log(compareDetailItems);
 
   // 데이터 에러 처리
   const [error, setError] = useState(null);
@@ -73,13 +77,13 @@ function CompareDetail({ isOpen, onClose, data }) {
 
   const onChangePayPeriod = (e) => {
     setPayPeriod(e.target.value);
-    console.log(e.target.value);
+    //console.log(e.target.value);
   };
 
   // API: 비교하기 결과 POST
   const fetchCompareData = async () => {
     let requestBody = [];
-    data.map((d) =>
+    compareDetailItems.map((d) =>
       requestBody.push({
         code: d.code,
         networkSupport: d.networkSupport,
@@ -98,13 +102,13 @@ function CompareDetail({ isOpen, onClose, data }) {
         const res = [...response.data.data];
         // 빈 부분 개수 저장
         setEmptyLength(3 - res.length);
-        console.log(res.length);
+        //console.log(res.length);
         // 3개가 되지 않으면 empty 처리
         for (let i = res.length; i < 3; i++) {
           res.push(initialData);
         }
         setCompareData(res);
-        console.log(res);
+        //console.log(res);
       }
     } catch (e) {
       //console.log(e);
@@ -145,26 +149,45 @@ function CompareDetail({ isOpen, onClose, data }) {
     const promises = ["5G", "4G"].map((c) => {
       return getProducts(c);
     });
-    Promise.all(promises).then((res) => setProducts(res));
+    // 2개의 리스트를 합쳐주기
+    Promise.all(promises).then((res) => {
+      setProducts([...res[0], ...res[1]]);
+    });
   }, []);
 
   useEffect(() => {
-    if (data.length) {
+    if (compareDetailItems.length) {
       fetchCompareData();
       //setCompareData(SampleCompareData);
     }
-  }, [data]);
+  }, [compareDetailItems]);
 
   useEffect(() => {
+    //console.log(compareData);
     // 상세 조회 당시의 할인유형 값
     let dcTypes = [];
-    data.map((d) => dcTypes.push(d.discountType));
+    compareDetailItems.map((d) => dcTypes.push(d.discountType));
     // 3개가 되지 않으면 empty 처리
-    for (let i = data.length; i < 3; i++) {
+    for (let i = compareDetailItems.length; i < 3; i++) {
       dcTypes.push("1");
     }
-    console.log(dcTypes);
+    //console.log(dcTypes);
     setDiscountTypes(dcTypes);
+
+    /*
+    // 계약기간 => 기본 = 24, 선택약정12개월 = 12
+    let payPeriod = discountType === "3" ? 12 : 24;
+    let periods = [];
+    compareDetailItems.map((d) => {
+      
+    });
+    // 3개가 되지 않으면 empty 처리
+    for (let i = compareDetailItems.length; i < 3; i++) {
+      dcTypes.push("1");
+    }
+    //console.log(periods);
+    setPayPeriods(periods);
+    */
   }, [compareData]);
 
   // 비교하기 아이템이 없을 경우 렌더링 부분
@@ -234,20 +257,21 @@ function CompareDetail({ isOpen, onClose, data }) {
         <ModalCloseButton />
         <ModalBody className={styles.ModalBody}>
           <div className={styles.ModalItemContainer}>
-            {compareData.length &&
+            {compareDetailItems.length === compareData.length - emptyLength &&
+              compareData.length &&
               compareData[0].phone.code &&
               compareData.map((c, i) => {
-                console.log(c);
+                //console.log(c);
                 return c.phone.code !== "" ? (
                   <CompareItem
                     key={i}
                     index={i}
                     item={c}
                     payPeriod={payPeriods[0]}
-                    discountType={data[i].discountType}
+                    discountType={compareDetailItems[i].discountType}
                   />
                 ) : (
-                  <EmptyItem products={products} />
+                  products.length && <EmptyItem key={i} products={products} />
                 );
               })}
           </div>

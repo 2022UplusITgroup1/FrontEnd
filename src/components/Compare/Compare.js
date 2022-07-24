@@ -1,25 +1,17 @@
 // 비교하기 하단 모달
 
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import styles from "./Compare.module.css";
-import { Link, useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import axios from "axios";
 import { Button } from "@chakra-ui/react";
-import {
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalCloseButton,
-  ModalBody,
-  ModalFooter,
-  Select,
-  useDisclosure,
-} from "@chakra-ui/react";
+import { useDisclosure } from "@chakra-ui/react";
 import CompareDetail from "../CompareDetail/CompareDetail";
 import CompareMiniBox from "./CompareMiniBox";
-import { setCompareModalIsOpen } from "../../actions";
+import {
+  resetCompareDetailData,
+  setCompareDetailProducts,
+  setCompareModalIsOpen,
+} from "../../actions";
 
 function Compare({ isOpen, onClose }) {
   //console.log(isOpen);
@@ -39,11 +31,18 @@ function Compare({ isOpen, onClose }) {
 
   const onClickCompareDetail = (e) => {
     if (compares.items.length < 2) {
-      // alert
       alert("2개 이상의 상품을 선택 하셔야 비교하기가 가능합니다.");
     } else {
+      // 상세 모달에서 보여줄 기본 아이템 저장
+      console.log(compares.items);
+      dispatch(setCompareDetailProducts(compares.items));
       onOpenDetail();
     }
+  };
+
+  const onCloseCompareDetail = () => {
+    onCloseDetail();
+    dispatch(resetCompareDetailData()); // 닫히면 초기화
   };
 
   // CompareMiniBox 가 다 사라질 경우 모달창 닫기
@@ -86,7 +85,7 @@ function Compare({ isOpen, onClose }) {
       {isOpenDetail ? (
         <CompareDetail
           isOpen={isOpenDetail}
-          onClose={onCloseDetail}
+          onClose={onCloseCompareDetail}
           data={compares.items}
         />
       ) : null}

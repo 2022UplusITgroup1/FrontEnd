@@ -5,29 +5,12 @@ import styles from "./CompareDetail.module.css";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
-import {
-  ButtonGroup,
-  Button,
-  Stack,
-  Radio,
-  RadioGroup,
-  Box,
-  Image,
-} from "@chakra-ui/react";
-import {
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalCloseButton,
-  ModalBody,
-  ModalFooter,
-  Select,
-  useDisclosure,
-} from "@chakra-ui/react";
+import { Button, Box, Image } from "@chakra-ui/react";
+import { Select } from "@chakra-ui/react";
 import convertNumber from "../../utils/convertNumber";
 import calcPrices from "../../utils/calcPrices";
 import mapDiscountType from "../../utils/mapDiscountType";
+import { deleteCompareDetailProduct } from "../../actions";
 
 const COMPARE_URL = `http://43.200.122.174:8000/product/compare`;
 const PRODUCTS_API_URL = `http://43.200.122.174:8000/product/phone?net_sp=`;
@@ -45,11 +28,18 @@ const initialPrice = {
 };
 
 function CompareItem({ index, item, payPeriod, discountType }) {
-  console.log(item);
+  //console.log(item);
+  const dispatch = useDispatch();
+
+  const onClickDeleteBtn = () => {
+    // 비교하기 상품 삭제
+    dispatch(deleteCompareDetailProduct(item.phone.code));
+  };
+
   const [prices, setPrices] = useState(initialPrice);
   const [nowPayPeriod, setNowPayPeriod] = useState(payPeriod);
 
-  const DETAIL_URL = `/mobile/detail/${item.networkSupport}/${item.plan.code}/${item.phone.code}/${item.phone.color}/${discountType}`;
+  const DETAIL_URL = `/mobile/detail/${item.phone.networkSupport}/${item.plan.code}/${item.phone.code}/${item.phone.color}/${discountType}`;
 
   // 데이터 에러 처리
   const [error, setError] = useState(null);
@@ -68,7 +58,7 @@ function CompareItem({ index, item, payPeriod, discountType }) {
         // color 이름만 추출
         const color = response.data.data;
         setColors(color.map((c) => c.color));
-        console.log(response.data.data);
+        //console.log(response.data.data);
       } else {
         // 알맞은 결과를 찾을 수 없습니다
       }
@@ -82,12 +72,6 @@ function CompareItem({ index, item, payPeriod, discountType }) {
   // 가격 계산 & 색상 리스트 저장
   useEffect(() => {
     if (item.phone.code) {
-      console.log(
-        item.phone.price,
-        item.plan.price,
-        discountType,
-        nowPayPeriod
-      );
       const nowTotalPrice = calcPrices(
         item.phone.price,
         item.plan.price,
@@ -95,7 +79,7 @@ function CompareItem({ index, item, payPeriod, discountType }) {
         nowPayPeriod
       );
       setPrices(nowTotalPrice);
-      console.log(nowTotalPrice);
+      //console.log(nowTotalPrice);
 
       fetchProductColor();
     }
@@ -107,6 +91,11 @@ function CompareItem({ index, item, payPeriod, discountType }) {
         {/* 상품 소개 */}
         {prices && item.phone.code ? (
           <Box className={styles.ProductInfoBox}>
+            <div className={styles.DeleteBtnContainer}>
+              <button className={styles.DeleteBtn} onClick={onClickDeleteBtn}>
+                ✕
+              </button>
+            </div>
             <div className={styles.ProductImgContainer}>
               <Image
                 className={styles.ProductImg}

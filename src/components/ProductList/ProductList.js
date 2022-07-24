@@ -7,9 +7,8 @@ import axios from "axios";
 import { FiAlertCircle } from "react-icons/fi";
 import { Select, useDisclosure } from "@chakra-ui/react";
 import Product from "./Product";
-import { changeProductSort, setCompareIsOpen } from "../../actions";
+import { changeProductSort } from "../../actions";
 import Compare from "../Compare/Compare";
-import floorNumber from "../../utils/floorNumber";
 import ErrorPage from "../../pages/Exception/ErrorPage";
 
 // 상세 정보 조회 URL
@@ -18,7 +17,6 @@ const SELECTED_PRODUCT_API_URL = `http://43.200.122.174:8000/product/phone?net_s
 function ProductList({ products, plans, netType }) {
   const dispatch = useDispatch();
   const { onClose } = useDisclosure();
-  const [isOpen, setIsOpen] = useState(false);
 
   // 현재 선택한 옵션 값 가져오기
   const options = useSelector((state) => state.changeOptionReducer);
@@ -107,7 +105,7 @@ function ProductList({ products, plans, netType }) {
             }) === i
           );
         });
-        console.log(filteredRes);
+        //console.log(filteredRes);
         setSelectedProducts(filteredRes);
       } else {
         // 알맞은 결과를 찾을 수 없습니다

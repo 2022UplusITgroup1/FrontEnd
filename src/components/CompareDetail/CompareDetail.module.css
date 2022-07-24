@@ -30,6 +30,14 @@
 .CompareItemContainer {
 }
 
+.DeleteBtnContainer {
+  text-align: right;
+  padding-right: 20px;
+}
+
+.DeleteBtn {
+}
+
 .DetailTitle {
   overflow: hidden;
   font-weight: 800;
@@ -51,7 +59,7 @@
   border: 1px;
   border-style: solid;
   border-color: lightgray;
-  padding-top: 25px;
+  padding-top: 15px;
   margin-bottom: 50px;
   margin-top: 25px;
 }
@@ -218,6 +226,34 @@
 
 .PerformanceItemContainer {
   margin-bottom: 10px;
+}
+
+/* ----- Empty Item ------ */
+
+.ProductSelectBox {
+  width: 370px;
+  height: 320px; /* 350 */
+  border-radius: 10px;
+  border: 1px;
+  border-style: solid;
+  border-color: lightgray;
+  padding-top: 15px;
+  margin-bottom: 50px;
+  margin-top: 25px;
+  text-align: center;
+}
+
+.ProductSelectContainer {
+  padding: 30px;
+}
+
+.BrandTypeSelect {
+  margin-top: 20px;
+  margin-bottom: 30px;
+}
+
+.PhoneTypeSelect {
+  margin-bottom: 20px;
 }
 
 /* ----- Modal Footer ----- */

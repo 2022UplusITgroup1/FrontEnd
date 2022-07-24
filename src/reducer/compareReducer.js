@@ -30,16 +30,3 @@ function compareReducer(state = initialState, action) {
 }
 
 export default compareReducer;
-
-/*
-export function setCompareOpen(data) {
-  return {
-    type: SET_COMPARE_OPEN,
-    data: {
-      isOpen: data.isOpen,
-      onOpen: data.onOpen,
-      onClose: data.onClose,
-    },
-  };
-}
-*/

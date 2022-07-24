@@ -64,7 +64,8 @@ function Product({ product, plan, netType }) {
       );
       setNowPrice(nowTotalPrice);
     }
-  }, [options]);
+  }, [discountType]);
+  // options
 
   // Redux Dispatch -> 비교하기 정보 저장
   const saveCompareProduct = () => {

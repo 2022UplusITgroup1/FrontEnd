@@ -1,8 +1,8 @@
 // 비교하기 하단 모달 상품 Box
 
-import React, { useState, useEffect } from "react";
+import React from "react";
 import styles from "./CompareMiniBox.module.css";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Box, Image } from "@chakra-ui/react";
 import convertNumber from "../../utils/convertNumber";
 import { deleteCompareProduct } from "../../actions";

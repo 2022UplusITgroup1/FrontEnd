@@ -208,3 +208,52 @@ export function deleteCompareProduct(code) {
     code,
   };
 }
+
+/* ---------- 비교하기 상세 ---------- */
+
+export const SET_COMPARE_DETAIL_PRODUCTS = "SET_COMPARE_DETAIL_PRODUCTS";
+export const ADD_COMPARE_DETAIL_PRODUCT = "ADD_COMPARE_DETAIL_PRODUCT";
+export const DELETE_COMPARE_DETAIL_PRODUCTS = "DELETE_COMPARE_DETAIL_PRODUCTS";
+export const RESET_COMPARE_DETAIL_DATA = "RESET_COMPARE_DETAIL_DATA";
+
+// 비교하기 상세 모달 > 초기값 처리
+export function setCompareDetailProducts(data) {
+  console.log("setCompareDetailProducts: " + data);
+  return {
+    type: SET_COMPARE_DETAIL_PRODUCTS,
+    data,
+  };
+}
+
+// 비교하기 상세 모달 > 추가 이벤트 처리
+export function addCompareDetailProduct(data) {
+  console.log("addCompareDetailProduct: " + data);
+  return {
+    type: ADD_COMPARE_DETAIL_PRODUCT,
+    data: {
+      code: data.code,
+      name: data.name,
+      color: data.color,
+      imgThumbnail: data.imgThumbnail,
+      plan: data.plan,
+      networkSupport: data.networkSupport,
+      discountType: data.discountType,
+      totalPrice: data.totalPrice,
+    },
+  };
+}
+
+// 비교하기 상세 상품 삭제하기
+export function deleteCompareDetailProduct(code) {
+  return {
+    type: DELETE_COMPARE_DETAIL_PRODUCTS,
+    code,
+  };
+}
+
+// 상세 모달창에서 선택한 값 초기화
+export function resetCompareDetailData() {
+  return {
+    type: RESET_COMPARE_DETAIL_DATA,
+  };
+}
