@@ -7,8 +7,9 @@ import { Link } from "react-router-dom";
 import { Box, Image } from "@chakra-ui/react";
 import convertNumber from "../../utils/convertNumber";
 import calcPrices from "../../utils/calcPrices";
+import mapDiscountType from "../../utils/mapDiscountType";
 
-function RecentlyProduct({ product, plan, discountType, color, category }) {
+function RecentlyProduct({ product, plan, discountType, color, category, monthPrice }) {
   // 최근 본 상품은 고정 값이므로 일반 변수 사용
   let DETAIL_URL = "";
   if (discountType === "0") {
@@ -16,9 +17,6 @@ function RecentlyProduct({ product, plan, discountType, color, category }) {
   } else {
     DETAIL_URL = `/mobile/detail/${category}/${plan.code}/${product.code}/${color}/${discountType}`;
   }
-
-  // 상품 요금제 & 할인 유형 기반 월별 요금 계산
-  const nowPrice = calcPrices(product.price, plan.price, discountType, 12);
 
   return (
     <Box
@@ -41,7 +39,7 @@ function RecentlyProduct({ product, plan, discountType, color, category }) {
           <Box className={styles.ProductSubTitle}>
             {plan.name}
             <div className={styles.ProductDiscountType}>
-              {nowPrice.discountName}
+              {mapDiscountType(discountType)}
             </div>
           </Box>
         </Box>
@@ -51,19 +49,19 @@ function RecentlyProduct({ product, plan, discountType, color, category }) {
         <Link to={DETAIL_URL} style={{ textDecoration: "none" }}>
           <Box className={styles.Price}>
             <Box className={styles.PriceTxt}>
-              휴대폰 월 {convertNumber(nowPrice.monthPhonePrice)}원
+              휴대폰 월 {convertNumber(product.price)}원
               {discountType === "1" && (
                 <span className={styles.Discount}> (30% ↓)</span>
               )}
             </Box>
             <Box className={styles.PriceTxt}>
-              통신료 월 {convertNumber(nowPrice.monthPlanPrice)}원
+              통신료 월 {convertNumber(plan.price)}원
               {(discountType === "2" || discountType === "3") && (
                 <span className={styles.Discount}> (25% ↓)</span>
               )}
             </Box>
             <Box className={styles.MonthPrice}>
-              월 {convertNumber(nowPrice.total)}원
+              월 {convertNumber(monthPrice)}원
             </Box>
           </Box>
         </Link>
