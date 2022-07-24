@@ -77,9 +77,9 @@ function Detail() {
   const { netType, plCode, phCode, color, dcType } = useParams();
 
   // API URL
-  const PRODUCT_DETAIL_URL = `http://43.200.122.174:8000/product/detail?pl_code=${plCode}&ph_code=${phCode}&color=${color}&dc_type=${dcType}`;
-  const PRODUCT_COLOR_URL = `http://43.200.122.174:8000/product/color?ph_code=${phCode}`;
-  const PLAN_URL = `http://43.200.122.174:8000/product/plan?net_sp=`;
+  const PRODUCT_DETAIL_URL = `/product/detail?pl_code=${plCode}&ph_code=${phCode}&color=${color}&dc_type=${dcType}`;
+  const PRODUCT_COLOR_URL = `/product/color?ph_code=${phCode}`;
+  const PLAN_URL = `/product/plan?net_sp=`;
 
   const dispatch = useDispatch();
 
@@ -194,7 +194,7 @@ function Detail() {
     try {
       setLoading(true);
       setError(null);
-      const PRODUCT_COLOR_IMG_URL = `http://43.200.122.174:8000/product/detail?pl_code=${plCode}&ph_code=${phCode}&color=${nowColor}&dc_type=${dcType}`;
+      const PRODUCT_COLOR_IMG_URL = `/product/detail?pl_code=${plCode}&ph_code=${phCode}&color=${nowColor}&dc_type=${dcType}`;
       const response = await axios.get(`${PRODUCT_COLOR_IMG_URL}`);
       //console.log(response.data);
       if (response.data.data !== null) {
