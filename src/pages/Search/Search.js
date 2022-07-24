@@ -85,11 +85,11 @@ function noResult({ word }) {
 //   );
 // }
 
-function insertResult({ word, products, plans }) {
+function insertResult({ searchWord, products, plans }) {
   return (
     <div className={styles.insertResult}>
       <div className={styles.ResultTitle}>
-        "{word}"에 대한 검색 결과입니다. 
+        "{searchWord}"에 대한 검색 결과입니다. 
       </div>
 
       <div className={styles.ResultListItems}>
@@ -115,6 +115,8 @@ function Search() {
   // var resultProducts
 
   const [word, setWord] = useState("");
+  const [searchWord, setSearchWord] = useState("");
+
   const onChange = (e) => {
     setWord(e.target.value);
     console.log(e.ta);
@@ -122,8 +124,10 @@ function Search() {
 
   const getProducts = async (word) => {
     try {
+      
       const response = await axios.get(`${SEARCH_WORD_URL}${word}`);
       console.log("getProducts SUCCESS ");
+      console.log(response.data.data);
       setProducts(response.data.data);
     } catch (e) {
       console.log(e);
@@ -132,7 +136,7 @@ function Search() {
 
   const onClick=(word)=>{
     console.log(word);
-    setWord(word);
+    setSearchWord(word);
     getProducts(word);
   }
 
@@ -150,6 +154,7 @@ function Search() {
     setProducts([]);
     setPlans(SamplePlanData);
     setWord("");
+    setSearchWord("");
     // setResulProducts(SampleData);
 
   }, []);
@@ -171,7 +176,7 @@ function Search() {
           </InputGroup>
         </div>
         { products.length !== 0  ? 
-                    <div>{insertResult({ word, products, plans })}</div>
+                    <div>{insertResult({ searchWord, products, plans })}</div>
                     :
                     <div>{noResult(word)}</div>
                   }
