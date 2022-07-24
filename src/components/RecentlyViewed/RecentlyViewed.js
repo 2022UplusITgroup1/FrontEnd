@@ -16,6 +16,9 @@ import {
 import { useSelector } from "react-redux";
 import RecentlyProduct from "./RecentlyProduct";
 import RecentlyPreviewProduct from "./RecentlyPreviewProduct";
+import axios from "axios";
+
+const RECENT_PRODUCT_API_URL = `/product/recents`;
 
 function RecentlyViewed({ products, plans, category }) {
   //const DETAIL_URL = `/mobile/detail/${category}/${plan.code}/${product.code}/${product.color}/${product.discountType}`;
@@ -25,9 +28,13 @@ function RecentlyViewed({ products, plans, category }) {
   //console.log(productList);
 
   // 최근 본 상품 전체 리스트
-  const [data, setData] = useState(products);
+  const [recentlyProducts, setRecentlyProducts] = useState([]);
   const [storedData, setStoredData] = useState([]);
   const [limitedProducts, setLimitedProducts] = useState([]);
+
+  // 데이터 로딩 & 에러 처리
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   const { isOpen, onOpen, onClose } = useDisclosure();
   const onOrderClose = (e) => {
@@ -58,6 +65,25 @@ function RecentlyViewed({ products, plans, category }) {
     return product;
   };
 
+  const getRecents = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      const response = await axios.get(`${RECENT_PRODUCT_API_URL}`);
+      console.log(response.data);
+      if (response.data.data !== null) {
+        console.log("getRecents SUCCESS ");
+        setRecentlyProducts(response.data.data);
+      } else {
+        // 알맞은 결과를 찾을 수 없습니다
+      }
+    } catch (e) {
+      console.log(e);
+      setError(e);
+    }
+    setLoading(false);
+  };
+
   useEffect(() => {
     setStoredData(productList.items.slice(0, 8));
   }, [productList]);
@@ -65,6 +91,11 @@ function RecentlyViewed({ products, plans, category }) {
   useEffect(() => {
     limitProducts();
   }, [storedData]);
+
+  const viewAllButton = () => {
+    getRecents();
+    onOpen();
+}
 
   return (
     <div className={styles.Container}>
@@ -96,7 +127,7 @@ function RecentlyViewed({ products, plans, category }) {
             bg="silver"
             p={4}
             color="white"
-            onClick={onOpen}
+            onClick={viewAllButton}
           >
             전체보기
           </Box>
@@ -115,10 +146,10 @@ function RecentlyViewed({ products, plans, category }) {
           <ModalCloseButton />
           <ModalBody className={styles.ModalBody}>
             <div className={styles.ModalImgBox}>
-              {storedData && storedData.length > 0 ? (
-                storedData.map((d, i) => {
+              {recentlyProducts && recentlyProducts.length > 0 ? (
+                recentlyProducts.map((d, i) => {
                   //console.log(d);
-                  const findedProduct = findProduct(d.phoneCode);
+                  const findedProduct = findProduct(d.code);
                   const findedPlan = findPlan(d.planCode);
                   // 일치하는 데이터가 없을 경우 대비
                   return findedProduct && findedPlan ? (
@@ -126,8 +157,9 @@ function RecentlyViewed({ products, plans, category }) {
                       product={findedProduct}
                       plan={findedPlan}
                       discountType={d.discountType}
-                      color={d.phoneColor}
+                      color={d.color}
                       category={d.networkSupport}
+                      monthPrice={d.monPrice}
                       key={i}
                     />
                   ) : (

@@ -48,5 +48,5 @@
     ]
   },
   "homepage": "./",
-  "proxy": "http://localhost:8000"
+  "proxy": "http://43.200.122.174:8000"
 }

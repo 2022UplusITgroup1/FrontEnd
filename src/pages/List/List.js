@@ -18,9 +18,9 @@ import ErrorPage from "../Exception/ErrorPage";
 //const RECENT_PRODUCT_API_URL = `${process.env.REACT_APP_PRODUCT_SERVER_URL}/recents`;
 
 //http://43.200.122.174:8000/product/phone?net_sp=5g
-const PRODUCTS_API_URL = `http://43.200.122.174:8000/product/phone?net_sp=`;
-const PLANS_API_URL = `http://43.200.122.174:8000/product/plan?net_sp=`;
-const RECENT_PRODUCT_API_URL = `http://43.200.122.174:8000/recents`;
+const PRODUCTS_API_URL = `/product/phone?net_sp=`;
+const PLANS_API_URL = `/product/plan?net_sp=`;
+const RECENT_PRODUCT_API_URL = `/product/recents`;
 
 function List({ netType }) {
   const dispatch = useDispatch();
