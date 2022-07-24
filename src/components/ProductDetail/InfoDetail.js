@@ -99,17 +99,17 @@ function InfoDetail({ data, plan, colors }) {
               return (
                 <button
                   className={styles.ColorBtn}
-                  key={color}
-                  value={color}
-                  onClick={(e) => setColorType(color)}
+                  key={color.color}
+                  value={color.color}
+                  onClick={(e) => setColorType(color.color)}
                   style={{
-                    borderColor: colorType === color ? "#000" : "#909090",
+                    borderColor: colorType === color.color ? "#000" : "#909090",
                   }}
                 >
                   <span
                     className={styles.ColorBtnInner}
                     style={{
-                      backgroundColor: color,
+                      backgroundColor: color.colorHexCode,
                     }}
                   ></span>
                 </button>

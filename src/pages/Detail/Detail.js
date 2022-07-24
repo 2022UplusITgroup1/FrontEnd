@@ -135,7 +135,7 @@ function Detail() {
       setLoading(true);
       setError(null);
       const response = await axios.get(`${PRODUCT_DETAIL_URL}`);
-      //console.log(response.data);
+      console.log(response.data);
       if (response.data.data !== null) {
         console.log("fetchProductDetail SUCCESS ");
         setData(response.data.data);
@@ -275,7 +275,7 @@ function Detail() {
   const [firstRender, setfirstRender] = useState(1); // 맨 처음에만 저장되도록
 
   useEffect(() => {
-    if (data.phone.code && color.length && firstRender) {
+    if (data.phone.code && colors.length && firstRender) {
       let recentsItemInfo = {
         code: data.phone.code,
         name: data.phone.name,
@@ -310,7 +310,7 @@ function Detail() {
   if (error) return <div>Error!</div>;
   if (!data) return null;
   if (!plans) return null;
-  if (!color) return null;
+  if (!colors) return null;
 
   return (
     <div className={styles.Container}>
