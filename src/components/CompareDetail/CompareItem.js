@@ -104,8 +104,10 @@ function CompareItem({ index, item, payPeriod, discountType }) {
               />
             </div>
             <div className={styles.ProductInfoTxt}>
-              <div>{item.phone.name}</div>
-              <div>월 {prices && convertNumber(prices.total)}원</div>
+              <div className={styles.ProductInfoName}>{item.phone.name}</div>
+              <div className={styles.ProductInfoPrice}>
+                월 {prices && convertNumber(prices.total)}원
+              </div>
             </div>
             <Link to={DETAIL_URL}>
               <Button className={styles.ReadMoreBtn}>자세히보기</Button>

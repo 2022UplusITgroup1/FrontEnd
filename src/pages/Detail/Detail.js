@@ -235,7 +235,11 @@ function Detail() {
   useEffect(() => {
     // orderProduct 도 고려하는 이유 => 뒤로가기 했을 때 유지하기 위해
     // TODO: 새창으로 뜨도록하고 유지하지 말기
-    if (data.phone.code !== "" && orderProduct.phone.code === "") {
+    if (
+      data.phone.code !== "" &&
+      plans.length &&
+      orderProduct.phone.code === ""
+    ) {
       // 미리보기 이미지 list 로 저장
       setImgPaths(
         data.images.map((d) => {
@@ -259,7 +263,7 @@ function Detail() {
       // Redux 변경
       onSelectDetail(nowPlan, nowTotalPrice);
     }
-  }, [data]);
+  }, [data, plans]);
 
   // 요금제 변경 시 plan 변경
   useEffect(() => {

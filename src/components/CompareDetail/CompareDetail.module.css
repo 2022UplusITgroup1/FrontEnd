@@ -78,6 +78,15 @@
   margin-bottom: 10px;
 }
 
+.ProductInfoName {
+  font-size: 18px;
+  font-weight: bold;
+}
+.ProductInfoPrice {
+  font-size: 25px;
+  font-weight: bold;
+}
+
 .ReadMoreBtn {
   width: 100px;
   height: 25px;
