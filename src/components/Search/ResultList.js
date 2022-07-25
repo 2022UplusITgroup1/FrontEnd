@@ -6,34 +6,35 @@ import { Select } from "@chakra-ui/react";
 import ResultProduct from "./ResultProduct";
 import { changePlan } from "../../actions";
 import mapBrandName from "../../utils/mapBrandName";
+import { compose } from "redux";
 
-function ResultList({ products, plans, plan4g, plan5g }) {
+function ResultList({ products, plan4g, plan5g }) {
   const dispatch = useDispatch();
   // 현재 선택한 옵션 값 가져오기
   const options = useSelector((state) => state.changeOptionReducer);
   //console.log(options);
   
-
+  var plan;
   // 가장 알맞은 요금제는 가장 첫번째 요금제로
   //4g 5g 일치할때
-  let plan = [];
-  let pl;
-  if (options.planValue === "0" && plans.length !== 0) {
-    plan = plans[0];
-    //dispatch(changePlan(plan.code));
-  } else {
-    plan = plans.find((p) => p.code === options.planValue);
-  }
+  // let plan = [];
+  // let pl;
+  // if (options.planValue === "0" && plans.length !== 0) {
+  //   plan = plans[0];
+  //   //dispatch(changePlan(plan.code));
+  // } else {
+  //   plan = plans.find((p) => p.code === options.planValue);
+  // }
 
-  for(plan in plans){
+  // for(plan in plans){
 
 
-  }
+  // }
 
-  const findSelectPlan = (value) => {
-    console.log("findSelectPlan",value);
-    return plans.find((p) => p.code === value);
-  };
+  // const findSelectPlan = (value) => {
+  //   console.log("findSelectPlan",value);
+  //   return plans.find((p) => p.code === value);
+  // };
 
   // 선택한 정렬값 저장
   // const [isSelect, setIsSelect] = useState(0);
@@ -62,7 +63,9 @@ function ResultList({ products, plans, plan4g, plan5g }) {
   // }
   // 
 
-  console.log(plans);
+  console.log("plan4g",plan4g);
+  console.log("plan5g",plan5g);
+  console.log(products);
 
   return (
     <div className={styles.Container}>
@@ -80,13 +83,22 @@ function ResultList({ products, plans, plan4g, plan5g }) {
           <div className={styles.ProductList}>
             {products.length > 0 &&
               products.map((p, i) => {
+                if(p.networkSupport=="4G"){
+                  plan=plan4g;
+                }else{
+                  plan=plan5g;
+                }
+                console.log("select",plan);
                 return (
+
+
                   <ResultProduct
                     product={p}
                     plan={
-                      options.planType === "0"
-                      ? plans[0] // 가장 알맞은 요금제는 첫번째로
-                      : findSelectPlan(options.planType)
+                      // options.planType === "0"
+                      // ? plans[0] // 가장 알맞은 요금제는 첫번째로
+                      // : findSelectPlan(options.planType)
+                      plan
                     }
 
                     key={i}

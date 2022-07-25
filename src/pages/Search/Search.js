@@ -64,8 +64,8 @@ function noResult({ word }) {
 }
 
 
-function insertResult({ searchWord, products, plans }) {
-  console.log(plans) // 잘들어옴
+function insertResult({ searchWord, products, plan4g, plan5g }) {
+  console.log("insert",plan4g, plan5g) // 잘들어옴
   
   return (
     <div className={styles.insertResult}>
@@ -76,8 +76,8 @@ function insertResult({ searchWord, products, plans }) {
       <div className={styles.ResultListItems}>
             <ResultList
               products={products}
-              plans={plans}
-
+              plan4g={plan4g}
+              plan5g={plan5g}
             />
           </div>
 
@@ -88,7 +88,10 @@ function insertResult({ searchWord, products, plans }) {
 function Search() {
   const [products, setProducts] = useState([]);
   // const products = useState([]);
-  const [plans, setPlans] = useState([]);
+  // const [plans, setPlans] = useState([]);
+  const [plan4g, setPlan4g] = useState([]);
+  const [plan5g, setPlan5g] = useState([]);
+  // const [plan4g, setPlan4g] = useState([]); 
 
   //검색 결과 저장
   // const [resultProducts, setResulProducts]=useState([]);
@@ -129,35 +132,45 @@ function Search() {
   };
 
 
-  const getPlans = async () => {
-    var planList=[];
+  const getPlan4g = async () => {
+    let plan4g;
 
     try {
       
       const response = await axios.get(`${PLAN_4G_API_URL}`);
-      console.log(response.data.data);      
-      planList.push.apply(planList,response.data.data)
+      // console.log(response.data.data);      
+      // planList.push(planList,response.data.data)
       // setProducts(response.data.data);
+      plan4g=response.data.data[0];
+      // console.log("plan4g",plan4g);    
 
     } catch (e) {
       console.log(e);
     }
+
+    setPlan4g(plan4g);
+    // console.log("planList",planList);
+
+  };
+
+  const getPlan5g = async () => {
+    let plan5g;
 
     try {
       
       const response = await axios.get(`${PLAN_5G_API_URL}`);
-      console.log(response.data.data);
-
-      
-      planList.push.apply(planList,response.data.data)
+      // console.log(response.data.data);      
+      // planList.push(planList,response.data.data)
       // setProducts(response.data.data);
+      plan5g=response.data.data[0];
+      // console.log("plan4g",plan4g);    
 
     } catch (e) {
       console.log(e);
     }
 
-    setPlans(planList);
-    console.log(planList);
+    setPlan5g(plan5g);
+    // console.log("planList",planList);
 
   };
 
@@ -175,12 +188,18 @@ function Search() {
     }
   }
 
+  // console.log("4g",plan4g);
+  // console.log("5g",plan5g);
+
   useEffect(() => {
 
     setProducts([]);
     // setPlans(SamplePlanData);
     // setPlans([]);
-    setPlans(getPlans());
+    // setPlans(getPlans());
+
+    setPlan4g(getPlan4g());
+    setPlan5g(getPlan5g());
 
     setWord("");
     setSearchWord("");
@@ -205,7 +224,7 @@ function Search() {
           </InputGroup>
         </div>
         { products.length !== 0  ? 
-                    <div>{insertResult({ searchWord, products, plans })}</div>
+                    <div>{insertResult({ searchWord, products, plan4g, plan5g })}</div>
                     :
                     <div>{noResult(word)}</div>
                   }
