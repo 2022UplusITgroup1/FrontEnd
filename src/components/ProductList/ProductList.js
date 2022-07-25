@@ -41,8 +41,8 @@ function ProductList({ products, plans, netType }) {
   // MYSEO CREATED - 상품 정렬
   const sortArray = (type) => {
     const types = {
-      0: "create_time", // JSH: createTime 으로 변경해야하지 않을까요?
-      1: "price", // TODO 실구매가로 변경
+      0: "createTime",
+      1: "monPrice",
       2: "price",
       3: "price",
       4: "sales",

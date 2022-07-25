@@ -8,6 +8,8 @@ import convertNumber from "../../utils/convertNumber";
 import { useSelector } from "react-redux";
 import { useState } from "react";
 
+const IMAGE_URI = `${process.env.REACT_APP_IMAGE_URI}`;
+
 function RecentlyPreviewProduct({ product }) {
   //console.log(product);
   const DETAIL_URI = `/mobile/detail/${product.networkSupport}/${product.plan}/${product.code}/${product.color}/${product.discountType}`;
@@ -19,7 +21,7 @@ function RecentlyPreviewProduct({ product }) {
           <Box className={styles.ImgBox}>
             <Image
               className={styles.ProductImg}
-              src={product.imgThumbnail}
+              src={`${IMAGE_URI}${product.imgThumbnail}`}
               alt={product.imgThumbnail}
             />
           </Box>

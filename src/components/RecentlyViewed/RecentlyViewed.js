@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import styles from "./RecentlyViewed.module.css";
-import { Grid, GridItem, Box, Image, Button } from "@chakra-ui/react";
+import { Grid, GridItem, Box, Button } from "@chakra-ui/react";
 import {
   Modal,
   ModalOverlay,

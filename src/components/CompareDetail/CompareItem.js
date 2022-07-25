@@ -26,6 +26,7 @@ const initialPrice = {
   realPhonePrice: 0,
   total: 0,
 };
+const IMAGE_URI = `${process.env.REACT_APP_IMAGE_URI}`;
 
 function CompareItem({ index, item, payPeriod, discountType }) {
   //console.log(item);
@@ -99,7 +100,7 @@ function CompareItem({ index, item, payPeriod, discountType }) {
             <div className={styles.ProductImgContainer}>
               <Image
                 className={styles.ProductImg}
-                src={item.phone.imgThumbnail}
+                src={`${IMAGE_URI}${item.phone.imgThumbnail}`}
                 alt={item.phone.name}
               />
             </div>

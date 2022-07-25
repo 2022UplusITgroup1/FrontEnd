@@ -9,6 +9,8 @@ import convertNumber from "../../utils/convertNumber";
 import calcPrices from "../../utils/calcPrices";
 import mapDiscountType from "../../utils/mapDiscountType";
 
+const IMAGE_URI = `${process.env.REACT_APP_IMAGE_URI}`;
+
 function RecentlyProduct({
   product,
   plan,
@@ -47,7 +49,7 @@ function RecentlyProduct({
           <Box className={styles.ImgBox}>
             <Image
               className={styles.ProductImg}
-              src={product.imgThumbnail}
+              src={`${IMAGE_URI}${product.imgThumbnail}`}
               alt={product.name}
             />
           </Box>
