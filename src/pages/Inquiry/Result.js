@@ -20,6 +20,7 @@ function Result() {
   const orderNum=orderData["productOrder"]["orderNumber"];
   const payPeriod=orderData["productOrder"]["payPeriod"];
   const monthPrice=orderData["productOrder"]["monthPrice"];
+  const phoneCode=orderData["productOrder"]["phoneCode"];
   // const phoneName=orderData["product"]["phone"]["name"];
   // const phoneColor=orderData["product"]["phone"]["color"];
   // const phoneThumbnail=orderData["product"]["phone"]["imgThumbnail"];
@@ -61,8 +62,8 @@ function Result() {
           </div>
           <div className={styles.OrderInfo}>
             {/* <div className={styles.Title}>상품 정보</div> */}
-            {/* <div className={styles.ContentTitle}>기기 정보</div> */}
-            {/* <div className={styles.Content}>{phoneName} {phoneColor} </div> */}
+            <div className={styles.ContentTitle}>기기 정보</div>
+            <div className={styles.Content}>{phoneCode} </div>
             {/* <div className={styles.ContentTitle}>요금제 정보</div> */}
             {/* <div className={styles.Content}>{planName}</div> */}
             {/* <div className={styles.Content}>{phoneColor}</div> */}

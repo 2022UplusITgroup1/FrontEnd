@@ -17,9 +17,9 @@ const PLAN_5G_API_URL = `http://43.200.122.174:8000/product/plan?net_sp=5g`;
 
 
 //word 검색결과 없을 경우 반환
-function noResult({ word }) {
-  // alert(word)
-  if(word===undefined){
+function noResult({ searchWord }) {
+  // console.log("noResult",searchWord);
+  if(searchWord===""){
     return (
       <div className={styles.noResult}>
         <div className={styles.noResultAlert}>
@@ -49,7 +49,7 @@ function noResult({ word }) {
           />
         </div>
         <div className={styles.ResultTitle}>
-          "{word}"에 대한 검색 결과가 없습니다
+          "{searchWord}"에 대한 검색 결과가 없습니다
         </div>
         <div className={styles.ResultSubTitle}>
           단어의 철자 및 띄어쓰기가 정확한지 확인해 보세요.
@@ -65,7 +65,7 @@ function noResult({ word }) {
 
 
 function insertResult({ searchWord, products, plan4g, plan5g }) {
-  console.log("insert",plan4g, plan5g) // 잘들어옴
+  // console.log("insert",plan4g, plan5g) // 잘들어옴
   
   return (
     <div className={styles.insertResult}>
@@ -86,6 +86,7 @@ function insertResult({ searchWord, products, plan4g, plan5g }) {
 }
 
 function Search() {
+  const [initialMessage, setMessage] = useState("");
   const [products, setProducts] = useState([]);
   // const products = useState([]);
   // const [plans, setPlans] = useState([]);
@@ -111,7 +112,7 @@ function Search() {
     try {
       
       const response = await axios.get(`${SEARCH_WORD_URL}${word}`);
-      console.log(response.data.data);
+      // console.log(response.data.data);
       if (response.data.data !== null) {
         console.log("getProducts SUCCESS ");
         // color 가 다른 기종은 처음 값으로 처리
@@ -123,11 +124,14 @@ function Search() {
             }) === i
           );
         });
-        console.log(filteredRes);
+        // console.log(filteredRes);
         setProducts(filteredRes);
+      }else{
+        setProducts([]);
       }
     } catch (e) {
       console.log(e);
+      setProducts([]);
     }
   };
 
@@ -175,14 +179,14 @@ function Search() {
   };
 
   const onClick=(word)=>{
-    console.log(word);
+    // console.log(word);
     setSearchWord(word);
     getProducts(word);
   }
 
   const onKeyPress=(e)=>{
     if(e.key ==='Enter'){
-      alert(word);
+      // alert(word);
       onClick(word);
   
     }
@@ -203,7 +207,7 @@ function Search() {
 
     setWord("");
     setSearchWord("");
-
+    setMessage("검색어를 입력해주세요.");
 
   }, []);
   return (
@@ -223,12 +227,12 @@ function Search() {
             />
           </InputGroup>
         </div>
-        { products.length !== 0  ? 
+        { products.length !== 0  && searchWord!=="" ? 
                     <div>{insertResult({ searchWord, products, plan4g, plan5g })}</div>
                     :
-                    <div>{noResult(word)}</div>
+                    <div>{noResult({searchWord})}</div>
                   }
-        {/* <div>{noResult(word)}</div> */}
+
       </div>
     </div>
   );

@@ -63,9 +63,9 @@ function ResultList({ products, plan4g, plan5g }) {
   // }
   // 
 
-  console.log("plan4g",plan4g);
-  console.log("plan5g",plan5g);
-  console.log(products);
+  // console.log("plan4g",plan4g);
+  // console.log("plan5g",plan5g);
+  // console.log(products);
 
   return (
     <div className={styles.Container}>
