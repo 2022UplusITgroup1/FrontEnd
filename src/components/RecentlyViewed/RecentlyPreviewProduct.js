@@ -34,7 +34,7 @@ function RecentlyPreviewProduct({ product }) {
         >
           {product.name}
           <br />
-          {convertNumber(product.monthPrice)} 원
+          {convertNumber(product.totalPrice)} 원
         </GridItem>
       </Link>
     </div>

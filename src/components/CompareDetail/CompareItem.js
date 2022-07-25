@@ -16,6 +16,7 @@ import calcInstallmentFee from "../../utils/calcInstallmentFee";
 const COMPARE_URI = `/product/compare`;
 const PRODUCTS_API_URI = `/product/phone?net_sp=`;
 
+
 const initialPrice = {
   discountName: "",
   phonePrice: 0,
@@ -52,6 +53,7 @@ function CompareItem({ index, item, payPeriod, discountType }) {
 
   // API: 상품 색상 리스트 GET
   const fetchProductColor = async () => {
+
     const PRODUCT_COLOR_URI = `/product/color?ph_code=${item.phone.code}`;
     try {
       setError(null);

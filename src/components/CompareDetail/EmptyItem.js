@@ -10,6 +10,7 @@ import { Select } from "@chakra-ui/react";
 import mapBrandName from "../../utils/mapBrandName";
 import { addCompareDetailProduct } from "../../actions";
 
+
 function EmptyItem({ products }) {
   const dispatch = useDispatch();
   const [brandType, setBrandType] = useState("0");

@@ -21,6 +21,7 @@ import InfoDetail from "../../components/ProductDetail/InfoDetail";
 import calcPrices from "../../utils/calcPrices";
 import NoResult from "../Exception/NoResult";
 import ErrorPage from "../Exception/ErrorPage";
+import { useCookies } from 'react-cookie';
 
 // Detail 정보 & Color 정보 & Plan 전체 정보 필요
 
@@ -91,6 +92,10 @@ function Detail() {
   //const PLAN_URI = `/product/plan?net_sp=`;
 
   const dispatch = useDispatch();
+
+  // session id
+  const [cookies] = useCookies(['JSESSIONID']);
+  console.log(cookies.JSESSIONID);
 
   // 요금제 모달
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -287,19 +292,22 @@ function Detail() {
 
   /* ----- MYSEO CREATED ----- */
   // MYSEO CREATED - 최근 본 상품 LocalStorage 저장
-  const [watchItems, setWatchItems] = useState([]);
   const [firstRender, setfirstRender] = useState(1); // 맨 처음에만 저장되도록
 
   useEffect(() => {
     if (data.phone.code && colors.length && firstRender) {
       let recentsItemInfo = {
+        jSessionId: cookies.JSESSIONID,
         code: data.phone.code,
         name: data.phone.name,
         color: data.phone.color,
+
         imgThumbnail: IMAGE_URI + data.phone.imgThumbnail,
+
         plan: plCode,
         networkSupport: data.phone.networkSupport,
         discountType: data.phone.discountType,
+        imgThumbnail: data.phone.imgThumbnail,
         totalPrice: nowPrice.total,
       };
       let watchItem = localStorage.getItem("recents");
@@ -308,15 +316,13 @@ function Detail() {
       if (watchItem != null) {
         watchItemArray = JSON.parse(watchItem);
       }
-
       watchItemArray.push(recentsItemInfo);
 
-      if (watchItemArray.length <= 8) {
-        watchItemArray = new Set(watchItemArray);
-        watchItemArray = [...watchItemArray];
-      }
-      localStorage.setItem("recents", JSON.stringify(watchItemArray));
-      setWatchItems(watchItemArray);
+      let setItems = new Set(watchItemArray);
+      let setWatchItemArray = [...setItems];
+
+      localStorage.setItem("recents", JSON.stringify(setWatchItemArray));
+
       setfirstRender(0);
     }
   }, [data]);

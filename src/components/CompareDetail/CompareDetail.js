@@ -18,8 +18,10 @@ import {
 import CompareItem from "./CompareItem";
 import EmptyItem from "./EmptyItem";
 
+
 const COMPARE_URI = `/product/compare`;
 const PRODUCTS_API_URI = `/product/phone?net_sp=`;
+
 
 const initialData = {
   phone: {

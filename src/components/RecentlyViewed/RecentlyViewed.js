@@ -17,6 +17,7 @@ import { useSelector } from "react-redux";
 import RecentlyProduct from "./RecentlyProduct";
 import RecentlyPreviewProduct from "./RecentlyPreviewProduct";
 import axios from "axios";
+import { useCookies } from 'react-cookie';
 
 const RECENT_PRODUCT_API_URI = `/product/recents`;
 
@@ -32,6 +33,10 @@ function RecentlyViewed({ products, plans, category }) {
   const [storedData, setStoredData] = useState([]);
   const [limitedProducts, setLimitedProducts] = useState([]);
 
+  // Cookie에 저장된 JSessionID
+  const [cookies] = useCookies(['JSESSIONID']);
+  // console.log(cookies.JSESSIONID);
+
   // 데이터 로딩 & 에러 처리
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -44,8 +49,8 @@ function RecentlyViewed({ products, plans, category }) {
   const limitProducts = () => {
     let p = [];
     let len = storedData.length > 2 ? 2 : storedData.length;
-    for (let i = len - 1; i >= 0; i--) {
-      p.push(storedData[i]);
+    for (let i = 1; i <= len; i++) {
+      p.push(storedData[storedData.length - i]);
     }
     //console.log(p);
     setLimitedProducts(p);
@@ -86,9 +91,21 @@ function RecentlyViewed({ products, plans, category }) {
     setLoading(false);
   };
 
+  /* ----- MYSEO CREATED ----- */
   useEffect(() => {
-    setStoredData(productList.items.slice(0, 8));
-  }, [productList]);
+    if (localStorage.getItem("recents")) {
+      let watchedAll = JSON.parse(localStorage.getItem("recents"));
+      let matchWatched = [];
+      if (watchedAll.length > 0) {
+        for (let i = 0; i < watchedAll.length; i++) {
+          if (watchedAll[i].jSessionId === cookies.JSESSIONID)
+            matchWatched.push(watchedAll[i]);
+        }
+      }
+      // console.log("matched : " + JSON.stringify(matchWatched))
+      setStoredData(matchWatched);
+    }
+  }, []);
 
   useEffect(() => {
     limitProducts();
@@ -98,7 +115,7 @@ function RecentlyViewed({ products, plans, category }) {
     getRecents();
     onOpen();
   };
-
+  /* ----- END ----- */
   return (
     <div className={styles.Container}>
       <Grid
@@ -150,14 +167,18 @@ function RecentlyViewed({ products, plans, category }) {
             <div className={styles.ModalImgBox}>
               {recentlyProducts && recentlyProducts.length > 0 ? (
                 recentlyProducts.map((d, i) => {
-                  //console.log(d);
-                  const findedProduct = findProduct(d.code);
-                  const findedPlan = findPlan(d.planCode);
+                  // console.log(d);
+                  
                   // 일치하는 데이터가 없을 경우 대비
-                  return findedProduct && findedPlan ? (
+                  return d ? (
                     <RecentlyProduct
-                      product={findedProduct}
-                      plan={findedPlan}
+                      productCode={d.code}
+                      productName={d.name}
+                      productPrice={d.price}
+                      productImgThumbnail={d.imgThumbnail}
+                      planCode={d.planCode}
+                      planName={d.planName}
+                      planPrice={d.planPrice}
                       discountType={d.discountType.toString()}
                       color={d.color}
                       category={d.networkSupport}
