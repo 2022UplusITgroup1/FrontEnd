@@ -269,10 +269,12 @@ export function addCompareDetailProduct(data) {
 }
 
 // 비교하기 상세 상품 삭제하기
-export function deleteCompareDetailProduct(code) {
+export function deleteCompareDetailProduct(code, plan, discountType) {
   return {
     type: DELETE_COMPARE_DETAIL_PRODUCTS,
     code,
+    plan,
+    discountType,
   };
 }
 

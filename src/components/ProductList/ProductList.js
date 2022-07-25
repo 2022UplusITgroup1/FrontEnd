@@ -42,7 +42,7 @@ function ProductList({ products, plans, netType }) {
   const sortArray = (type) => {
     const types = {
       0: "createTime",
-      1: "monPrice",
+      1: "price", // 실구매가로 변경
       2: "price",
       3: "price",
       4: "sales",

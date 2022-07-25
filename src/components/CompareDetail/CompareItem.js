@@ -34,7 +34,9 @@ function CompareItem({ index, item, payPeriod, discountType }) {
 
   const onClickDeleteBtn = () => {
     // 비교하기 상품 삭제
-    dispatch(deleteCompareDetailProduct(item.phone.code));
+    dispatch(
+      deleteCompareDetailProduct(item.phone.code, item.plan.code, discountType)
+    );
   };
 
   const [prices, setPrices] = useState(initialPrice);
