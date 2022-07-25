@@ -55,7 +55,7 @@ function List({ netType }) {
         });
         setProducts(filteredRes);
         //console.log("전체 조회");
-        console.log(filteredRes);
+        //console.log(filteredRes);
       } else {
         // 알맞은 결과를 찾을 수 없습니다
         setNoData(true);

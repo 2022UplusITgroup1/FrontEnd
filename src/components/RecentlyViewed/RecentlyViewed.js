@@ -128,7 +128,7 @@ function RecentlyViewed({ products, plans, category }) {
         </GridItem>
         {limitedProducts.length > 0 ? (
           limitedProducts.map((lp, i) => {
-            console.log(lp);
+            //console.log(lp);
             return <RecentlyPreviewProduct product={lp} key={i} />;
           })
         ) : (

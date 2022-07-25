@@ -166,9 +166,9 @@ function Product({ product, plan, netType }) {
               {/* <Box className={styles.PriceTxt}>
                 MonPrice 월 {nowPrice && convertNumber(product.monPrice)}원
               </Box> */}
-              <Box className={styles.PriceTxt}>
+              {/* <Box className={styles.PriceTxt}>
                 정상가 {nowPrice && convertNumber(nowPrice.phonePrice)}원
-              </Box>
+              </Box> */}
               <Box className={styles.PriceTxt}>
                 휴대폰 월 {nowPrice && convertNumber(nowPrice.monthPhonePrice)}
                 원

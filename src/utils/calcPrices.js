@@ -27,8 +27,8 @@ function calcPrices(phone, plan, dcType, payPeriod) {
   if (payPeriod >= 12) {
     monthInstallmentFee = calcInstallmentFee(phone, 5.9);
     totalInstallmentFee = monthInstallmentFee * (payPeriod / 2);
-    console.log(monthInstallmentFee);
-    console.log(totalInstallmentFee);
+    //console.log(monthInstallmentFee);
+    //console.log(totalInstallmentFee);
   }
 
   monthPhonePrice = monthPhonePrice + monthInstallmentFee;

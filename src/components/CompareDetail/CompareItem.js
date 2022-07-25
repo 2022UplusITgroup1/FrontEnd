@@ -85,7 +85,7 @@ function CompareItem({ index, item, payPeriod, discountType }) {
         Number(nowPayPeriod)
       );
       setPrices(nowTotalPrice);
-      console.log(nowTotalPrice);
+      //console.log(nowTotalPrice);
 
       fetchProductColor();
     }
