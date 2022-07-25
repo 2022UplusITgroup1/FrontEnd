@@ -12,10 +12,8 @@ import Compare from "../Compare/Compare";
 import ErrorPage from "../../pages/Exception/ErrorPage";
 import calcPrices from "../../utils/calcPrices";
 
-
 // 상세 정보 조회 URI
 const SELECTED_PRODUCT_API_URI = `/product/phone?net_sp=`;
-
 
 function ProductList({ products, plans, netType }) {
   const dispatch = useDispatch();

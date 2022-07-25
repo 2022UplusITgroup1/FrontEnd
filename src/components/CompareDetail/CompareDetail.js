@@ -2,7 +2,6 @@
 
 import React, { useState, useEffect } from "react";
 import styles from "./CompareDetail.module.css";
-import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 import { Button } from "@chakra-ui/react";
@@ -18,10 +17,8 @@ import {
 import CompareItem from "./CompareItem";
 import EmptyItem from "./EmptyItem";
 
-
 const COMPARE_URI = `/product/compare`;
 const PRODUCTS_API_URI = `/product/phone?net_sp=`;
-
 
 const initialData = {
   phone: {

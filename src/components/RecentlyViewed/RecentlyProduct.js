@@ -27,21 +27,10 @@ function RecentlyProduct({
   // 최근 본 상품은 고정 값이므로 일반 변수 사용
   let DETAIL_URI = "";
   if (discountType === "0") {
-
-    DETAIL_URI = `/mobile/detail/${category}/${plan.code}/${product.code}/${color}/${product.discountType}`;
+    DETAIL_URI = `/mobile/detail/${category}/${planCode}/${productCode}/${color}/${discountType}`;
   } else {
-    DETAIL_URI = `/mobile/detail/${category}/${plan.code}/${product.code}/${color}/${discountType}`;
-
+    DETAIL_URI = `/mobile/detail/${category}/${planCode}/${productCode}/${color}/${discountType}`;
   }
-
-  // 계약기간 => 기본 = 24, 선택약정12개월 = 12
-  // let payPeriod = discountType === "3" ? 12 : 24;
-  // const nowTotalPrice = calcPrices(
-  //   product.price,
-  //   plan.price,
-  //   discountType,
-  //   payPeriod
-  // );
 
   return (
     <Box
@@ -56,10 +45,8 @@ function RecentlyProduct({
           <Box className={styles.ImgBox}>
             <Image
               className={styles.ProductImg}
-
-              src={`${IMAGE_URI}${product.imgThumbnail}`}
-              alt={product.name}
-
+              src={`${IMAGE_URI}${productImgThumbnail}`}
+              alt={productName}
             />
           </Box>
           <Box className={styles.ProductTitle}>{productName}</Box>

@@ -16,7 +16,6 @@ import calcInstallmentFee from "../../utils/calcInstallmentFee";
 const COMPARE_URI = `/product/compare`;
 const PRODUCTS_API_URI = `/product/phone?net_sp=`;
 
-
 const initialPrice = {
   discountName: "",
   phonePrice: 0,
@@ -26,6 +25,8 @@ const initialPrice = {
   monthPhonePrice: 0,
   monthPlanPrice: 0,
   realPhonePrice: 0,
+  monthInstallmentFee: 0,
+  totalInstallmentFee: 0,
   total: 0,
 };
 const IMAGE_URI = `${process.env.REACT_APP_IMAGE_URI}`;
@@ -53,7 +54,6 @@ function CompareItem({ index, item, payPeriod, discountType }) {
 
   // API: 상품 색상 리스트 GET
   const fetchProductColor = async () => {
-
     const PRODUCT_COLOR_URI = `/product/color?ph_code=${item.phone.code}`;
     try {
       setError(null);
@@ -154,13 +154,13 @@ function CompareItem({ index, item, payPeriod, discountType }) {
                 <dd className={styles.PriceDetailDD}>
                   {convertNumber(prices.publicPrice)}원
                 </dd>
-                {/* <dt className={styles.PriceDetailDT}>할부수수료</dt>
+                <dt className={styles.PriceDetailDT}>할부수수료(연5.9%)</dt>
                 <dd className={styles.PriceDetailDD}>
                   {nowPayPeriod >= 12
-                    ? convertNumber(prices.installmentFee)
+                    ? convertNumber(prices.totalInstallmentFee)
                     : 0}
                   원
-                </dd> */}
+                </dd>
                 <dt className={styles.PriceDetailDT}>실구매가</dt>
                 <dd className={styles.PriceDetailDD}>
                   {convertNumber(prices.realPhonePrice)}원
