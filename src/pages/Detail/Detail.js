@@ -21,7 +21,7 @@ import InfoDetail from "../../components/ProductDetail/InfoDetail";
 import calcPrices from "../../utils/calcPrices";
 import NoResult from "../Exception/NoResult";
 import ErrorPage from "../Exception/ErrorPage";
-import { useCookies } from 'react-cookie';
+import { useCookies } from "react-cookie";
 
 // Detail 정보 & Color 정보 & Plan 전체 정보 필요
 
@@ -94,7 +94,7 @@ function Detail() {
   const dispatch = useDispatch();
 
   // session id
-  const [cookies] = useCookies(['JSESSIONID']);
+  const [cookies] = useCookies(["JSESSIONID"]);
   console.log(cookies.JSESSIONID);
 
   // 요금제 모달
@@ -126,7 +126,7 @@ function Detail() {
       phone: {
         code: data.phone.code,
         name: data.phone.name,
-        imgThumbnail: IMAGE_URI + data.phone.imgThumbnail,
+        imgThumbnail: data.phone.imgThumbnail,
         storage: { capability: data.phone.storage.capability },
         color: color, // 초기값 = color
         price: data.phone.price,
@@ -138,7 +138,7 @@ function Detail() {
       },
       discountType: dcType, // 초기값 = dcType
       monthPrice: nowTotalPrice.total,
-      payPeriod: dcType === "3" ? 12 : 24, // 계약기간 => 기본 = 24, 선택약정12개월 = 12
+      payPeriod: 24,
     };
     dispatch(selectDetail(value));
   };
@@ -265,7 +265,7 @@ function Detail() {
       setPlan(nowPlan);
 
       // 계약기간 => 기본 = 24, 선택약정12개월 = 12
-      let payPeriod = dcType === "3" ? 12 : 24;
+      let payPeriod = 24;
       const nowTotalPrice = calcPrices(
         data.phone.price,
         data.plan.price,
@@ -302,13 +302,14 @@ function Detail() {
         name: data.phone.name,
         color: data.phone.color,
 
-        imgThumbnail: IMAGE_URI + data.phone.imgThumbnail,
+        imgThumbnail: data.phone.imgThumbnail,
 
         plan: plCode,
         networkSupport: data.phone.networkSupport,
         discountType: data.phone.discountType,
-        imgThumbnail: data.phone.imgThumbnail,
-        totalPrice: nowPrice.total,
+        //totalPrice: nowPrice.total,
+        totalPrice: calcPrices(data.phone.price, data.plan.price, dcType, 24)
+          .total,
       };
       let watchItem = localStorage.getItem("recents");
 
