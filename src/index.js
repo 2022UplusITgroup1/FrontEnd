@@ -14,6 +14,6 @@ root.render(
   </CookiesProvider>
 );
 
-window.addEventListener("beforeunload", (e) => {
-  localStorage.clear();
-});
+// window.addEventListener("beforeunload", (e) => {
+//   localStorage.clear();
+// });
