@@ -21,6 +21,7 @@ import InfoDetail from "../../components/ProductDetail/InfoDetail";
 import calcPrices from "../../utils/calcPrices";
 import NoResult from "../Exception/NoResult";
 import ErrorPage from "../Exception/ErrorPage";
+import { useCookies } from 'react-cookie';
 
 // Detail 정보 & Color 정보 & Plan 전체 정보 필요
 
@@ -84,6 +85,10 @@ function Detail() {
   const PLAN_URL = `/product/plan?net_sp=`;
 
   const dispatch = useDispatch();
+
+  // session id
+  const [cookies] = useCookies(['JSESSIONID']);
+  console.log(cookies.JSESSIONID);
 
   // 요금제 모달
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -276,6 +281,41 @@ function Detail() {
       fetchProductColorImg(orderProduct.phone.color);
     }
   }, [orderProduct.phone.color]);
+
+  /* ----- MYSEO CREATED ----- */
+  // MYSEO CREATED - 최근 본 상품 LocalStorage 저장
+  const [firstRender, setfirstRender] = useState(1); // 맨 처음에만 저장되도록
+
+  useEffect(() => {
+    if (data.phone.code && colors.length && firstRender) {
+      let recentsItemInfo = {
+        jSessionId: cookies.JSESSIONID,
+        code: data.phone.code,
+        name: data.phone.name,
+        color: data.phone.color,
+        plan: plCode,
+        networkSupport: data.phone.networkSupport,
+        discountType: data.phone.discountType,
+        imgThumbnail: data.phone.imgThumbnail,
+        totalPrice: nowPrice.total,
+      };
+      let watchItem = localStorage.getItem("recents");
+
+      let watchItemArray = [];
+      if (watchItem != null) {
+        watchItemArray = JSON.parse(watchItem);
+      }
+      watchItemArray.push(recentsItemInfo);
+
+      let setItems = new Set(watchItemArray);
+      let setWatchItemArray = [...setItems];
+
+      localStorage.setItem("recents", JSON.stringify(setWatchItemArray));
+
+      setfirstRender(0);
+    }
+  }, [data]);
+  /* ----- END ----- */
 
   if (error) return <ErrorPage />;
   if (noData) return <NoResult />;
