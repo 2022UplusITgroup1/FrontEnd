@@ -82,9 +82,9 @@ function Detail() {
   console.log(netType, plCode, phCode, color, dcType);
 
   // API URI
-  const PRODUCT_DETAIL_URI = `${process.env.REACT_APP_PRODUCT_SERVER_URI}/product/detail?pl_code=${plCode}&ph_code=${phCode}&color=${color}&dc_type=${dcType}`;
-  const PRODUCT_COLOR_URI = `${process.env.REACT_APP_PRODUCT_SERVER_URI}/product/color?ph_code=${phCode}`;
-  const PLAN_URI = `${process.env.REACT_APP_PRODUCT_SERVER_URI}/product/plan?net_sp=`;
+  const PRODUCT_DETAIL_URI = `/product/detail?pl_code=${plCode}&ph_code=${phCode}&color=${color}&dc_type=${dcType}`;
+  const PRODUCT_COLOR_URI = `/product/color?ph_code=${phCode}`;
+  const PLAN_URI = `/product/plan?net_sp=`;
 
   //const PRODUCT_DETAIL_URI = `/product/detail?pl_code=${plCode}&ph_code=${phCode}&color=${color}&dc_type=${dcType}`;
   //const PRODUCT_COLOR_URI = `/product/color?ph_code=${phCode}`;
@@ -205,7 +205,7 @@ function Detail() {
       setError(null);
       setNoData(false);
 
-      const PRODUCT_COLOR_IMG_URI = `${process.env.REACT_APP_PRODUCT_SERVER_URI}/product/detail?pl_code=${plCode}&ph_code=${phCode}&color=${nowColor}&dc_type=${dcType}`;
+      const PRODUCT_COLOR_IMG_URI = `/product/detail?pl_code=${plCode}&ph_code=${phCode}&color=${nowColor}&dc_type=${dcType}`;
 
       const response = await axios.get(`${PRODUCT_COLOR_IMG_URI}`);
       console.log(response.data);

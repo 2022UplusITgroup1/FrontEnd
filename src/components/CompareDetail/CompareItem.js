@@ -11,9 +11,10 @@ import convertNumber from "../../utils/convertNumber";
 import calcPrices from "../../utils/calcPrices";
 import mapDiscountType from "../../utils/mapDiscountType";
 import { deleteCompareDetailProduct } from "../../actions";
+import calcInstallmentFee from "../../utils/calcInstallmentFee";
 
-const COMPARE_URI = `${process.env.REACT_APP_PRODUCT_SERVER_URI}/product/compare`;
-const PRODUCTS_API_URI = `${process.env.REACT_APP_PRODUCT_SERVER_URI}/product/phone?net_sp=`;
+const COMPARE_URI = `/product/compare`;
+const PRODUCTS_API_URI = `/product/phone?net_sp=`;
 
 const initialPrice = {
   discountName: "",
@@ -51,7 +52,7 @@ function CompareItem({ index, item, payPeriod, discountType }) {
 
   // API: 상품 색상 리스트 GET
   const fetchProductColor = async () => {
-    const PRODUCT_COLOR_URI = `${process.env.REACT_APP_PRODUCT_SERVER_URI}/product/color?ph_code=${item.phone.code}`;
+    const PRODUCT_COLOR_URI = `/product/color?ph_code=${item.phone.code}`;
     try {
       setError(null);
       const response = await axios.get(`${PRODUCT_COLOR_URI}`);
@@ -133,9 +134,15 @@ function CompareItem({ index, item, payPeriod, discountType }) {
               <dl className={styles.PriceDetail}>
                 <div className={styles.PriceDetailMain}>
                   <dt className={styles.PriceDetailDTMain}>휴대폰 가격</dt>
-                  <dd className={styles.PriceDetailDDMain}>
-                    월 {convertNumber(prices.monthPhonePrice)}원
-                  </dd>
+                  {nowPayPeriod === "1" ? (
+                    <dd className={styles.PriceDetailDDMain}>
+                      {convertNumber(prices.phonePrice)}원
+                    </dd>
+                  ) : (
+                    <dd className={styles.PriceDetailDDMain}>
+                      월 {convertNumber(prices.monthPhonePrice)}원
+                    </dd>
+                  )}
                 </div>
                 <dt className={styles.PriceDetailDT}>출고가</dt>
                 <dd className={styles.PriceDetailDD}>
@@ -145,6 +152,13 @@ function CompareItem({ index, item, payPeriod, discountType }) {
                 <dd className={styles.PriceDetailDD}>
                   {convertNumber(prices.publicPrice)}원
                 </dd>
+                {/* <dt className={styles.PriceDetailDT}>할부수수료</dt>
+                <dd className={styles.PriceDetailDD}>
+                  {nowPayPeriod >= 12
+                    ? convertNumber(prices.installmentFee)
+                    : 0}
+                  원
+                </dd> */}
                 <dt className={styles.PriceDetailDT}>실구매가</dt>
                 <dd className={styles.PriceDetailDD}>
                   {convertNumber(prices.realPhonePrice)}원
@@ -196,7 +210,6 @@ function CompareItem({ index, item, payPeriod, discountType }) {
                   className={styles.PayPeriod}
                   value="1"
                   variant="flushed"
-                  isReadOnly={true}
                 >
                   <option value="1">신규가입</option>
                 </Select>

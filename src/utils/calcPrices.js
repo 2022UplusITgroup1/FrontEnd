@@ -2,6 +2,7 @@
 
 import floorNumber from "./floorNumber";
 import mapDiscountType from "./mapDiscountType";
+import calcInstallmentFee from "./calcInstallmentFee";
 
 // 파라미터: 휴대폰 가격, 요금제 가격, 할인 유형, 할부 기간
 function calcPrices(phone, plan, dcType, payPeriod) {
@@ -22,6 +23,9 @@ function calcPrices(phone, plan, dcType, payPeriod) {
   // 실구매가 = 휴대폰 정상가 - 공시지원금
   let realPhonePrice = phone - publicPrice;
 
+  // 할부 수수료
+  let installmentFee = 0;
+
   // 최종 월별 금액
   let total = 0;
   if (payPeriod === 1) {
@@ -29,8 +33,12 @@ function calcPrices(phone, plan, dcType, payPeriod) {
     total = monthPlanPrice;
   } else {
     // 할부 적용가
+    installmentFee = calcInstallmentFee(phone, 5.9) * payPeriod;
     total = monthPhonePrice + monthPlanPrice;
   }
+
+  // 연 할부 수수료
+  let monthInstallmentFee = floorNumber(installmentFee / 12);
 
   return {
     discountName: mapDiscountType(dcType),
@@ -41,6 +49,8 @@ function calcPrices(phone, plan, dcType, payPeriod) {
     monthPhonePrice: monthPhonePrice,
     monthPlanPrice: monthPlanPrice,
     realPhonePrice: realPhonePrice,
+    installmentFee: installmentFee,
+    monthInstallmentFee: monthInstallmentFee,
     total: total,
   };
 }
