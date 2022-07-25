@@ -5,9 +5,9 @@ import floorNumber from "./floorNumber";
 function calcInstallmentFee(phone, rate) {
   rate = rate * 0.01;
 
-  var r_money = eval((phone * rate) / 12);
+  let r_money = floorNumber(floorNumber(phone * rate) / 12);
 
-  return floorNumber(r_money) * 12; //할부이자
+  return r_money; //할부이자
 }
 
 export default calcInstallmentFee;

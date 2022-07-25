@@ -189,14 +189,14 @@
 .DiscountPlanBox {
   display: flex;
   justify-content: space-around;
-  height: 200px; /* 350 */
+  height: 220px; /* 350 */
   margin-bottom: 30px;
 }
 
 .DiscountPlanTxtContainer {
   background-color: #f8f8f8;
   width: 370px;
-  height: 200px; /* 350 */
+  height: 220px; /* 350 */
   border-radius: 10px;
   padding-top: 25px;
   margin-bottom: 50px;

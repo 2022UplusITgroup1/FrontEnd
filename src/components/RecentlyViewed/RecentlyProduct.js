@@ -34,15 +34,6 @@ function RecentlyProduct({
 
   }
 
-  // 계약기간 => 기본 = 24, 선택약정12개월 = 12
-  // let payPeriod = discountType === "3" ? 12 : 24;
-  // const nowTotalPrice = calcPrices(
-  //   product.price,
-  //   plan.price,
-  //   discountType,
-  //   payPeriod
-  // );
-
   return (
     <Box
       className={styles.Container}
