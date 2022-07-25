@@ -28,9 +28,9 @@ function RecentlyProduct({
   let DETAIL_URI = "";
   if (discountType === "0") {
 
-    DETAIL_URI = `/mobile/detail/${category}/${plan.code}/${product.code}/${color}/${product.discountType}`;
+    DETAIL_URI = `/mobile/detail/${category}/${planCode}/${productCode}/${color}/${discountType}`;
   } else {
-    DETAIL_URI = `/mobile/detail/${category}/${plan.code}/${product.code}/${color}/${discountType}`;
+    DETAIL_URI = `/mobile/detail/${category}/${planCode}/${productCode}/${color}/${discountType}`;
 
   }
 
@@ -57,8 +57,8 @@ function RecentlyProduct({
             <Image
               className={styles.ProductImg}
 
-              src={`${IMAGE_URI}${product.imgThumbnail}`}
-              alt={product.name}
+              src={`${IMAGE_URI}${productImgThumbnail}`}
+              alt={productName}
 
             />
           </Box>
