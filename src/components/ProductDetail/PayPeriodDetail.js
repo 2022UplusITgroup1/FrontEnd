@@ -25,7 +25,7 @@ function PayPeriodDetail({ data, plan }) {
         code: data.phone.code,
         name: data.phone.name,
         imgThumbnail: data.phone.imgThumbnail,
-        storage: data.phone.storage.capability,
+        storage: { capability: data.phone.storage.capability },
         color: orderProduct.phone.color,
         price: data.phone.price,
       },

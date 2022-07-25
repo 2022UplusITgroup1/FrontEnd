@@ -7,7 +7,7 @@ const initialState = {
     code: "",
     name: "",
     imgThumbnail: "",
-    storage: "",
+    storage: { capability: "" },
     color: "",
     phoneCode: "",
     price: 0,

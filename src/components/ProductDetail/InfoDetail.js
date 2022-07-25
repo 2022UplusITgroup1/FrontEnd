@@ -39,7 +39,7 @@ function InfoDetail({ data, plan, colors }) {
         code: data.phone.code,
         name: data.phone.name,
         imgThumbnail: data.phone.imgThumbnail,
-        storage: data.phone.storage.capability,
+        storage: { capability: data.phone.storage.capability },
         color: colorType,
         price: data.phone.price,
       },

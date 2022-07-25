@@ -27,7 +27,8 @@ function OrderDetail({ product }) {
         </div>
         <div className={styles.TitleInfo}>{product.phone.name}</div>
         <div className={styles.SubInfo}>
-          {convertNumber(product.phone.storage)}GB | {product.phone.color}
+          {convertNumber(product.phone.storage.capability)}GB |{" "}
+          {product.phone.color}
         </div>
         <div className={styles.PlanInfo}>
           <ul className={styles.PlanInfoUL}>
