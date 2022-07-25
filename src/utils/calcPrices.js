@@ -20,17 +20,15 @@ function calcPrices(phone, plan, dcType, payPeriod) {
   let monthPhonePrice = floorNumber((phone - publicPrice) / payPeriod);
   let monthPlanPrice = plan - selectPrice;
 
-  // 월 할부 수수료
+  // 월 할부 수수료, 연 할부 수수료
   let monthInstallmentFee = 0;
-  // 연 할부 수수료
   let totalInstallmentFee = 0;
   if (payPeriod >= 12) {
     monthInstallmentFee = calcInstallmentFee(phone, 5.9);
     totalInstallmentFee = monthInstallmentFee * (payPeriod / 2);
-    //console.log(monthInstallmentFee);
-    //console.log(totalInstallmentFee);
   }
 
+  // 월별 휴대폰 - 할부 수수료
   monthPhonePrice = monthPhonePrice + monthInstallmentFee;
 
   // 실구매가 = 휴대폰 정상가 - 공시지원금
