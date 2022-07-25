@@ -18,10 +18,10 @@ import RecentlyProduct from "./RecentlyProduct";
 import RecentlyPreviewProduct from "./RecentlyPreviewProduct";
 import axios from "axios";
 
-const RECENT_PRODUCT_API_URL = `/product/recents`;
+const RECENT_PRODUCT_API_URI = `/product/recents`;
 
 function RecentlyViewed({ products, plans, category }) {
-  //const DETAIL_URL = `/mobile/detail/${category}/${plan.code}/${product.code}/${product.color}/${product.discountType}`;
+  //const DETAIL_URI = `/mobile/detail/${category}/${plan.code}/${product.code}/${product.color}/${product.discountType}`;
 
   // Redux store 에 저장된 최근 본 상품
   const productList = useSelector((state) => state.recentlyReducer);
@@ -69,7 +69,7 @@ function RecentlyViewed({ products, plans, category }) {
     try {
       setLoading(true);
       setError(null);
-      const response = await axios.get(`${RECENT_PRODUCT_API_URL}`);
+      const response = await axios.get(`${RECENT_PRODUCT_API_URI}`);
       console.log(response.data);
       if (response.data.data !== null) {
         console.log("getRecents SUCCESS ");

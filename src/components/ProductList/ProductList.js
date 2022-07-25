@@ -11,8 +11,8 @@ import { changeProductSort } from "../../actions";
 import Compare from "../Compare/Compare";
 import ErrorPage from "../../pages/Exception/ErrorPage";
 
-// 상세 정보 조회 URL
-const SELECTED_PRODUCT_API_URL = `http://43.200.122.174:8000/product/phone?net_sp=`;
+// 상세 정보 조회 URI
+const SELECTED_PRODUCT_API_URI = `http://43.200.122.174:8000/product/phone?net_sp=`;
 
 function ProductList({ products, plans, netType }) {
   const dispatch = useDispatch();
@@ -72,27 +72,27 @@ function ProductList({ products, plans, netType }) {
     planType,
     sortType
   ) => {
-    // 조회해야하는 조건만 URL 에 추가
-    let OPTION_URL = `${SELECTED_PRODUCT_API_URL}${netType}`;
+    // 조회해야하는 조건만 URI 에 추가
+    let OPTION_URI = `${SELECTED_PRODUCT_API_URI}${netType}`;
     if (brandType !== "0") {
-      OPTION_URL += `&mf_name=${brandType}`;
+      OPTION_URI += `&mf_name=${brandType}`;
     }
     if (storageType !== "0") {
-      OPTION_URL += `&capa=${storageType}`;
+      OPTION_URI += `&capa=${storageType}`;
     }
     if (planType === "0") {
-      OPTION_URL += `&plan=${plans[0].code}`;
+      OPTION_URI += `&plan=${plans[0].code}`;
     } else {
-      OPTION_URL += `&plan=${planType}`;
+      OPTION_URI += `&plan=${planType}`;
     }
-    OPTION_URL += `&ord=${sortType}`;
-    //console.log(OPTION_URL);
+    OPTION_URI += `&ord=${sortType}`;
+    //console.log(OPTION_URI);
 
     // API GET
     try {
       setLoading(true);
       setError(null);
-      const response = await axios.get(OPTION_URL);
+      const response = await axios.get(OPTION_URI);
       //console.log(response.data);
       if (response.data.data !== null) {
         console.log("getSelectedProducts SUCCESS ");

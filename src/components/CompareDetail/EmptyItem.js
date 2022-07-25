@@ -32,8 +32,8 @@ import mapDiscountType from "../../utils/mapDiscountType";
 import mapBrandName from "../../utils/mapBrandName";
 import { addCompareDetailProduct } from "../../actions";
 
-const COMPARE_URL = `http://43.200.122.174:8000/product/compare`;
-const PRODUCTS_API_URL = `http://43.200.122.174:8000/product/phone?net_sp=`;
+const COMPARE_URI = `http://43.200.122.174:8000/product/compare`;
+const PRODUCTS_API_URI = `http://43.200.122.174:8000/product/phone?net_sp=`;
 
 function EmptyItem({ products }) {
   const dispatch = useDispatch();

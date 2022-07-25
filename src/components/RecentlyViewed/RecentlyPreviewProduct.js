@@ -10,11 +10,11 @@ import { useState } from "react";
 
 function RecentlyPreviewProduct({ product }) {
   //console.log(product);
-  const DETAIL_URL = `/mobile/detail/${product.networkSupport}/${product.plan}/${product.code}/${product.color}/${product.discountType}`;
+  const DETAIL_URI = `/mobile/detail/${product.networkSupport}/${product.plan}/${product.code}/${product.color}/${product.discountType}`;
 
   return (
     <div className={styles.Container}>
-      <Link to={DETAIL_URL}>
+      <Link to={DETAIL_URI}>
         <GridItem pl="1" area={"img"}>
           <Box className={styles.ImgBox}>
             <Image

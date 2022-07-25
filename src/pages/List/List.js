@@ -13,14 +13,13 @@ import NoResult from "../Exception/NoResult";
 import ErrorPage from "../Exception/ErrorPage";
 
 // API URI
-//const PRODUCTS_API_URL = `${process.env.REACT_APP_PRODUCT_SERVER_URL}/product?net_sp=`;
-//const PLANS_API_URL = `${process.env.REACT_APP_PRODUCT_SERVER_URL}/plan?net_sp=`;
-//const RECENT_PRODUCT_API_URL = `${process.env.REACT_APP_PRODUCT_SERVER_URL}/recents`;
+const PRODUCTS_API_URI = `${process.env.REACT_APP_PRODUCT_SERVER_URI}/product/phone?net_sp=`;
+const PLANS_API_URI = `${process.env.REACT_APP_PRODUCT_SERVER_URI}/product/plan?net_sp=`;
+const RECENT_PRODUCT_API_URI = `${process.env.REACT_APP_PRODUCT_SERVER_URI}/product/recents`;
 
-//http://43.200.122.174:8000/product/phone?net_sp=5g
-const PRODUCTS_API_URL = `/product/phone?net_sp=`;
-const PLANS_API_URL = `/product/plan?net_sp=`;
-const RECENT_PRODUCT_API_URL = `/product/recents`;
+//const PRODUCTS_API_URI = `/product/phone?net_sp=`;
+//const PLANS_API_URI = `/product/plan?net_sp=`;
+//const RECENT_PRODUCT_API_URI = `/product/recents`;
 
 function List({ netType }) {
   const dispatch = useDispatch();
@@ -42,7 +41,7 @@ function List({ netType }) {
       setLoading(true);
       setError(null);
       setNoData(false);
-      const response = await axios.get(`${PRODUCTS_API_URL}${netType}`);
+      const response = await axios.get(`${PRODUCTS_API_URI}${netType}`);
       //console.log(response.data);
       if (response.data.data !== null) {
         console.log("getProducts SUCCESS ");
@@ -74,7 +73,7 @@ function List({ netType }) {
       setLoading(true);
       setError(null);
       setNoData(false);
-      const response = await axios.get(`${PLANS_API_URL}${netType}`);
+      const response = await axios.get(`${PLANS_API_URI}${netType}`);
       //console.log(response.data);
       if (response.data.data !== null) {
         console.log("getPlans SUCCESS ");
@@ -96,7 +95,7 @@ function List({ netType }) {
       setLoading(true);
       setError(null);
       setNoData(false);
-      const response = await axios.get(`${RECENT_PRODUCT_API_URL}`);
+      const response = await axios.get(`${RECENT_PRODUCT_API_URI}`);
       //console.log(response.data);
       if (response.data.data !== null) {
         console.log("getRecents SUCCESS ");

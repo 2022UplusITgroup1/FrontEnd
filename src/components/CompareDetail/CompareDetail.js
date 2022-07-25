@@ -32,8 +32,8 @@ import mapDiscountType from "../../utils/mapDiscountType";
 import CompareItem from "./CompareItem";
 import EmptyItem from "./EmptyItem";
 
-const COMPARE_URL = `http://43.200.122.174:8000/product/compare`;
-const PRODUCTS_API_URL = `http://43.200.122.174:8000/product/phone?net_sp=`;
+const COMPARE_URI = `http://43.200.122.174:8000/product/compare`;
+const PRODUCTS_API_URI = `http://43.200.122.174:8000/product/phone?net_sp=`;
 
 const initialData = {
   phone: {
@@ -95,7 +95,7 @@ function CompareDetail({ isOpen, onClose, data }) {
 
     try {
       setError(null);
-      const response = await axios.post(`${COMPARE_URL}`, requestBody);
+      const response = await axios.post(`${COMPARE_URI}`, requestBody);
 
       if (response.data.data !== null) {
         console.log("fetchCompareData SUCCESS ");
@@ -120,7 +120,7 @@ function CompareDetail({ isOpen, onClose, data }) {
   const getProducts = async (netType) => {
     try {
       setError(null);
-      const response = await axios.get(`${PRODUCTS_API_URL}${netType}`);
+      const response = await axios.get(`${PRODUCTS_API_URI}${netType}`);
       //console.log(response.data);
       if (response.data.data !== null) {
         console.log("getProducts SUCCESS ");

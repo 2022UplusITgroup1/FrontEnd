@@ -12,8 +12,8 @@ import calcPrices from "../../utils/calcPrices";
 import mapDiscountType from "../../utils/mapDiscountType";
 import { deleteCompareDetailProduct } from "../../actions";
 
-const COMPARE_URL = `http://43.200.122.174:8000/product/compare`;
-const PRODUCTS_API_URL = `http://43.200.122.174:8000/product/phone?net_sp=`;
+const COMPARE_URI = `http://43.200.122.174:8000/product/compare`;
+const PRODUCTS_API_URI = `http://43.200.122.174:8000/product/phone?net_sp=`;
 
 const initialPrice = {
   discountName: "",
@@ -39,7 +39,7 @@ function CompareItem({ index, item, payPeriod, discountType }) {
   const [prices, setPrices] = useState(initialPrice);
   const [nowPayPeriod, setNowPayPeriod] = useState(payPeriod);
 
-  const DETAIL_URL = `/mobile/detail/${item.phone.networkSupport}/${item.plan.code}/${item.phone.code}/${item.phone.color}/${discountType}`;
+  const DETAIL_URI = `/mobile/detail/${item.phone.networkSupport}/${item.plan.code}/${item.phone.code}/${item.phone.color}/${discountType}`;
 
   // 데이터 에러 처리
   const [error, setError] = useState(null);
@@ -48,10 +48,10 @@ function CompareItem({ index, item, payPeriod, discountType }) {
 
   // API: 상품 색상 리스트 GET
   const fetchProductColor = async () => {
-    const PRODUCT_COLOR_URL = `http://43.200.122.174:8000/product/color?ph_code=${item.phone.code}`;
+    const PRODUCT_COLOR_URI = `http://43.200.122.174:8000/product/color?ph_code=${item.phone.code}`;
     try {
       setError(null);
-      const response = await axios.get(`${PRODUCT_COLOR_URL}`);
+      const response = await axios.get(`${PRODUCT_COLOR_URI}`);
       //console.log(response.data);
       if (response.data.data !== null) {
         console.log("fetchProductColor SUCCESS ");
@@ -109,7 +109,7 @@ function CompareItem({ index, item, payPeriod, discountType }) {
                 월 {prices && convertNumber(prices.total)}원
               </div>
             </div>
-            <Link to={DETAIL_URL}>
+            <Link to={DETAIL_URI}>
               <Button className={styles.ReadMoreBtn}>자세히보기</Button>
             </Link>
           </Box>
