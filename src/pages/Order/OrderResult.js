@@ -1,15 +1,12 @@
-import React, { useState } from "react";
+// 주문 완료 페이지
+
+import React from "react";
 import styles from "./OrderResult.module.css";
 import { FiCheckCircle } from "react-icons/fi";
 import { Link } from "react-router-dom";
 import { Button } from "@chakra-ui/react";
 
 function OrderResult() {
-  const [word, setWord] = useState("");
-  const onChange = (e) => {
-    setWord(e.target.value);
-    console.log(e.ta);
-  };
   return (
     <div className={styles.Container}>
       <div className={styles.OrderResultContatiner}>

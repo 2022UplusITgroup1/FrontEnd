@@ -1,22 +1,35 @@
-import React from "react";
+// 주문 조회 결과 페이지
+
+import React, { useEffect, useState } from "react";
 import styles from "./Result.module.css";
-import { Button } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
+import axios from "axios";
+import { Button } from "@chakra-ui/react";
+import { useSelector } from "react-redux";
+
+const PLAN_API_URI = `/order/my?name=%EC%95%84%EC%9D%B4%EC%9C%A0&phone_number=01012340001&order_number=202207132210570001`;
 
 function Result() {
-  const property = {
-    imageUrl:
-      "https://image.lguplus.com/static/pc-contents/images/prdv/20220616-073051-526-l4VusvGl.jpg",
-    imageAlt: "Galaxy Buddy 2",
-    title: "Galaxy Buddy 2",
-    subTitle: "5G 라이트+ | 공시지원금",
-    phone: "0",
-    communication: "55,000",
-    formattedPrice: "55,000",
-    color: "라이트 블루",
-    capacity: "128GB",
-    joinType: "기기변경",
+  const [data, setData] = useState([]);
+
+  // 주문 조회 값 가져오기
+  const orderInfo = useSelector((state) => state.orderInquiryReducer);
+  //console.log(orderInfo);
+
+  // API 통신
+  const getOrder = async () => {
+    try {
+      const response = await axios.get(`${PLAN_API_URI}`);
+      //console.log(response.data);
+      setData(response.data.data);
+    } catch (e) {
+      console.log(e);
+    }
   };
+
+  useEffect(() => {
+    getOrder();
+  }, []);
 
   return (
     <div className={styles.Container}>
@@ -25,15 +38,14 @@ function Result() {
         <div className={styles.ResultInfoContent}>
           <div className={styles.UserInfo}>
             <div className={styles.Title}>이름</div>
-            <div className={styles.Content}>김유플</div>
+            <div className={styles.Content}>{data.name}</div>
           </div>
           <div className={styles.OrderInfo}>
             <div className={styles.Title}>상품 정보</div>
-            <div className={styles.ContentTitle}>{property.title}</div>
-            <div className={styles.Content}>{property.subTitle}</div>
-            <div className={styles.Content}>{property.color}</div>
-            <div className={styles.Content}>{property.capacity}</div>
-            <div className={styles.Content}>{property.formattedPrice} 원</div>
+            <div className={styles.ContentTitle}>{data.phoneCode}</div>
+            <div className={styles.Content}>{data.planCode}</div>
+            <div className={styles.Content}>{data.color}</div>
+            <div className={styles.Content}>{data.monthPrice} 원</div>
           </div>
         </div>
         <div className={styles.ResultBtnContainer}>

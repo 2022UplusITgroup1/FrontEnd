@@ -33,7 +33,33 @@
 
 .CalcMonthInfo {
   padding-top: 12px;
-  border-top: 1px solid #ddd;
+  display: inline;
+}
+
+.CalcMonthPhone {
+  border-bottom: 1px solid #ddd;
+  padding-top: 12px;
+  padding-bottom: 12px;
+}
+
+.CalcMonthLITitle {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.CalcMonthLI,
+.CalcMonthLISelect {
+  font-size: small;
+}
+
+.CalcMonthLISelect {
+  color: #e6007e;
+}
+
+.CalcMonthPlan {
+  border-bottom: 1px solid #ddd;
+  padding-top: 12px;
+  padding-bottom: 12px;
 }
 
 .TotalPrice {
@@ -43,14 +69,7 @@
   background: #fff;
   font-size: large;
   font-weight: bold;
-}
-
-.InfoBtn {
-  display: flex;
-  margin-top: 32px;
-  justify-content: center;
-  position: relative;
-  vertical-align: middle;
+  margin-bottom: 20px;
 }
 
 .OrderBtn {

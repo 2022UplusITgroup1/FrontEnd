@@ -1,3 +1,5 @@
+// 전체 레이아웃
+
 import Header from "./Header/Header";
 import Footer from "./Footer/Footer";
 import styles from "./Layout.module.css";

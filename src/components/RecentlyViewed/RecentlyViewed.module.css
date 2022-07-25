@@ -22,3 +22,25 @@
 .TotalBtn {
   cursor: pointer;
 }
+
+/* ---------- 전체 보기 모달 ---------- */
+
+.Modal {
+  width: 1320px;
+}
+
+.ModalBody {
+  max-height: calc(100vh - 430px);
+  overflow-y: auto;
+  overflow-x: auto;
+}
+
+.ModalContent {
+  min-width: 1256px;
+}
+
+.ModalImgBox {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+}

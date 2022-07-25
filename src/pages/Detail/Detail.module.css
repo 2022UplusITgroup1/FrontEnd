@@ -41,6 +41,8 @@
 }
 .PreviewImg {
   width: 100px;
+  margin-left: 10px;
+  margin-right: 10px;
 }
 
 /* ----- 상품 정보 섹션 ----- */
@@ -55,6 +57,12 @@
   font-size: xx-large;
   font-weight: bolder;
   margin-bottom: 20px;
+}
+
+.ProductCode {
+  font-size: small;
+  margin-left: 10px;
+  font-weight: bolder;
 }
 
 .ProductColorTitleContainer {
@@ -80,6 +88,7 @@
   border-radius: 50%;
   border: 2px solid #909090;
   cursor: pointer;
+  margin-right: 5px;
 }
 
 .ColorBtnInner {
@@ -93,7 +102,7 @@
   margin-bottom: 10px;
 }
 
-.CapacityBtn {
+.ItemBtn {
   width: 160px;
   border: 2px solid #000 !important;
   border-radius: 6px;
@@ -335,6 +344,17 @@
   text-align: center;
 }
 
+.VoiceInfinityContainer {
+}
+
+.VoiceInfinityTop {
+  font-size: 5px;
+}
+
+.VoiceInfinityBottom {
+  font-size: smaller;
+}
+
 .OrderPlanDetailHeader {
   font-size: 12px;
   color: #666;
@@ -370,16 +390,21 @@
 
 .OrderInfoTdLeft {
   padding: 10px;
+  padding-left: 7px;
   align-items: center;
   height: 100%;
   display: flex;
   flex-wrap: wrap;
   align-content: space-between;
+  font-weight: bold;
+  font-size: large;
 }
 
 .PublicPrice {
-  margin-top: 35px;
-  margin-left: 47px;
+  margin-top: 40px;
+  margin-left: 22px;
+  font-weight: 800;
+  font-size: larger;
 }
 
 .OrderInfoTdRightContainer {
@@ -394,6 +419,10 @@
 
 .OrderInfoTdRight {
   padding: 10px;
+  padding-left: 30px;
+  padding-bottom: 20px;
+  font-weight: bold;
+  font-size: large;
 }
 
 .SelectPlan {
@@ -401,10 +430,36 @@
   justify-content: space-between;
   margin: 5px;
   margin-top: 10px;
+  font-size: large;
 }
 
 .SelectPlanPrice {
-  margin-right: 10px;
+  margin-right: 20px;
+  font-weight: 800;
+  font-size: larger;
+}
+
+.DiscountTypeTitle {
+  font-size: smaller;
+}
+
+.OrderInfoTdBody {
+  width: 100%;
+}
+
+.PayPeriodContainer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.PayPeriod {
+  width: 200px;
+  text-align: center;
+  border: 2px solid #ddd;
+  border-radius: 10px;
+  padding: 5px;
+  cursor: pointer;
 }
 
 /* ---------- 요금제 모달 ----------*/
@@ -565,6 +620,18 @@ border-bottom: 2px solid #e6007e;
   font-size: xx-large;
   flex: 1 1 40%;
   text-align: center;
+  font-weight: bold;
+}
+
+.VoiceInfinityContainer {
+}
+
+.VoiceInfinityTop {
+  font-size: 15px;
+}
+
+.VoiceInfinityBottom {
+  font-size: smaller;
 }
 
 /* Modal Footer */

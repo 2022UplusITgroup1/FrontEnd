@@ -1,0 +1,20 @@
+.Container {
+  margin-left: 5px;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+}
+
+.ImgBox {
+  display: flex;
+  justify-content: center;
+}
+
+.ProductImg {
+  width: 100px;
+  height: 100px;
+}
+
+.Description {
+  font-size: small;
+}

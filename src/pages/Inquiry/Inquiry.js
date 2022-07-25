@@ -1,15 +1,37 @@
-import React, { useState } from "react";
+// 주문 조회 페이지
+
+import React, { useEffect, useState } from "react";
 import styles from "./Inquiry.module.css";
-import { Input, Button } from "@chakra-ui/react";
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
+import { Input, Button } from "@chakra-ui/react";
+import { resetOrderInquiryInfo, setOrderInquiryInfo } from "../../actions";
 
 function Inquiry() {
+  const dispatch = useDispatch();
+
   const [name, setName] = useState("");
   const [number, setNumber] = useState("");
   const [orderNum, setOrderNum] = useState("");
   const onNameChange = (e) => setName(e.target.value);
   const onNumberChange = (e) => setNumber(e.target.value);
   const onOrderNumChange = (e) => setOrderNum(e.target.value);
+
+  useEffect(() => {
+    // 맨 처음 렌더링 -> 초기화
+    dispatch(resetOrderInquiryInfo());
+  }, []);
+
+  useEffect(() => {
+    // store 에 저장
+    dispatch(
+      setOrderInquiryInfo({
+        name: name,
+        phoneNumber: number,
+        orderNumber: orderNum,
+      })
+    );
+  }, [name, number, orderNum]);
 
   return (
     <div className={styles.Container}>
