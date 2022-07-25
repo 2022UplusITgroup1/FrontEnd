@@ -32,8 +32,8 @@ import mapDiscountType from "../../utils/mapDiscountType";
 import CompareItem from "./CompareItem";
 import EmptyItem from "./EmptyItem";
 
-const COMPARE_URL = `http://43.200.122.174:8000/product/compare`;
-const PRODUCTS_API_URL = `http://43.200.122.174:8000/product/phone?net_sp=`;
+const COMPARE_URL = `/product/compare`;
+const PRODUCTS_API_URL = `/product/phone?net_sp=`;
 
 const initialData = {
   phone: {

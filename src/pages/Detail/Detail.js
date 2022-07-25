@@ -277,43 +277,6 @@ function Detail() {
     }
   }, [orderProduct.phone.color]);
 
-  /* ----- MYSEO CREATED ----- */
-  // MYSEO CREATED - 최근 본 상품 LocalStorage 저장
-  const [watchItems, setWatchItems] = useState([]);
-  const [firstRender, setfirstRender] = useState(1); // 맨 처음에만 저장되도록
-
-  useEffect(() => {
-    if (data.phone.code && colors.length && firstRender) {
-      let recentsItemInfo = {
-        code: data.phone.code,
-        name: data.phone.name,
-        color: data.phone.color,
-        imgThumbnail: data.phone.imgThumbnail,
-        plan: plCode,
-        networkSupport: data.phone.networkSupport,
-        discountType: data.phone.discountType,
-        totalPrice: nowPrice.total,
-      };
-      let watchItem = localStorage.getItem("recents");
-
-      let watchItemArray = [];
-      if (watchItem != null) {
-        watchItemArray = JSON.parse(watchItem);
-      }
-
-      watchItemArray.push(recentsItemInfo);
-
-      if (watchItemArray.length <= 8) {
-        watchItemArray = new Set(watchItemArray);
-        watchItemArray = [...watchItemArray];
-      }
-      localStorage.setItem("recents", JSON.stringify(watchItemArray));
-      setWatchItems(watchItemArray);
-      setfirstRender(0);
-    }
-  }, [data]);
-  /* ----- END ----- */
-
   if (error) return <ErrorPage />;
   if (noData) return <NoResult />;
   if (!data) return null;

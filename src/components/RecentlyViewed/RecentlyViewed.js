@@ -150,14 +150,18 @@ function RecentlyViewed({ products, plans, category }) {
             <div className={styles.ModalImgBox}>
               {recentlyProducts && recentlyProducts.length > 0 ? (
                 recentlyProducts.map((d, i) => {
-                  //console.log(d);
-                  const findedProduct = findProduct(d.code);
-                  const findedPlan = findPlan(d.planCode);
+                  // console.log(d);
+                  
                   // 일치하는 데이터가 없을 경우 대비
-                  return findedProduct && findedPlan ? (
+                  return d ? (
                     <RecentlyProduct
-                      product={findedProduct}
-                      plan={findedPlan}
+                      productCode={d.code}
+                      productName={d.name}
+                      productPrice={d.price}
+                      productImgThumbnail={d.imgThumbnail}
+                      planCode={d.planCode}
+                      planName={d.planName}
+                      planPrice={d.planPrice}
                       discountType={d.discountType.toString()}
                       color={d.color}
                       category={d.networkSupport}

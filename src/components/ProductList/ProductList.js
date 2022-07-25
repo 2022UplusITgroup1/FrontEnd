@@ -12,7 +12,7 @@ import Compare from "../Compare/Compare";
 import ErrorPage from "../../pages/Exception/ErrorPage";
 
 // 상세 정보 조회 URL
-const SELECTED_PRODUCT_API_URL = `http://43.200.122.174:8000/product/phone?net_sp=`;
+const SELECTED_PRODUCT_API_URL = `/product/phone?net_sp=`;
 
 function ProductList({ products, plans, netType }) {
   const dispatch = useDispatch();
