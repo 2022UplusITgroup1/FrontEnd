@@ -73,7 +73,9 @@ function RecentlyViewed({ products, plans, category }) {
       console.log(response.data);
       if (response.data.data !== null) {
         console.log("getRecents SUCCESS ");
-        setRecentlyProducts(response.data.data);
+        // 최대 8개로 제한
+        const res = [...response.data.data];
+        setRecentlyProducts(res.slice(0, 8));
       } else {
         // 알맞은 결과를 찾을 수 없습니다
       }

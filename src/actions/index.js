@@ -164,6 +164,31 @@ export function setRecentlyProduct(data) {
   };
 }
 
+/* ---------- 주문 조회 -> 주문 조회 결과 ---------- */
+
+export const SET_ORDER_INQUIRY_INFO = "SET_ORDER_INQUIRY_INFO";
+export const RESET_ORDER_INQUIRY_INFO = "RESET_ORDER_INQUIRY_INFO";
+
+// 주문 조회 정보
+export function setOrderInquiryInfo(data) {
+  console.log("setOrderInquiryInfo: " + data);
+  return {
+    type: SET_ORDER_INQUIRY_INFO,
+    data: {
+      name: data.name,
+      phoneNumber: data.phoneNumber,
+      orderNumber: data.orderNumber,
+    },
+  };
+}
+
+// 주문 조회 정보 초기화
+export function resetOrderInquiryInfo() {
+  return {
+    type: RESET_ORDER_INQUIRY_INFO,
+  };
+}
+
 /* ---------- 비교하기 ---------- */
 
 export const SET_COMPARE_PRODUCTS = "SET_COMPARE_PRODUCTS";

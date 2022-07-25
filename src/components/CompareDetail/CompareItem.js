@@ -76,14 +76,14 @@ function CompareItem({ index, item, payPeriod, discountType }) {
         item.phone.price,
         item.plan.price,
         discountType,
-        nowPayPeriod
+        Number(nowPayPeriod)
       );
       setPrices(nowTotalPrice);
-      //console.log(nowTotalPrice);
+      console.log(nowTotalPrice);
 
       fetchProductColor();
     }
-  }, [item]);
+  }, [item, nowPayPeriod]);
 
   return (
     <div className={styles.CompareItemContainer}>

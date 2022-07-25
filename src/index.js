@@ -10,3 +10,7 @@ root.render(
     <App />
   </Provider>
 );
+
+// window.addEventListener("beforeunload", (e) => {
+//   localStorage.clear();
+// });

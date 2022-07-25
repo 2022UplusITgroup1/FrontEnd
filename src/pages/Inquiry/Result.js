@@ -5,11 +5,16 @@ import styles from "./Result.module.css";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { Button } from "@chakra-ui/react";
+import { useSelector } from "react-redux";
 
 const PLAN_API_URL = `${process.env.REACT_APP_ORDER_INQUIRY_SERVER_URL}/order/my?name=%EC%95%84%EC%9D%B4%EC%9C%A0&phone_number=01012340001&order_number=202207132210570001`;
 
 function Result() {
   const [data, setData] = useState([]);
+
+  // 주문 조회 값 가져오기
+  const orderInfo = useSelector((state) => state.orderInquiryReducer);
+  //console.log(orderInfo);
 
   // API 통신
   const getOrder = async () => {
