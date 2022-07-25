@@ -7,15 +7,14 @@ import axios from "axios";
 import Option from "../../components/Option/Option";
 import ProductList from "../../components/ProductList/ProductList";
 import RecentlyViewed from "../../components/RecentlyViewed/RecentlyViewed";
-import SampleRecentlyData from "../../SampleRecentlyData.json";
 import { resetDetailData, resetOptionData } from "../../actions";
 import NoResult from "../Exception/NoResult";
 import ErrorPage from "../Exception/ErrorPage";
 
 // API URI
-const PRODUCTS_API_URI = `${process.env.REACT_APP_PRODUCT_SERVER_URI}/product/phone?net_sp=`;
-const PLANS_API_URI = `${process.env.REACT_APP_PRODUCT_SERVER_URI}/product/plan?net_sp=`;
-const RECENT_PRODUCT_API_URI = `${process.env.REACT_APP_PRODUCT_SERVER_URI}/product/recents`;
+const PRODUCTS_API_URI = `/product/phone?net_sp=`;
+const PLANS_API_URI = `/product/plan?net_sp=`;
+const RECENT_PRODUCT_API_URI = `/product/recents`;
 
 //const PRODUCTS_API_URI = `/product/phone?net_sp=`;
 //const PLANS_API_URI = `/product/plan?net_sp=`;
@@ -117,7 +116,7 @@ function List({ netType }) {
     getProducts();
     getPlans();
     // getRecents();
-    setRecentlyProducts(SampleRecentlyData);
+    //setRecentlyProducts(SampleRecentlyData);
     dispatch(resetOptionData()); // 5G - 4G 간 페이지 이동 시, 선택했던 option 값 초기화
     dispatch(resetDetailData()); // 상세페이지에서 뒤로가기 시, 선택했던 detail 값 초기화
   }, [netType]);

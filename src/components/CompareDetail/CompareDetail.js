@@ -5,15 +5,7 @@ import styles from "./CompareDetail.module.css";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
-import {
-  ButtonGroup,
-  Button,
-  Stack,
-  Radio,
-  RadioGroup,
-  Box,
-  Image,
-} from "@chakra-ui/react";
+import { Button } from "@chakra-ui/react";
 import {
   Modal,
   ModalOverlay,
@@ -22,19 +14,13 @@ import {
   ModalCloseButton,
   ModalBody,
   ModalFooter,
-  Select,
-  useDisclosure,
 } from "@chakra-ui/react";
-import convertNumber from "../../utils/convertNumber";
-import SampleCompareData from "../../SampleCompareData.json";
-import calcPrices from "../../utils/calcPrices";
-import mapDiscountType from "../../utils/mapDiscountType";
 import CompareItem from "./CompareItem";
 import EmptyItem from "./EmptyItem";
 
 
-const COMPARE_URI = `${process.env.REACT_APP_PRODUCT_SERVER_URI}/product/compare`;
-const PRODUCTS_API_URI = `${process.env.REACT_APP_PRODUCT_SERVER_URI}/product/phone?net_sp=`;
+const COMPARE_URI = `/product/compare`;
+const PRODUCTS_API_URI = `/product/phone?net_sp=`;
 
 
 const initialData = {
@@ -161,6 +147,8 @@ function CompareDetail({ isOpen, onClose, data }) {
     if (compareDetailItems.length) {
       fetchCompareData();
       //setCompareData(SampleCompareData);
+    } else {
+      onClose();
     }
   }, [compareDetailItems]);
 

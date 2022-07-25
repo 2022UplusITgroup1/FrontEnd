@@ -10,10 +10,11 @@ import Product from "./Product";
 import { changeProductSort } from "../../actions";
 import Compare from "../Compare/Compare";
 import ErrorPage from "../../pages/Exception/ErrorPage";
+import calcPrices from "../../utils/calcPrices";
 
 
 // 상세 정보 조회 URI
-const SELECTED_PRODUCT_API_URI = `${process.env.REACT_APP_PRODUCT_SERVER_URI}/product/phone?net_sp=`;
+const SELECTED_PRODUCT_API_URI = `/product/phone?net_sp=`;
 
 
 function ProductList({ products, plans, netType }) {
@@ -39,6 +40,11 @@ function ProductList({ products, plans, netType }) {
     dispatch(changeProductSort(e.target.value));
   };
 
+  // 현재 요금제 정보 찾기
+  const findSelectPlan = (value) => {
+    return plans.find((p) => p.code === value);
+  };
+
   /* ----- MYSEO CREATED ----- */
   // MYSEO CREATED - 상품 정렬
   const sortArray = (type) => {
@@ -53,11 +59,34 @@ function ProductList({ products, plans, netType }) {
     let sortDirection = 0; // 0: DESC , 1: ASC
     if (type === 1 || type === 2) sortDirection = 1;
     let sorted = [...unsortedProducts]; // 복사해서 사용해야 기존 값에 영향 X
-    sorted = sorted.sort((a, b) =>
-      sortDirection === 0
-        ? b[sortProperty] - a[sortProperty]
-        : a[sortProperty] - b[sortProperty]
-    );
+    // JSH: 실구매가 정렬은 별도 처리
+    if (type === 1) {
+      sorted = sorted.sort((a, b) => {
+        let planTypeA = findSelectPlan(a.planCode).price;
+        let planTypeB = findSelectPlan(b.planCode).price;
+        // 요금제가 선택되어 있는 경우, 선택된 요금제로 계산
+        if (options.planType !== "0") {
+          planTypeA = findSelectPlan(options.planType).price;
+          planTypeB = findSelectPlan(options.planType).price;
+        }
+        let discountTypeA = a.discountType.toString();
+        let discountTypeB = b.discountType.toString();
+        // 할인 유형이 선택되어 있는 경우, 선택된 할인 유형으로 계산
+        if (options.discountType !== "0") {
+          discountTypeA = options.discountType;
+          discountTypeB = options.discountType;
+        }
+        let priceA = calcPrices(a.price, planTypeA, discountTypeA, 24);
+        let priceB = calcPrices(b.price, planTypeB, discountTypeB, 24);
+        return priceA.total - priceB.total;
+      });
+    } else {
+      sorted = sorted.sort((a, b) =>
+        sortDirection === 0
+          ? b[sortProperty] - a[sortProperty]
+          : a[sortProperty] - b[sortProperty]
+      );
+    }
     //console.log("sorted!");
     setSelectedProducts(sorted);
   };
@@ -134,11 +163,6 @@ function ProductList({ products, plans, netType }) {
   useEffect(() => {
     sortArray(Number(isSelect));
   }, [unsortedProducts]);
-
-  // 현재 요금제 정보 찾기
-  const findSelectPlan = (value) => {
-    return plans.find((p) => p.code === value);
-  };
 
   // 현재 비교하기 isOpen
   const compares = useSelector((state) => state.compareReducer);
