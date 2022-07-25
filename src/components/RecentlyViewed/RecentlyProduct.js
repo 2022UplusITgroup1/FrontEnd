@@ -27,9 +27,11 @@ function RecentlyProduct({
   // 최근 본 상품은 고정 값이므로 일반 변수 사용
   let DETAIL_URI = "";
   if (discountType === "0") {
+
     DETAIL_URI = `/mobile/detail/${category}/${planCode}/${productCode}/${color}/${discountType}`;
   } else {
     DETAIL_URI = `/mobile/detail/${category}/${planCode}/${productCode}/${color}/${discountType}`;
+
   }
 
   return (
@@ -45,8 +47,10 @@ function RecentlyProduct({
           <Box className={styles.ImgBox}>
             <Image
               className={styles.ProductImg}
+
               src={`${IMAGE_URI}${productImgThumbnail}`}
               alt={productName}
+
             />
           </Box>
           <Box className={styles.ProductTitle}>{productName}</Box>

@@ -295,7 +295,7 @@ function Detail() {
   const [firstRender, setfirstRender] = useState(1); // 맨 처음에만 저장되도록
 
   useEffect(() => {
-    if (data.phone.code && colors.length && firstRender) {
+    if (data.phone.code && color.length && firstRender) {
       let recentsItemInfo = {
         jSessionId: cookies.JSESSIONID,
         code: data.phone.code,
@@ -315,13 +315,14 @@ function Detail() {
       let watchItemArray = [];
       if (watchItem != null) {
         watchItemArray = JSON.parse(watchItem);
+        if (watchItemArray[0].jSessionId !== recentsItemInfo.jSessionId) {
+          localStorage.clear();
+          watchItemArray = [];
+        }
       }
       watchItemArray.push(recentsItemInfo);
 
-      let setItems = new Set(watchItemArray);
-      let setWatchItemArray = [...setItems];
-
-      localStorage.setItem("recents", JSON.stringify(setWatchItemArray));
+      localStorage.setItem("recents", JSON.stringify(watchItemArray));
 
       setfirstRender(0);
     }
