@@ -12,8 +12,8 @@ import calcPrices from "../../utils/calcPrices";
 import mapDiscountType from "../../utils/mapDiscountType";
 import { deleteCompareDetailProduct } from "../../actions";
 
-const COMPARE_URI = `http://43.200.122.174:8000/product/compare`;
-const PRODUCTS_API_URI = `http://43.200.122.174:8000/product/phone?net_sp=`;
+const COMPARE_URI = `${process.env.REACT_APP_PRODUCT_SERVER_URI}/product/compare`;
+const PRODUCTS_API_URI = `${process.env.REACT_APP_PRODUCT_SERVER_URI}/product/phone?net_sp=`;
 
 const initialPrice = {
   discountName: "",
@@ -49,7 +49,7 @@ function CompareItem({ index, item, payPeriod, discountType }) {
 
   // API: 상품 색상 리스트 GET
   const fetchProductColor = async () => {
-    const PRODUCT_COLOR_URI = `http://43.200.122.174:8000/product/color?ph_code=${item.phone.code}`;
+    const PRODUCT_COLOR_URI = `${process.env.REACT_APP_PRODUCT_SERVER_URI}/product/color?ph_code=${item.phone.code}`;
     try {
       setError(null);
       const response = await axios.get(`${PRODUCT_COLOR_URI}`);

@@ -55,8 +55,8 @@ function Product({ product, plan, netType }) {
   const [nowPrice, setNowPrice] = useState(initialPrice);
 
   useEffect(() => {
-    // 계약기간 => 기본 = 24, 선택약정12개월 = 12
-    let payPeriod = discountType === "3" ? 12 : 24;
+    // 계약기간 => 기본 = 24
+    let payPeriod = 24;
     if (product.code && plan.code) {
       const nowTotalPrice = calcPrices(
         product.price,
@@ -66,7 +66,7 @@ function Product({ product, plan, netType }) {
       );
       setNowPrice(nowTotalPrice);
     }
-  }, [discountType, plan]);
+  }, [discountType, plan, product]);
   // options
 
   // Redux Dispatch -> 비교하기 정보 저장
@@ -163,6 +163,12 @@ function Product({ product, plan, netType }) {
         <Box className={styles.BoxBottom} p="6">
           <Link to={detailURI} style={{ textDecoration: "none" }}>
             <Box className={styles.Price}>
+              {/* <Box className={styles.PriceTxt}>
+                MonPrice 월 {nowPrice && convertNumber(product.monPrice)}원
+              </Box> */}
+              <Box className={styles.PriceTxt}>
+                정상가 {nowPrice && convertNumber(nowPrice.phonePrice)}원
+              </Box>
               <Box className={styles.PriceTxt}>
                 휴대폰 월 {nowPrice && convertNumber(nowPrice.monthPhonePrice)}
                 원
