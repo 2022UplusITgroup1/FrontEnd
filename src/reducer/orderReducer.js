@@ -1,3 +1,5 @@
+// 상품 상세 페이지에서 최종 선택한 값으로 저장 -> 주문 페이지에서 사용
+
 import * as types from "../actions";
 
 const initialState = {
@@ -5,7 +7,7 @@ const initialState = {
     code: "",
     name: "",
     imgThumbnail: "",
-    storage: "",
+    storage: { capability: "" },
     color: "",
     phoneCode: "",
     price: 0,
@@ -27,10 +29,17 @@ function orderReducer(state = initialState, action) {
         ...action.data,
       };
     }
-    case types.RESET_DATA: {
+    case types.CHANGE_DETAIL_PLAN_TYPE: {
       return {
-        ...initialState,
+        phone: { ...state.phone },
+        plan: action.plan,
+        discountType: state.discountType,
+        monthPrice: state.monthPrice,
+        payPeriod: state.payPeriod,
       };
+    }
+    case types.RESET_DETAIL_DATA: {
+      return initialState;
     }
     default:
       return state;

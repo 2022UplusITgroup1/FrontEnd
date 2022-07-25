@@ -47,5 +47,6 @@
       "last 1 safari version"
     ]
   },
-  "homepage": "./"
+  "homepage": "./",
+  "proxy": "http://43.200.122.174:8000"
 }

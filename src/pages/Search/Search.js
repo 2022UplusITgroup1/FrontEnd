@@ -1,3 +1,5 @@
+// 검색 페이지
+
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import styles from "./Search.module.css";
@@ -8,10 +10,10 @@ import SampleData from "../../SampleData.json";
 import SamplePlanData from "../../SamplePlanData.json";
 
 // const PRODUCT_API_URL = `${process.env.REACT_APP_PRODUCT_SERVICE_API_URL}/phone?net_sp=`;
-const SEARCH_WORD_URL = `http://localhost:8000/search?query=`;
+const SEARCH_WORD_URL = `http://43.200.122.174:8000/product/search?word=`;
 
-const PLAN_4G_API_URL = `http://localhost:8000/product/plan?net_sp=4g`;
-const PLAN_5G_API_URL = `http://localhost:8000/product/plan?net_sp=5g`;
+const PLAN_4G_API_URL = `http://43.200.122.174:8000/product/plan?net_sp=4g`;
+const PLAN_5G_API_URL = `http://43.200.122.174:8000/product/plan?net_sp=5g`;
 
 
 //word 검색결과 없을 경우 반환
@@ -63,6 +65,8 @@ function noResult({ word }) {
 
 
 function insertResult({ searchWord, products, plans }) {
+  console.log(plans) // 잘들어옴
+  
   return (
     <div className={styles.insertResult}>
       <div className={styles.ResultTitle}>
@@ -73,7 +77,7 @@ function insertResult({ searchWord, products, plans }) {
             <ResultList
               products={products}
               plans={plans}
-              
+
             />
           </div>
 
@@ -90,6 +94,7 @@ function Search() {
   // const [resultProducts, setResulProducts]=useState([]);
   // const resultProducts=useState();
   // var resultProducts
+  
 
   const [word, setWord] = useState("");
   const [searchWord, setSearchWord] = useState("");
@@ -115,7 +120,7 @@ function Search() {
             }) === i
           );
         });
-        //console.log(filteredRes);
+        console.log(filteredRes);
         setProducts(filteredRes);
       }
     } catch (e) {

@@ -40,3 +40,11 @@
   float: right;
   width: 200px;
 }
+
+.Compare {
+  width: 100%;
+  display: flex;
+  position: fixed;
+  bottom: 0;
+  padding-left: 90px;
+}

@@ -1,14 +1,18 @@
-import React, { useState } from "react";
+// 주문 조회 페이지
+
+import React, { useEffect, useState } from "react";
 import styles from "./Inquiry.module.css";
-import { Input, Button } from "@chakra-ui/react";
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import { Input, Button } from "@chakra-ui/react";
+import { resetOrderInquiryInfo, setOrderInquiryInfo } from "../../actions";
 
 const INQUIRY_REQUEST_URL = `http://localhost:8000/order/my`;
 
-
-
 function Inquiry() {
+  const dispatch = useDispatch();
+
   const [name, setName] = useState("");
   const [number, setNumber] = useState("");
   const [orderNum, setOrderNum] = useState("");
@@ -16,51 +20,21 @@ function Inquiry() {
   const onNumberChange = (e) => setNumber(e.target.value);
   const onOrderNumChange = (e) => setOrderNum(e.target.value);
 
-  // const ToDoListHandler = () => {
-  //   axios.get('https://localhost:4000/sendlist/todo', 
-  //     {params: {userId: userId}}, 
-  //     { withCredentials: true }
-  //   )
-  //   .then((res)=> {
-  //     setToDoList(res.data.data)
-  //   })
-  // }
+  useEffect(() => {
+    // 맨 처음 렌더링 -> 초기화
+    dispatch(resetOrderInquiryInfo());
+  }, []);
 
-  
-
-
-  // const getOrder = async (name,number,orderNum) => {
-  //   try {
-      
-  //     const response = await axios.get(`${INQUIRY_REQUEST_URL}`,
-  //       {params: {name:name, number:number, orderNum:orderNum}},
-  //       { withCredentials: true }
-  //     )
-  //     .then((response)=>{
-  //       console.log("getOrder SUCCESS ");
-  //       console.log(response.data.data);
-  //       setProducts(response.data.data);
-  //     });
-      
-  //   } catch (e) {
-  //     console.log(e);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   if (options.discountValue === "0") {
-  //     setDetailURL(
-  //       `/mobile/detail/${category}/${plan.code}/${product.code}/${product.color}/${product.discountType}`
-  //     );
-  //     setDiscountValue(product.discountType.toString());
-  //   } else {
-  //     setDetailURL(
-  //       `/mobile/detail/${category}/${plan.code}/${product.code}/${product.color}/${options.discountValue}`
-  //     );
-  //     setDiscountValue(options.discountValue);
-  //   }
-  // }, [options]);
-
+  useEffect(() => {
+    // store 에 저장
+    dispatch(
+      setOrderInquiryInfo({
+        name: name,
+        phoneNumber: number,
+        orderNumber: orderNum,
+      })
+    );
+  }, [name, number, orderNum]);
 
   return (
     <div className={styles.Container}>

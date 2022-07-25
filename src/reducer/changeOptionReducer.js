@@ -1,11 +1,13 @@
+// 상품 리스트 페이지 조건 선택 시 변경
+
 import * as types from "../actions";
 
 const initialState = {
-  planValue: "0",
-  discountValue: "0",
-  brandValue: "0",
-  storageValue: "0",
-  sortValue: "0",
+  planType: "0",
+  discountType: "0",
+  brandType: "0",
+  storageType: "0",
+  sortType: "0",
 };
 
 function changeOptionReducer(state = initialState, action) {
@@ -13,34 +15,37 @@ function changeOptionReducer(state = initialState, action) {
     case types.CHANGE_PLAN: {
       return {
         ...state,
-        planValue: action.planValue,
+        planType: action.planType,
       };
     }
     case types.CHANGE_DISCOUNT: {
       return {
         ...state,
-        discountValue: action.discountValue,
+        discountType: action.discountType,
       };
     }
     case types.CHANGE_BRAND: {
       return {
         ...state,
-        brandValue: action.brandValue,
+        brandType: action.brandType,
       };
     }
     case types.CHANGE_STORAGE: {
       return {
         ...state,
-        storageValue: action.storageValue,
+        storageType: action.storageType,
       };
     }
     case types.CHANGE_PRODUCT_SORT: {
       return {
         ...state,
-        sortValue: action.sortValue,
+        sortType: action.sortType,
       };
     }
-    case types.RESET_DATA: {
+    case types.CHANGE_OPTIONS: {
+      return action.data;
+    }
+    case types.RESET_OPTION_DATA: {
       return {
         ...initialState,
       };
