@@ -6,14 +6,18 @@ const initialState = {
   name: "",
   phoneNumber: "",
   orderNumber: "",
+
+
+
 };
 
 function orderInquiryReducer(state = initialState, action) {
+  console.log(action.data);
+
   switch (action.type) {
     case types.SET_ORDER_INQUIRY_INFO: {
-      return {
-        ...action.data,
-      };
+      return action.data;
+      
     }
     case types.RESET_ORDER_INQUIRY_INFO: {
       return initialState;

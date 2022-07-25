@@ -174,11 +174,19 @@ export function setOrderInquiryInfo(data) {
   console.log("setOrderInquiryInfo: " + data);
   return {
     type: SET_ORDER_INQUIRY_INFO,
-    data: {
-      name: data.name,
-      phoneNumber: data.phoneNumber,
-      orderNumber: data.orderNumber,
-    },
+    data
+    // data: {
+    //   name: data.name
+    //   // // phoneNumber: data.phoneNumber,
+    //   // orderNumber: data.orderNumber,
+    //   // // phoneName: data.phoneName,
+    //   // // phoneColor: data.color,
+    //   // // planName: data.planName,
+    //   // monthPrice: data.monthPrice,
+    //   // payPeriod: data.payPeriod
+
+
+    // },
   };
 }
 
