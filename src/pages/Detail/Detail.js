@@ -75,14 +75,21 @@ const initialPrice = {
   total: 0,
 };
 
+const IMAGE_URI = `${process.env.REACT_APP_IMAGE_URI}`;
+
 function Detail() {
   // 받아온 파라미터 데이터
   const { netType, plCode, phCode, color, dcType } = useParams();
+  console.log(netType, plCode, phCode, color, dcType);
 
-  // API URL
-  const PRODUCT_DETAIL_URL = `/product/detail?pl_code=${plCode}&ph_code=${phCode}&color=${color}&dc_type=${dcType}`;
-  const PRODUCT_COLOR_URL = `/product/color?ph_code=${phCode}`;
-  const PLAN_URL = `/product/plan?net_sp=`;
+  // API URI
+  const PRODUCT_DETAIL_URI = `${process.env.REACT_APP_PRODUCT_SERVER_URI}/product/detail?pl_code=${plCode}&ph_code=${phCode}&color=${color}&dc_type=${dcType}`;
+  const PRODUCT_COLOR_URI = `${process.env.REACT_APP_PRODUCT_SERVER_URI}/product/color?ph_code=${phCode}`;
+  const PLAN_URI = `${process.env.REACT_APP_PRODUCT_SERVER_URI}/product/plan?net_sp=`;
+
+  //const PRODUCT_DETAIL_URI = `/product/detail?pl_code=${plCode}&ph_code=${phCode}&color=${color}&dc_type=${dcType}`;
+  //const PRODUCT_COLOR_URI = `/product/color?ph_code=${phCode}`;
+  //const PLAN_URI = `/product/plan?net_sp=`;
 
   const dispatch = useDispatch();
 
@@ -119,7 +126,7 @@ function Detail() {
       phone: {
         code: data.phone.code,
         name: data.phone.name,
-        imgThumbnail: data.phone.imgThumbnail,
+        imgThumbnail: IMAGE_URI + data.phone.imgThumbnail,
         storage: { capability: data.phone.storage.capability },
         color: color, // 초기값 = color
         price: data.phone.price,
@@ -141,7 +148,7 @@ function Detail() {
     try {
       setError(null);
       setNoData(false);
-      const response = await axios.get(`${PRODUCT_DETAIL_URL}`);
+      const response = await axios.get(`${PRODUCT_DETAIL_URI}`);
       console.log(response.data);
       if (response.data.data !== null) {
         console.log("fetchProductDetail SUCCESS ");
@@ -161,7 +168,7 @@ function Detail() {
     try {
       setError(null);
       setNoData(false);
-      const response = await axios.get(`${PRODUCT_COLOR_URL}`);
+      const response = await axios.get(`${PRODUCT_COLOR_URI}`);
       //console.log(response.data);
       if (response.data.data !== null) {
         console.log("fetchProductColor SUCCESS ");
@@ -181,7 +188,7 @@ function Detail() {
     try {
       setError(null);
       setNoData(false);
-      const response = await axios.get(`${PLAN_URL}${netType}`);
+      const response = await axios.get(`${PLAN_URI}${netType}`);
       //console.log(response.data);
       if (response.data.data !== null) {
         console.log("fetchPlans SUCCESS ");
@@ -198,25 +205,26 @@ function Detail() {
 
   // API: 다른 색상의 이미지 GET
   const fetchProductColorImg = async (nowColor) => {
+    console.log(nowColor);
     try {
       setError(null);
       setNoData(false);
 
-      const PRODUCT_COLOR_IMG_URL = `/product/detail?pl_code=${plCode}&ph_code=${phCode}&color=${nowColor}&dc_type=${dcType}`;
+      const PRODUCT_COLOR_IMG_URI = `${process.env.REACT_APP_PRODUCT_SERVER_URI}/product/detail?pl_code=${plCode}&ph_code=${phCode}&color=${nowColor}&dc_type=${dcType}`;
 
-      const response = await axios.get(`${PRODUCT_COLOR_IMG_URL}`);
-      //console.log(response.data);
+      const response = await axios.get(`${PRODUCT_COLOR_IMG_URI}`);
+      console.log(response.data);
       if (response.data.data !== null) {
         console.log("fetchProductColorImg SUCCESS ");
         const resImg = response.data.data.images;
         setImgPaths(
           resImg.map((d) => {
-            return d.imgPath;
+            return `${IMAGE_URI}${d.imgPath}${d.imgName}`;
           })
         );
       } else {
         // 알맞은 결과를 찾을 수 없습니다
-        setNoData(true);
+        //setNoData(true);
       }
     } catch (e) {
       console.log(e);
@@ -248,7 +256,7 @@ function Detail() {
       // 미리보기 이미지 list 로 저장
       setImgPaths(
         data.images.map((d) => {
-          return d.imgPath;
+          return `${IMAGE_URI}${d.imgPath}${d.imgName}`;
         })
       );
 
@@ -293,6 +301,9 @@ function Detail() {
         code: data.phone.code,
         name: data.phone.name,
         color: data.phone.color,
+
+        imgThumbnail: IMAGE_URI + data.phone.imgThumbnail,
+
         plan: plCode,
         networkSupport: data.phone.networkSupport,
         discountType: data.phone.discountType,

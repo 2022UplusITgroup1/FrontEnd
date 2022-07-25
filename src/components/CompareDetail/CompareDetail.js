@@ -32,8 +32,10 @@ import mapDiscountType from "../../utils/mapDiscountType";
 import CompareItem from "./CompareItem";
 import EmptyItem from "./EmptyItem";
 
-const COMPARE_URL = `/product/compare`;
-const PRODUCTS_API_URL = `/product/phone?net_sp=`;
+
+const COMPARE_URI = `${process.env.REACT_APP_PRODUCT_SERVER_URI}/product/compare`;
+const PRODUCTS_API_URI = `${process.env.REACT_APP_PRODUCT_SERVER_URI}/product/phone?net_sp=`;
+
 
 const initialData = {
   phone: {
@@ -95,7 +97,7 @@ function CompareDetail({ isOpen, onClose, data }) {
 
     try {
       setError(null);
-      const response = await axios.post(`${COMPARE_URL}`, requestBody);
+      const response = await axios.post(`${COMPARE_URI}`, requestBody);
 
       if (response.data.data !== null) {
         console.log("fetchCompareData SUCCESS ");
@@ -120,7 +122,7 @@ function CompareDetail({ isOpen, onClose, data }) {
   const getProducts = async (netType) => {
     try {
       setError(null);
-      const response = await axios.get(`${PRODUCTS_API_URL}${netType}`);
+      const response = await axios.get(`${PRODUCTS_API_URI}${netType}`);
       //console.log(response.data);
       if (response.data.data !== null) {
         console.log("getProducts SUCCESS ");
@@ -189,55 +191,6 @@ function CompareDetail({ isOpen, onClose, data }) {
     setPayPeriods(periods);
     */
   }, [compareData]);
-
-  // 비교하기 아이템이 없을 경우 렌더링 부분
-  const emptyPartInfo = () => {
-    const emptyParts = [];
-    for (let i = 0; i < emptyLength; i++) {
-      emptyParts.push(
-        <Box key={i} className={styles.ProductInfoBox}>
-          <div className={styles.ProductInfoContainer}>
-            {/* 제조사 */}
-            <Select
-              className={styles.PayPeriod}
-              value={brandTypes[i]}
-              onChange={(e) => {
-                // 해당 인덱스의 값만 변경
-                const brandType = brandTypes.map((p, j) =>
-                  j === i ? e.target.value : p
-                );
-                setBrandTypes(brandType);
-              }}
-              variant="flushed"
-              placeholder="제조사"
-            >
-              <option value="1">삼성</option>
-              <option value="2">애플</option>
-            </Select>
-            {/* 기기명 */}
-            <Select
-              className={styles.PayPeriod}
-              value={phoneTypes[i]}
-              onChange={(e) => {
-                // 해당 인덱스의 값만 변경
-                const phoneType = phoneTypes.map((p, j) =>
-                  j === i ? e.target.value : p
-                );
-                setPhoneTypes(phoneType);
-              }}
-              variant="flushed"
-              placeholder="기기명"
-            >
-              {}
-              <option value="1">삼성</option>
-              <option value="2">애플</option>
-            </Select>
-          </div>
-          <Button className={styles.ReadMoreBtn}>추가하기</Button>
-        </Box>
-      );
-    }
-  };
 
   //if (error) return <div>Error!</div>;
   //if (!compareItemInfo.length) return null;

@@ -3,6 +3,8 @@
 import React, { useState } from "react";
 import styles from "../../pages/Detail/Detail.module.css";
 
+const IMAGE_URI = `${process.env.REACT_APP_IMAGE_URI}`;
+
 function ImgDetail({ data, imgPaths }) {
   // 이미지 클릭 시, index 변경
   const [idx, setIdx] = useState(0);
@@ -14,11 +16,13 @@ function ImgDetail({ data, imgPaths }) {
     <>
       <div className={styles.ProductImg}>
         <div className={styles.MainImg}>
-          <img
-            className={styles.MainImg}
-            src={data.phone.code && data["images"][Number(idx)]["imgPath"]}
-            alt={data.phone.code && data["images"][Number(idx)]["imgPos"]}
-          />
+          {data.phone.code && (
+            <img
+              className={styles.MainImg}
+              src={imgPaths[Number(idx)]}
+              alt={data["images"][Number(idx)]["imgPos"]}
+            />
+          )}
         </div>
         <div className={styles.PreviewImgs}>
           {imgPaths.map((url, i) => (

@@ -41,6 +41,8 @@
 }
 .PreviewImg {
   width: 100px;
+  margin-left: 10px;
+  margin-right: 10px;
 }
 
 /* ----- 상품 정보 섹션 ----- */

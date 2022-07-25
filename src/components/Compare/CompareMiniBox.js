@@ -7,6 +7,8 @@ import { Box, Image } from "@chakra-ui/react";
 import convertNumber from "../../utils/convertNumber";
 import { deleteCompareProduct } from "../../actions";
 
+const IMAGE_URI = `${process.env.REACT_APP_IMAGE_URI}`;
+
 function CompareMiniBox({ data }) {
   const dispatch = useDispatch();
 
@@ -27,7 +29,7 @@ function CompareMiniBox({ data }) {
         <div className={styles.Content}>
           <Image
             className={styles.ProductImg}
-            src={data.imgThumbnail}
+            src={`${IMAGE_URI}${data.imgThumbnail}`}
             alt={data.name}
           />
           <div className={styles.TxtContainer}>

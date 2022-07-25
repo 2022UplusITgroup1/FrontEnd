@@ -26,6 +26,8 @@ const initialPrice = {
   total: 0,
 };
 
+const IMAGE_URI = `${process.env.REACT_APP_IMAGE_URI}`;
+
 function Product({ product, plan, netType }) {
   const dispatch = useDispatch();
 
@@ -42,8 +44,8 @@ function Product({ product, plan, netType }) {
     compares.items.findIndex((item) => item.code === product.code) !== -1
   );
 
-  // 상세 페이지로 넘길 URL
-  const [detailURL, setDetailURL] = useState("");
+  // 상세 페이지로 넘길 URI
+  const [detailURI, setDetailURI] = useState("");
   // 할인유형
   const [discountType, setDiscountType] = useState(
     product.discountType.toString()
@@ -53,8 +55,8 @@ function Product({ product, plan, netType }) {
   const [nowPrice, setNowPrice] = useState(initialPrice);
 
   useEffect(() => {
-    // 계약기간 => 기본 = 24, 선택약정12개월 = 12
-    let payPeriod = discountType === "3" ? 12 : 24;
+    // 계약기간 => 기본 = 24
+    let payPeriod = 24;
     if (product.code && plan.code) {
       const nowTotalPrice = calcPrices(
         product.price,
@@ -64,7 +66,7 @@ function Product({ product, plan, netType }) {
       );
       setNowPrice(nowTotalPrice);
     }
-  }, [discountType, plan]);
+  }, [discountType, plan, product]);
   // options
 
   // Redux Dispatch -> 비교하기 정보 저장
@@ -113,14 +115,14 @@ function Product({ product, plan, netType }) {
   }, [compares.items]);
 
   useEffect(() => {
-    // 상세 페이지로 넘어갈 URL 설정 (할인 유형이 추천 상태면 product 가 가진 값으로, 아니면 선택한 값으로)
+    // 상세 페이지로 넘어갈 URI 설정 (할인 유형이 추천 상태면 product 가 가진 값으로, 아니면 선택한 값으로)
     if (options.discountType === "0") {
-      setDetailURL(
+      setDetailURI(
         `/mobile/detail/${netType}/${plan.code}/${product.code}/${product.color}/${product.discountType}`
       );
       setDiscountType(product.discountType.toString());
     } else {
-      setDetailURL(
+      setDetailURI(
         `/mobile/detail/${netType}/${plan.code}/${product.code}/${product.color}/${options.discountType}`
       );
       setDiscountType(options.discountType);
@@ -139,12 +141,12 @@ function Product({ product, plan, netType }) {
         borderRadius="lg"
         overflow="hidden"
       >
-        <Link to={detailURL} style={{ textDecoration: "none" }}>
+        <Link to={detailURI} style={{ textDecoration: "none" }}>
           <Box className={styles.BoxTop}>
             <Box className={styles.ImgBox}>
               <Image
                 className={styles.ProductImg}
-                src={product.imgThumbnail}
+                src={`${IMAGE_URI}${product.imgThumbnail}`}
                 alt={product.name}
               />
             </Box>
@@ -159,8 +161,14 @@ function Product({ product, plan, netType }) {
         </Link>
 
         <Box className={styles.BoxBottom} p="6">
-          <Link to={detailURL} style={{ textDecoration: "none" }}>
+          <Link to={detailURI} style={{ textDecoration: "none" }}>
             <Box className={styles.Price}>
+              {/* <Box className={styles.PriceTxt}>
+                MonPrice 월 {nowPrice && convertNumber(product.monPrice)}원
+              </Box> */}
+              <Box className={styles.PriceTxt}>
+                정상가 {nowPrice && convertNumber(nowPrice.phonePrice)}원
+              </Box>
               <Box className={styles.PriceTxt}>
                 휴대폰 월 {nowPrice && convertNumber(nowPrice.monthPhonePrice)}
                 원
@@ -198,7 +206,7 @@ function Product({ product, plan, netType }) {
             >
               비교하기
             </Button>
-            <Link to={detailURL} style={{ textDecoration: "none" }}>
+            <Link to={detailURI} style={{ textDecoration: "none" }}>
               <Button
                 className={styles.OrderBtn}
                 borderRadius="50px"

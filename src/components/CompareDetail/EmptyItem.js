@@ -5,35 +5,11 @@ import styles from "./CompareDetail.module.css";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
-import {
-  ButtonGroup,
-  Button,
-  Stack,
-  Radio,
-  RadioGroup,
-  Box,
-  Image,
-} from "@chakra-ui/react";
-import {
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalCloseButton,
-  ModalBody,
-  ModalFooter,
-  Select,
-  useDisclosure,
-} from "@chakra-ui/react";
-import convertNumber from "../../utils/convertNumber";
-import SampleCompareData from "../../SampleCompareData.json";
-import calcPrices from "../../utils/calcPrices";
-import mapDiscountType from "../../utils/mapDiscountType";
+import { Button, Box, Image } from "@chakra-ui/react";
+import { Select } from "@chakra-ui/react";
 import mapBrandName from "../../utils/mapBrandName";
 import { addCompareDetailProduct } from "../../actions";
 
-const COMPARE_URL = `/product/compare`;
-const PRODUCTS_API_URL = `/product/phone?net_sp=`;
 
 function EmptyItem({ products }) {
   const dispatch = useDispatch();

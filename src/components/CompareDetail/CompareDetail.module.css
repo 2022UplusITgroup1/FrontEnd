@@ -54,7 +54,7 @@
 
 .ProductInfoBox {
   width: 370px;
-  height: 320px; /* 350 */
+  height: 370px; /* 350 */
   border-radius: 10px;
   border: 1px;
   border-style: solid;
@@ -215,14 +215,15 @@
 .PerformanceBox {
   display: flex;
   justify-content: space-around;
+  align-items: center;
 }
 
 .PerformanceTxtContainer {
   background-color: #f8f8f8;
   width: 370px;
-  height: 155px; /* 350 */
+  height: 200px; /* 350 */
   border-radius: 10px;
-  padding-top: 25px;
+  padding-top: 30px;
   margin-bottom: 50px;
   margin-top: 25px;
   padding-left: 32px;
@@ -241,7 +242,7 @@
 
 .ProductSelectBox {
   width: 370px;
-  height: 320px; /* 350 */
+  height: 370px; /* 350 */
   border-radius: 10px;
   border: 1px;
   border-style: solid;
@@ -257,7 +258,7 @@
 }
 
 .BrandTypeSelect {
-  margin-top: 20px;
+  margin-top: 50px;
   margin-bottom: 30px;
 }
 

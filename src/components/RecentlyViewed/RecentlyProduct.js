@@ -9,6 +9,8 @@ import convertNumber from "../../utils/convertNumber";
 import calcPrices from "../../utils/calcPrices";
 import mapDiscountType from "../../utils/mapDiscountType";
 
+const IMAGE_URI = `${process.env.REACT_APP_IMAGE_URI}`;
+
 function RecentlyProduct({
   productCode,
   productName,
@@ -23,11 +25,13 @@ function RecentlyProduct({
   monthPrice,
 }) {
   // 최근 본 상품은 고정 값이므로 일반 변수 사용
-  let DETAIL_URL = "";
+  let DETAIL_URI = "";
   if (discountType === "0") {
-    DETAIL_URL = `/mobile/detail/${category}/${planCode}/${productCode}/${color}/${discountType}`;
+
+    DETAIL_URI = `/mobile/detail/${category}/${plan.code}/${product.code}/${color}/${product.discountType}`;
   } else {
-    DETAIL_URL = `/mobile/detail/${category}/${planCode}/${productCode}/${color}/${discountType}`;
+    DETAIL_URI = `/mobile/detail/${category}/${plan.code}/${product.code}/${color}/${discountType}`;
+
   }
 
   // 계약기간 => 기본 = 24, 선택약정12개월 = 12
@@ -47,13 +51,15 @@ function RecentlyProduct({
       borderRadius="lg"
       overflow="hidden"
     >
-      <Link to={DETAIL_URL} style={{ textDecoration: "none" }}>
+      <Link to={DETAIL_URI} style={{ textDecoration: "none" }}>
         <Box className={styles.BoxTop}>
           <Box className={styles.ImgBox}>
             <Image
               className={styles.ProductImg}
-              src={productImgThumbnail}
-              alt={productName}
+
+              src={`${IMAGE_URI}${product.imgThumbnail}`}
+              alt={product.name}
+
             />
           </Box>
           <Box className={styles.ProductTitle}>{productName}</Box>
@@ -67,7 +73,7 @@ function RecentlyProduct({
       </Link>
 
       <Box className={styles.BoxBottom} p="6">
-        <Link to={DETAIL_URL} style={{ textDecoration: "none" }}>
+        <Link to={DETAIL_URI} style={{ textDecoration: "none" }}>
           <Box className={styles.Price}>
             <Box className={styles.PriceTxt}>
               휴대폰 월 {convertNumber(productPrice)}원

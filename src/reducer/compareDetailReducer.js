@@ -19,7 +19,13 @@ function compareDetailReducer(state = initialState, action) {
     }
     case types.DELETE_COMPARE_DETAIL_PRODUCTS: {
       return {
-        items: state.items.filter((item) => item.code !== action.code),
+        items: state.items.filter(
+          (item) =>
+            item.code !== action.code ||
+            (item.code === action.code &&
+              (item.plan !== action.plan ||
+                item.discountType !== action.discountType))
+        ),
       };
     }
     default:

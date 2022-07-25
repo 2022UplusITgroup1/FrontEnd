@@ -12,8 +12,10 @@ import calcPrices from "../../utils/calcPrices";
 import mapDiscountType from "../../utils/mapDiscountType";
 import { deleteCompareDetailProduct } from "../../actions";
 
-const COMPARE_URL = `/product/compare`;
-const PRODUCTS_API_URL = `/product/phone?net_sp=`;
+
+const COMPARE_URI = `${process.env.REACT_APP_PRODUCT_SERVER_URI}/product/compare`;
+const PRODUCTS_API_URI = `${process.env.REACT_APP_PRODUCT_SERVER_URI}/product/phone?net_sp=`;
+
 
 const initialPrice = {
   discountName: "",
@@ -26,6 +28,7 @@ const initialPrice = {
   realPhonePrice: 0,
   total: 0,
 };
+const IMAGE_URI = `${process.env.REACT_APP_IMAGE_URI}`;
 
 function CompareItem({ index, item, payPeriod, discountType }) {
   //console.log(item);
@@ -33,13 +36,15 @@ function CompareItem({ index, item, payPeriod, discountType }) {
 
   const onClickDeleteBtn = () => {
     // 비교하기 상품 삭제
-    dispatch(deleteCompareDetailProduct(item.phone.code));
+    dispatch(
+      deleteCompareDetailProduct(item.phone.code, item.plan.code, discountType)
+    );
   };
 
   const [prices, setPrices] = useState(initialPrice);
   const [nowPayPeriod, setNowPayPeriod] = useState(payPeriod);
 
-  const DETAIL_URL = `/mobile/detail/${item.phone.networkSupport}/${item.plan.code}/${item.phone.code}/${item.phone.color}/${discountType}`;
+  const DETAIL_URI = `/mobile/detail/${item.phone.networkSupport}/${item.plan.code}/${item.phone.code}/${item.phone.color}/${discountType}`;
 
   // 데이터 에러 처리
   const [error, setError] = useState(null);
@@ -48,10 +53,12 @@ function CompareItem({ index, item, payPeriod, discountType }) {
 
   // API: 상품 색상 리스트 GET
   const fetchProductColor = async () => {
-    const PRODUCT_COLOR_URL = `/product/color?ph_code=${item.phone.code}`;
+
+    const PRODUCT_COLOR_URI = `${process.env.REACT_APP_PRODUCT_SERVER_URI}/product/color?ph_code=${item.phone.code}`;
+
     try {
       setError(null);
-      const response = await axios.get(`${PRODUCT_COLOR_URL}`);
+      const response = await axios.get(`${PRODUCT_COLOR_URI}`);
       //console.log(response.data);
       if (response.data.data !== null) {
         console.log("fetchProductColor SUCCESS ");
@@ -99,7 +106,7 @@ function CompareItem({ index, item, payPeriod, discountType }) {
             <div className={styles.ProductImgContainer}>
               <Image
                 className={styles.ProductImg}
-                src={item.phone.imgThumbnail}
+                src={`${IMAGE_URI}${item.phone.imgThumbnail}`}
                 alt={item.phone.name}
               />
             </div>
@@ -109,7 +116,7 @@ function CompareItem({ index, item, payPeriod, discountType }) {
                 월 {prices && convertNumber(prices.total)}원
               </div>
             </div>
-            <Link to={DETAIL_URL}>
+            <Link to={DETAIL_URI}>
               <Button className={styles.ReadMoreBtn}>자세히보기</Button>
             </Link>
           </Box>
