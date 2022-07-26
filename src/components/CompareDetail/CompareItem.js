@@ -25,8 +25,6 @@ const initialPrice = {
   total: 0,
 };
 
-const IMAGE_URI = `https://d2i7g6t0sifvpq.cloudfront.net`;
-
 function CompareItem({ index, item, plans, payPeriod, discountType }) {
   //console.log(item);
   const dispatch = useDispatch();
@@ -61,9 +59,7 @@ function CompareItem({ index, item, plans, payPeriod, discountType }) {
     const PRODUCT_COLOR_URI = `/product/color?ph_code=${item.phone.code}`;
     try {
       setError(null);
-      const response = await customAxios.get(
-        `${IMAGE_URI}${PRODUCT_COLOR_URI}`
-      );
+      const response = await customAxios.get(`${PRODUCT_COLOR_URI}`);
       //console.log(response.data);
       if (response.data.data !== null) {
         console.log("fetchProductColor SUCCESS ");
