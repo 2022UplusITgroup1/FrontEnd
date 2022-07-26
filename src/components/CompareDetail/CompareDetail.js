@@ -32,8 +32,6 @@ const initialData = {
   },
 };
 
-const SERVER_URI = `${process.env.REACT_APP_SERVER_URI}`;
-
 function CompareDetail({ isOpen, onClose, data }) {
   //console.log(data);
 
@@ -84,10 +82,7 @@ function CompareDetail({ isOpen, onClose, data }) {
 
     try {
       setError(null);
-      const response = await axios.post(
-        `${SERVER_URI}${COMPARE_URI}`,
-        requestBody
-      );
+      const response = await axios.post(`${COMPARE_URI}`, requestBody);
 
       if (response.data.data !== null) {
         console.log("fetchCompareData SUCCESS ");
@@ -112,9 +107,7 @@ function CompareDetail({ isOpen, onClose, data }) {
   const getProducts = async (netType) => {
     try {
       setError(null);
-      const response = await axios.get(
-        `${SERVER_URI}${PRODUCTS_API_URI}${netType}`
-      );
+      const response = await axios.get(`${PRODUCTS_API_URI}${netType}`);
       //console.log(response.data);
       if (response.data.data !== null) {
         console.log("getProducts SUCCESS ");
@@ -142,7 +135,7 @@ function CompareDetail({ isOpen, onClose, data }) {
     try {
       setError(null);
       //setNoData(false);
-      const response = await axios.get(`${SERVER_URI}${PLAN_URI}${netType}`);
+      const response = await axios.get(`${PLAN_URI}${netType}`);
       //console.log(response.data);
       if (response.data.data !== null) {
         console.log("fetchPlans SUCCESS ");

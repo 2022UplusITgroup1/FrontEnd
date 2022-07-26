@@ -7,7 +7,6 @@ import axios from "axios";
 import { Button } from "@chakra-ui/react";
 import { useSelector } from "react-redux";
 
-const SERVER_URI = `${process.env.REACT_APP_SERVER_URI}`;
 const PLAN_API_URI = `/order/my?`;
 
 function Result() {
@@ -20,7 +19,7 @@ function Result() {
   // API 통신
   const getOrder = async () => {
     try {
-      const response = await axios.get(`${SERVER_URI}${PLAN_API_URI}`);
+      const response = await axios.get(`${PLAN_API_URI}`);
       //console.log(response.data);
       setData(response.data.data);
     } catch (e) {

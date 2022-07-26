@@ -75,7 +75,6 @@ const initialPrice = {
   total: 0,
 };
 
-const SERVER_URI = `${process.env.REACT_APP_SERVER_URI}`;
 const IMAGE_URI = `${process.env.REACT_APP_IMAGE_URI}`;
 
 function Detail() {
@@ -149,7 +148,7 @@ function Detail() {
     try {
       setError(null);
       setNoData(false);
-      const response = await axios.get(`${SERVER_URI}${PRODUCT_DETAIL_URI}`);
+      const response = await axios.get(`${PRODUCT_DETAIL_URI}`);
       console.log(response.data);
       if (response.data.data !== null) {
         console.log("fetchProductDetail SUCCESS ");
@@ -169,7 +168,7 @@ function Detail() {
     try {
       setError(null);
       setNoData(false);
-      const response = await axios.get(`${SERVER_URI}${PRODUCT_COLOR_URI}`);
+      const response = await axios.get(`${PRODUCT_COLOR_URI}`);
       //console.log(response.data);
       if (response.data.data !== null) {
         console.log("fetchProductColor SUCCESS ");
@@ -189,7 +188,7 @@ function Detail() {
     try {
       setError(null);
       setNoData(false);
-      const response = await axios.get(`${SERVER_URI}${PLAN_URI}${netType}`);
+      const response = await axios.get(`${PLAN_URI}${netType}`);
       //console.log(response.data);
       if (response.data.data !== null) {
         console.log("fetchPlans SUCCESS ");
@@ -213,7 +212,7 @@ function Detail() {
 
       const PRODUCT_COLOR_IMG_URI = `/product/detail?pl_code=${plCode}&ph_code=${phCode}&color=${nowColor}&dc_type=${dcType}`;
 
-      const response = await axios.get(`${SERVER_URI}${PRODUCT_COLOR_IMG_URI}`);
+      const response = await axios.get(`${PRODUCT_COLOR_IMG_URI}`);
       console.log(response.data);
       if (response.data.data !== null) {
         console.log("fetchProductColorImg SUCCESS ");
