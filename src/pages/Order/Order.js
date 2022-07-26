@@ -8,6 +8,8 @@ import axios from "axios";
 import { Input, Button } from "@chakra-ui/react";
 import OrderDetail from "../../components/OrderDetail/OrderDetail";
 
+const SERVER_URI = `${process.env.REACT_APP_SERVER_URI}`;
+
 function Order() {
   const [name, setName] = useState("");
   const [number, setNumber] = useState("");
@@ -28,7 +30,7 @@ function Order() {
   // API 통신
   const postOrder = async () => {
     try {
-      //const response = await axios.post(`${PLAN_API_URI}`);
+      //const response = await axios.post(`${SERVER_URI}${PLAN_API_URI}`);
       //console.log(response.data);
       //setProduct(response.data);
     } catch (e) {

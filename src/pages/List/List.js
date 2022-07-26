@@ -12,6 +12,7 @@ import NoResult from "../Exception/NoResult";
 import ErrorPage from "../Exception/ErrorPage";
 
 // API URI
+const SERVER_URI = `${process.env.REACT_APP_SERVER_URI}`;
 const PRODUCTS_API_URI = `/product/phone?net_sp=`;
 const PLANS_API_URI = `/product/plan?net_sp=`;
 const RECENT_PRODUCT_API_URI = `/product/recents`;
@@ -40,7 +41,9 @@ function List({ netType }) {
       setLoading(true);
       setError(null);
       setNoData(false);
-      const response = await axios.get(`${PRODUCTS_API_URI}${netType}`);
+      const response = await axios.get(
+        `${SERVER_URI}${PRODUCTS_API_URI}${netType}`
+      );
       //console.log(response.data);
       if (response.data.data !== null) {
         console.log("getProducts SUCCESS ");
@@ -73,7 +76,9 @@ function List({ netType }) {
       setLoading(true);
       setError(null);
       setNoData(false);
-      const response = await axios.get(`${PLANS_API_URI}${netType}`);
+      const response = await axios.get(
+        `${SERVER_URI}${PLANS_API_URI}${netType}`
+      );
       //console.log(response.data);
       if (response.data.data !== null) {
         console.log("getPlans SUCCESS ");
@@ -95,7 +100,9 @@ function List({ netType }) {
       setLoading(true);
       setError(null);
       setNoData(false);
-      const response = await axios.get(`${RECENT_PRODUCT_API_URI}`);
+      const response = await axios.get(
+        `${SERVER_URI}${RECENT_PRODUCT_API_URI}`
+      );
       //console.log(response.data);
       if (response.data.data !== null) {
         console.log("getRecents SUCCESS ");

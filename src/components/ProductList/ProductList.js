@@ -12,6 +12,7 @@ import Compare from "../Compare/Compare";
 import ErrorPage from "../../pages/Exception/ErrorPage";
 import calcPrices from "../../utils/calcPrices";
 
+const SERVER_URI = `${process.env.REACT_APP_SERVER_URI}`;
 // 상세 정보 조회 URI
 const SELECTED_PRODUCT_API_URI = `/product/phone?net_sp=`;
 
@@ -121,7 +122,7 @@ function ProductList({ products, plans, netType }) {
     // API GET
     try {
       setError(null);
-      const response = await axios.get(OPTION_URI);
+      const response = await axios.get(`${SERVER_URI}${OPTION_URI}`);
       //console.log(response.data);
       if (response.data.data !== null) {
         console.log("getSelectedProducts SUCCESS ");

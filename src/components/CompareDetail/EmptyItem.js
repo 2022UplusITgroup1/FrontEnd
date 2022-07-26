@@ -10,6 +10,8 @@ import { Select } from "@chakra-ui/react";
 import mapBrandName from "../../utils/mapBrandName";
 import { addCompareDetailProduct } from "../../actions";
 
+const SERVER_URI = `${process.env.REACT_APP_SERVER_URI}`;
+
 function EmptyItem({ products }) {
   const dispatch = useDispatch();
   const [brandType, setBrandType] = useState("0");

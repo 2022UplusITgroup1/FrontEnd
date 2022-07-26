@@ -13,6 +13,7 @@ import mapDiscountType from "../../utils/mapDiscountType";
 import { deleteCompareDetailProduct } from "../../actions";
 import calcInstallmentFee from "../../utils/calcInstallmentFee";
 
+const SERVER_URI = `${process.env.REACT_APP_SERVER_URI}`;
 const COMPARE_URI = `/product/compare`;
 const PRODUCTS_API_URI = `/product/phone?net_sp=`;
 
@@ -66,7 +67,7 @@ function CompareItem({ index, item, plans, payPeriod, discountType }) {
     const PRODUCT_COLOR_URI = `/product/color?ph_code=${item.phone.code}`;
     try {
       setError(null);
-      const response = await axios.get(`${PRODUCT_COLOR_URI}`);
+      const response = await axios.get(`${SERVER_URI}${PRODUCT_COLOR_URI}`);
       //console.log(response.data);
       if (response.data.data !== null) {
         console.log("fetchProductColor SUCCESS ");
