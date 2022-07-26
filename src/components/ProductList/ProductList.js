@@ -225,24 +225,25 @@ function ProductList({ products, plans, netType }) {
         <div className={styles.ProductListContent}>
           {/* 상품 리스트 */}
           <div className={styles.ProductList}>
-            {selectedProducts.length &&
-              selectedProducts.map((p, i) => {
-                return (
-                  <Product
-                    product={p}
-                    plan={
-                      options.planType === "0"
-                        ? plans[0] // 가장 알맞은 요금제는 첫번째로
-                        : findSelectPlan(options.planType)
-                    }
-                    netType={netType}
-                    key={i}
-                  />
-                );
-              })}
+            {selectedProducts.length
+              ? selectedProducts.map((p, i) => {
+                  return (
+                    <Product
+                      product={p}
+                      plan={
+                        options.planType === "0"
+                          ? plans[0] // 가장 알맞은 요금제는 첫번째로
+                          : findSelectPlan(options.planType)
+                      }
+                      netType={netType}
+                      key={i}
+                    />
+                  );
+                })
+              : null}
           </div>
           {/* 상품 리스트가 없을 경우 */}
-          {selectedProducts.length === 0 && (
+          {selectedProducts.length === 0 ? (
             <div className={styles.NoProductListContainer}>
               <div className={styles.NoProductList}>
                 <div className={styles.NoProductListAlert}>
@@ -256,7 +257,7 @@ function ProductList({ products, plans, netType }) {
                 </div>
               </div>
             </div>
-          )}
+          ) : null}
         </div>
       </div>
 
