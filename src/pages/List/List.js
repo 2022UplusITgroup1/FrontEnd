@@ -2,13 +2,12 @@
 
 import React, { useEffect, useState } from "react";
 import styles from "./List.module.css";
-import { useDispatch } from "react-redux";
-import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
 import customAxios from "../../lib/customAxios";
 import Option from "../../components/Option/Option";
 import ProductList from "../../components/ProductList/ProductList";
 import RecentlyViewed from "../../components/RecentlyViewed/RecentlyViewed";
-import { resetDetailData, resetOptionData } from "../../actions";
+import { getData, resetDetailData, resetOptionData } from "../../actions";
 import NoResult from "../Exception/NoResult";
 import ErrorPage from "../Exception/ErrorPage";
 
@@ -16,18 +15,15 @@ import ErrorPage from "../Exception/ErrorPage";
 const PRODUCTS_API_URI = `/product/phone?net_sp=`;
 const PLANS_API_URI = `/product/plan?net_sp=`;
 
-//const PRODUCTS_API_URI = `/product/phone?net_sp=`;
-//const PLANS_API_URI = `/product/plan?net_sp=`;
-//const RECENT_PRODUCT_API_URI = `/product/recents`;
-
 function List({ netType }) {
   const dispatch = useDispatch();
   //console.log(netType);
 
-  // API 로 받아온 상품, 요금제, 최근 본 상품
+  const datas = useSelector((state) => state.getDataReducter);
+
+  // API 로 받아온 상품, 요금제
   const [products, setProducts] = useState([]);
   const [plans, setPlans] = useState([]);
-  const [recentlyProducts, setRecentlyProducts] = useState([]);
 
   // 데이터 로딩 & 에러 처리
   const [loading, setLoading] = useState(false);
@@ -98,6 +94,12 @@ function List({ netType }) {
     dispatch(resetOptionData()); // 5G - 4G 간 페이지 이동 시, 선택했던 option 값 초기화
     dispatch(resetDetailData()); // 상세페이지에서 뒤로가기 시, 선택했던 detail 값 초기화
   }, [netType]);
+
+  useEffect(() => {
+    if (products.length && plans.length) {
+      dispatch(getData({ phone: products, plan: plans }));
+    }
+  }, [products, plans]);
 
   if (loading) return <div></div>;
   //if (error) return <ErrorPage />;
