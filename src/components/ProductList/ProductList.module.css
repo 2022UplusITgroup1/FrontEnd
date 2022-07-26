@@ -59,3 +59,16 @@
 .Compare {
   overflow: auto;
 }
+
+.OptionTags {
+  display: flex;
+}
+
+.SelectedTagContainer {
+  background-color: #ddd;
+  height: 25px;
+  margin-right: 5px;
+}
+
+.SelectedTag {
+}
