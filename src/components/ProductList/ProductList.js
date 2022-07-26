@@ -189,26 +189,26 @@ function ProductList({ products, plans, netType }) {
           <div className={styles.TotalCountTxt}>
             전체 {selectedProducts.length}건
           </div>
-        </div>
-        <div className={styles.OptionTags}>
-          {/* 옵션 태그 - 제조사 */}
-          {options.brandType !== "0" && (
-            <div className={styles.SelectedTagContainer}>
-              <div className={styles.SelectedTag}>
-                {mapBrandName(options.brandType)}
-                <button onClick={onClickDeleteBrandOption}>X</button>
+          <div className={styles.OptionTags}>
+            {/* 옵션 태그 - 제조사 */}
+            {options.brandType !== "0" && (
+              <div className={styles.SelectedTagContainer}>
+                <div className={styles.SelectedTag}>
+                  {mapBrandName(options.brandType)}
+                  <button onClick={onClickDeleteBrandOption}>X</button>
+                </div>
               </div>
-            </div>
-          )}
-          {/* 옵션 태그 - 저장용량 */}
-          {options.storageType !== "0" && (
-            <div className={styles.SelectedTagContainer}>
-              <div className={styles.SelectedTag}>
-                {mapStorageType(options.storageType)}
-                <button onClick={onClickDeleteStorageOption}>X</button>
+            )}
+            {/* 옵션 태그 - 저장용량 */}
+            {options.storageType !== "0" && (
+              <div className={styles.SelectedTagContainer}>
+                <div className={styles.SelectedTag}>
+                  {mapStorageType(options.storageType)}
+                  <button onClick={onClickDeleteStorageOption}>X</button>
+                </div>
               </div>
-            </div>
-          )}
+            )}
+          </div>
         </div>
         {/* 정렬 */}
         <div className={styles.SelectSort}>
