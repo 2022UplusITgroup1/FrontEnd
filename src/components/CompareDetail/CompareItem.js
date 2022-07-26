@@ -29,9 +29,10 @@ const initialPrice = {
   totalInstallmentFee: 0,
   total: 0,
 };
+
 const IMAGE_URI = `${process.env.REACT_APP_IMAGE_URI}`;
 
-function CompareItem({ index, item, payPeriod, discountType }) {
+function CompareItem({ index, item, plans, payPeriod, discountType }) {
   //console.log(item);
   const dispatch = useDispatch();
 
@@ -44,6 +45,9 @@ function CompareItem({ index, item, payPeriod, discountType }) {
 
   const [prices, setPrices] = useState(initialPrice);
   const [nowPayPeriod, setNowPayPeriod] = useState(payPeriod);
+  const [nowPlanType, setNowPlanType] = useState(item.plan.code);
+  //const [nowPlan, setNowPlan] = useState([]);
+  const [nowDiscountType, setNowDiscountType] = useState(discountType);
 
   const DETAIL_URI = `/mobile/detail/${item.phone.networkSupport}/${item.plan.code}/${item.phone.code}/${item.phone.color}/${discountType}`;
 
@@ -51,6 +55,11 @@ function CompareItem({ index, item, payPeriod, discountType }) {
   const [error, setError] = useState(null);
 
   const [colors, setColors] = useState([]);
+
+  // 현재 요금제 정보 찾기
+  const findSelectPlan = (value) => {
+    return plans.find((p) => p.code === value);
+  };
 
   // API: 상품 색상 리스트 GET
   const fetchProductColor = async () => {
@@ -77,19 +86,20 @@ function CompareItem({ index, item, payPeriod, discountType }) {
 
   // 가격 계산 & 색상 리스트 저장
   useEffect(() => {
-    if (item.phone.code) {
+    const nowPlan = findSelectPlan(nowPlanType);
+    if (item.phone.code && nowPlan) {
       const nowTotalPrice = calcPrices(
         item.phone.price,
-        item.plan.price,
-        discountType,
+        nowPlan.price,
+        nowDiscountType,
         Number(nowPayPeriod)
       );
       setPrices(nowTotalPrice);
-      //console.log(nowTotalPrice);
+      console.log(nowTotalPrice);
 
       fetchProductColor();
     }
-  }, [item, nowPayPeriod]);
+  }, [item, plans, nowDiscountType, nowPlanType, nowPayPeriod]);
 
   return (
     <div className={styles.CompareItemContainer}>
@@ -210,7 +220,7 @@ function CompareItem({ index, item, payPeriod, discountType }) {
               <div className={styles.DiscountPlanItem}>
                 <Select
                   className={styles.PayPeriod}
-                  value="1"
+                  defaultValue="1"
                   variant="flushed"
                 >
                   <option value="1">신규가입</option>
@@ -232,21 +242,29 @@ function CompareItem({ index, item, payPeriod, discountType }) {
               <div className={styles.DiscountPlanItem}>
                 <Select
                   className={styles.PayPeriod}
-                  value="1"
+                  value={nowDiscountType}
+                  onChange={(e) => setNowDiscountType(e.target.value)}
                   variant="flushed"
-                  isReadOnly={true}
                 >
-                  <option value="1">{mapDiscountType(discountType)}</option>
+                  <option value="1">공시지원금</option>
+                  <option value="2">선택약정24개월</option>
+                  <option value="3">선택약정12개월</option>
                 </Select>
               </div>
               <div className={styles.DiscountPlanItem}>
                 <Select
                   className={styles.PayPeriod}
-                  value="1"
+                  value={nowPlanType}
+                  onChange={(e) => setNowPlanType(e.target.value)}
                   variant="flushed"
-                  isReadOnly={true}
                 >
-                  <option value="1">{item.plan.name}</option>
+                  {plans.map((p, i) => {
+                    return (
+                      <option key={i} value={p.code}>
+                        {p.name}
+                      </option>
+                    );
+                  })}
                 </Select>
               </div>
             </div>
