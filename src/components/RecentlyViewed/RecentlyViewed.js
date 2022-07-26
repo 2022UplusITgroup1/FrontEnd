@@ -16,6 +16,7 @@ import {
 import RecentlyProduct from "./RecentlyProduct";
 import RecentlyPreviewProduct from "./RecentlyPreviewProduct";
 import axios from "axios";
+import customAxios from "../../lib/customAxios";
 import { useCookies } from "react-cookie";
 
 const RECENT_PRODUCT_API_URI = `/product/recents`;
@@ -65,7 +66,7 @@ function RecentlyViewed({ products, plans, category }) {
   const getRecents = async () => {
     try {
       setError(null);
-      const response = await axios.get(`${RECENT_PRODUCT_API_URI}`);
+      const response = await customAxios.get(`${RECENT_PRODUCT_API_URI}`);
       console.log(response.data);
       if (response.data.data !== null) {
         console.log("getRecents SUCCESS ");
