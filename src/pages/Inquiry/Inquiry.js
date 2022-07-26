@@ -9,7 +9,7 @@ import customAxios from "../../lib/customAxios";
 import { Input, Button } from "@chakra-ui/react";
 import { resetOrderInquiryInfo, setOrderInquiryInfo } from "../../actions";
 import { useHistory } from "react-router";
-import validation from "../../utils/validation";
+import validateOrderInquiry from "../../utils/validateOrderInquiry";
 
 const INQUIRY_REQUEST_URL = `/order/my`;
 
@@ -24,25 +24,13 @@ function Inquiry() {
   const [productOrder, setOrder] = useState({});
 
   const onNameChange = (e) => {
-    if (validation("string", e.target.value)) {
-      setName(e.target.value);
-    } else {
-      alert("이름을 입력하세요");
-    }
+    setName(e.target.value);
   };
   const onNumberChange = (e) => {
-    if (validation("phoneNumber", e.target.value)) {
-      setNumber(e.target.value);
-    } else {
-      alert("휴대폰 번호를 입력하세요");
-    }
+    setNumber(e.target.value);
   };
   const onOrderNumChange = (e) => {
-    if (validation("string", e.target.value)) {
-      setOrderNum(e.target.value);
-    } else {
-      alert("주문번호를 입력하세요");
-    }
+    setOrderNum(e.target.value);
   };
 
   useEffect(() => {
@@ -91,8 +79,11 @@ function Inquiry() {
 
   const onClick = (name, phoneNumber, orderNumber) => {
     console.log(name, phoneNumber, orderNumber);
-    // setSearchWord(word);
-    getOrder(name, phoneNumber, orderNumber);
+    if (validateOrderInquiry({ name, phoneNumber, orderNumber })) {
+      getOrder(name, phoneNumber, orderNumber);
+    } else {
+      alert("주문 조회 정보가 잘못되었습니다");
+    }
   };
 
   const onKeyPress = (e) => {

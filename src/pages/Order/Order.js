@@ -2,56 +2,52 @@
 
 import React, { useEffect, useState } from "react";
 import styles from "./Order.module.css";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import customAxios from "../../lib/customAxios";
 import { Input, Button } from "@chakra-ui/react";
 import OrderDetail from "../../components/OrderDetail/OrderDetail";
-import validation from "../../utils/validation";
+import validateOrder from "../../utils/validateOrder";
+import ErrorPage from "../Exception/ErrorPage";
 
 function Order() {
+  const history = useHistory();
+
   const [name, setName] = useState("");
   const [number, setNumber] = useState("");
   const [email, setEmail] = useState("");
   const [address, setAddress] = useState("");
 
   const onNameChange = (e) => {
-    if (validation("string", e.target.value)) {
-      setName(e.target.value);
-    } else {
-      alert("이름을 입력하세요");
-    }
+    setName(e.target.value);
   };
   const onNumberChange = (e) => {
-    if (validation("phoneNumber", e.target.value)) {
-      setNumber(e.target.value);
-    } else {
-      alert("휴대폰 번호를 입력하세요");
-    }
+    setNumber(e.target.value);
   };
   const onEmailChange = (e) => {
-    if (validation("email", e.target.value)) {
-      setEmail(e.target.value);
-    } else {
-      alert("이메일 주소를 입력하세요");
-    }
+    setEmail(e.target.value);
   };
   const onAddressChange = (e) => {
-    if (validation("string", e.target.value)) {
-      setAddress(e.target.value);
-    } else {
-      alert("주소를 입력하세요");
-    }
+    setAddress(e.target.value);
   };
 
   const onSubmit = (e) => {
     e.preventDefault();
-    console.log(name, number, email, address);
+    if (validateOrder({ name, number, email, address })) {
+      history.push("/mobile/order-result");
+    } else {
+      alert("주문 정보가 잘못되었습니다");
+    }
+    //console.log(name, number, email, address);
   };
 
   const orderProduct = useSelector((state) => state.orderReducer);
   //console.log(orderProduct);
+
+  if (!orderProduct.phone.code) {
+    return <ErrorPage />;
+  }
 
   return (
     <div className={styles.Container}>
@@ -99,11 +95,9 @@ function Order() {
             />
           </label>
           <div className={styles.OrderBtnContainer}>
-            <Link to="/mobile/order-result">
-              <Button className={styles.OrderBtn} type="submit">
-                주문하기
-              </Button>
-            </Link>
+            <Button className={styles.OrderBtn} type="submit">
+              주문하기
+            </Button>
           </div>
         </form>
       </div>
