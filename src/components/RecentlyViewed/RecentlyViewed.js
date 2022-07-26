@@ -88,6 +88,7 @@ function RecentlyViewed({ products, plans, category }) {
   useEffect(() => {
     if (localStorage.getItem("recents")) {
       let watchedAll = JSON.parse(localStorage.getItem("recents"));
+      console.log(watchedAll);
       let matchWatched = [];
       if (watchedAll.length > 0) {
         for (let i = 0; i < watchedAll.length; i++) {

@@ -2,11 +2,9 @@
 
 import React from "react";
 import styles from "./RecentlyProduct.module.css";
-import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { Box, Image } from "@chakra-ui/react";
 import convertNumber from "../../utils/convertNumber";
-import calcPrices from "../../utils/calcPrices";
 import mapDiscountType from "../../utils/mapDiscountType";
 
 const IMAGE_URI = `https://d2i7g6t0sifvpq.cloudfront.net`;
