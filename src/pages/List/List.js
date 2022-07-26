@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import styles from "./List.module.css";
 import { useDispatch } from "react-redux";
 import axios from "axios";
+import customAxios from "../../lib/customAxios";
 import Option from "../../components/Option/Option";
 import ProductList from "../../components/ProductList/ProductList";
 import RecentlyViewed from "../../components/RecentlyViewed/RecentlyViewed";
@@ -12,10 +13,8 @@ import NoResult from "../Exception/NoResult";
 import ErrorPage from "../Exception/ErrorPage";
 
 // API URI
-const SERVER_API_URI = `http://43.200.122.174:8000`;
-const PRODUCTS_API_URI = SERVER_API_URI + `/product/phone?net_sp=`;
-const PLANS_API_URI = SERVER_API_URI + `/product/plan?net_sp=`;
-const RECENT_PRODUCT_API_URI = SERVER_API_URI + `/product/recents`;
+const PRODUCTS_API_URI = `/product/phone?net_sp=`;
+const PLANS_API_URI = `/product/plan?net_sp=`;
 
 //const PRODUCTS_API_URI = `/product/phone?net_sp=`;
 //const PLANS_API_URI = `/product/plan?net_sp=`;
@@ -41,7 +40,7 @@ function List({ netType }) {
       setLoading(true);
       setError(null);
       setNoData(false);
-      const response = await axios.get(`${PRODUCTS_API_URI}${netType}`);
+      const response = await customAxios.get(`${PRODUCTS_API_URI}${netType}`);
       //console.log(response.data);
       if (response.data.data !== null) {
         console.log("getProducts SUCCESS ");
@@ -74,7 +73,7 @@ function List({ netType }) {
       setLoading(true);
       setError(null);
       setNoData(false);
-      const response = await axios.get(`${PLANS_API_URI}${netType}`);
+      const response = await customAxios.get(`${PLANS_API_URI}${netType}`);
       //console.log(response.data);
       if (response.data.data !== null) {
         console.log("getPlans SUCCESS ");

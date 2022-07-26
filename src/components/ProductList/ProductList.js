@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import styles from "./ProductList.module.css";
 import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
+import customAxios from "../../lib/customAxios";
 import { FiAlertCircle } from "react-icons/fi";
 import { Select, useDisclosure } from "@chakra-ui/react";
 import Product from "./Product";
@@ -15,8 +16,7 @@ import mapBrandName from "../../utils/mapBrandName";
 import mapStorageType from "../../utils/mapStorageType";
 
 // 상세 정보 조회 URI
-const SERVER_API_URI = `http://43.200.122.174:8000`;
-const SELECTED_PRODUCT_API_URI = SERVER_API_URI + `/product/phone?net_sp=`;
+const SELECTED_PRODUCT_API_URI = `/product/phone?net_sp=`;
 
 function ProductList({ products, plans, netType }) {
   const dispatch = useDispatch();
@@ -132,7 +132,7 @@ function ProductList({ products, plans, netType }) {
     // API GET
     try {
       setError(null);
-      const response = await axios.get(OPTION_URI);
+      const response = await customAxios.get(OPTION_URI);
       //console.log(response.data);
       if (response.data.data !== null) {
         console.log("getSelectedProducts SUCCESS ");
@@ -194,7 +194,7 @@ function ProductList({ products, plans, netType }) {
             {options.brandType !== "0" && (
               <div className={styles.SelectedTagContainer}>
                 <div className={styles.SelectedTag}>
-                  {mapBrandName(options.brandType)}
+                  {mapBrandName(options.brandType) + " "}
                   <button onClick={onClickDeleteBrandOption}>X</button>
                 </div>
               </div>
@@ -203,7 +203,7 @@ function ProductList({ products, plans, netType }) {
             {options.storageType !== "0" && (
               <div className={styles.SelectedTagContainer}>
                 <div className={styles.SelectedTag}>
-                  {mapStorageType(options.storageType)}
+                  {mapStorageType(options.storageType) + " "}
                   <button onClick={onClickDeleteStorageOption}>X</button>
                 </div>
               </div>

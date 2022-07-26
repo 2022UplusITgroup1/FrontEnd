@@ -5,39 +5,53 @@ import styles from "./Order.module.css";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import axios from "axios";
+import customAxios from "../../lib/customAxios";
 import { Input, Button } from "@chakra-ui/react";
 import OrderDetail from "../../components/OrderDetail/OrderDetail";
+import validation from "../../utils/validation";
 
 function Order() {
   const [name, setName] = useState("");
   const [number, setNumber] = useState("");
   const [email, setEmail] = useState("");
   const [address, setAddress] = useState("");
-  const onNameChange = (e) => setName(e.target.value);
-  const onNumberChange = (e) => setNumber(e.target.value);
-  const onEmailChange = (e) => setEmail(e.target.value);
-  const onAddressChange = (e) => setAddress(e.target.value);
+
+  const onNameChange = (e) => {
+    if (validation("string", e.target.value)) {
+      setName(e.target.value);
+    } else {
+      alert("이름을 입력하세요");
+    }
+  };
+  const onNumberChange = (e) => {
+    if (validation("phoneNumber", e.target.value)) {
+      setNumber(e.target.value);
+    } else {
+      alert("휴대폰 번호를 입력하세요");
+    }
+  };
+  const onEmailChange = (e) => {
+    if (validation("email", e.target.value)) {
+      setEmail(e.target.value);
+    } else {
+      alert("이메일 주소를 입력하세요");
+    }
+  };
+  const onAddressChange = (e) => {
+    if (validation("string", e.target.value)) {
+      setAddress(e.target.value);
+    } else {
+      alert("주소를 입력하세요");
+    }
+  };
+
   const onSubmit = (e) => {
     e.preventDefault();
     console.log(name, number, email, address);
   };
 
   const orderProduct = useSelector((state) => state.orderReducer);
-  console.log(orderProduct);
-
-  // API 통신
-  const postOrder = async () => {
-    try {
-      //const response = await axios.post(`${PLAN_API_URI}`);
-      //console.log(response.data);
-      //setProduct(response.data);
-    } catch (e) {
-      console.log(e);
-    }
-  };
-  useEffect(() => {
-    //getOrder();
-  }, []);
+  //console.log(orderProduct);
 
   return (
     <div className={styles.Container}>

@@ -5,6 +5,7 @@ import styles from "./Detail.module.css";
 import { Link, useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
+import customAxios from "../../lib/customAxios";
 import { useDisclosure } from "@chakra-ui/react";
 import ProductDetail from "../../components/ProductDetail/ProductDetail";
 import {
@@ -75,7 +76,6 @@ const initialPrice = {
   total: 0,
 };
 
-const SERVER_API_URI = `http://43.200.122.174:8000`;
 const IMAGE_URI = `https://d2i7g6t0sifvpq.cloudfront.net`;
 
 function Detail() {
@@ -84,11 +84,9 @@ function Detail() {
   console.log(netType, plCode, phCode, color, dcType);
 
   // API URI
-  const PRODUCT_DETAIL_URI =
-    SERVER_API_URI +
-    `/product/detail?pl_code=${plCode}&ph_code=${phCode}&color=${color}&dc_type=${dcType}`;
-  const PRODUCT_COLOR_URI = SERVER_API_URI + `/product/color?ph_code=${phCode}`;
-  const PLAN_URI = SERVER_API_URI + `/product/plan?net_sp=`;
+  const PRODUCT_DETAIL_URI = `/product/detail?pl_code=${plCode}&ph_code=${phCode}&color=${color}&dc_type=${dcType}`;
+  const PRODUCT_COLOR_URI = `/product/color?ph_code=${phCode}`;
+  const PLAN_URI = `/product/plan?net_sp=`;
 
   //const PRODUCT_DETAIL_URI = `/product/detail?pl_code=${plCode}&ph_code=${phCode}&color=${color}&dc_type=${dcType}`;
   //const PRODUCT_COLOR_URI = `/product/color?ph_code=${phCode}`;
@@ -151,7 +149,7 @@ function Detail() {
     try {
       setError(null);
       setNoData(false);
-      const response = await axios.get(`${PRODUCT_DETAIL_URI}`);
+      const response = await customAxios.get(`${PRODUCT_DETAIL_URI}`);
       console.log(response.data);
       if (response.data.data !== null) {
         console.log("fetchProductDetail SUCCESS ");
@@ -171,7 +169,7 @@ function Detail() {
     try {
       setError(null);
       setNoData(false);
-      const response = await axios.get(`${PRODUCT_COLOR_URI}`);
+      const response = await customAxios.get(`${PRODUCT_COLOR_URI}`);
       //console.log(response.data);
       if (response.data.data !== null) {
         console.log("fetchProductColor SUCCESS ");
@@ -191,7 +189,7 @@ function Detail() {
     try {
       setError(null);
       setNoData(false);
-      const response = await axios.get(`${PLAN_URI}${netType}`);
+      const response = await customAxios.get(`${PLAN_URI}${netType}`);
       //console.log(response.data);
       if (response.data.data !== null) {
         console.log("fetchPlans SUCCESS ");
@@ -215,7 +213,7 @@ function Detail() {
 
       const PRODUCT_COLOR_IMG_URI = `/product/detail?pl_code=${plCode}&ph_code=${phCode}&color=${nowColor}&dc_type=${dcType}`;
 
-      const response = await axios.get(`${PRODUCT_COLOR_IMG_URI}`);
+      const response = await customAxios.get(`${PRODUCT_COLOR_IMG_URI}`);
       console.log(response.data);
       if (response.data.data !== null) {
         console.log("fetchProductColorImg SUCCESS ");

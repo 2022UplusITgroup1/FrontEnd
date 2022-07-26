@@ -9,7 +9,7 @@ import convertNumber from "../../utils/convertNumber";
 import calcPrices from "../../utils/calcPrices";
 import mapDiscountType from "../../utils/mapDiscountType";
 
-const IMAGE_URI = `${process.env.REACT_APP_IMAGE_URI}`;
+const IMAGE_URI = `https://d2i7g6t0sifvpq.cloudfront.net`;
 
 function RecentlyProduct({
   productCode,
@@ -27,11 +27,9 @@ function RecentlyProduct({
   // 최근 본 상품은 고정 값이므로 일반 변수 사용
   let DETAIL_URI = "";
   if (discountType === "0") {
-
     DETAIL_URI = `/mobile/detail/${category}/${planCode}/${productCode}/${color}/${discountType}`;
   } else {
     DETAIL_URI = `/mobile/detail/${category}/${planCode}/${productCode}/${color}/${discountType}`;
-
   }
 
   return (
@@ -47,10 +45,8 @@ function RecentlyProduct({
           <Box className={styles.ImgBox}>
             <Image
               className={styles.ProductImg}
-
               src={`${IMAGE_URI}${productImgThumbnail}`}
               alt={productName}
-
             />
           </Box>
           <Box className={styles.ProductTitle}>{productName}</Box>

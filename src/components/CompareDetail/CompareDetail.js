@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import styles from "./CompareDetail.module.css";
 import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
+import customAxios from "../../lib/customAxios";
 import { Button } from "@chakra-ui/react";
 import {
   Modal,
@@ -17,10 +18,9 @@ import {
 import CompareItem from "./CompareItem";
 import EmptyItem from "./EmptyItem";
 
-const SERVER_API_URI = `http://43.200.122.174:8000`;
-const COMPARE_URI = SERVER_API_URI + `/product/compare`;
-const PRODUCTS_API_URI = SERVER_API_URI + `/product/phone?net_sp=`;
-const PLAN_URI = SERVER_API_URI + `/product/plan?net_sp=`;
+const COMPARE_URI = `/product/compare`;
+const PRODUCTS_API_URI = `/product/phone?net_sp=`;
+const PLAN_URI = `/product/plan?net_sp=`;
 
 const initialData = {
   phone: {
@@ -83,7 +83,7 @@ function CompareDetail({ isOpen, onClose, data }) {
 
     try {
       setError(null);
-      const response = await axios.post(`${COMPARE_URI}`, requestBody);
+      const response = await customAxios.post(`${COMPARE_URI}`, requestBody);
 
       if (response.data.data !== null) {
         console.log("fetchCompareData SUCCESS ");
@@ -108,7 +108,7 @@ function CompareDetail({ isOpen, onClose, data }) {
   const getProducts = async (netType) => {
     try {
       setError(null);
-      const response = await axios.get(`${PRODUCTS_API_URI}${netType}`);
+      const response = await customAxios.get(`${PRODUCTS_API_URI}${netType}`);
       //console.log(response.data);
       if (response.data.data !== null) {
         console.log("getProducts SUCCESS ");
@@ -136,7 +136,7 @@ function CompareDetail({ isOpen, onClose, data }) {
     try {
       setError(null);
       //setNoData(false);
-      const response = await axios.get(`${PLAN_URI}${netType}`);
+      const response = await customAxios.get(`${PLAN_URI}${netType}`);
       //console.log(response.data);
       if (response.data.data !== null) {
         console.log("fetchPlans SUCCESS ");

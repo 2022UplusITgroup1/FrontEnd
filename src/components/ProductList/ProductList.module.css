@@ -46,18 +46,12 @@
 
 .TotalCount {
   padding-top: 10px;
+  display: flex;
 }
 
 .TotalCountTxt {
   font-size: large;
   font-weight: 400;
-}
-
-.SelectSort {
-}
-
-.Compare {
-  overflow: auto;
 }
 
 .OptionTags {
@@ -68,8 +62,18 @@
 .SelectedTagContainer {
   background-color: #ddd;
   height: 25px;
-  margin-right: 5px;
+  margin-right: 8px;
+  border-radius: 5px;
 }
 
 .SelectedTag {
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+.SelectSort {
+}
+
+.Compare {
+  overflow: auto;
 }
