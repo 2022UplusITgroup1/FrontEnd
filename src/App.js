@@ -10,11 +10,13 @@ import OrderResult from "./pages/Order/OrderResult";
 import Inquiry from "./pages/Inquiry/Inquiry";
 import Result from "./pages/Inquiry/Result";
 import Search from "./pages/Search/Search";
+import ScrollToTop from "./components/ScrollToTop";
 
 function App() {
   return (
     <ChakraProvider>
       <Router>
+        <ScrollToTop />
         <Layout>
           <Route exact path="/" component={Main} />
           <Route

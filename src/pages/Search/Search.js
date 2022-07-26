@@ -6,11 +6,9 @@ import styles from "./Search.module.css";
 import { FiSearch, FiAlertCircle } from "react-icons/fi";
 import { Input, InputGroup, InputLeftElement } from "@chakra-ui/react";
 import ResultList from "../../components/Search/ResultList";
-import SampleData from "../../SampleData.json";
-import SamplePlanData from "../../SamplePlanData.json";
 
 // const PRODUCT_API_URL = `${process.env.REACT_APP_PRODUCT_SERVICE_API_URL}/phone?net_sp=`;
-const SEARCH_WORD_URL = `http://43.200.122.174:8000/product/search?word=`;
+const SEARCH_WORD_URL = `http://43.200.122.174:8000/search?query=`;
 
 const PLAN_4G_API_URL = `http://43.200.122.174:8000/product/plan?net_sp=4g`;
 const PLAN_5G_API_URL = `http://43.200.122.174:8000/product/plan?net_sp=5g`;

@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import styles from "./RecentlyViewed.module.css";
-import { Grid, GridItem, Box, Image, Button } from "@chakra-ui/react";
+import { Grid, GridItem, Box, Button } from "@chakra-ui/react";
 import {
   Modal,
   ModalOverlay,
@@ -17,35 +17,33 @@ import { useSelector } from "react-redux";
 import RecentlyProduct from "./RecentlyProduct";
 import RecentlyPreviewProduct from "./RecentlyPreviewProduct";
 import axios from "axios";
+import { useCookies } from "react-cookie";
 
-const RECENT_PRODUCT_API_URL = `/product/recents`;
+const RECENT_PRODUCT_API_URI = `/product/recents`;
 
 function RecentlyViewed({ products, plans, category }) {
-  //const DETAIL_URL = `/mobile/detail/${category}/${plan.code}/${product.code}/${product.color}/${product.discountType}`;
-
-  // Redux store 에 저장된 최근 본 상품
-  const productList = useSelector((state) => state.recentlyReducer);
-  //console.log(productList);
+  //const DETAIL_URI = `/mobile/detail/${category}/${plan.code}/${product.code}/${product.color}/${product.discountType}`;
 
   // 최근 본 상품 전체 리스트
   const [recentlyProducts, setRecentlyProducts] = useState([]);
   const [storedData, setStoredData] = useState([]);
   const [limitedProducts, setLimitedProducts] = useState([]);
 
-  // 데이터 로딩 & 에러 처리
-  const [loading, setLoading] = useState(false);
+  // Cookie에 저장된 JSessionID
+  const [cookies] = useCookies(["JSESSIONID"]);
+  // console.log(cookies.JSESSIONID);
+
+  // 데이터 에러 처리
   const [error, setError] = useState(null);
 
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const onOrderClose = (e) => {
-    onClose();
-  };
 
+  // 2개로 개수 제한
   const limitProducts = () => {
     let p = [];
     let len = storedData.length > 2 ? 2 : storedData.length;
-    for (let i = len - 1; i >= 0; i--) {
-      p.push(storedData[i]);
+    for (let i = 1; i <= len; i++) {
+      p.push(storedData[storedData.length - i]);
     }
     //console.log(p);
     setLimitedProducts(p);
@@ -67,14 +65,14 @@ function RecentlyViewed({ products, plans, category }) {
 
   const getRecents = async () => {
     try {
-      setLoading(true);
       setError(null);
-      const response = await axios.get(`${RECENT_PRODUCT_API_URL}`);
+      const response = await axios.get(`${RECENT_PRODUCT_API_URI}`);
       console.log(response.data);
       if (response.data.data !== null) {
         console.log("getRecents SUCCESS ");
         // 최대 8개로 제한
         const res = [...response.data.data];
+        console.log(res);
         setRecentlyProducts(res.slice(0, 8));
       } else {
         // 알맞은 결과를 찾을 수 없습니다
@@ -83,12 +81,23 @@ function RecentlyViewed({ products, plans, category }) {
       console.log(e);
       setError(e);
     }
-    setLoading(false);
   };
 
+  /* ----- MYSEO CREATED ----- */
   useEffect(() => {
-    setStoredData(productList.items.slice(0, 8));
-  }, [productList]);
+    if (localStorage.getItem("recents")) {
+      let watchedAll = JSON.parse(localStorage.getItem("recents"));
+      let matchWatched = [];
+      if (watchedAll.length > 0) {
+        for (let i = 0; i < watchedAll.length; i++) {
+          if (watchedAll[i].jSessionId === cookies.JSESSIONID)
+            matchWatched.push(watchedAll[i]);
+        }
+      }
+      // console.log("matched : " + JSON.stringify(matchWatched))
+      setStoredData(matchWatched);
+    }
+  }, []);
 
   useEffect(() => {
     limitProducts();
@@ -96,8 +105,9 @@ function RecentlyViewed({ products, plans, category }) {
 
   const viewAllButton = () => {
     getRecents();
-    onOpen();
+    if (!error) onOpen();
   };
+  /* ----- END ----- */
 
   return (
     <div className={styles.Container}>
@@ -118,6 +128,7 @@ function RecentlyViewed({ products, plans, category }) {
         </GridItem>
         {limitedProducts.length > 0 ? (
           limitedProducts.map((lp, i) => {
+            //console.log(lp);
             return <RecentlyPreviewProduct product={lp} key={i} />;
           })
         ) : (
@@ -150,14 +161,18 @@ function RecentlyViewed({ products, plans, category }) {
             <div className={styles.ModalImgBox}>
               {recentlyProducts && recentlyProducts.length > 0 ? (
                 recentlyProducts.map((d, i) => {
-                  //console.log(d);
-                  const findedProduct = findProduct(d.code);
-                  const findedPlan = findPlan(d.planCode);
+                  console.log(d);
+
                   // 일치하는 데이터가 없을 경우 대비
-                  return findedProduct && findedPlan ? (
+                  return d ? (
                     <RecentlyProduct
-                      product={findedProduct}
-                      plan={findedPlan}
+                      productCode={d.code}
+                      productName={d.name}
+                      productPrice={d.price}
+                      productImgThumbnail={d.imgThumbnail}
+                      planCode={d.planCode}
+                      planName={d.planName}
+                      planPrice={d.planPrice}
                       discountType={d.discountType.toString()}
                       color={d.color}
                       category={d.networkSupport}

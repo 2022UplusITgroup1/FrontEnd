@@ -8,8 +8,6 @@ import axios from "axios";
 import { Input, Button } from "@chakra-ui/react";
 import OrderDetail from "../../components/OrderDetail/OrderDetail";
 
-const PLAN_API_URL = `${process.env.REACT_APP_ORDER_SERVER_URL}/order/my?name=%EC%95%84%EC%9D%B4%EC%9C%A0&phone_number=01012340001&order_number=202207132210570001`;
-
 function Order() {
   const [name, setName] = useState("");
   const [number, setNumber] = useState("");
@@ -30,7 +28,7 @@ function Order() {
   // API 통신
   const postOrder = async () => {
     try {
-      //const response = await axios.post(`${PLAN_API_URL}`);
+      //const response = await axios.post(`${PLAN_API_URI}`);
       //console.log(response.data);
       //setProduct(response.data);
     } catch (e) {

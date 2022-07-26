@@ -21,6 +21,7 @@ import InfoDetail from "../../components/ProductDetail/InfoDetail";
 import calcPrices from "../../utils/calcPrices";
 import NoResult from "../Exception/NoResult";
 import ErrorPage from "../Exception/ErrorPage";
+import { useCookies } from "react-cookie";
 
 // Detail 정보 & Color 정보 & Plan 전체 정보 필요
 
@@ -74,16 +75,27 @@ const initialPrice = {
   total: 0,
 };
 
+const IMAGE_URI = `${process.env.REACT_APP_IMAGE_URI}`;
+
 function Detail() {
   // 받아온 파라미터 데이터
   const { netType, plCode, phCode, color, dcType } = useParams();
+  console.log(netType, plCode, phCode, color, dcType);
 
-  // API URL
-  const PRODUCT_DETAIL_URL = `/product/detail?pl_code=${plCode}&ph_code=${phCode}&color=${color}&dc_type=${dcType}`;
-  const PRODUCT_COLOR_URL = `/product/color?ph_code=${phCode}`;
-  const PLAN_URL = `/product/plan?net_sp=`;
+  // API URI
+  const PRODUCT_DETAIL_URI = `/product/detail?pl_code=${plCode}&ph_code=${phCode}&color=${color}&dc_type=${dcType}`;
+  const PRODUCT_COLOR_URI = `/product/color?ph_code=${phCode}`;
+  const PLAN_URI = `/product/plan?net_sp=`;
+
+  //const PRODUCT_DETAIL_URI = `/product/detail?pl_code=${plCode}&ph_code=${phCode}&color=${color}&dc_type=${dcType}`;
+  //const PRODUCT_COLOR_URI = `/product/color?ph_code=${phCode}`;
+  //const PLAN_URI = `/product/plan?net_sp=`;
 
   const dispatch = useDispatch();
+
+  // session id
+  const [cookies] = useCookies(["JSESSIONID"]);
+  console.log(cookies.JSESSIONID);
 
   // 요금제 모달
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -126,7 +138,7 @@ function Detail() {
       },
       discountType: dcType, // 초기값 = dcType
       monthPrice: nowTotalPrice.total,
-      payPeriod: dcType === "3" ? 12 : 24, // 계약기간 => 기본 = 24, 선택약정12개월 = 12
+      payPeriod: 24,
     };
     dispatch(selectDetail(value));
   };
@@ -136,7 +148,7 @@ function Detail() {
     try {
       setError(null);
       setNoData(false);
-      const response = await axios.get(`${PRODUCT_DETAIL_URL}`);
+      const response = await axios.get(`${PRODUCT_DETAIL_URI}`);
       console.log(response.data);
       if (response.data.data !== null) {
         console.log("fetchProductDetail SUCCESS ");
@@ -156,7 +168,7 @@ function Detail() {
     try {
       setError(null);
       setNoData(false);
-      const response = await axios.get(`${PRODUCT_COLOR_URL}`);
+      const response = await axios.get(`${PRODUCT_COLOR_URI}`);
       //console.log(response.data);
       if (response.data.data !== null) {
         console.log("fetchProductColor SUCCESS ");
@@ -176,7 +188,7 @@ function Detail() {
     try {
       setError(null);
       setNoData(false);
-      const response = await axios.get(`${PLAN_URL}${netType}`);
+      const response = await axios.get(`${PLAN_URI}${netType}`);
       //console.log(response.data);
       if (response.data.data !== null) {
         console.log("fetchPlans SUCCESS ");
@@ -193,25 +205,26 @@ function Detail() {
 
   // API: 다른 색상의 이미지 GET
   const fetchProductColorImg = async (nowColor) => {
+    console.log(nowColor);
     try {
       setError(null);
       setNoData(false);
 
-      const PRODUCT_COLOR_IMG_URL = `/product/detail?pl_code=${plCode}&ph_code=${phCode}&color=${nowColor}&dc_type=${dcType}`;
+      const PRODUCT_COLOR_IMG_URI = `/product/detail?pl_code=${plCode}&ph_code=${phCode}&color=${nowColor}&dc_type=${dcType}`;
 
-      const response = await axios.get(`${PRODUCT_COLOR_IMG_URL}`);
-      //console.log(response.data);
+      const response = await axios.get(`${PRODUCT_COLOR_IMG_URI}`);
+      console.log(response.data);
       if (response.data.data !== null) {
         console.log("fetchProductColorImg SUCCESS ");
         const resImg = response.data.data.images;
         setImgPaths(
           resImg.map((d) => {
-            return d.imgPath;
+            return `${IMAGE_URI}${d.imgPath}${d.imgName}`;
           })
         );
       } else {
         // 알맞은 결과를 찾을 수 없습니다
-        setNoData(true);
+        //setNoData(true);
       }
     } catch (e) {
       console.log(e);
@@ -243,7 +256,7 @@ function Detail() {
       // 미리보기 이미지 list 로 저장
       setImgPaths(
         data.images.map((d) => {
-          return d.imgPath;
+          return `${IMAGE_URI}${d.imgPath}${d.imgName}`;
         })
       );
 
@@ -252,7 +265,7 @@ function Detail() {
       setPlan(nowPlan);
 
       // 계약기간 => 기본 = 24, 선택약정12개월 = 12
-      let payPeriod = dcType === "3" ? 12 : 24;
+      let payPeriod = 24;
       const nowTotalPrice = calcPrices(
         data.phone.price,
         data.plan.price,
@@ -279,36 +292,39 @@ function Detail() {
 
   /* ----- MYSEO CREATED ----- */
   // MYSEO CREATED - 최근 본 상품 LocalStorage 저장
-  const [watchItems, setWatchItems] = useState([]);
   const [firstRender, setfirstRender] = useState(1); // 맨 처음에만 저장되도록
 
   useEffect(() => {
-    if (data.phone.code && colors.length && firstRender) {
+    if (data.phone.code && color.length && firstRender) {
       let recentsItemInfo = {
+        jSessionId: cookies.JSESSIONID,
         code: data.phone.code,
         name: data.phone.name,
         color: data.phone.color,
+
         imgThumbnail: data.phone.imgThumbnail,
+
         plan: plCode,
         networkSupport: data.phone.networkSupport,
         discountType: data.phone.discountType,
-        totalPrice: nowPrice.total,
+        //totalPrice: nowPrice.total,
+        totalPrice: calcPrices(data.phone.price, data.plan.price, dcType, 24)
+          .total,
       };
       let watchItem = localStorage.getItem("recents");
 
       let watchItemArray = [];
       if (watchItem != null) {
         watchItemArray = JSON.parse(watchItem);
+        if (watchItemArray[0].jSessionId !== recentsItemInfo.jSessionId) {
+          localStorage.clear();
+          watchItemArray = [];
+        }
       }
-
       watchItemArray.push(recentsItemInfo);
 
-      if (watchItemArray.length <= 8) {
-        watchItemArray = new Set(watchItemArray);
-        watchItemArray = [...watchItemArray];
-      }
       localStorage.setItem("recents", JSON.stringify(watchItemArray));
-      setWatchItems(watchItemArray);
+
       setfirstRender(0);
     }
   }, [data]);

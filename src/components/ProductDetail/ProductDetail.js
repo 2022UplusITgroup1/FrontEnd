@@ -96,6 +96,10 @@ function ProductDetail({ data }) {
                 <li className={styles.CalcMonthLI}>
                   할부 개월수 {convertNumber(payPeriod)}개월
                 </li>
+                <li className={styles.CalcMonthLI}>
+                  할부수수료 (연 5.9%){" "}
+                  {convertNumber(nowPrice.totalInstallmentFee)} 원
+                </li>
               </ul>
             )}
             <ul className={styles.CalcMonthPlan}>

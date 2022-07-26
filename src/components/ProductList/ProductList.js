@@ -10,9 +10,10 @@ import Product from "./Product";
 import { changeProductSort } from "../../actions";
 import Compare from "../Compare/Compare";
 import ErrorPage from "../../pages/Exception/ErrorPage";
+import calcPrices from "../../utils/calcPrices";
 
-// 상세 정보 조회 URL
-const SELECTED_PRODUCT_API_URL = `http://43.200.122.174:8000/product/phone?net_sp=`;
+// 상세 정보 조회 URI
+const SELECTED_PRODUCT_API_URI = `/product/phone?net_sp=`;
 
 function ProductList({ products, plans, netType }) {
   const dispatch = useDispatch();
@@ -22,13 +23,13 @@ function ProductList({ products, plans, netType }) {
   const options = useSelector((state) => state.changeOptionReducer);
   //console.log(options);
 
-  // 데이터 로딩 & 에러 처리
-  const [loading, setLoading] = useState(false);
+  // 데이터 에러 처리
   const [error, setError] = useState(null);
 
-  // 조건에 맞는 상품들
+  // 조건에 맞는 상품들 (GET)
+  const [unsortedProducts, setUnsortedProducts] = useState(products);
+  // 정렬까지 마친 상품들
   const [selectedProducts, setSelectedProducts] = useState(products);
-  //console.log(selectedProducts);
 
   // 선택한 정렬값 저장
   const [isSelect, setIsSelect] = useState(options.sortType);
@@ -37,12 +38,17 @@ function ProductList({ products, plans, netType }) {
     dispatch(changeProductSort(e.target.value));
   };
 
+  // 현재 요금제 정보 찾기
+  const findSelectPlan = (value) => {
+    return plans.find((p) => p.code === value);
+  };
+
   /* ----- MYSEO CREATED ----- */
   // MYSEO CREATED - 상품 정렬
   const sortArray = (type) => {
     const types = {
-      0: "create_time", // JSH: createTime 으로 변경해야하지 않을까요?
-      1: "price", // TODO 실구매가로 변경
+      0: "createTime",
+      1: "price", // 실구매가로 변경
       2: "price",
       3: "price",
       4: "sales",
@@ -50,13 +56,37 @@ function ProductList({ products, plans, netType }) {
     const sortProperty = types[type];
     let sortDirection = 0; // 0: DESC , 1: ASC
     if (type === 1 || type === 2) sortDirection = 1;
-    let selected = [...selectedProducts]; // 복사해서 사용해야 기존 값에 영향 X
-    selected = selected.sort((a, b) =>
-      sortDirection === 0
-        ? b[sortProperty] - a[sortProperty]
-        : a[sortProperty] - b[sortProperty]
-    );
-    setSelectedProducts(selected);
+    let sorted = [...unsortedProducts]; // 복사해서 사용해야 기존 값에 영향 X
+    // JSH: 실구매가 정렬은 별도 처리
+    if (type === 1) {
+      sorted = sorted.sort((a, b) => {
+        let planTypeA = findSelectPlan(a.planCode).price;
+        let planTypeB = findSelectPlan(b.planCode).price;
+        // 요금제가 선택되어 있는 경우, 선택된 요금제로 계산
+        if (options.planType !== "0") {
+          planTypeA = findSelectPlan(options.planType).price;
+          planTypeB = findSelectPlan(options.planType).price;
+        }
+        let discountTypeA = a.discountType.toString();
+        let discountTypeB = b.discountType.toString();
+        // 할인 유형이 선택되어 있는 경우, 선택된 할인 유형으로 계산
+        if (options.discountType !== "0") {
+          discountTypeA = options.discountType;
+          discountTypeB = options.discountType;
+        }
+        let priceA = calcPrices(a.price, planTypeA, discountTypeA, 24);
+        let priceB = calcPrices(b.price, planTypeB, discountTypeB, 24);
+        return priceA.total - priceB.total;
+      });
+    } else {
+      sorted = sorted.sort((a, b) =>
+        sortDirection === 0
+          ? b[sortProperty] - a[sortProperty]
+          : a[sortProperty] - b[sortProperty]
+      );
+    }
+    //console.log("sorted!");
+    setSelectedProducts(sorted);
   };
 
   // MYSEO CREATED - 상품 정렬 실행
@@ -72,27 +102,26 @@ function ProductList({ products, plans, netType }) {
     planType,
     sortType
   ) => {
-    // 조회해야하는 조건만 URL 에 추가
-    let OPTION_URL = `${SELECTED_PRODUCT_API_URL}${netType}`;
+    // 조회해야하는 조건만 URI 에 추가
+    let OPTION_URI = `${SELECTED_PRODUCT_API_URI}${netType}`;
     if (brandType !== "0") {
-      OPTION_URL += `&mf_name=${brandType}`;
+      OPTION_URI += `&mf_name=${brandType}`;
     }
     if (storageType !== "0") {
-      OPTION_URL += `&capa=${storageType}`;
+      OPTION_URI += `&capa=${storageType}`;
     }
     if (planType === "0") {
-      OPTION_URL += `&plan=${plans[0].code}`;
+      OPTION_URI += `&plan=${plans[0].code}`;
     } else {
-      OPTION_URL += `&plan=${planType}`;
+      OPTION_URI += `&plan=${planType}`;
     }
-    OPTION_URL += `&ord=${sortType}`;
-    //console.log(OPTION_URL);
+    //OPTION_URI += `&ord=${sortType}`;
+    //console.log(OPTION_URI);
 
     // API GET
     try {
-      setLoading(true);
       setError(null);
-      const response = await axios.get(OPTION_URL);
+      const response = await axios.get(OPTION_URI);
       //console.log(response.data);
       if (response.data.data !== null) {
         console.log("getSelectedProducts SUCCESS ");
@@ -106,22 +135,19 @@ function ProductList({ products, plans, netType }) {
           );
         });
         //console.log(filteredRes);
-        setSelectedProducts(filteredRes);
+        setUnsortedProducts(filteredRes);
       } else {
         // 알맞은 결과를 찾을 수 없습니다
-        setSelectedProducts([]);
+        setUnsortedProducts([]);
       }
     } catch (e) {
       //console.log(e);
       setError(e);
     }
-    setLoading(false);
   };
 
   // 현재 옵션이 바뀔 때마다 API 조건 조회
   useEffect(() => {
-    //console.log(options.brandType, options.storageType);
-
     // 하나라도 바뀐 조건이 있다면 API GET 호출
     getSelectedProducts(
       options.brandType,
@@ -129,14 +155,12 @@ function ProductList({ products, plans, netType }) {
       options.planType,
       options.sortType
     );
-    // 정렬 적용
-    sortArray(Number(isSelect));
   }, [options]);
 
-  // 현재 요금제 정보 찾기
-  const findSelectPlan = (value) => {
-    return plans.find((p) => p.code === value);
-  };
+  // 조건 조회 후에는 정렬 적용
+  useEffect(() => {
+    sortArray(Number(isSelect));
+  }, [unsortedProducts]);
 
   // 현재 비교하기 isOpen
   const compares = useSelector((state) => state.compareReducer);

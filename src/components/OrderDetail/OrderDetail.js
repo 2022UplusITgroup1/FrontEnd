@@ -6,6 +6,8 @@ import convertNumber from "../../utils/convertNumber";
 import mapDiscountType from "../../utils/mapDiscountType";
 import calcPrices from "../../utils/calcPrices";
 
+const IMAGE_URI = `${process.env.REACT_APP_IMAGE_URI}`;
+
 function OrderDetail({ product }) {
   //console.log(product);
   let nowPrice = calcPrices(
@@ -21,7 +23,7 @@ function OrderDetail({ product }) {
         <div className={styles.MainImgContainer}>
           <img
             className={styles.MainImg}
-            src={product.phone.imgThumbnail}
+            src={`${IMAGE_URI}${product.phone.imgThumbnail}`}
             alt={product.phone.code}
           />
         </div>
