@@ -284,7 +284,6 @@ export function addCompareDetailProduct(data) {
       networkSupport: data.networkSupport,
       discountType: data.discountType,
       totalPrice: data.totalPrice,
-      index: data.index,
     },
   };
 }
