@@ -90,28 +90,6 @@ function List({ netType }) {
     setLoading(false);
   };
 
-  // GET 최근 본 상품 전체 리스트
-  const getRecents = async () => {
-    try {
-      setLoading(true);
-      setError(null);
-      setNoData(false);
-      const response = await axios.get(`${RECENT_PRODUCT_API_URI}`);
-      //console.log(response.data);
-      if (response.data.data !== null) {
-        console.log("getRecents SUCCESS ");
-        setRecentlyProducts(response.data.data);
-      } else {
-        // 알맞은 결과를 찾을 수 없습니다
-        setNoData(true);
-      }
-    } catch (e) {
-      console.log(e);
-      setError(e);
-    }
-    setLoading(false);
-  };
-
   useEffect(() => {
     // 데이터 가져오기
     getProducts();
@@ -123,7 +101,7 @@ function List({ netType }) {
   }, [netType]);
 
   if (loading) return <div></div>;
-  if (error) return <ErrorPage />;
+  //if (error) return <ErrorPage />;
   if (noData) return <NoResult />;
   if (!products) return null;
   if (!plans) return null;

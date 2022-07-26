@@ -76,6 +76,14 @@ function Option({ plans }) {
     setPlanValue(options.planType);
   }, [options.planType]);
 
+  useEffect(() => {
+    setBrandValue(options.brandType);
+  }, [options.brandType]);
+
+  useEffect(() => {
+    setStorageValue(options.storageType);
+  }, [options.storageType]);
+
   // 요금제 미리보기 리스트 - 최대 3개로 제한
   const [planPreviewList, setPlanPreviewList] = useState(plans.slice(0, 3));
 

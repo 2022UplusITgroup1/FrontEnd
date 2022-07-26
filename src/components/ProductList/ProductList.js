@@ -7,10 +7,12 @@ import axios from "axios";
 import { FiAlertCircle } from "react-icons/fi";
 import { Select, useDisclosure } from "@chakra-ui/react";
 import Product from "./Product";
-import { changeProductSort } from "../../actions";
+import { changeBrand, changeProductSort, changeStorage } from "../../actions";
 import Compare from "../Compare/Compare";
 import ErrorPage from "../../pages/Exception/ErrorPage";
 import calcPrices from "../../utils/calcPrices";
+import mapBrandName from "../../utils/mapBrandName";
+import mapStorageType from "../../utils/mapStorageType";
 
 // 상세 정보 조회 URI
 const SERVER_API_URI = `http://43.200.122.174:8000`;
@@ -23,6 +25,14 @@ function ProductList({ products, plans, netType }) {
   // 현재 선택한 옵션 값 가져오기
   const options = useSelector((state) => state.changeOptionReducer);
   //console.log(options);
+
+  const onClickDeleteBrandOption = (e) => {
+    dispatch(changeBrand("0"));
+  };
+
+  const onClickDeleteStorageOption = (e) => {
+    dispatch(changeStorage("0"));
+  };
 
   // 데이터 에러 처리
   const [error, setError] = useState(null);
@@ -167,7 +177,7 @@ function ProductList({ products, plans, netType }) {
   const compares = useSelector((state) => state.compareReducer);
   //console.log(compares.isOpen);
 
-  if (error) return <ErrorPage />;
+  //if (error) return <ErrorPage />;
   if (!products) return null;
   if (!plans) return null;
 
@@ -179,6 +189,26 @@ function ProductList({ products, plans, netType }) {
           <div className={styles.TotalCountTxt}>
             전체 {selectedProducts.length}건
           </div>
+        </div>
+        <div className={styles.OptionTags}>
+          {/* 옵션 태그 - 제조사 */}
+          {options.brandType !== "0" && (
+            <div className={styles.SelectedTagContainer}>
+              <div className={styles.SelectedTag}>
+                {mapBrandName(options.brandType)}
+                <button onClick={onClickDeleteBrandOption}>X</button>
+              </div>
+            </div>
+          )}
+          {/* 옵션 태그 - 저장용량 */}
+          {options.storageType !== "0" && (
+            <div className={styles.SelectedTagContainer}>
+              <div className={styles.SelectedTag}>
+                {mapStorageType(options.storageType)}
+                <button onClick={onClickDeleteStorageOption}>X</button>
+              </div>
+            </div>
+          )}
         </div>
         {/* 정렬 */}
         <div className={styles.SelectSort}>
