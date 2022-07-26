@@ -16,7 +16,6 @@ import {
 import RecentlyProduct from "./RecentlyProduct";
 import RecentlyPreviewProduct from "./RecentlyPreviewProduct";
 import axios from "axios";
-import customAxios from "../../lib/customAxios";
 import { useCookies } from "react-cookie";
 
 const RECENT_PRODUCT_API_URI = `/product/recents`;

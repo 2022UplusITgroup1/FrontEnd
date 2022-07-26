@@ -174,7 +174,7 @@ export function setOrderInquiryInfo(data) {
   console.log("setOrderInquiryInfo: " + data);
   return {
     type: SET_ORDER_INQUIRY_INFO,
-    data
+    data,
     // data: {
     //   name: data.name
     //   // // phoneNumber: data.phoneNumber,
@@ -184,7 +184,6 @@ export function setOrderInquiryInfo(data) {
     //   // // planName: data.planName,
     //   // monthPrice: data.monthPrice,
     //   // payPeriod: data.payPeriod
-
 
     // },
   };
@@ -277,7 +276,7 @@ export function addCompareDetailProduct(data) {
 }
 
 // 비교하기 상세 상품 삭제하기
-export function deleteCompareDetailProduct(code, plan, discountType) {
+export function deleteCompareDetailProducts(code, plan, discountType) {
   return {
     type: DELETE_COMPARE_DETAIL_PRODUCTS,
     code,
