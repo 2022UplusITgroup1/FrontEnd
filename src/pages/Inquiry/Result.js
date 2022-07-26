@@ -8,6 +8,7 @@ import customAxios from "../../lib/customAxios";
 import { Button } from "@chakra-ui/react";
 import { useSelector } from "react-redux";
 import SampleOrderData from "../../SampleOrderData.json";
+import NoResult from "../Exception/NoResult";
 
 const PLAN_API_URI = `/order/my?`;
 
@@ -16,35 +17,29 @@ function Result() {
   console.log("orderInfo", orderInfo);
 
   const [orderData, setOrderData] = useState(orderInfo);
-  const name = orderData["productOrder"]["name"];
-  const orderNum = orderData["productOrder"]["orderNumber"];
-  const payPeriod = orderData["productOrder"]["payPeriod"];
-  const monthPrice = orderData["productOrder"]["monthPrice"];
-  const phoneCode = orderData["productOrder"]["phoneCode"];
-  // const phoneName=orderData["product"]["phone"]["name"];
-  // const phoneColor=orderData["product"]["phone"]["color"];
-  // const phoneThumbnail=orderData["product"]["phone"]["imgThumbnail"];
-  // const planName=orderData["product"]["plan"]["name"];
+  const [name, setName] = useState("");
+  const [orderNum, setOrderNum] = useState("");
+  const [payPeriod, setPayPeriod] = useState("");
+  const [monthPrice, setMonthPrice] = useState("");
+  const [phoneCode, setPhoneCode] = useState("");
 
-  // 주문 조회 값 가져오기
-
-  console.log("orderInfo", orderInfo);
-
-  // API 통신
-  // const getOrder = async () => {
-  //   try {
-  //     const response = await customAxios.get(`${PLAN_API_URL}`);
-  //     //console.log(response.data);
-  //     setOrderData(response.data.data);
-  //   } catch (e) {
-  //     console.log(e);
-  //   }
-  // };
+  useEffect(() => {
+    if (orderData.name) {
+      setName(orderData["productOrder"]["name"]);
+      setOrderNum(orderData["productOrder"]["orderNumber"]);
+      setPayPeriod(orderData["productOrder"]["payPeriod"]);
+      setMonthPrice(orderData["productOrder"]["monthPrice"]);
+      setPhoneCode(orderData["productOrder"]["phoneCode"]);
+    }
+  }, [orderData]);
 
   useEffect(() => {
     // getOrder();
     setOrderData(SampleOrderData);
   }, []);
+
+  //if (Object.keys(orderInfo).length === 0) return <NoResult />;
+  if (!orderInfo.name) return <NoResult />;
 
   return (
     <div className={styles.Container}>

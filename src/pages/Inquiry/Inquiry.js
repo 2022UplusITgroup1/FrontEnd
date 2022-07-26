@@ -77,24 +77,14 @@ function Inquiry() {
     }
   };
 
-  const onClick = (name, phoneNumber, orderNumber) => {
+  const onClickInquiryBtn = (e) => {
+    //alert(name, phoneNumber, orderNumber);
     console.log(name, phoneNumber, orderNumber);
     if (validateOrderInquiry({ name, phoneNumber, orderNumber })) {
       getOrder(name, phoneNumber, orderNumber);
     } else {
       alert("주문 조회 정보가 잘못되었습니다");
     }
-  };
-
-  const onKeyPress = (e) => {
-    alert(name, phoneNumber, orderNumber);
-    onClick(name, phoneNumber, orderNumber);
-
-    // if(e.key ==='Enter'){
-    //   alert(name, phoneNumber,orderNumber);
-    //   onClick(name, phoneNumber,orderNumber);
-
-    // }
   };
 
   useEffect(() => {
@@ -144,17 +134,9 @@ function Inquiry() {
             />
           </label>
           <div className={styles.InquiryBtnContainer}>
-            <Link to="/mobile/inquiry-result">
-              <Button className={styles.InquiryBtn} onMouseDown={onKeyPress}>
-                조회하기
-              </Button>
-              {/* <Input
-              type="button"
-              placeholder="조회하기"
-              className={styles.InquiryBtn}
-              onMouseDown={onKeyPress}
-              /> */}
-            </Link>
+            <Button className={styles.InquiryBtn} onClick={onClickInquiryBtn}>
+              조회하기
+            </Button>
           </div>
         </div>
       </div>
