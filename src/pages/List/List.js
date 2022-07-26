@@ -135,6 +135,7 @@ function List({ netType }) {
           <h2>{netType} 휴대폰</h2>
         </div>
         <div className={styles.List}>
+          {/* 상품 전체 리스트 조건 div */}
           <div className={styles.ListOption}>
             {/* 옵션 아코디언 */}
             {plans.length ? <Option plans={plans} /> : null}

@@ -1,0 +1,36 @@
+{
+    "productOrder": {
+        "name": "김유플",
+        "phoneCode": "SM-M236L",
+        "planCode": "LPZ0000409",
+        "color": "오렌지",
+        "discountType": 1,
+        "payPeriod": 12,
+        "orderNumber": "20220720110539807351",
+        "monthPrice": 106810
+    },
+    "product": {
+        "phone": {
+            "storage": {
+                "capability": 128
+            },
+            "brand": {
+                "name": "삼성"
+            },
+            "code": "SM-M236L",
+            "name": "Galaxy Buddy 2",
+            "imgThumbnail": "/image/product/ushop_SM-M236L_thumb.jpg",
+            "networkSupport": "5G",
+            "discountType": 1,
+            "color": "오렌지",
+            "price": 399300,
+            "sales": 0,
+            "createTime": "2021-09-06T09:00:00"
+        },
+        "plan": {
+            "code": "LPZ0000409",
+            "name": "5G 프리미어 에센셜",
+            "price": 85000
+        }
+    }
+}

@@ -58,6 +58,8 @@ function Product({ product, plan, netType }) {
     // 계약기간 => 기본 = 24
     let payPeriod = 24;
     if (product.code && plan.code) {
+
+      console.log("product.code",product.code);
       const nowTotalPrice = calcPrices(
         product.price,
         plan.price,
