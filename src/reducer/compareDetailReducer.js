@@ -22,9 +22,8 @@ function compareDetailReducer(state = initialState, action) {
         items: state.items.filter(
           (item) =>
             item.code !== action.code ||
-            (item.code === action.code &&
-              (item.plan !== action.plan ||
-                item.discountType !== action.discountType))
+            item.plan !== action.plan ||
+            item.discountType !== action.discountType
         ),
       };
     }

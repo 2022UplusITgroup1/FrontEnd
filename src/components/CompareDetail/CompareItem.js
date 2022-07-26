@@ -3,15 +3,13 @@
 import React, { useState, useEffect } from "react";
 import styles from "./CompareDetail.module.css";
 import { Link } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
-import axios from "axios";
+import { useDispatch } from "react-redux";
+import customAxios from "../../lib/customAxios";
 import { Button, Box, Image } from "@chakra-ui/react";
 import { Select } from "@chakra-ui/react";
 import convertNumber from "../../utils/convertNumber";
 import calcPrices from "../../utils/calcPrices";
-import mapDiscountType from "../../utils/mapDiscountType";
-import { deleteCompareDetailProduct } from "../../actions";
-import calcInstallmentFee from "../../utils/calcInstallmentFee";
+import { deleteCompareDetailProducts } from "../../actions";
 
 const initialPrice = {
   discountName: "",
@@ -33,13 +31,6 @@ function CompareItem({ index, item, plans, payPeriod, discountType }) {
   //console.log(item);
   const dispatch = useDispatch();
 
-  const onClickDeleteBtn = () => {
-    // 비교하기 상품 삭제
-    dispatch(
-      deleteCompareDetailProduct(item.phone.code, item.plan.code, discountType)
-    );
-  };
-
   const [prices, setPrices] = useState(initialPrice);
   const [nowPayPeriod, setNowPayPeriod] = useState(payPeriod);
   const [nowPlanType, setNowPlanType] = useState(item.plan.code);
@@ -47,6 +38,13 @@ function CompareItem({ index, item, plans, payPeriod, discountType }) {
   const [nowDiscountType, setNowDiscountType] = useState(discountType);
 
   const DETAIL_URI = `/mobile/detail/${item.phone.networkSupport}/${item.plan.code}/${item.phone.code}/${item.phone.color}/${discountType}`;
+
+  const onClickDeleteBtn = () => {
+    // 비교하기 상품 삭제
+    dispatch(
+      deleteCompareDetailProducts(item.phone.code, nowPlanType, nowDiscountType)
+    );
+  };
 
   // 데이터 에러 처리
   const [error, setError] = useState(null);
@@ -63,7 +61,9 @@ function CompareItem({ index, item, plans, payPeriod, discountType }) {
     const PRODUCT_COLOR_URI = `/product/color?ph_code=${item.phone.code}`;
     try {
       setError(null);
-      const response = await axios.get(`${IMAGE_URI}${PRODUCT_COLOR_URI}`);
+      const response = await customAxios.get(
+        `${IMAGE_URI}${PRODUCT_COLOR_URI}`
+      );
       //console.log(response.data);
       if (response.data.data !== null) {
         console.log("fetchProductColor SUCCESS ");
