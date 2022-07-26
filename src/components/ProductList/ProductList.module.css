@@ -62,6 +62,7 @@
 
 .OptionTags {
   display: flex;
+  margin-left: 20px;
 }
 
 .SelectedTagContainer {
