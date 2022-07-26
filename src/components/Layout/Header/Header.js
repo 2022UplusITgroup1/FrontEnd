@@ -8,9 +8,9 @@ function Header() {
   return (
     <div className={styles.HeaderContainer}>
       <div className={styles.HeaderTitle}>
-        <Link to="/" className={styles.LogoImg}>
+        <a href="/" className={styles.LogoImg}>
           LG U+
-        </Link>
+        </a>
       </div>
       <div className={styles.HeaderMenu}>
         <div className={styles.HeaderMenuInner}>
