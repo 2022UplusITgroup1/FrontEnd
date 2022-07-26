@@ -25,6 +25,8 @@ const initialPrice = {
   total: 0,
 };
 
+const IMAGE_URI = `https://d2i7g6t0sifvpq.cloudfront.net`;
+
 function CompareItem({ index, item, plans, payPeriod, discountType }) {
   //console.log(item);
   const dispatch = useDispatch();

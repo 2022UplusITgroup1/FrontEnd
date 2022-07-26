@@ -1,5 +1,18 @@
 // Redux Action Types & Functions
 
+/* ---------- 데이터 저장 ---------- */
+
+export const GET_DATA = "GET_DATA";
+
+// 상품 정보
+export function getData(data) {
+  console.log("getData: " + data);
+  return {
+    type: GET_DATA,
+    data,
+  };
+}
+
 /* ---------- 상품 리스트 페이지 옵션 선택 ---------- */
 
 export const CHANGE_PLAN = "CHANGE_PLAN";
