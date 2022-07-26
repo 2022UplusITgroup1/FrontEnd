@@ -19,7 +19,8 @@ import RecentlyPreviewProduct from "./RecentlyPreviewProduct";
 import axios from "axios";
 import { useCookies } from "react-cookie";
 
-const RECENT_PRODUCT_API_URI = `/product/recents`;
+const SERVER_API_URI = `http://43.200.122.174:8000`;
+const RECENT_PRODUCT_API_URI = SERVER_API_URI + `/product/recents`;
 
 function RecentlyViewed({ products, plans, category }) {
   //const DETAIL_URI = `/mobile/detail/${category}/${plan.code}/${product.code}/${product.color}/${product.discountType}`;

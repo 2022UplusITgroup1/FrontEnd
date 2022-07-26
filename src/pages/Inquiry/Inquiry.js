@@ -9,10 +9,8 @@ import { Input, Button } from "@chakra-ui/react";
 import { resetOrderInquiryInfo, setOrderInquiryInfo } from "../../actions";
 import { useHistory } from "react-router";
 
-
-// const INQUIRY_REQUEST_URL = `http://43.200.122.174:54421/order/my`;
-const INQUIRY_REQUEST_URL = `http://localhost:8000/order/my`;
-
+const SERVER_API_URI = `http://43.200.122.174:8000`;
+const INQUIRY_REQUEST_URL = SERVER_API_URI + `/order/my`;
 
 // ?name=김유플&phone_number=01012340001&order_number=20220720110539807351
 
@@ -36,13 +34,13 @@ function Inquiry() {
 
   const history = useHistory();
 
-  const getOrder = async (name,phoneNumber,orderNumber) => {
-
-    console.log(name, phoneNumber,orderNumber);
+  const getOrder = async (name, phoneNumber, orderNumber) => {
+    console.log(name, phoneNumber, orderNumber);
 
     try {
-      
-      const response = await axios.get(`${INQUIRY_REQUEST_URL}?name=${name}&phone_number=${phoneNumber}&order_number=${orderNumber}`);
+      const response = await axios.get(
+        `${INQUIRY_REQUEST_URL}?name=${name}&phone_number=${phoneNumber}&order_number=${orderNumber}`
+      );
       console.log(response.data.data);
       // if (response.data.data !== null) {
       //   console.log("getProducts SUCCESS ");
@@ -60,36 +58,33 @@ function Inquiry() {
       // }
       // let data={name:{name}, phoneNumber:{phoneNumber}, orderNumber:{orderNumber}};
       setOrder(response.data.data);
-      console.log("productOrder",productOrder);
+      console.log("productOrder", productOrder);
       dispatch(setOrderInquiryInfo(productOrder));
 
-
-      
-      history.push('/mobile/inquiry-result');
+      history.push("/mobile/inquiry-result");
       // window.location.href="/mobile/inquiry-result";
       // history.p
-
     } catch (e) {
       console.log(e);
     }
   };
 
-  const onClick=(name, phoneNumber,orderNumber)=>{
-    console.log(name, phoneNumber,orderNumber);
+  const onClick = (name, phoneNumber, orderNumber) => {
+    console.log(name, phoneNumber, orderNumber);
     // setSearchWord(word);
-    getOrder(name, phoneNumber,orderNumber);
-  }
+    getOrder(name, phoneNumber, orderNumber);
+  };
 
-  const onKeyPress=(e)=>{
-    alert(name, phoneNumber,orderNumber);
-    onClick(name, phoneNumber,orderNumber);
+  const onKeyPress = (e) => {
+    alert(name, phoneNumber, orderNumber);
+    onClick(name, phoneNumber, orderNumber);
 
     // if(e.key ==='Enter'){
     //   alert(name, phoneNumber,orderNumber);
     //   onClick(name, phoneNumber,orderNumber);
-  
+
     // }
-  }
+  };
 
   useEffect(() => {
     // store 에 저장
@@ -139,7 +134,9 @@ function Inquiry() {
           </label>
           <div className={styles.InquiryBtnContainer}>
             <Link to="/mobile/inquiry-result">
-              <Button className={styles.InquiryBtn} onMouseDown={onKeyPress}>조회하기</Button>
+              <Button className={styles.InquiryBtn} onMouseDown={onKeyPress}>
+                조회하기
+              </Button>
               {/* <Input
               type="button"
               placeholder="조회하기"
