@@ -8,6 +8,7 @@ import axios from "axios";
 import { Input, Button } from "@chakra-ui/react";
 import { resetOrderInquiryInfo, setOrderInquiryInfo } from "../../actions";
 import { useHistory } from "react-router";
+import validation from "../../utils/validation";
 
 const SERVER_API_URI = `http://43.200.122.174:8000`;
 const INQUIRY_REQUEST_URL = SERVER_API_URI + `/order/my`;
@@ -21,9 +22,28 @@ function Inquiry() {
   const [phoneNumber, setNumber] = useState("");
   const [orderNumber, setOrderNum] = useState("");
   const [productOrder, setOrder] = useState({});
-  const onNameChange = (e) => setName(e.target.value);
-  const onNumberChange = (e) => setNumber(e.target.value);
-  const onOrderNumChange = (e) => setOrderNum(e.target.value);
+
+  const onNameChange = (e) => {
+    if (validation("string", e.target.value)) {
+      setName(e.target.value);
+    } else {
+      alert("이름을 입력하세요");
+    }
+  };
+  const onNumberChange = (e) => {
+    if (validation("phoneNumber", e.target.value)) {
+      setNumber(e.target.value);
+    } else {
+      alert("휴대폰 번호를 입력하세요");
+    }
+  };
+  const onOrderNumChange = (e) => {
+    if (validation("string", e.target.value)) {
+      setOrderNum(e.target.value);
+    } else {
+      alert("주문번호를 입력하세요");
+    }
+  };
 
   useEffect(() => {
     // 맨 처음 렌더링 -> 초기화
@@ -35,7 +55,7 @@ function Inquiry() {
   const history = useHistory();
 
   const getOrder = async (name, phoneNumber, orderNumber) => {
-    console.log(name, phoneNumber, orderNumber);
+    //console.log(name, phoneNumber, orderNumber);
 
     try {
       const response = await axios.get(

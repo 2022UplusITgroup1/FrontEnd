@@ -194,7 +194,7 @@ function ProductList({ products, plans, netType }) {
             {options.brandType !== "0" && (
               <div className={styles.SelectedTagContainer}>
                 <div className={styles.SelectedTag}>
-                  {mapBrandName(options.brandType)}
+                  {mapBrandName(options.brandType) + " "}
                   <button onClick={onClickDeleteBrandOption}>X</button>
                 </div>
               </div>
@@ -203,7 +203,7 @@ function ProductList({ products, plans, netType }) {
             {options.storageType !== "0" && (
               <div className={styles.SelectedTagContainer}>
                 <div className={styles.SelectedTag}>
-                  {mapStorageType(options.storageType)}
+                  {mapStorageType(options.storageType) + " "}
                   <button onClick={onClickDeleteStorageOption}>X</button>
                 </div>
               </div>

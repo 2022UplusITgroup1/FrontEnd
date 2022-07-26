@@ -7,7 +7,7 @@ function mapStorageType(type) {
     return "128GB";
   } else if (type === "3") {
     return "256GB";
-  } else if (type === "3") {
+  } else if (type === "4") {
     return "512GB 이상";
   }
 }
