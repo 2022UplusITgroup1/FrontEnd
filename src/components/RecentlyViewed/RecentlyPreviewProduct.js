@@ -8,7 +8,7 @@ import convertNumber from "../../utils/convertNumber";
 import { useSelector } from "react-redux";
 import { useState } from "react";
 
-const IMAGE_URI = `${process.env.REACT_APP_IMAGE_URI}`;
+const IMAGE_URI = `https://d2i7g6t0sifvpq.cloudfront.net`;
 
 function RecentlyPreviewProduct({ product }) {
   //console.log(product);

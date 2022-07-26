@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import styles from "../../pages/Detail/Detail.module.css";
 
-const IMAGE_URI = `${process.env.REACT_APP_IMAGE_URI}`;
+const IMAGE_URI = `https://d2i7g6t0sifvpq.cloudfront.net`;
 
 function ImgDetail({ data, imgPaths }) {
   // 이미지 클릭 시, index 변경

@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import customAxios from "../../lib/customAxios";
 import styles from "./Search.module.css";
 import { FiSearch, FiAlertCircle } from "react-icons/fi";
 import { Input, InputGroup, InputLeftElement } from "@chakra-ui/react";
@@ -13,11 +14,10 @@ const SEARCH_WORD_URL = `http://43.200.122.174:8000/search?query=`;
 const PLAN_4G_API_URL = `http://43.200.122.174:8000/product/plan?net_sp=4g`;
 const PLAN_5G_API_URL = `http://43.200.122.174:8000/product/plan?net_sp=5g`;
 
-
 //word 검색결과 없을 경우 반환
 function noResult({ searchWord }) {
   // console.log("noResult",searchWord);
-  if(searchWord===""){
+  if (searchWord === "") {
     return (
       <div className={styles.noResult}>
         <div className={styles.noResultAlert}>
@@ -27,17 +27,11 @@ function noResult({ searchWord }) {
             className={styles.noResultAlertIcon}
           />
         </div>
-        <div className={styles.ResultTitle}>
-              검색어를 입력해주세요.
-        </div>
-
+        <div className={styles.ResultTitle}>검색어를 입력해주세요.</div>
       </div>
-      
-    )
-  }else{
-
+    );
+  } else {
     return (
-
       <div className={styles.noResult}>
         <div className={styles.noResultAlert}>
           <FiAlertCircle
@@ -56,29 +50,21 @@ function noResult({ searchWord }) {
         </div>
       </div>
     );
-
   }
-  
 }
-
 
 function insertResult({ searchWord, products, plan4g, plan5g }) {
   // console.log("insert",plan4g, plan5g) // 잘들어옴
-  
+
   return (
     <div className={styles.insertResult}>
       <div className={styles.ResultTitle}>
-        "{searchWord}"에 대한 검색 결과입니다. 
+        "{searchWord}"에 대한 검색 결과입니다.
       </div>
 
       <div className={styles.ResultListItems}>
-            <ResultList
-              products={products}
-              plan4g={plan4g}
-              plan5g={plan5g}
-            />
-          </div>
-
+        <ResultList products={products} plan4g={plan4g} plan5g={plan5g} />
+      </div>
     </div>
   );
 }
@@ -90,13 +76,12 @@ function Search() {
   // const [plans, setPlans] = useState([]);
   const [plan4g, setPlan4g] = useState([]);
   const [plan5g, setPlan5g] = useState([]);
-  // const [plan4g, setPlan4g] = useState([]); 
+  // const [plan4g, setPlan4g] = useState([]);
 
   //검색 결과 저장
   // const [resultProducts, setResulProducts]=useState([]);
   // const resultProducts=useState();
   // var resultProducts
-  
 
   const [word, setWord] = useState("");
   const [searchWord, setSearchWord] = useState("");
@@ -108,8 +93,7 @@ function Search() {
 
   const getProducts = async (word) => {
     try {
-      
-      const response = await axios.get(`${SEARCH_WORD_URL}${word}`);
+      const response = await customAxios.get(`${SEARCH_WORD_URL}${word}`);
       // console.log(response.data.data);
       if (response.data.data !== null) {
         console.log("getProducts SUCCESS ");
@@ -124,7 +108,7 @@ function Search() {
         });
         // console.log(filteredRes);
         setProducts(filteredRes);
-      }else{
+      } else {
         setProducts([]);
       }
     } catch (e) {
@@ -133,68 +117,59 @@ function Search() {
     }
   };
 
-
   const getPlan4g = async () => {
     let plan4g;
 
     try {
-      
-      const response = await axios.get(`${PLAN_4G_API_URL}`);
-      // console.log(response.data.data);      
+      const response = await customAxios.get(`${PLAN_4G_API_URL}`);
+      // console.log(response.data.data);
       // planList.push(planList,response.data.data)
       // setProducts(response.data.data);
-      plan4g=response.data.data[0];
-      // console.log("plan4g",plan4g);    
-
+      plan4g = response.data.data[0];
+      // console.log("plan4g",plan4g);
     } catch (e) {
       console.log(e);
     }
 
     setPlan4g(plan4g);
     // console.log("planList",planList);
-
   };
 
   const getPlan5g = async () => {
     let plan5g;
 
     try {
-      
-      const response = await axios.get(`${PLAN_5G_API_URL}`);
-      // console.log(response.data.data);      
+      const response = await customAxios.get(`${PLAN_5G_API_URL}`);
+      // console.log(response.data.data);
       // planList.push(planList,response.data.data)
       // setProducts(response.data.data);
-      plan5g=response.data.data[0];
-      // console.log("plan4g",plan4g);    
-
+      plan5g = response.data.data[0];
+      // console.log("plan4g",plan4g);
     } catch (e) {
       console.log(e);
     }
 
     setPlan5g(plan5g);
     // console.log("planList",planList);
-
   };
 
-  const onClick=(word)=>{
+  const onClick = (word) => {
     // console.log(word);
     setSearchWord(word);
     getProducts(word);
-  }
+  };
 
-  const onKeyPress=(e)=>{
-    if(e.key ==='Enter'){
+  const onKeyPress = (e) => {
+    if (e.key === "Enter") {
       // alert(word);
       onClick(word);
-  
     }
-  }
+  };
 
   // console.log("4g",plan4g);
   // console.log("5g",plan5g);
 
   useEffect(() => {
-
     setProducts([]);
     // setPlans(SamplePlanData);
     // setPlans([]);
@@ -206,7 +181,6 @@ function Search() {
     setWord("");
     setSearchWord("");
     setMessage("검색어를 입력해주세요.");
-
   }, []);
   return (
     <div className={styles.Container}>
@@ -225,12 +199,11 @@ function Search() {
             />
           </InputGroup>
         </div>
-        { products.length !== 0  && searchWord!=="" ? 
-                    <div>{insertResult({ searchWord, products, plan4g, plan5g })}</div>
-                    :
-                    <div>{noResult({searchWord})}</div>
-                  }
-
+        {products.length !== 0 && searchWord !== "" ? (
+          <div>{insertResult({ searchWord, products, plan4g, plan5g })}</div>
+        ) : (
+          <div>{noResult({ searchWord })}</div>
+        )}
       </div>
     </div>
   );

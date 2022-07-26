@@ -63,7 +63,7 @@ function CompareItem({ index, item, plans, payPeriod, discountType }) {
     const PRODUCT_COLOR_URI = `/product/color?ph_code=${item.phone.code}`;
     try {
       setError(null);
-      const response = await axios.get(`${PRODUCT_COLOR_URI}`);
+      const response = await axios.get(`${IMAGE_URI}${PRODUCT_COLOR_URI}`);
       //console.log(response.data);
       if (response.data.data !== null) {
         console.log("fetchProductColor SUCCESS ");

@@ -7,7 +7,7 @@ import { Box, Image } from "@chakra-ui/react";
 import convertNumber from "../../utils/convertNumber";
 import { deleteCompareProduct } from "../../actions";
 
-const IMAGE_URI = `${process.env.REACT_APP_IMAGE_URI}`;
+const IMAGE_URI = `https://d2i7g6t0sifvpq.cloudfront.net`;
 
 function CompareMiniBox({ data }) {
   const dispatch = useDispatch();

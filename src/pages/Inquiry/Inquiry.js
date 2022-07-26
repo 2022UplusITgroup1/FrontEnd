@@ -5,13 +5,13 @@ import styles from "./Inquiry.module.css";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import customAxios from "../../lib/customAxios";
 import { Input, Button } from "@chakra-ui/react";
 import { resetOrderInquiryInfo, setOrderInquiryInfo } from "../../actions";
 import { useHistory } from "react-router";
 import validation from "../../utils/validation";
 
-const SERVER_API_URI = `http://43.200.122.174:8000`;
-const INQUIRY_REQUEST_URL = SERVER_API_URI + `/order/my`;
+const INQUIRY_REQUEST_URL = `/order/my`;
 
 // ?name=김유플&phone_number=01012340001&order_number=20220720110539807351
 
@@ -58,7 +58,7 @@ function Inquiry() {
     //console.log(name, phoneNumber, orderNumber);
 
     try {
-      const response = await axios.get(
+      const response = await customAxios.get(
         `${INQUIRY_REQUEST_URL}?name=${name}&phone_number=${phoneNumber}&order_number=${orderNumber}`
       );
       console.log(response.data.data);

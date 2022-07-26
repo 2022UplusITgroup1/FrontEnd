@@ -6,7 +6,7 @@ import convertNumber from "../../utils/convertNumber";
 import mapDiscountType from "../../utils/mapDiscountType";
 import calcPrices from "../../utils/calcPrices";
 
-const IMAGE_URI = `${process.env.REACT_APP_IMAGE_URI}`;
+const IMAGE_URI = `https://d2i7g6t0sifvpq.cloudfront.net`;
 
 function OrderDetail({ product }) {
   //console.log(product);

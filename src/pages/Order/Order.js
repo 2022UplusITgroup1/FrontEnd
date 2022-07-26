@@ -5,6 +5,7 @@ import styles from "./Order.module.css";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import axios from "axios";
+import customAxios from "../../lib/customAxios";
 import { Input, Button } from "@chakra-ui/react";
 import OrderDetail from "../../components/OrderDetail/OrderDetail";
 import validation from "../../utils/validation";
@@ -51,20 +52,6 @@ function Order() {
 
   const orderProduct = useSelector((state) => state.orderReducer);
   //console.log(orderProduct);
-
-  // API 통신
-  const postOrder = async () => {
-    try {
-      //const response = await axios.post(`${PLAN_API_URI}`);
-      //console.log(response.data);
-      //setProduct(response.data);
-    } catch (e) {
-      console.log(e);
-    }
-  };
-  useEffect(() => {
-    //getOrder();
-  }, []);
 
   return (
     <div className={styles.Container}>
