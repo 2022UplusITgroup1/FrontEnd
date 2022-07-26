@@ -5,6 +5,7 @@ import styles from "./CompareDetail.module.css";
 import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 import customAxios from "../../lib/customAxios";
+import customPostAxios from "../../lib/customPostAxios";
 import { Button } from "@chakra-ui/react";
 import {
   Modal,
@@ -70,7 +71,10 @@ function CompareDetail({ isOpen, onClose, data }) {
 
     try {
       setError(null);
-      const response = await customAxios.post(`${COMPARE_URI}`, requestBody);
+      const response = await customPostAxios.post(
+        `${COMPARE_URI}`,
+        requestBody
+      );
       console.log(response.data);
       if (response.data.data !== null) {
         console.log("fetchCompareData SUCCESS ");
