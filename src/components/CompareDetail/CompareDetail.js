@@ -52,21 +52,8 @@ function CompareDetail({ isOpen, onClose, data }) {
 
   const [emptyLength, setEmptyLength] = useState(0);
   const [payPeriods, setPayPeriods] = useState([24, 24, 24]);
-  const [prices, setPrices] = useState([]);
-  const [discountTypes, setDiscountTypes] = useState([]);
-  const [colors, setColors] = useState([]);
   const [products, setProducts] = useState([]);
   const [plans, setPlans] = useState([]);
-
-  // 선택한 값
-  const [brandTypes, setBrandTypes] = useState("0");
-  const [phoneTypes, setPhoneTypes] = useState("");
-  const [payPeriod, setPayPeriod] = useState(24);
-
-  const onChangePayPeriod = (e) => {
-    setPayPeriod(e.target.value);
-    //console.log(e.target.value);
-  };
 
   // API: 비교하기 결과 POST
   const fetchCompareData = async () => {
@@ -84,7 +71,7 @@ function CompareDetail({ isOpen, onClose, data }) {
     try {
       setError(null);
       const response = await customAxios.post(`${COMPARE_URI}`, requestBody);
-
+      console.log(response.data);
       if (response.data.data !== null) {
         console.log("fetchCompareData SUCCESS ");
         const res = [...response.data.data];
@@ -191,7 +178,6 @@ function CompareDetail({ isOpen, onClose, data }) {
       dcTypes.push("1");
     }
     //console.log(dcTypes);
-    setDiscountTypes(dcTypes);
 
     /*
     // 계약기간 => 기본 = 24, 선택약정12개월 = 12
