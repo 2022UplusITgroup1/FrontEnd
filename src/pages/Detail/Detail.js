@@ -75,7 +75,8 @@ const initialPrice = {
   total: 0,
 };
 
-const IMAGE_URI = `${process.env.REACT_APP_IMAGE_URI}`;
+const SERVER_API_URI = `http://43.200.122.174:8000`;
+const IMAGE_URI = `https://d2i7g6t0sifvpq.cloudfront.net`;
 
 function Detail() {
   // 받아온 파라미터 데이터
@@ -83,9 +84,11 @@ function Detail() {
   console.log(netType, plCode, phCode, color, dcType);
 
   // API URI
-  const PRODUCT_DETAIL_URI = `/product/detail?pl_code=${plCode}&ph_code=${phCode}&color=${color}&dc_type=${dcType}`;
-  const PRODUCT_COLOR_URI = `/product/color?ph_code=${phCode}`;
-  const PLAN_URI = `/product/plan?net_sp=`;
+  const PRODUCT_DETAIL_URI =
+    SERVER_API_URI +
+    `/product/detail?pl_code=${plCode}&ph_code=${phCode}&color=${color}&dc_type=${dcType}`;
+  const PRODUCT_COLOR_URI = SERVER_API_URI + `/product/color?ph_code=${phCode}`;
+  const PLAN_URI = SERVER_API_URI + `/product/plan?net_sp=`;
 
   //const PRODUCT_DETAIL_URI = `/product/detail?pl_code=${plCode}&ph_code=${phCode}&color=${color}&dc_type=${dcType}`;
   //const PRODUCT_COLOR_URI = `/product/color?ph_code=${phCode}`;

@@ -26,7 +26,7 @@ const initialPrice = {
   total: 0,
 };
 
-const IMAGE_URI = `${process.env.REACT_APP_IMAGE_URI}`;
+const IMAGE_URI = `https://d2i7g6t0sifvpq.cloudfront.net`;
 
 function Product({ product, plan, netType }) {
   const dispatch = useDispatch();
@@ -58,8 +58,7 @@ function Product({ product, plan, netType }) {
     // 계약기간 => 기본 = 24
     let payPeriod = 24;
     if (product.code && plan.code) {
-
-      console.log("product.code",product.code);
+      //console.log("product.code", product.code);
       const nowTotalPrice = calcPrices(
         product.price,
         plan.price,

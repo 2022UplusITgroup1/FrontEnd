@@ -13,9 +13,6 @@ import mapDiscountType from "../../utils/mapDiscountType";
 import { deleteCompareDetailProduct } from "../../actions";
 import calcInstallmentFee from "../../utils/calcInstallmentFee";
 
-const COMPARE_URI = `/product/compare`;
-const PRODUCTS_API_URI = `/product/phone?net_sp=`;
-
 const initialPrice = {
   discountName: "",
   phonePrice: 0,
@@ -30,7 +27,7 @@ const initialPrice = {
   total: 0,
 };
 
-const IMAGE_URI = `${process.env.REACT_APP_IMAGE_URI}`;
+const IMAGE_URI = `https://d2i7g6t0sifvpq.cloudfront.net`;
 
 function CompareItem({ index, item, plans, payPeriod, discountType }) {
   //console.log(item);

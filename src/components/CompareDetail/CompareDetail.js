@@ -17,9 +17,10 @@ import {
 import CompareItem from "./CompareItem";
 import EmptyItem from "./EmptyItem";
 
-const COMPARE_URI = `/product/compare`;
-const PRODUCTS_API_URI = `/product/phone?net_sp=`;
-const PLAN_URI = `/product/plan?net_sp=`;
+const SERVER_API_URI = `http://43.200.122.174:8000`;
+const COMPARE_URI = SERVER_API_URI + `/product/compare`;
+const PRODUCTS_API_URI = SERVER_API_URI + `/product/phone?net_sp=`;
+const PLAN_URI = SERVER_API_URI + `/product/plan?net_sp=`;
 
 const initialData = {
   phone: {
