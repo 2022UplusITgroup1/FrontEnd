@@ -247,7 +247,6 @@ function Detail() {
   // 상세 페이지로 넘어온 파라미터를 기준으로 계산해서 Store 에 저장
   useEffect(() => {
     // orderProduct 도 고려하는 이유 => 뒤로가기 했을 때 유지하기 위해
-    // TODO: 새창으로 뜨도록하고 유지하지 말기
     if (
       data.phone.code !== "" &&
       plans.length &&

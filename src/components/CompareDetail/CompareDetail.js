@@ -19,6 +19,7 @@ import EmptyItem from "./EmptyItem";
 
 const COMPARE_URI = `/product/compare`;
 const PRODUCTS_API_URI = `/product/phone?net_sp=`;
+const PLAN_URI = `/product/plan?net_sp=`;
 
 const initialData = {
   phone: {
@@ -54,6 +55,7 @@ function CompareDetail({ isOpen, onClose, data }) {
   const [discountTypes, setDiscountTypes] = useState([]);
   const [colors, setColors] = useState([]);
   const [products, setProducts] = useState([]);
+  const [plans, setPlans] = useState([]);
 
   // 선택한 값
   const [brandTypes, setBrandTypes] = useState("0");
@@ -128,15 +130,44 @@ function CompareDetail({ isOpen, onClose, data }) {
     }
   };
 
+  // API: 요금제 리스트 GET
+  const getPlans = async (netType) => {
+    try {
+      setError(null);
+      //setNoData(false);
+      const response = await axios.get(`${PLAN_URI}${netType}`);
+      //console.log(response.data);
+      if (response.data.data !== null) {
+        console.log("fetchPlans SUCCESS ");
+        return response.data.data;
+      } else {
+        // 알맞은 결과를 찾을 수 없습니다
+        //setNoData(true);
+      }
+    } catch (e) {
+      console.log(e);
+      setError(e);
+    }
+  };
+
   // 맨 처음 렌더링 될 때만 수행
   useEffect(() => {
     // 5G, 4G 상품 모두 가져오기
-    const promises = ["5G", "4G"].map((c) => {
+    const productPromises = ["5G", "4G"].map((c) => {
       return getProducts(c);
     });
     // 2개의 리스트를 합쳐주기
-    Promise.all(promises).then((res) => {
+    Promise.all(productPromises).then((res) => {
       setProducts([...res[0], ...res[1]]);
+    });
+
+    // 5G, 4G 요금제 모두 가져오기
+    const planPromises = ["5G", "4G"].map((c) => {
+      return getPlans(c);
+    });
+    // 2개의 리스트를 합쳐주기
+    Promise.all(planPromises).then((res) => {
+      setPlans([...res[0], ...res[1]]);
     });
   }, []);
 
@@ -205,6 +236,9 @@ function CompareDetail({ isOpen, onClose, data }) {
                     key={i}
                     index={i}
                     item={c}
+                    plans={plans.filter(
+                      (p) => p.networkSupport === c.plan.networkSupport
+                    )}
                     payPeriod={payPeriods[0]}
                     discountType={compareDetailItems[i].discountType}
                   />
