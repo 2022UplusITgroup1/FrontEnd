@@ -360,7 +360,16 @@ function Detail() {
       }
       watchItemArray.push(recentsItemInfo);
 
-      localStorage.setItem("recents", JSON.stringify(watchItemArray));
+      const setItemArray = watchItemArray.filter((item, i) => {
+        return (
+          watchItemArray.findIndex((item2, j) => {
+            return item.code === item2.code;
+          }) === i
+        );
+      });
+      // console.log(setItemArray)
+
+      localStorage.setItem("recents", JSON.stringify(setItemArray));
 
       setfirstRender(0);
     }
