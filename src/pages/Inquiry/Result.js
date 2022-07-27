@@ -7,6 +7,7 @@ import { useSelector } from "react-redux";
 import { Button, Image } from "@chakra-ui/react";
 import SampleOrderData from "../../SampleOrderData.json";
 import NoResult from "../Exception/NoResult";
+import convertNumber from "../../utils/convertNumber";
 
 const IMAGE_URI = `https://d2i7g6t0sifvpq.cloudfront.net`;
 
@@ -26,7 +27,7 @@ function Result() {
   const [planName, setPlanName] = useState("");
 
   useEffect(() => {
-    console.log(orderData.productOrder.name);
+    console.log(orderData.productOrder);
     if (orderData.productOrder.name) {
       setName(orderData["productOrder"]["name"]);
       setOrderNum(orderData["productOrder"]["orderNumber"]);
@@ -62,11 +63,6 @@ function Result() {
             <div className={styles.Content}>{orderNum}</div>
           </div>
           <div className={styles.OrderInfo}>
-            <Image
-              className={styles.ProductImg}
-              src={`${IMAGE_URI}${orderData.phone.imgThumbnail}`}
-              alt={orderData.phone.name}
-            />
             <div className={styles.ContentTitle}>기기 정보</div>
             <div className={styles.Content}>
               {phoneName} {phoneColor}{" "}
@@ -74,13 +70,13 @@ function Result() {
             <div className={styles.ContentTitle}>요금 정보</div>
             <div className={styles.Content}>{planName} </div>
             <div className={styles.Content}>
-              월 {monthPrice} 원 (할부기간 : {payPeriod} 개월)
+              월 {convertNumber(monthPrice)} 원 (할부기간 : {payPeriod} 개월)
             </div>
           </div>
         </div>
         <div className={styles.ResultBtnContainer}>
           <Link to="/">
-            <Button className={styles.ResultBtn}>확인</Button>
+            <button className={styles.ResultBtn}>확인</button>
           </Link>
         </div>
       </div>
