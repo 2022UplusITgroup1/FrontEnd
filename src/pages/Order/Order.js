@@ -104,9 +104,9 @@ function Order() {
         // setAddress(address);
         // setNumber(number);
         console.log(requestBody);
-        setOrderResult(requestBody);
+        setOrderResult(response.data.data);
 
-        alert(response.data.data);
+        alert("주문번호",response.data.data);
       }
 
       // setName(name);
@@ -146,19 +146,7 @@ function Order() {
   useEffect(() => {
     // setOrder({});
     // store 에 저장
-    dispatch(
-      setOrderDetailInfo({
-        name: name,
-        number: number,
-        email: email,
-        address: address,
-        phone: phone,
-        plan: plan,
-        discountType: discountType,
-        payPeriod: payPeriod,
-        monthPrice: monthPrice,
-      })
-    );
+    // dispatch(setOrderDetailInfo(orderResult));
 
     console.log("orderResult", orderResult);
     dispatch(setOrderDetailInfo(orderResult));

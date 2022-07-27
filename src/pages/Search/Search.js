@@ -77,6 +77,7 @@ function Search() {
   const [word, setWord] = useState("");
   const [searchWord, setSearchWord] = useState("");
 
+
   const onChange = (e) => {
     setWord(e.target.value);
     console.log(e.ta);
@@ -88,7 +89,9 @@ function Search() {
       if (response.data.data !== null) {
         console.log("getProducts SUCCESS ");
         // color 가 다른 기종은 처음 값으로 처리
-        const res = response.data.data;
+        const res = response.data.data.searchResults;
+        const correctWord=response.data.data.correctWord;
+
         let filteredRes = res.filter((item, i) => {
           return (
             res.findIndex((item2, j) => {
@@ -97,6 +100,9 @@ function Search() {
           );
         });
         setProducts(filteredRes);
+
+        setSearchWord(correctWord);
+
       } else {
         setProducts([]);
       }
@@ -133,7 +139,7 @@ function Search() {
   };
 
   const onClick = (word) => {
-    setSearchWord(word);
+    // setSearchWord(word);
     getProducts(word);
   };
 
