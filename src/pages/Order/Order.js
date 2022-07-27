@@ -33,7 +33,7 @@ function Order() {
 
   const [phone, setPhone] = useState(orderProduct.phone);
   const [plan, setPlan] = useState(orderProduct.plan);
-  const [discountType, setDiscountType] = useState(orderProduct.discountType);
+  const [discountType, setDiscountType] = useState(number(orderProduct.discountType));
   const [payPeriod, setPayPeriod] = useState(orderProduct.payPeriod);
   const [monthPrice, setMonthPrice] = useState(orderProduct.monthPrice);
 
@@ -60,7 +60,7 @@ function Order() {
 
 
   const postOrder = async (name,email,address,number) => {
-    console.log("phone",phone);
+    // console.log("phone",phone);
 
     let requestBody={
       name: name,
@@ -71,6 +71,7 @@ function Order() {
       plan: plan
     };
 
+    console.log("requestBody",requestBody);
 
     try {
       // setError(null);
