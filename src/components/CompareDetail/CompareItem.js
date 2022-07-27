@@ -31,13 +31,6 @@ function CompareItem({ index, item, plans, payPeriod, discountType }) {
   //console.log(item);
   const dispatch = useDispatch();
 
-  const onClickDeleteBtn = () => {
-    // 비교하기 상품 삭제
-    dispatch(
-      deleteCompareDetailProducts(item.phone.code, item.plan.code, discountType)
-    );
-  };
-
   const [prices, setPrices] = useState(initialPrice);
   const [nowPayPeriod, setNowPayPeriod] = useState(payPeriod);
   const [nowPlanType, setNowPlanType] = useState(item.plan.code);
@@ -45,6 +38,13 @@ function CompareItem({ index, item, plans, payPeriod, discountType }) {
   const [nowDiscountType, setNowDiscountType] = useState(discountType);
 
   const DETAIL_URI = `/mobile/detail/${item.phone.networkSupport}/${item.plan.code}/${item.phone.code}/${item.phone.color}/${discountType}`;
+
+  const onClickDeleteBtn = () => {
+    // 비교하기 상품 삭제
+    dispatch(
+      deleteCompareDetailProducts(item.phone.code, item.plan.code, discountType)
+    );
+  };
 
   // 데이터 에러 처리
   const [error, setError] = useState(null);
