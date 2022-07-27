@@ -13,7 +13,6 @@ import {
   ModalCloseButton,
   useDisclosure,
 } from "@chakra-ui/react";
-import { useSelector } from "react-redux";
 import RecentlyProduct from "./RecentlyProduct";
 import RecentlyPreviewProduct from "./RecentlyPreviewProduct";
 import axios from "axios";
@@ -31,7 +30,7 @@ function RecentlyViewed({ products, plans, category }) {
   const [limitedProducts, setLimitedProducts] = useState([]);
 
   // Cookie에 저장된 JSessionID
-  const [cookies] = useCookies(["JSESSIONID"]);
+  const cookies = useCookies(["JSESSIONID"]);
   // console.log(cookies.JSESSIONID);
 
   // 데이터 에러 처리
@@ -88,6 +87,7 @@ function RecentlyViewed({ products, plans, category }) {
   useEffect(() => {
     if (localStorage.getItem("recents")) {
       let watchedAll = JSON.parse(localStorage.getItem("recents"));
+      console.log(watchedAll);
       let matchWatched = [];
       if (watchedAll.length > 0) {
         for (let i = 0; i < watchedAll.length; i++) {

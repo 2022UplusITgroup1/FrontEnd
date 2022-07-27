@@ -3,10 +3,8 @@
 import React from "react";
 import styles from "./RecentlyPreviewProduct.module.css";
 import { Link } from "react-router-dom";
-import { Grid, GridItem, Box, Image, Button } from "@chakra-ui/react";
+import { GridItem, Box, Image } from "@chakra-ui/react";
 import convertNumber from "../../utils/convertNumber";
-import { useSelector } from "react-redux";
-import { useState } from "react";
 
 const IMAGE_URI = `https://d2i7g6t0sifvpq.cloudfront.net`;
 

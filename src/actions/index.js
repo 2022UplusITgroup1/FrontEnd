@@ -1,5 +1,18 @@
 // Redux Action Types & Functions
 
+/* ---------- 데이터 저장 ---------- */
+
+export const GET_DATA = "GET_DATA";
+
+// 상품 정보
+export function getData(data) {
+  console.log("getData: " + data);
+  return {
+    type: GET_DATA,
+    data,
+  };
+}
+
 /* ---------- 상품 리스트 페이지 옵션 선택 ---------- */
 
 export const CHANGE_PLAN = "CHANGE_PLAN";
@@ -174,7 +187,7 @@ export function setOrderInquiryInfo(data) {
   console.log("setOrderInquiryInfo: " + data);
   return {
     type: SET_ORDER_INQUIRY_INFO,
-    data
+    data,
     // data: {
     //   name: data.name
     //   // // phoneNumber: data.phoneNumber,
@@ -184,7 +197,6 @@ export function setOrderInquiryInfo(data) {
     //   // // planName: data.planName,
     //   // monthPrice: data.monthPrice,
     //   // payPeriod: data.payPeriod
-
 
     // },
   };
@@ -277,7 +289,7 @@ export function addCompareDetailProduct(data) {
 }
 
 // 비교하기 상세 상품 삭제하기
-export function deleteCompareDetailProduct(code, plan, discountType) {
+export function deleteCompareDetailProducts(code, plan, discountType) {
   return {
     type: DELETE_COMPARE_DETAIL_PRODUCTS,
     code,
