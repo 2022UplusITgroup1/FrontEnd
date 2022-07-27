@@ -3,24 +3,45 @@
 import React, { useEffect, useState } from "react";
 import styles from "./Order.module.css";
 import { Link, useHistory } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import axios from "axios";
-import customAxios from "../../lib/customAxios";
+import customPostAxios from "../../lib/customPostAxios";
 import { Input, Button } from "@chakra-ui/react";
 import OrderDetail from "../../components/OrderDetail/OrderDetail";
 import validateOrder from "../../utils/validateOrder";
 import ErrorPage from "../Exception/ErrorPage";
-import customPostAxios from "../../lib/customPostAxios";
+import { setOrderDetailInfo } from "../../actions";
 
-const PLAN_API_URL = `/order/payment`;
+
+const ORDER_REQUEST_URL = `/order/payment`;
+
+
 
 function Order() {
+  const dispatch = useDispatch();
+
+  const orderProduct = useSelector((state) => state.orderReducer);
   const history = useHistory();
 
   const [name, setName] = useState("");
   const [number, setNumber] = useState("");
   const [email, setEmail] = useState("");
   const [address, setAddress] = useState("");
+
+  const [productOrder, setOrder] = useState({});
+
+  const [phone, setPhone] = useState(orderProduct.phone);
+  const [plan, setPlan] = useState(orderProduct.plan);
+  const [discountType, setDiscountType] = useState(orderProduct.discountType);
+  const [payPeriod, setPayPeriod] = useState(orderProduct.payPeriod);
+  const [monthPrice, setMonthPrice] = useState(orderProduct.monthPrice);
+
+  const [orderResult, setOrderResult] = useState({});
+
+  // discountType: data.discountType,
+  //     monthPrice: data.monthPrice,
+  //     payPeriod: data.payPeriod,
 
   const onNameChange = (e) => {
     setName(e.target.value);
@@ -35,42 +56,125 @@ function Order() {
     setAddress(e.target.value);
   };
 
-  const orderProduct = useSelector((state) => state.orderReducer);
-  //console.log(orderProduct);
 
-  // API 통신
-  const postOrder = async () => {
-    // const req = {
-    //   name: name,
-    //   email: email,
-    //   address: address,
-    //   phoneNumber: number,
-    //   discountType: orderProduct.discountType,
-    //   monthPrice: ,
-    //   payPeriod,
-    //   phone:
-    // }
-    // try {
-    //   const response = await customPostAxios.post(`${PLAN_API_URL}`);
-    //   //console.log(response.data);
-    //   //setProduct(response.data);
-    // } catch (e) {
-    //   console.log(e);
-    // }
+
+
+  const postOrder = async (name,email,address,number) => {
+    console.log("phone",phone);
+
+    let requestBody={
+      name: name,
+      email: email,
+      address: address,
+      number: number,
+      phone: phone,
+      plan: plan
+    };
+
+
+    try {
+      // setError(null);
+      const response = await customPostAxios.post(`${ORDER_REQUEST_URL}`, requestBody);
+
+      if (response.data.data !== null) {
+        console.log("fetchCompareData SUCCESS ");
+        // const res = [...response.data.data];
+        // // 빈 부분 개수 저장
+        // setEmptyLength(3 - res.length);
+        // //console.log(res.length);
+        // // 3개가 되지 않으면 empty 처리
+        // for (let i = res.length; i < 3; i++) {
+        //   res.push(initialData);
+        // }
+        // setCompareData(res);
+
+        console.log(response);
+
+        // setName(name);
+        // setEmail(email);
+        // setAddress(address);
+        // setNumber(number);
+        console.log(requestBody);
+        setOrderResult(requestBody);
+      }
+
+      // setName(name);
+      // setEmail(email);
+      // setAddress(address);
+      // setNumber(number);
+
+
+
+
+    } catch (e) {
+      console.log(e);
+      // setError(e);
+    }
+
+
   };
-  useEffect(() => {
-    //getOrder();
-  }, []);
+
+  
+
+
+
+
 
   const onSubmit = (e) => {
     e.preventDefault();
+
+    console.log("subit",name, number, email, address);
     if (validateOrder({ name, number, email, address })) {
-      history.push("/mobile/order-result");
+      postOrder({ name, number, email, address });
+      // history.push("/mobile/order-result");
     } else {
       alert("주문 정보가 잘못되었습니다");
     }
     //console.log(name, number, email, address);
   };
+
+
+  
+  //console.log(orderProduct);
+
+  // useEffect(()=>{
+  //   console.log("orderResult",orderResult);
+  //   dispatch(setOrderDetailInfo(orderResult));
+  //   if(orderResult!=""){
+  //     history.push("/mobile/inquiry-result");
+  //   }
+
+  // },[productOrder]);
+
+  useEffect(() => {
+    // setOrder({});
+    // store 에 저장
+    dispatch(
+      setOrderDetailInfo({
+
+        name: name,
+        number: number,
+        email: email,
+        address:address,
+        phone:phone,
+        plan:plan,
+        discountType:discountType,
+        payPeriod:payPeriod,
+        monthPrice:monthPrice
+
+      })
+    );
+
+    console.log("orderResult",orderResult);
+    dispatch(setOrderDetailInfo(orderResult));
+    // if(orderResult!=""){
+    //   history.push("/mobile/order-result");
+    // };
+
+
+  }, [orderResult]);
+
+  console.log("orderProduct",orderProduct);
 
   if (!orderProduct.phone.code) {
     return <ErrorPage />;

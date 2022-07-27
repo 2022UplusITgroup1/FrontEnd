@@ -176,6 +176,30 @@ export function setRecentlyProduct(data) {
     },
   };
 }
+/*주문 결제하기*/
+export const SET_ORDER_DETAIL_INFO = "SET_ORDER_INQUIRY_INFO";
+
+export function setOrderDetailInfo(data) {
+  console.log("setOrderDetailInfo: " + data);
+  return {
+    type: SET_ORDER_DETAIL_INFO,
+    data,
+    // data: {
+    //   name: data.name
+    //   // // phoneNumber: data.phoneNumber,
+    //   // orderNumber: data.orderNumber,
+    //   // // phoneName: data.phoneName,
+    //   // // phoneColor: data.color,
+    //   // // planName: data.planName,
+    //   // monthPrice: data.monthPrice,
+    //   // payPeriod: data.payPeriod
+
+    // },
+  };
+}
+
+
+
 
 /* ---------- 주문 조회 -> 주문 조회 결과 ---------- */
 
