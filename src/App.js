@@ -38,7 +38,11 @@ function App() {
           <Route exact path="/mobile/search" component={Search} />
           <Route exact path="/mobile/inquiry" component={Inquiry} />
           <Route exact path="/mobile/inquiry-result" component={Result} />
-          <Route exact path="/mobile/order-result" component={OrderResult} />
+          <Route
+            exact
+            path="/mobile/order-result/:orderNum"
+            component={OrderResult}
+          />
         </Layout>
       </Router>
     </ChakraProvider>

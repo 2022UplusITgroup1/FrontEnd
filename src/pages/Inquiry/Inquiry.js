@@ -46,7 +46,7 @@ function Inquiry() {
 
   const getOrder = async (name, phoneNumber, orderNumber) => {
     //console.log(name, phoneNumber, orderNumber);
-    let res={};
+    let res = {};
 
     try {
       // const response = await customAxios.get(
@@ -55,8 +55,8 @@ function Inquiry() {
       const response = await customAxios.get(
         `${INQUIRY_REQUEST_URL}?name=${name}&phone_number=${phoneNumber}&order_number=${orderNumber}`
       );
-      // console.log(response.data.data); 
-      // if (response.data.data !== null) {  
+      // console.log(response.data.data);
+      // if (response.data.data !== null) {
       //   console.log("getProducts SUCCESS ");
       //   // color 가 다른 기종은 처음 값으로 처리
       //   const res = response.data.data;
@@ -72,29 +72,21 @@ function Inquiry() {
       // }
       // let data={name:{name}, phoneNumber:{phoneNumber}, orderNumber:{orderNumber}};
       console.log(response.data.data);
-      
-      res=response.data.data;
+
+      res = response.data.data;
 
       setOrder(res);
-      
+
       console.log("productOrder", productOrder);
 
-      
       // history.push("/mobile/inquiry-result");
 
-      
       // window.location.href="/mobile/inquiry-result";
       // history.p
     } catch (e) {
       console.log(e);
-
     }
-
-
   };
-
-  
-
 
   const onClickInquiryBtn = (e) => {
     //alert(name, phoneNumber, orderNumber);
@@ -120,15 +112,13 @@ function Inquiry() {
     );
   }, [name, phoneNumber, orderNumber]);
 
-
-  useEffect(()=>{
-      console.log("productOrder",productOrder);
-      dispatch(setOrderInquiryInfo(productOrder));
-      if(productOrder!=""){
-        history.push("/mobile/inquiry-result");
-      }
-
-  },[productOrder]);
+  useEffect(() => {
+    console.log("productOrder", productOrder);
+    dispatch(setOrderInquiryInfo(productOrder));
+    if (productOrder != "") {
+      history.push("/mobile/inquiry-result");
+    }
+  }, [productOrder]);
 
   return (
     <div className={styles.Container}>
@@ -166,9 +156,9 @@ function Inquiry() {
             />
           </label>
           <div className={styles.InquiryBtnContainer}>
-            <Button className={styles.InquiryBtn} onClick={onClickInquiryBtn}>
+            <button className={styles.InquiryBtn} onClick={onClickInquiryBtn}>
               조회하기
-            </Button>
+            </button>
           </div>
         </div>
       </div>

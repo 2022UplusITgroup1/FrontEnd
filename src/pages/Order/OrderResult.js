@@ -3,23 +3,15 @@
 import React, { useEffect, useState } from "react";
 import styles from "./OrderResult.module.css";
 import { FiCheckCircle } from "react-icons/fi";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { Button } from "@chakra-ui/react";
 import { useSelector } from "react-redux";
 
 function OrderResult() {
-  const orderData = useSelector((state) => state.orderReducer);
+  const { orderNum } = useParams();
+  const orderNumber = useSelector((state) => state.orderNumberReducer);
 
-  const [orderNumber, setOrderNumber] = useState(orderData.data);
-
-  useEffect(() => {
-    // console.log(status,orderData.status);
-    console.log(orderData.data);
-    if (orderData.data) {
-
-      setOrderNumber(orderData.data);
-    }
-  }, [orderNumber]);
+  console.log(orderNumber);
 
   return (
     <div className={styles.Container}>
@@ -32,7 +24,11 @@ function OrderResult() {
               className={styles.OrderResultCheckIcon}
             />
           </div>
-          <div className={styles.Content}>주문번호 {orderNumber} </div>
+
+          <div className={styles.OrderNumber}>
+            {" "}
+            {orderNum && `주문번호:  ${orderNum}`}{" "}
+          </div>
           <div className={styles.OrderResultTitle}>
             주문이 완료되었습니다.
             <br />
@@ -41,7 +37,7 @@ function OrderResult() {
         </div>
         <div className={styles.ResultBtnContainer}>
           <Link to="/">
-            <Button className={styles.ResultBtn}>확인</Button>
+            <button className={styles.ResultBtn}>확인</button>
           </Link>
         </div>
       </div>

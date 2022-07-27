@@ -198,6 +198,17 @@ export function setOrderDetailInfo(data) {
   };
 }
 
+/* 주문번호 저장 */
+export const SET_ORDER_NUMBER = "SET_ORDER_NUMBER";
+
+export function setOrderNumber(data) {
+  console.log("setOrderNumber: " + data);
+  return {
+    type: SET_ORDER_NUMBER,
+    data,
+  };
+}
+
 /* ---------- 주문 조회 -> 주문 조회 결과 ---------- */
 
 export const SET_ORDER_INQUIRY_INFO = "SET_ORDER_INQUIRY_INFO";

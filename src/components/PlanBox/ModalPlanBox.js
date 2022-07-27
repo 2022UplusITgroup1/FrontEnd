@@ -220,18 +220,18 @@ function ModalPlanBox({ isOpen, onClose, plans, planType, actionFunc }) {
               </ul>
             </div>
             <div className={styles.FooterBtnContainer}>
-              <Button
+              <button
                 onClick={onClickCloseBtn}
                 className={styles.FooterCancelBtn}
               >
                 취소
-              </Button>
-              <Button
+              </button>
+              <button
                 onClick={onClickApplyBtn}
                 className={styles.FooterApplyBtn}
               >
                 적용
-              </Button>
+              </button>
             </div>
           </ModalFooter>
         </ModalContent>
