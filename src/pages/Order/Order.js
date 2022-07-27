@@ -59,7 +59,7 @@ function Order() {
 
 
 
-  const postOrder = async (name,email,address,number) => {
+  const postOrder = async (name, number, email, address) => {
     // console.log("phone",phone);
 
     let requestBody={
