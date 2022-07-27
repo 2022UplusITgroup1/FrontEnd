@@ -19,7 +19,10 @@ function Result() {
   const [monthPrice, setMonthPrice] = useState("");
   const [phoneColor, setPhoneColor] = useState("");
   const [phoneCode, setPhoneCode] = useState("");
-  // const [phoneName, setPhoneName] = useState("");
+
+
+  const [phoneName, setPhoneName] = useState("");
+  const [planName, setPlanName] = useState("");
 
   useEffect(() => {
     console.log(orderData.productOrder.name);
@@ -30,7 +33,14 @@ function Result() {
       setMonthPrice(orderData["productOrder"]["monthPrice"]);
       setPhoneCode(orderData["productOrder"]["phoneCode"]);
       setPhoneColor(orderData["productOrder"]["color"]);
-      // setPhoneName(orderData["product"]["phone"]["name"]);
+
+      if(orderData["product"]){
+        
+        setPhoneName(orderData["product"]["phone"]["name"]);
+        setPlanName(orderData["product"]["plan"]["name"]);
+
+      }
+      
     }
   }, [orderData]);
 
@@ -55,8 +65,9 @@ function Result() {
           </div>
           <div className={styles.OrderInfo}>
             <div className={styles.ContentTitle}>기기 정보</div>
-            <div className={styles.Content}>{phoneCode} </div>
+            <div className={styles.Content}>{phoneName}  {phoneColor} </div>
             <div className={styles.ContentTitle}>요금 정보</div>
+            <div className={styles.Content}>{planName} </div>
             <div className={styles.Content}>
               월 {monthPrice} 원 (할부기간 : {payPeriod} 개월)
             </div>

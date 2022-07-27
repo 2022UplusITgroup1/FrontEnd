@@ -13,6 +13,7 @@ import validateOrderInquiry from "../../utils/validateOrderInquiry";
 
 const INQUIRY_REQUEST_URL = `/order/my`;
 // const INQUIRY_REQUEST_URL_LOCAL = `http://localhost:8000/order/my`;
+// const INQUIRY_REQUEST_URL='http://43.200.122.174:8000/order/my';
 
 // ?name=김유플&phone_number=01012340001&order_number=20220720110539807351
 
@@ -51,7 +52,7 @@ function Inquiry() {
       // const response = await customAxios.get(
       //   `${INQUIRY_REQUEST_URL}?name=${name}&phone_number=${phoneNumber}&order_number=${orderNumber}`
       // );
-      const response = await axios.get(
+      const response = await customAxios.get(
         `${INQUIRY_REQUEST_URL}?name=${name}&phone_number=${phoneNumber}&order_number=${orderNumber}`
       );
       // console.log(response.data.data); 
