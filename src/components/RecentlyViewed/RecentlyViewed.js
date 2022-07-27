@@ -83,6 +83,39 @@ function RecentlyViewed({ products, plans, category }) {
     }
   };
 
+  // const invocation = new XMLHttpRequest();
+  // const url = "http://43.200.122.174:8000";
+
+  // const getRecents = async () => {
+  //   try {
+  //     setError(null);
+  //     //const response = await customAxios.get(`${RECENT_PRODUCT_API_URI}`);
+  //     invocation.onload = function () {
+  //       if (invocation.status === 200 || invocation.status === 201) {
+  //         console.log(invocation.responseText);
+  //       } else {
+  //         console.error(invocation.responseText);
+  //       }
+  //     };
+  //     invocation.open("GET", url, true);
+  //     invocation.withCredentials = true;
+  //     invocation.send();
+  //     // console.log(response.data);
+  //     // if (response.data.data !== null) {
+  //     //   console.log("getRecents SUCCESS ");
+  //     //   // 최대 8개로 제한
+  //     //   const res = [...response.data.data];
+  //     //   console.log(res);
+  //     //   setRecentlyProducts(res.slice(0, 8));
+  //     // } else {
+  //     //   // 알맞은 결과를 찾을 수 없습니다
+  //     // }
+  //   } catch (e) {
+  //     console.log(e);
+  //     setError(e);
+  //   }
+  // };
+
   /* ----- MYSEO CREATED ----- */
   useEffect(() => {
     if (localStorage.getItem("recents")) {
