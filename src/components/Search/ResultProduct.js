@@ -23,12 +23,13 @@ const initialPrice = {
   total: 0,
 };
 
-function ResultProduct({ product, plan}) {
+const IMAGE_URI = `https://d2i7g6t0sifvpq.cloudfront.net`;
 
+function ResultProduct({ product, plan }) {
   // if(plans)
   // console.log("plan",plan);
 
-  const netType=product.networkSupport;
+  const netType = product.networkSupport;
   // console.log("netType",netType);
 
   const dispatch = useDispatch();
@@ -58,7 +59,12 @@ function ResultProduct({ product, plan}) {
   let payPeriod = discountType === "3" ? 12 : 24;
 
   // console.log("before calc",product.price, plan.price, discountType, payPeriod);
-  const nowPrice = calcPrices(product.price, plan.price, discountType.toString(), payPeriod);
+  const nowPrice = calcPrices(
+    product.price,
+    plan.price,
+    discountType.toString(),
+    payPeriod
+  );
   // console.log("monthPlanPrice",nowPrice.monthPlanPrice);
   // useEffect(() => {
   //   // 계약기간 => 기본 = 24, 선택약정12개월 = 12
@@ -105,14 +111,16 @@ function ResultProduct({ product, plan}) {
           <Box className={styles.ImgBox}>
             <Image
               className={styles.ProductImg}
-              src={product.imgThumbnail}
+              src={`${IMAGE_URI}${product.imgThumbnail}`}
               alt={product.name}
             />
           </Box>
           <Box className={styles.ProductTitle}>{product.name}</Box>
           <Box className={styles.ProductSubTitle}>
             {plan.name}
-            <div className={styles.ProductDiscountType}>{nowPrice.discountName}</div>
+            <div className={styles.ProductDiscountType}>
+              {nowPrice.discountName}
+            </div>
           </Box>
         </Box>
       </Link>
@@ -144,7 +152,6 @@ function ResultProduct({ product, plan}) {
           mt="2"
           alignItems="center"
         >
-          
           <Link to={detailURL} style={{ textDecoration: "none" }}>
             <Button className={styles.OrderBtn} borderRadius="50px">
               주문하기

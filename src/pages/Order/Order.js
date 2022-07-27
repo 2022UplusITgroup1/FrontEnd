@@ -10,6 +10,9 @@ import { Input, Button } from "@chakra-ui/react";
 import OrderDetail from "../../components/OrderDetail/OrderDetail";
 import validateOrder from "../../utils/validateOrder";
 import ErrorPage from "../Exception/ErrorPage";
+import customPostAxios from "../../lib/customPostAxios";
+
+const PLAN_API_URL = `/order/payment`;
 
 function Order() {
   const history = useHistory();
@@ -32,6 +35,33 @@ function Order() {
     setAddress(e.target.value);
   };
 
+  const orderProduct = useSelector((state) => state.orderReducer);
+  //console.log(orderProduct);
+
+  // API 통신
+  const postOrder = async () => {
+    // const req = {
+    //   name: name,
+    //   email: email,
+    //   address: address,
+    //   phoneNumber: number,
+    //   discountType: orderProduct.discountType,
+    //   monthPrice: ,
+    //   payPeriod,
+    //   phone:
+    // }
+    // try {
+    //   const response = await customPostAxios.post(`${PLAN_API_URL}`);
+    //   //console.log(response.data);
+    //   //setProduct(response.data);
+    // } catch (e) {
+    //   console.log(e);
+    // }
+  };
+  useEffect(() => {
+    //getOrder();
+  }, []);
+
   const onSubmit = (e) => {
     e.preventDefault();
     if (validateOrder({ name, number, email, address })) {
@@ -41,9 +71,6 @@ function Order() {
     }
     //console.log(name, number, email, address);
   };
-
-  const orderProduct = useSelector((state) => state.orderReducer);
-  //console.log(orderProduct);
 
   if (!orderProduct.phone.code) {
     return <ErrorPage />;
