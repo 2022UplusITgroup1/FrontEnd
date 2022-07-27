@@ -12,11 +12,9 @@ import OrderDetail from "../../components/OrderDetail/OrderDetail";
 import validateOrder from "../../utils/validateOrder";
 import ErrorPage from "../Exception/ErrorPage";
 import { setOrderDetailInfo } from "../../actions";
-
+import calcPrices from "../../utils/calcPrices";
 
 const ORDER_REQUEST_URL = `/order/payment`;
-
-
 
 function Order() {
   const dispatch = useDispatch();
@@ -33,7 +31,9 @@ function Order() {
 
   const [phone, setPhone] = useState(orderProduct.phone);
   const [plan, setPlan] = useState(orderProduct.plan);
-  const [discountType, setDiscountType] = useState(Number(orderProduct.discountType));
+  const [discountType, setDiscountType] = useState(
+    Number(orderProduct.discountType)
+  );
   const [payPeriod, setPayPeriod] = useState(orderProduct.payPeriod);
   const [monthPrice, setMonthPrice] = useState(orderProduct.monthPrice);
 
@@ -56,26 +56,34 @@ function Order() {
     setAddress(e.target.value);
   };
 
-
-
-
   const postOrder = async (name, number, email, address) => {
     // console.log("phone",phone);
 
-    let requestBody={
+    let requestBody = {
       name: name,
       email: email,
       address: address,
       phoneNumber: number,
+      discountType: discountType,
       phone: phone,
-      plan: plan
+      plan: plan,
+      monthPrice: calcPrices(
+        phone.price,
+        plan.price,
+        discountType.toString(),
+        payPeriod
+      ).total,
+      payPeriod: payPeriod,
     };
 
-    console.log("requestBody",requestBody);
+    console.log("requestBody", requestBody);
 
     try {
       // setError(null);
-      const response = await customPostAxios.post(`${ORDER_REQUEST_URL}`, requestBody);
+      const response = await customPostAxios.post(
+        `${ORDER_REQUEST_URL}`,
+        requestBody
+      );
 
       if (response.data.data !== null) {
         console.log("fetchCompareData SUCCESS ");
@@ -97,45 +105,33 @@ function Order() {
         // setNumber(number);
         console.log(requestBody);
         setOrderResult(requestBody);
+
+        alert(response.data.data);
       }
 
       // setName(name);
       // setEmail(email);
       // setAddress(address);
       // setNumber(number);
-
-
-
-
     } catch (e) {
       console.log(e);
       // setError(e);
     }
-
-
   };
-
-  
-
-
-
-
 
   const onSubmit = (e) => {
     e.preventDefault();
 
-    console.log("subit",name, number, email, address);
+    console.log("subit", name, number, email, address);
     if (validateOrder({ name, number, email, address })) {
-      postOrder( name, number, email, address );
-      // history.push("/mobile/order-result");
+      postOrder(name, number, email, address);
+      history.push("/mobile/order-result");
     } else {
       alert("주문 정보가 잘못되었습니다");
     }
     //console.log(name, number, email, address);
   };
 
-
-  
   //console.log(orderProduct);
 
   // useEffect(()=>{
@@ -152,30 +148,26 @@ function Order() {
     // store 에 저장
     dispatch(
       setOrderDetailInfo({
-
         name: name,
         number: number,
         email: email,
-        address:address,
-        phone:phone,
-        plan:plan,
-        discountType:discountType,
-        payPeriod:payPeriod,
-        monthPrice:monthPrice
-
+        address: address,
+        phone: phone,
+        plan: plan,
+        discountType: discountType,
+        payPeriod: payPeriod,
+        monthPrice: monthPrice,
       })
     );
 
-    console.log("orderResult",orderResult);
+    console.log("orderResult", orderResult);
     dispatch(setOrderDetailInfo(orderResult));
     // if(orderResult!=""){
     //   history.push("/mobile/order-result");
     // };
-
-
   }, [orderResult]);
 
-  console.log("orderProduct",orderProduct);
+  console.log("orderProduct", orderProduct);
 
   if (!orderProduct.phone.code) {
     return <ErrorPage />;

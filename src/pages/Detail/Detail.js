@@ -128,7 +128,7 @@ function Detail() {
         code: data.phone.code,
         name: data.phone.name,
         imgThumbnail: data.phone.imgThumbnail,
-        storage: { capability: data.phone.storage.capability },
+        storage: data.phone.storage.capability,
         color: color, // 초기값 = color
         price: data.phone.price,
       },
