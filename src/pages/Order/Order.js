@@ -66,7 +66,7 @@ function Order() {
       name: name,
       email: email,
       address: address,
-      number: number,
+      phoneNumber: number,
       phone: phone,
       plan: plan
     };
