@@ -91,7 +91,6 @@ function RecentlyViewed({ products, plans, category }) {
   useEffect(() => {
     if (localStorage.getItem("recents")) {
       let watchedAll = JSON.parse(localStorage.getItem("recents"));
-
       let matchWatched = [];
       if (watchedAll.length > 0) {
         for (let i = 0; i < watchedAll.length; i++) {
@@ -100,7 +99,7 @@ function RecentlyViewed({ products, plans, category }) {
             matchWatched.push(watchedAll[i]);
         }
       }
-      console.log("matched : " + JSON.stringify(matchWatched))
+      // console.log("matched : " + JSON.stringify(matchWatched))
       setStoredData(matchWatched);
     }
   }, []);
