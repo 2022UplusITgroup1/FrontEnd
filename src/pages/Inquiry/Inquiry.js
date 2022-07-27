@@ -52,7 +52,7 @@ function Inquiry() {
       // const response = await customAxios.get(
       //   `${INQUIRY_REQUEST_URL}?name=${name}&phone_number=${phoneNumber}&order_number=${orderNumber}`
       // );
-      const response = await customAxios.axios.get(
+      const response = await customAxios.get(
         `${INQUIRY_REQUEST_URL}?name=${name}&phone_number=${phoneNumber}&order_number=${orderNumber}`
       );
       // console.log(response.data.data); 
