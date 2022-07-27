@@ -7,8 +7,7 @@ const customAxios = axios.create({
   //   baseURL:
   //     "http://a1eee0639847a49a980fdc126dd70a9b-1394049333.ap-northeast-2.elb.amazonaws.com:8000",
   //   baseURL: "http://localhost:8000",
-  baseURL:
-    "http://a1eee0639847a49a980fdc126dd70a9b-1394049333.ap-northeast-2.elb.amazonaws.com:8000",
+  baseURL: "http://43.200.122.174:8000",
   // "http://a1eee0639847a49a980fdc126dd70a9b-1394049333.ap-northeast-2.elb.amazonaws.com:8000",
   headers: {
     "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8;",
@@ -24,3 +23,5 @@ const customAxios = axios.create({
 });
 
 export default customAxios;
+
+//https://cors-anywhere.herokuapp.com/
