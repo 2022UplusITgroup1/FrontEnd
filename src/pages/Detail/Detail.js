@@ -95,7 +95,7 @@ function Detail() {
   const dispatch = useDispatch();
 
   // session id
-  const [cookies] = useCookies(["JSESSIONID"]);
+  const [cookies, setCookie, removeCookie ] = useCookies(["JSESSIONID"]);
   console.log(cookies.JSESSIONID);
 
   // 요금제 모달
@@ -149,10 +149,19 @@ function Detail() {
     try {
       setError(null);
       setNoData(false);
-      const response = await customAxios.get(`${PRODUCT_DETAIL_URI}`);
+      let Detail_Uri = `${PRODUCT_DETAIL_URI}`;
+      if (cookies.JSESSIONID !== undefined) {
+        Detail_Uri += `&s_id=${cookies.JSESSIONID}`;
+      }
+      const response = await customAxios.get(`${Detail_Uri}`);
       console.log(response.data);
       if (response.data.data !== null) {
         console.log("fetchProductDetail SUCCESS ");
+        if (cookies.JSESSIONID === undefined) {
+          setCookie("JSESSIONID", response.data.data.jsessionId, {
+            maxAge: 86400,
+          });
+        }
         setData(response.data.data);
       } else {
         // 알맞은 결과를 찾을 수 없습니다
@@ -297,7 +306,7 @@ function Detail() {
   useEffect(() => {
     if (data.phone.code && color.length && firstRender) {
       let recentsItemInfo = {
-        jSessionId: cookies.JSESSIONID,
+        jsessionId: cookies.JSESSIONID,
         code: data.phone.code,
         name: data.phone.name,
         color: data.phone.color,
@@ -316,7 +325,7 @@ function Detail() {
       let watchItemArray = [];
       if (watchItem != null) {
         watchItemArray = JSON.parse(watchItem);
-        if (watchItemArray[0].jSessionId !== recentsItemInfo.jSessionId) {
+        if (watchItemArray[0].jsessionId !== recentsItemInfo.jsessionId) {
           localStorage.clear();
           watchItemArray = [];
         }
