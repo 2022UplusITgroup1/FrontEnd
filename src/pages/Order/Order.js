@@ -125,7 +125,7 @@ function Order() {
 
     console.log("subit",name, number, email, address);
     if (validateOrder({ name, number, email, address })) {
-      postOrder({ name, number, email, address });
+      postOrder( name, number, email, address );
       // history.push("/mobile/order-result");
     } else {
       alert("주문 정보가 잘못되었습니다");
