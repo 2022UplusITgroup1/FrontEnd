@@ -23,27 +23,28 @@ function Result() {
   const [monthPrice, setMonthPrice] = useState("");
   const [phoneColor, setPhoneColor] = useState("");
   const [phoneCode, setPhoneCode] = useState("");
-  const [phoneName, setPhoneName] = useState("");
+  // const [phoneName, setPhoneName] = useState("");
 
   useEffect(() => {
-    if (orderData.name) {
+    console.log(orderData.productOrder.name);
+    if (orderData.productOrder.name) {
       setName(orderData["productOrder"]["name"]);
       setOrderNum(orderData["productOrder"]["orderNumber"]);
       setPayPeriod(orderData["productOrder"]["payPeriod"]);
       setMonthPrice(orderData["productOrder"]["monthPrice"]);
       setPhoneCode(orderData["productOrder"]["phoneCode"]);
       setPhoneColor(orderData["productOrder"]["color"]);
-      setPhoneName(orderData["product"]["phone"]["name"]);
+      // setPhoneName(orderData["product"]["phone"]["name"]);
     }
   }, [orderData]);
 
   useEffect(() => {
     // getOrder();
-    setOrderData(SampleOrderData);
+    // setOrderData(SampleOrderData);
   }, []);
 
   //if (Object.keys(orderInfo).length === 0) return <NoResult />;
-  if (!orderInfo.name) return <NoResult />;
+  if (!orderData.productOrder.name) return <NoResult />;
 
   return (
     <div className={styles.Container}>
@@ -60,7 +61,7 @@ function Result() {
             {/* <div className={styles.Title}>상품 정보</div> */}
             <div className={styles.ContentTitle}>기기 정보</div>
             <div className={styles.Content}>{phoneCode} </div>
-            <div className={styles.Content}>{phoneName} {phoneColor}</div>
+            {/* <div className={styles.Content}>{phoneName} {phoneColor}</div> */}
             {/* <div className={styles.ContentTitle}>요금제 정보</div> */}
             {/* <div className={styles.Content}>{planName}</div> */}
             {/* <div className={styles.Content}>{phoneColor}</div> */}
