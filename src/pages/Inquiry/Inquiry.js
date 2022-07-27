@@ -12,6 +12,7 @@ import { useHistory } from "react-router";
 import validateOrderInquiry from "../../utils/validateOrderInquiry";
 
 const INQUIRY_REQUEST_URL = `/order/my`;
+// const INQUIRY_REQUEST_URL_LOCAL = `http://localhost:8000/order/my`;
 
 // ?name=김유플&phone_number=01012340001&order_number=20220720110539807351
 
@@ -21,7 +22,7 @@ function Inquiry() {
   const [name, setName] = useState("");
   const [phoneNumber, setNumber] = useState("");
   const [orderNumber, setOrderNum] = useState("");
-  const [productOrder, setOrder] = useState({});
+  const [productOrder, setOrder] = useState("");
 
   const onNameChange = (e) => {
     setName(e.target.value);
@@ -44,13 +45,17 @@ function Inquiry() {
 
   const getOrder = async (name, phoneNumber, orderNumber) => {
     //console.log(name, phoneNumber, orderNumber);
+    let res={};
 
     try {
-      const response = await customAxios.get(
+      // const response = await customAxios.get(
+      //   `${INQUIRY_REQUEST_URL}?name=${name}&phone_number=${phoneNumber}&order_number=${orderNumber}`
+      // );
+      const response = await axios.get(
         `${INQUIRY_REQUEST_URL}?name=${name}&phone_number=${phoneNumber}&order_number=${orderNumber}`
       );
-      console.log(response.data.data);
-      // if (response.data.data !== null) {
+      // console.log(response.data.data); 
+      // if (response.data.data !== null) {  
       //   console.log("getProducts SUCCESS ");
       //   // color 가 다른 기종은 처음 값으로 처리
       //   const res = response.data.data;
@@ -65,29 +70,45 @@ function Inquiry() {
       //   setProducts(filteredRes);
       // }
       // let data={name:{name}, phoneNumber:{phoneNumber}, orderNumber:{orderNumber}};
-      setOrder(response.data.data);
-      console.log("productOrder", productOrder);
-      dispatch(setOrderInquiryInfo(productOrder));
+      console.log(response.data.data);
+      
+      res=response.data.data;
 
-      history.push("/mobile/inquiry-result");
+      setOrder(res);
+      
+      console.log("productOrder", productOrder);
+
+      
+      // history.push("/mobile/inquiry-result");
+
+      
       // window.location.href="/mobile/inquiry-result";
       // history.p
     } catch (e) {
       console.log(e);
+
     }
+
+
   };
+
+  
+
 
   const onClickInquiryBtn = (e) => {
     //alert(name, phoneNumber, orderNumber);
     console.log(name, phoneNumber, orderNumber);
     if (validateOrderInquiry({ name, phoneNumber, orderNumber })) {
       getOrder(name, phoneNumber, orderNumber);
+      // dispatch(setOrderInquiryInfo(productOrder));
+      // history.push("/mobile/inquiry-result");
     } else {
       alert("주문 조회 정보가 잘못되었습니다");
     }
   };
 
   useEffect(() => {
+    // setOrder({});
     // store 에 저장
     dispatch(
       setOrderInquiryInfo({
@@ -97,6 +118,16 @@ function Inquiry() {
       })
     );
   }, [name, phoneNumber, orderNumber]);
+
+
+  useEffect(()=>{
+      console.log("productOrder",productOrder);
+      dispatch(setOrderInquiryInfo(productOrder));
+      if(productOrder!=""){
+        history.push("/mobile/inquiry-result");
+      }
+
+  },[productOrder]);
 
   return (
     <div className={styles.Container}>

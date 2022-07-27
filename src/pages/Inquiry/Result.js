@@ -17,23 +17,30 @@ function Result() {
   const [orderNum, setOrderNum] = useState("");
   const [payPeriod, setPayPeriod] = useState("");
   const [monthPrice, setMonthPrice] = useState("");
+  const [phoneColor, setPhoneColor] = useState("");
   const [phoneCode, setPhoneCode] = useState("");
+  // const [phoneName, setPhoneName] = useState("");
 
   useEffect(() => {
-    if (orderData.name) {
+    console.log(orderData.productOrder.name);
+    if (orderData.productOrder.name) {
       setName(orderData["productOrder"]["name"]);
       setOrderNum(orderData["productOrder"]["orderNumber"]);
       setPayPeriod(orderData["productOrder"]["payPeriod"]);
       setMonthPrice(orderData["productOrder"]["monthPrice"]);
       setPhoneCode(orderData["productOrder"]["phoneCode"]);
+      setPhoneColor(orderData["productOrder"]["color"]);
+      // setPhoneName(orderData["product"]["phone"]["name"]);
     }
   }, [orderData]);
 
   useEffect(() => {
-    setOrderData(SampleOrderData);
+    // getOrder();
+    // setOrderData(SampleOrderData);
   }, []);
 
-  if (!orderInfo.name) return <NoResult />;
+  //if (Object.keys(orderInfo).length === 0) return <NoResult />;
+  if (!orderData.productOrder.name) return <NoResult />;
 
   return (
     <div className={styles.Container}>
