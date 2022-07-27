@@ -11,7 +11,7 @@ import { Input, Button } from "@chakra-ui/react";
 import OrderDetail from "../../components/OrderDetail/OrderDetail";
 import validateOrder from "../../utils/validateOrder";
 import ErrorPage from "../Exception/ErrorPage";
-import { setOrderDetailInfo } from "../../actions";
+import { setOrderDetailInfo, setOrderNumber } from "../../actions";
 import calcPrices from "../../utils/calcPrices";
 
 const ORDER_REQUEST_URL = `/order/payment`;
@@ -37,7 +37,7 @@ function Order() {
   const [payPeriod, setPayPeriod] = useState(orderProduct.payPeriod);
   const [monthPrice, setMonthPrice] = useState(orderProduct.monthPrice);
 
-  const [orderResult, setOrderResult] = useState({});
+  const [orderResult, setOrderResult] = useState("");
 
   // discountType: data.discountType,
   //     monthPrice: data.monthPrice,
@@ -104,9 +104,12 @@ function Order() {
         // setAddress(address);
         // setNumber(number);
         console.log(requestBody);
-        setOrderResult(requestBody);
+        setOrderResult(response.data.data);
+        dispatch(setOrderNumber(response.data.data));
 
-        alert(response.data.data);
+        alert("주문번호 : " + response.data.data);
+
+        // history.push("/mobile/order-result");
       }
 
       // setName(name);
@@ -125,7 +128,6 @@ function Order() {
     console.log("subit", name, number, email, address);
     if (validateOrder({ name, number, email, address })) {
       postOrder(name, number, email, address);
-      history.push("/mobile/order-result");
     } else {
       alert("주문 정보가 잘못되었습니다");
     }
@@ -146,24 +148,14 @@ function Order() {
   useEffect(() => {
     // setOrder({});
     // store 에 저장
-    dispatch(
-      setOrderDetailInfo({
-        name: name,
-        number: number,
-        email: email,
-        address: address,
-        phone: phone,
-        plan: plan,
-        discountType: discountType,
-        payPeriod: payPeriod,
-        monthPrice: monthPrice,
-      })
-    );
+    // dispatch(setOrderDetailInfo(orderResult));
 
     console.log("orderResult", orderResult);
-    dispatch(setOrderDetailInfo(orderResult));
+    //dispatch(setOrderDetailInfo(orderResult));
     // if(orderResult!=""){
-    //   history.push("/mobile/order-result");
+    if (orderResult !== "") {
+      history.push(`/mobile/order-result/${orderResult}`);
+    }
     // };
   }, [orderResult]);
 
@@ -219,9 +211,9 @@ function Order() {
             />
           </label>
           <div className={styles.OrderBtnContainer}>
-            <Button className={styles.OrderBtn} type="submit">
+            <button className={styles.OrderBtn} type="submit">
               주문하기
-            </Button>
+            </button>
           </div>
         </form>
       </div>

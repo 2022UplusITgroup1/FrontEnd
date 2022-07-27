@@ -46,3 +46,11 @@
   border: none;
   margin-top: 50px;
 }
+
+.OrderNumber {
+  margin-bottom: 20px;
+  color: #e6007e;
+  font-weight: 400;
+  font-size: x-large;
+  font-weight: bold;
+}
