@@ -4,9 +4,11 @@ import React, { useEffect, useState } from "react";
 import styles from "./Result.module.css";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { Button } from "@chakra-ui/react";
+import { Button, Image } from "@chakra-ui/react";
 import SampleOrderData from "../../SampleOrderData.json";
 import NoResult from "../Exception/NoResult";
+
+const IMAGE_URI = `https://d2i7g6t0sifvpq.cloudfront.net`;
 
 function Result() {
   const orderInfo = useSelector((state) => state.orderInquiryReducer);
@@ -19,7 +21,6 @@ function Result() {
   const [monthPrice, setMonthPrice] = useState("");
   const [phoneColor, setPhoneColor] = useState("");
   const [phoneCode, setPhoneCode] = useState("");
-
 
   const [phoneName, setPhoneName] = useState("");
   const [planName, setPlanName] = useState("");
@@ -34,13 +35,10 @@ function Result() {
       setPhoneCode(orderData["productOrder"]["phoneCode"]);
       setPhoneColor(orderData["productOrder"]["color"]);
 
-      if(orderData["product"]){
-        
+      if (orderData["product"]) {
         setPhoneName(orderData["product"]["phone"]["name"]);
         setPlanName(orderData["product"]["plan"]["name"]);
-
       }
-      
     }
   }, [orderData]);
 
@@ -64,8 +62,15 @@ function Result() {
             <div className={styles.Content}>{orderNum}</div>
           </div>
           <div className={styles.OrderInfo}>
+            <Image
+              className={styles.ProductImg}
+              src={`${IMAGE_URI}${orderData.phone.imgThumbnail}`}
+              alt={orderData.phone.name}
+            />
             <div className={styles.ContentTitle}>기기 정보</div>
-            <div className={styles.Content}>{phoneName}  {phoneColor} </div>
+            <div className={styles.Content}>
+              {phoneName} {phoneColor}{" "}
+            </div>
             <div className={styles.ContentTitle}>요금 정보</div>
             <div className={styles.Content}>{planName} </div>
             <div className={styles.Content}>
