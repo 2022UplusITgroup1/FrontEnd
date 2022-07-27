@@ -33,7 +33,7 @@ function Order() {
 
   const [phone, setPhone] = useState(orderProduct.phone);
   const [plan, setPlan] = useState(orderProduct.plan);
-  const [discountType, setDiscountType] = useState(number(orderProduct.discountType));
+  const [discountType, setDiscountType] = useState(Number(orderProduct.discountType));
   const [payPeriod, setPayPeriod] = useState(orderProduct.payPeriod);
   const [monthPrice, setMonthPrice] = useState(orderProduct.monthPrice);
 
