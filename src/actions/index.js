@@ -119,7 +119,7 @@ export function selectDetail(data) {
         code: data.phone.code,
         name: data.phone.name,
         imgThumbnail: data.phone.imgThumbnail,
-        storage: { capability: data.phone.storage },
+        storage: data.phone.storage,
         color: data.phone.color,
         price: data.phone.price,
       },
@@ -197,9 +197,6 @@ export function setOrderDetailInfo(data) {
     // },
   };
 }
-
-
-
 
 /* ---------- 주문 조회 -> 주문 조회 결과 ---------- */
 
