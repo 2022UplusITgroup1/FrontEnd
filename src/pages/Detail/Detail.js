@@ -164,6 +164,34 @@ function Detail() {
     }
   };
 
+  // // API: 상품 리스트 GET
+  // const fetchProductDetail = async () => {
+  //   try {
+  //     setError(null);
+  //     setNoData(false);
+  //     //const response;
+  //     const response = fetch(`${PRODUCT_DETAIL_URI}`, {
+  //       method: "GET",
+  //       mode: "cors",
+  //       headers: {
+  //         "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8;",
+  //       },
+  //     });
+  //     console.log(response.json());
+  //     // console.log(response.data);
+  //     // if (response.data.data !== null) {
+  //     //   console.log("fetchProductDetail SUCCESS ");
+  //     //   setData(response.data.data);
+  //     // } else {
+  //     //   // 알맞은 결과를 찾을 수 없습니다
+  //     //   setNoData(true);
+  //     // }
+  //   } catch (e) {
+  //     console.log(e);
+  //     setError(e);
+  //   }
+  // };
+
   // API: 상품 색상 리스트 GET
   const fetchProductColor = async () => {
     try {

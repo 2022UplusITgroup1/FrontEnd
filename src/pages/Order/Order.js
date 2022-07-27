@@ -17,6 +17,7 @@ import { setOrderDetailInfo } from "../../actions";
 const ORDER_REQUEST_URL = `/order/payment`;
 
 
+
 function Order() {
   const dispatch = useDispatch();
 
@@ -54,6 +55,7 @@ function Order() {
   const onAddressChange = (e) => {
     setAddress(e.target.value);
   };
+
 
 
 
@@ -117,6 +119,7 @@ function Order() {
 
 
 
+
   const onSubmit = (e) => {
     e.preventDefault();
 
@@ -129,6 +132,7 @@ function Order() {
     }
     //console.log(name, number, email, address);
   };
+
 
   
   //console.log(orderProduct);
@@ -171,6 +175,7 @@ function Order() {
   }, [orderResult]);
 
   console.log("orderProduct",orderProduct);
+
   if (!orderProduct.phone.code) {
     return <ErrorPage />;
   }

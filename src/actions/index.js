@@ -119,7 +119,7 @@ export function selectDetail(data) {
         code: data.phone.code,
         name: data.phone.name,
         imgThumbnail: data.phone.imgThumbnail,
-        storage: data.phone.storage,
+        storage: { capability: data.phone.storage },
         color: data.phone.color,
         price: data.phone.price,
       },
